@@ -23,8 +23,8 @@
 </div>
 <br />
 <div align="center">
-  <a href="https://github.com/MrTanoshii/IoT/actions/workflows/python_check.yml">
-    <img src="https://github.com/MrTanoshii/IoT/actions/workflows/python_check.yml/badge.svg">
+  <a href="https://github.com/MrTanoshii/PyWeek-33-Metro/actions/workflows/python_check.yml">
+    <img src="https://github.com/MrTanoshii/PyWeek-33-Metro/actions/workflows/python_check.yml/badge.svg">
   </a>
 </div>
 
