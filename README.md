@@ -29,3 +29,10 @@
 </div>
 
 # PyWeek 33 | Team Metroids | Metro
+Feuturing
+- Jeb        | https://github.com/JesperKauppinen
+- MrTanoshii | https://github.com/MrTanoshii
+- Memehunter | https://github.com/mohith01
+- Cat        | https://github.com/Catto-YFCN
+- Krzysztof  | Unknown
+- ATC_Tower  | Unknown
