@@ -34,5 +34,5 @@ Featuring
 - MrTanoshii | https://github.com/MrTanoshii
 - Memehunter | https://github.com/mohith01
 - Cat        | https://github.com/Catto-YFCN
-- Krzysztof  | https://github.com/BriscoRP
-- ATC_Tower  | https://github.com/IrrationalBoolean
+- Krzysztof  | https://github.com/IrrationalBoolean
+- ATC_Tower  | https://github.com/BriscoRP
