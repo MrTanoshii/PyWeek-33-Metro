@@ -6,7 +6,7 @@ class Player(arcade.Sprite):
     """ Player Sprite """
     def __init__(self, hit_box_algorithm):
         self.current_speed = 0
-        self.SPEED = 2
+        self.SPEED = 3
         # Let parent initialize
         super().__init__()
 
