@@ -1,8 +1,10 @@
 import arcade
-from constants import SCREEN_WIDTH, SCREEN_HEIGHT, SCREEN_TITLE
+import random
+from constants import SCREEN_WIDTH, SCREEN_HEIGHT, SCREEN_TITLE, level1
 from player import Player
 from bullet import Bullet
 from enemy import Enemy
+from bg import BackGround
 
 
 class Game(arcade.Window):
@@ -20,26 +22,33 @@ class Game(arcade.Window):
         self.player_list = None
         self.enemy_list = None
         self.bullet_list = None
+        self.bg_list = None
 
         # Separate variable that holds the player sprite
         self.player = None
         self.bullet = None
         self.enemy = None
+        self.bg = None
 
         # What key is pressed down?
         self.left_key_down = False
         self.right_key_down = False
         self.space_down = False
 
-        arcade.set_background_color(arcade.csscolor.CORNFLOWER_BLUE)
+        self.gui_camera = None
+
+        arcade.set_background_color(arcade.csscolor.DARK_GREEN)
 
     def setup(self):
         """ Set up everything with the game """
+
+        # self.gui_camera = arcade.Camera(self.window.width, self.window.height)
 
         # Create the sprite lists
         self.player_list = arcade.SpriteList()
         self.enemy_list = arcade.SpriteList()
         self.bullet_list = arcade.SpriteList()
+        self.bg_list = arcade.SpriteList()
 
         # Create player sprite
         self.player = Player(hit_box_algorithm="Detailed")
@@ -54,6 +63,12 @@ class Game(arcade.Window):
         # Add to player sprite list
         self.player_list.append(self.player)
 
+        # Create BG sprite
+        self.bg = BackGround()
+        self.bg.center_x = self.bg.width/2
+        self.bg.center_y = SCREEN_HEIGHT/2
+        self.bg_list.append(self.bg)
+
     def on_draw(self):
         """Render the screen."""
 
@@ -61,6 +76,7 @@ class Game(arcade.Window):
         self.clear()
 
         # Draw our sprites
+        self.bg_list.draw()
         self.player_list.draw()
         self.enemy_list.draw()
         self.bullet_list.draw()
@@ -68,6 +84,17 @@ class Game(arcade.Window):
     # Run every tick
     # TODO: How to limit fps? Does computing power affect the speed?
     def on_update(self, delta_time: float):
+        if random.randint(0, 200) == 1:
+            self.spawn_bg()
+            self.spawn_enemy()
+        for bg in self.bg_list:
+            bg.center_x += bg.SPEED
+            if bg.asset == "bg-1.png":
+                if bg.center_x - bg.width / 2 < - 220 - bg.SPEED:
+                    bg.center_x = bg.width/2
+            else:
+                if bg.center_x + bg.width < 0:
+                    bg.remove_from_sprite_lists()
 
         # MOVE PLAYER: Add player y coordinate the current speed
         self.player.center_y += self.player.current_speed
@@ -140,6 +167,10 @@ class Game(arcade.Window):
         if key == arcade.key.E:
             self.spawn_enemy()
 
+        # T
+        if key == arcade.key.T:
+            self.spawn_bg()
+
     def on_key_release(self, key, modifiers):
         """Called when the user releases a key."""
         if key == arcade.key.LEFT or key == arcade.key.A:
@@ -164,13 +195,24 @@ class Game(arcade.Window):
 
         # Set bullet location
         self.enemy.center_x = SCREEN_WIDTH + self.enemy.width
-        self.enemy.center_y = SCREEN_HEIGHT // 2
+        self.enemy.center_y = SCREEN_HEIGHT // 2 + random.uniform(-SCREEN_HEIGHT/3.25, SCREEN_HEIGHT/3.25)
 
         # Turn the enemy 90 degree
-        self.enemy.angle = 90
+        self.enemy.angle = -90
 
         # Add to player sprite list
         self.enemy_list.append(self.enemy)
+
+    def spawn_bg(self):
+        # Create BG sprite
+        assets = level1.assets
+        self.bg = BackGround(asset=random.choice(assets), size=random.uniform(.9, 1.1))
+        self.bg.center_x = SCREEN_WIDTH + self.bg.width / 2
+        if random.randint(0,1) == 1:
+            self.bg.center_y = SCREEN_HEIGHT + self.bg.height / 2 - random.uniform(50, 75)
+        else:
+            self.bg.center_y = self.bg.height / 2 + random.uniform(-50, 50)
+        self.bg_list.append(self.bg)
 
     def shoot(self):
         self.bullet = Bullet(hit_box_algorithm="Detailed")
