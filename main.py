@@ -1,15 +1,9 @@
 import arcade
+from constants import SCREEN_WIDTH, SCREEN_HEIGHT, SCREEN_TITLE
+from player import Player
 
-SCREEN_WIDTH = 1280
-SCREEN_HEIGHT = 720
-SCREEN_TITLE = "REVƎЯ"
 
-# Constants used to scale our sprites from their original size
-CHARACTER_SCALING = 1
-TILE_SCALING = 0.5
-
-# arcade tutorial copy paste code :D
-class MyGame(arcade.Window):
+class Game(arcade.Window):
     """
     Main application class.
     """
@@ -24,11 +18,7 @@ class MyGame(arcade.Window):
         self.player_list = None
 
         # Separate variable that holds the player sprite
-        self.player_sprite = None
-
-        # player speed
-        self.player_speed = 0
-        self.SPEED = 2
+        self.player = None
 
         # What key is pressed down?
         self.left_key_down = False
@@ -37,18 +27,23 @@ class MyGame(arcade.Window):
         arcade.set_background_color(arcade.csscolor.CORNFLOWER_BLUE)
 
     def setup(self):
-        """Set up the game here. Call this function to restart the game."""
-        # Create the Sprite lists
-        self.player_list = arcade.SpriteList()
-        self.wall_list = arcade.SpriteList(use_spatial_hash=True)
+        """ Set up everything with the game """
 
-        # Set up the player, specifically placing it at these coordinates.
-        image_source = "resources/images/car.png"
-        self.player_sprite = arcade.Sprite(image_source, CHARACTER_SCALING)
-        self.player_sprite.center_x = SCREEN_WIDTH * .1
-        self.player_sprite.center_y = SCREEN_HEIGHT * .5
-        self.player_sprite.angle = -90
-        self.player_list.append(self.player_sprite)
+        # Create the sprite lists
+        self.player_list = arcade.SpriteList()
+
+        # Create player sprite
+        self.player = Player(hit_box_algorithm="Detailed")
+
+        # Set player location
+        self.player.center_x = SCREEN_WIDTH * .1
+        self.player.center_y = SCREEN_HEIGHT * .5
+
+        # Turn the player -90 degree
+        self.player.angle = -90
+
+        # Add to player sprite list
+        self.player_list.append(self.player)
 
     def on_draw(self):
         """Render the screen."""
@@ -60,7 +55,7 @@ class MyGame(arcade.Window):
         self.player_list.draw()
 
     def on_update(self, delta_time: float):
-        self.player_sprite.center_y += self.player_speed
+        self.player.center_y += self.player.current_speed
 
     def on_key_press(self, key, modifiers):
         """Called whenever a key is pressed."""
@@ -85,19 +80,19 @@ class MyGame(arcade.Window):
             self.update_player_speed()
 
     def update_player_speed(self):
-        self.player_speed = 0
+        self.player.current_speed = 0
 
         # D pressed
         if self.left_key_down and not self.right_key_down:
-            self.player_speed = self.SPEED
+            self.player.current_speed = self.player.SPEED
         # A pressed
         elif self.right_key_down and not self.left_key_down:
-            self.player_speed = -self.SPEED
+            self.player.current_speed = -self.player.SPEED
 
 
 def main():
     """Main function"""
-    window = MyGame()
+    window = Game()
     window.setup()
     arcade.run()
 
