@@ -124,6 +124,7 @@ class GameView(arcade.View):
         if random.randint(0, 200) == 1:
             self.spawn_bg()
             self.spawn_enemy()
+
         for bg in self.bg_list:
             bg.center_x += bg.SPEED
             if bg.asset == "bg-1.png":
@@ -199,7 +200,7 @@ class GameView(arcade.View):
         # Space
         if key == arcade.key.SPACE:
             self.space_down = True
-            self.shoot()
+            self.player.shoot(self.bullet_list)
 
         # E
         if key == arcade.key.E:
@@ -252,24 +253,9 @@ class GameView(arcade.View):
             self.bg.center_y = self.bg.height / 2 + random.uniform(-50, 50)
         self.bg_list.append(self.bg)
 
-    def shoot(self):
-        self.bullet = Bullet(hit_box_algorithm="Detailed")
-
-        # Set bullet location
-        self.bullet.center_x = self.player.center_x + self.player.width
-        self.bullet.center_y = self.player.center_y
-
-        # Turn the player -90 degree
-        # self.bullet.angle = 0
-
-        # Add to player sprite list
-        self.bullet_list.append(self.bullet)
-
-        # Play a sound
-        arcade.play_sound(self.bullet.audio_gunshot)
-
     def on_show(self):
         self.setup()
+
 
 def main():
     """Main function"""

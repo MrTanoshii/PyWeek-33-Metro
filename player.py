@@ -1,5 +1,6 @@
 import arcade
 from constants import CHARACTER_SCALING
+from bullet import Bullet
 
 
 class Player(arcade.Sprite):
@@ -22,3 +23,19 @@ class Player(arcade.Sprite):
 
         # Hit box will be set based on the first image used.
         self.hit_box = self.texture.hit_box_points
+
+    def shoot(self, bullet_list):
+        self.bullet = Bullet(hit_box_algorithm="Detailed")
+
+        # Set bullet location
+        self.bullet.center_x = self.center_x + self.width
+        self.bullet.center_y = self.center_y
+
+        # Turn the player -90 degree
+        # self.bullet.angle = 0
+
+        # Add to player sprite list
+        bullet_list.append(self.bullet)
+
+        # Play a sound
+        arcade.play_sound(self.bullet.audio_gunshot)
