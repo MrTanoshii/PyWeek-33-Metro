@@ -12,7 +12,7 @@
     <img src="https://img.shields.io/badge/Game-Metro-brightgreen" alt="Game Name - Metro">
   </a>
   <a href="https://pyweek.org/p/37/">
-    <img src="https://img.shields.io/badge/Game%20Theme-Voting-red" alt="Game Theme - My evil twin">
+    <img src="https://img.shields.io/badge/Game%20Theme-My%20evil%20twin-red" alt="Game Theme - My evil twin">
   </a>
 </div>
 
