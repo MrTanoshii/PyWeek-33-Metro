@@ -9,4 +9,9 @@ SCREEN_TITLE = "REVƎЯ"
 CHARACTER_SCALING = 1
 BULLET_SCALING = 0.3
 ENEMY_SCALING = 1
+BG_SCALING = 1.0
+
+
+class level1:
+    assets = ["tree.png", "bush.png"]
 
