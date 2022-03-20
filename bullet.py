@@ -10,13 +10,16 @@ class Bullet(arcade.Sprite):
 
         self.current_speed = 0
         self.SPEED = 5
+        self.DAMAGE = 5
 
         # Set our scale
         self.scale = BULLET_SCALING
 
         # load player texture
-        base_path = "resources/images/"
-        self.idle_texture_pair = arcade.load_texture_pair(f"{base_path}bullet.png", hit_box_algorithm=hit_box_algorithm)
+        base_path = "resources/"
+        self.idle_texture_pair = arcade.load_texture_pair(f"{base_path}images/bullet.png", hit_box_algorithm=hit_box_algorithm)
+        # Load sounds
+        self.audio_gunshot = arcade.load_sound(f"{base_path}audio/gunshot.wav")
 
         # Set the initial texture
         self.texture = self.idle_texture_pair[0]
