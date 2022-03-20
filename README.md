@@ -11,7 +11,7 @@
 <div align="center">
 
 [![Python v3.10](https://img.shields.io/badge/Python-v3.10-blue)](https://docs.python.org/3.10/)
-[![Main Library- Arcade](https://img.shields.io/badge/Main%20Library-Arcade-blue)](https://api.arcade.academy/en/2.6.11/)
+[![Arcade v2.6.11](https://img.shields.io/badge/Arcade-v2.6.11-blue)](https://api.arcade.academy/en/2.6.11/)
 
 </div>
 <div align="center">
