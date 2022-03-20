@@ -1,5 +1,6 @@
 <div align="center">
-### Theme is "Evil Twin"
+
+  <h3>Theme is "Evil Twin"</h3>
 
 [![PyWeek 33](https://img.shields.io/badge/PyWeek-33-blue)](https://pyweek.org/33/)
 [![PyWeek 33 Rules - Revision 2020-02-06](https://img.shields.io/badge/Rules-2020--02--06-blue)](https://pyweek.readthedocs.io/en/latest/rules.html)
