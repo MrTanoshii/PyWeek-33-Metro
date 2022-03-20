@@ -12,7 +12,7 @@
     <img src="https://img.shields.io/badge/Game-Metro-brightgreen" alt="Game Name - Metro">
   </a>
   <a href="https://pyweek.org/p/37/">
-    <img src="https://img.shields.io/badge/Game%20Theme-Voting-red" alt="Game Theme - Voting">
+    <img src="https://img.shields.io/badge/Game%20Theme-Voting-blue" alt="Game Theme - My evil twin">
   </a>
 </div>
 
@@ -29,10 +29,12 @@
 </div>
 
 # PyWeek 33 | Team Metroids | Metro
+
 Featuring
-- Jeb        | https://github.com/JesperKauppinen
+
+- Jeb | https://github.com/JesperKauppinen
 - MrTanoshii | https://github.com/MrTanoshii
 - Memehunter | https://github.com/mohith01
-- Cat        | https://github.com/Catto-YFCN
-- Krzysztof  | https://github.com/IrrationalBoolean
-- ATC_Tower  | https://github.com/BriscoRP
+- Cat | https://github.com/Catto-YFCN
+- Krzysztof | https://github.com/IrrationalBoolean
+- ATC_Tower | https://github.com/BriscoRP
