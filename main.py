@@ -1,5 +1,5 @@
 import arcade
-from constants import SCREEN_WIDTH, SCREEN_HEIGHT, SCREEN_TITLE
+from constants import SCREEN_WIDTH, SCREEN_HEIGHT, SCREEN_TITLE, MAP_SCALING
 from player import Player
 from bullet import Bullet
 from enemy import Enemy
@@ -31,6 +31,43 @@ class Game(arcade.Window):
         self.right_key_down = False
         self.space_down = False
 
+        # Tile map
+        self.tile_map = None
+
+        # Camera
+        self.camera = None
+
+        # Set up camera
+        self.camera = arcade.Camera(self.width, self.height)
+
+        # Set up the map / tiles
+        border_layer = "border"
+        road_layer = "road"
+        holes_layer = "holes"
+        map_path = "resources/maps/repeat.tmx"
+
+        # Set layer options
+        layer_options = {
+            border_layer: {
+
+            },
+            road_layer: {
+                "use_spatial_hash": True,
+            },
+            holes_layer: {
+
+            },
+        }
+
+        # Read the map
+        self.tile_map = arcade.tilemap.load_tilemap(map_path, MAP_SCALING, layer_options)
+
+        # Initialize scene with map
+        self.scene = arcade.Scene.from_tilemap(self.tile_map)
+
+        if self.tile_map.background_color:
+            arcade.set_background_color(self.tile_map.background_color)
+
         arcade.set_background_color(arcade.csscolor.CORNFLOWER_BLUE)
 
     def setup(self):
@@ -60,6 +97,12 @@ class Game(arcade.Window):
         # Clear the screen to the background color
         self.clear()
 
+        # Activate Camera
+        self.camera.use()
+
+        # Draw our sprites
+        self.scene.draw()
+
         # Draw our sprites
         self.player_list.draw()
         self.enemy_list.draw()
@@ -69,7 +112,10 @@ class Game(arcade.Window):
     # TODO: How to limit fps? Does computing power affect the speed?
     def on_update(self, delta_time: float):
 
-        # MOVE PLAYER: Add player y coordinate the current speed
+
+        # MOVE PLAYER:
+        self.player.center_x += 1
+        # Add player y coordinate the current speed
         self.player.center_y += self.player.current_speed
 
         # Cycle trough all enemies
@@ -117,6 +163,8 @@ class Game(arcade.Window):
             # Check if bullet is in view, if not delete it
             if bullet.center_x - bullet.width / 2 > SCREEN_WIDTH:
                 self.bullet_list.remove(bullet)
+
+        self.center_camera_to_player()
 
     def on_key_press(self, key, modifiers):
         """Called whenever a key is pressed."""
@@ -188,6 +236,22 @@ class Game(arcade.Window):
         # Play a sound
         arcade.play_sound(self.bullet.audio_gunshot)
 
+    def center_camera_to_player(self):
+        screen_center_x = self.player.center_x - (self.camera.viewport_width / 2)
+        screen_center_y = self.player.center_y - (
+                self.camera.viewport_height / 2
+        )
+
+        # Don't let camera travel past 0
+        if screen_center_x < 0:
+            screen_center_x = 0
+        if screen_center_y < 0:
+            screen_center_y = 0
+        # Don't let it go too far the other way either
+        if self.player.center_x - screen_center_x > 150:
+            screen_center_x = self.player.center_x - 150
+        player_centered = screen_center_x, screen_center_y
+        self.camera.move_to(player_centered)
 
 def main():
     """Main function"""
