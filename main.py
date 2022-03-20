@@ -237,20 +237,16 @@ class Game(arcade.Window):
         arcade.play_sound(self.bullet.audio_gunshot)
 
     def center_camera_to_player(self):
-        screen_center_x = self.player.center_x - (self.camera.viewport_width / 2)
-        screen_center_y = self.player.center_y - (
-                self.camera.viewport_height / 2
-        )
+        screen_center_x = self.player.center_x - 150
 
         # Don't let camera travel past 0
         if screen_center_x < 0:
             screen_center_x = 0
-        if screen_center_y < 0:
-            screen_center_y = 0
+
         # Don't let it go too far the other way either
         if self.player.center_x - screen_center_x > 150:
             screen_center_x = self.player.center_x - 150
-        player_centered = screen_center_x, screen_center_y
+        player_centered = screen_center_x, 0
         self.camera.move_to(player_centered)
 
 def main():
