@@ -9,8 +9,8 @@ class Bullet(arcade.Sprite):
         super().__init__()
 
         self.current_speed = 0
-        self.SPEED = 5
-        self.DAMAGE = 5
+        self.SPEED = 20
+        self.DAMAGE = 2
 
         # Set our scale
         self.scale = BULLET_SCALING
