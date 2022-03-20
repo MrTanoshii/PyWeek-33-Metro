@@ -7,7 +7,32 @@ from enemy import Enemy
 from bg import BackGround
 
 
-class Game(arcade.Window):
+class MainMenu(arcade.View):
+    """Class that manages the 'menu' view."""
+
+    def on_show(self):
+        """Called when switching to this view."""
+        arcade.set_background_color(arcade.color.WHITE)
+
+    def on_draw(self):
+        """Draw the menu"""
+        self.clear()
+        arcade.draw_text(
+            "Main Menu - Click to play",
+            SCREEN_WIDTH / 2,
+            SCREEN_HEIGHT / 2,
+            arcade.color.BLACK,
+            font_size=30,
+            anchor_x="center",
+        )
+
+    def on_mouse_press(self, _x, _y, _button, _modifiers):
+        """Use a mouse press to advance to the 'game' view."""
+        game_view = GameView()
+        self.window.show_view(game_view)
+
+
+class GameView(arcade.View):
     """
     Main application class.
     """
@@ -15,7 +40,7 @@ class Game(arcade.Window):
     def __init__(self):
 
         # Call the parent class and set up the window
-        super().__init__(SCREEN_WIDTH, SCREEN_HEIGHT, SCREEN_TITLE)
+        super().__init__()
 
         # These are 'lists' that keep track of our sprites. Each sprite should
         # go into a list.
@@ -35,6 +60,8 @@ class Game(arcade.Window):
         self.right_key_down = False
         self.space_down = False
 
+        # GUI
+        self.score = 0
         self.gui_camera = None
 
         arcade.set_background_color(arcade.csscolor.DARK_GREEN)
@@ -80,6 +107,16 @@ class Game(arcade.Window):
         self.player_list.draw()
         self.enemy_list.draw()
         self.bullet_list.draw()
+
+        arcade.draw_text(
+            f"Score : {self.score}",
+            SCREEN_WIDTH / 5,
+            SCREEN_HEIGHT - 50,
+            arcade.color.BLACK,
+            font_size=30,
+            anchor_x="center",
+        )
+
 
     # Run every tick
     # TODO: How to limit fps? Does computing power affect the speed?
@@ -135,6 +172,7 @@ class Game(arcade.Window):
                     _enemy.remove_from_sprite_lists()
                     # Play a sound
                     arcade.play_sound(_enemy.audio_destroyed)
+                    self.score += 1
                 else:
                     # Play a sound
                     arcade.play_sound(_enemy.audio_hit)
@@ -230,11 +268,14 @@ class Game(arcade.Window):
         # Play a sound
         arcade.play_sound(self.bullet.audio_gunshot)
 
+    def on_show(self):
+        self.setup()
 
 def main():
     """Main function"""
-    window = Game()
-    window.setup()
+    window = arcade.Window(SCREEN_WIDTH, SCREEN_HEIGHT, SCREEN_TITLE)
+    menu_view = MainMenu()
+    window.show_view(menu_view)
     arcade.run()
 
 
