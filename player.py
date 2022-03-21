@@ -1,6 +1,7 @@
 import arcade
-from constants import CHARACTER_SCALING, PLAYER_DEATH_HP, PLAYER_MAX_HP, PLAYER_START_HP
+from constants import CHARACTER_SCALING, PLAYER_DEATH_HP, PLAYER_GUN_RELOAD_TIME, PLAYER_GUN_SHOOT_SPEED, PLAYER_MAX_HP, PLAYER_START_HP, PLAYER_GUN_MAX_AMMO
 from bullet import Bullet
+import time
 
 
 class Player(arcade.Sprite):
@@ -18,6 +19,18 @@ class Player(arcade.Sprite):
         self.max_health = PLAYER_START_HP
         self.cur_health = PLAYER_MAX_HP
         self.death_health = PLAYER_DEATH_HP
+
+        # Shooting
+        self.can_shoot = True
+        self.shoot_speed = PLAYER_GUN_SHOOT_SPEED
+        self.shoot_timer = 0
+
+        # Ammo
+        self.max_ammo = PLAYER_GUN_MAX_AMMO
+        self.cur_ammo = self.max_ammo
+        self.reload_speed = PLAYER_GUN_RELOAD_TIME
+        self.is_reloading = False
+        self.reload_timer = 0
 
         # Set our scale
         self.scale = CHARACTER_SCALING
@@ -40,20 +53,32 @@ class Player(arcade.Sprite):
         self.audio_hit = arcade.load_sound(f"{base_path}audio/enemy_hit.wav")
 
     def shoot(self, friendly_bullet_list):
-        bullet = Bullet("Detailed", 20, 0)
+        if not self.is_reloading and self.cur_ammo > 0:
+            self.cur_ammo -= 1
+            bullet = Bullet("Detailed", 20, 0)
 
-        # Set bullet location
-        bullet.center_x = self.center_x + self.width
-        bullet.center_y = self.center_y
+            # Set bullet location
+            bullet.center_x = self.center_x + self.width
+            bullet.center_y = self.center_y
 
-        # Turn the bullet -90 degree
-        # bullet.angle = 0
+            # Add to bullet sprite list
+            friendly_bullet_list.append(bullet)
 
-        # Add to bullet sprite list
-        friendly_bullet_list.append(bullet)
+            # Play weapon shoot sfx
+            arcade.play_sound(bullet.audio_gunshot)
 
-        # Play a sound
-        arcade.play_sound(bullet.audio_gunshot)
+            if self.cur_ammo <= 0:
+                self.is_reloading = True
+        # else:
+            # Play empty gun sfx
+
+    def reload_weapon(self):
+        """Handles gun reload"""
+        self.cur_ammo = self.max_ammo
+        self.reload_timer = 0
+        self.is_reloading = False
+        self.can_shoot = True
+        # Play weapon reload sfx
 
     def take_damage(self, damage_source):
         """Handles damage taken by Player"""

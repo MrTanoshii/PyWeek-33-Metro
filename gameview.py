@@ -37,6 +37,9 @@ class GameView(arcade.View):
 
         self.setup_complete = False
 
+        # Player shoot
+        self.shoot_pressed = False
+
         arcade.set_background_color(arcade.csscolor.DARK_GREEN)
 
     def setup(self):
@@ -100,6 +103,16 @@ class GameView(arcade.View):
             anchor_x="center",
         )
 
+        # GUI - Player HP
+        arcade.draw_text(
+            f"Ammo : {self.player.cur_ammo} \ {self.player.max_ammo}",
+            (SCREEN_WIDTH / 5) + 500,
+            SCREEN_HEIGHT - 50,
+            arcade.color.BLACK,
+            font_size=30,
+            anchor_x="center",
+        )
+
     # Run every tick
     # TODO: How to limit fps? Does computing power affect the speed?
 
@@ -122,6 +135,22 @@ class GameView(arcade.View):
         self.check_collisions()
 
         Enemy.update()
+
+        # Player shoot
+        if self.player.can_shoot:
+            if self.shoot_pressed:
+                self.player.can_shoot = False
+                self.player.shoot(Bullet.friendly_bullet_list)
+        else:
+            if self.player.is_reloading:
+                self.player.reload_timer += delta_time
+                if self.player.reload_timer >= self.player.reload_speed:
+                    self.player.reload_weapon()
+            else:
+                self.player.shoot_timer += delta_time
+                if self.player.shoot_timer >= self.player.shoot_speed:
+                    self.player.can_shoot = True
+                    self.player.shoot_timer = 0
 
     def on_mouse_press(self, x, y, button, modifiers):
         """Called whenever a mouse key is pressed."""
@@ -146,7 +175,7 @@ class GameView(arcade.View):
         # Space
         elif key == arcade.key.SPACE:
             self.space_down = True
-            self.player.shoot(Bullet.friendly_bullet_list)
+            self.shoot_pressed = True
 
         # E
         elif key == arcade.key.E:
@@ -164,6 +193,9 @@ class GameView(arcade.View):
         elif key == arcade.key.RIGHT or key == arcade.key.D:
             self.right_key_down = False
             self.update_player_speed()
+        elif key == arcade.key.SPACE:
+            self.space_down = False
+            self.shoot_pressed = False
 
     def update_player_speed(self):
         self.player.current_speed = 0
