@@ -1,6 +1,7 @@
 import arcade
 from constants import ENEMY_SCALING, SCREEN_WIDTH, SCREEN_HEIGHT
 import random
+from bullet import Bullet
 
 
 class Enemy(arcade.Sprite):
@@ -16,7 +17,7 @@ class Enemy(arcade.Sprite):
         self.SPEED = -2
         self.HP = 10
 
-        # Set our scalea
+        # Set our scale
         self.scale = ENEMY_SCALING
 
         # load player texture
@@ -60,3 +61,20 @@ class Enemy(arcade.Sprite):
             # Check if enemy is in view, if not delete it
             if enemy.center_x + enemy.width < 0:
                 enemy.remove_from_sprite_lists()
+
+    def shoot(self, enemy_bullet_list):
+        """Handle Enemy shooting"""
+        bullet = Bullet(hit_box_algorithm="Detailed")
+
+        # Set bullet location
+        bullet.center_x = self.center_x + self.width
+        bullet.center_y = self.center_y
+
+        # Turn the bullet -90 degree
+        # bullet.angle = 0
+
+        # Add to bullet sprite list
+        enemy_bullet_list.append(bullet)
+
+        # Play a sound
+        arcade.play_sound(bullet.audio_gunshot)
