@@ -23,9 +23,9 @@ class Player(arcade.Sprite):
         self.scale = CHARACTER_SCALING
 
         # load player texture
-        base_path = "resources/images/"
+        base_path = "resources/"
         self.idle_texture_pair = arcade.load_texture_pair(
-            f"{base_path}car.png", hit_box_algorithm=hit_box_algorithm)
+            f"{base_path}images/car.png", hit_box_algorithm=hit_box_algorithm)
 
         # Set the initial texture
         self.texture = self.idle_texture_pair[0]
@@ -33,7 +33,13 @@ class Player(arcade.Sprite):
         # Hit box will be set based on the first image used.
         self.hit_box = self.texture.hit_box_points
 
-    def shoot(self, bullet_list):
+        # Load sounds
+        # TODO: Change SFX
+        self.audio_destroyed = arcade.load_sound(
+            f"{base_path}audio/enemy_destroyed.wav")
+        self.audio_hit = arcade.load_sound(f"{base_path}audio/enemy_hit.wav")
+
+    def shoot(self, friendly_bullet_list):
         bullet = Bullet(hit_box_algorithm="Detailed")
 
         # Set bullet location
@@ -44,14 +50,19 @@ class Player(arcade.Sprite):
         # bullet.angle = 0
 
         # Add to bullet sprite list
-        bullet_list.append(bullet)
+        friendly_bullet_list.append(bullet)
 
         # Play a sound
         arcade.play_sound(bullet.audio_gunshot)
 
     def take_damage(self, damage_source):
         """Handles damage taken by Player"""
+        # Play damage taken sound
+        # TODO: Change sound effect
+        arcade.play_sound(self.audio_destroyed)
+        # Decrease player hp
         self.cur_health -= damage_source.damage_value
+        # Cause death of player if hp low
         if self.cur_health <= self.death_health:
             self.death()
 
@@ -59,3 +70,4 @@ class Player(arcade.Sprite):
         """Handles death of Player"""
         # TO BE IMPROVED, player health resets
         self.cur_health = self.max_health
+        print("You died.")
