@@ -34,3 +34,10 @@ PLAYER_GUN_DAMAGE = 1
 
 # Speed
 SPEED_SCROLLING = -10
+
+
+class DEATH:
+    """ Reasons for death/despawn """
+    OOB = 0
+    COLLISION = 1
+    KILLED = 2

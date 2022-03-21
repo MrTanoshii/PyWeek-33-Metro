@@ -1,5 +1,5 @@
 import arcade
-from constants import ENEMY_SCALING, SCREEN_WIDTH, SCREEN_HEIGHT
+from constants import ENEMY_SCALING, SCREEN_WIDTH, SCREEN_HEIGHT, DEATH
 import random
 from bullet import Bullet
 from gold import Gold
@@ -54,7 +54,9 @@ class Enemy(arcade.Sprite):
         # Add to player sprite list
         cls.enemy_list.append(enemy)
 
-    def despawn(self):
+    def despawn(self, death):
+        if death == DEATH.KILLED:
+            Gold.spawn(self.center_x, self.center_y)
         self.remove_from_sprite_lists()
 
     @classmethod
@@ -67,7 +69,7 @@ class Enemy(arcade.Sprite):
 
             # Check if enemy is in view, if not delete it
             if enemy.center_x + enemy.width < 0:
-                enemy.remove_from_sprite_lists()
+                cls.despawn(enemy, DEATH.OOB)
 
     def shoot(self, enemy_bullet_list):
         """Handle Enemy shooting"""
