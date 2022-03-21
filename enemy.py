@@ -17,6 +17,9 @@ class Enemy(arcade.Sprite):
         self.SPEED = -2
         self.HP = 10
 
+        # Damage
+        self.damage_value = 3
+
         # Set our scale
         self.scale = ENEMY_SCALING
 
