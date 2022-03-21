@@ -1,5 +1,6 @@
 import arcade
 from constants import MOVE_DIRECTION, PLAYER_GUN_BULLET_SPEED, SPRITE_PLAYER_INIT_ANGLE, CHARACTER_SCALING, PLAYER_DEATH_HP, PLAYER_GUN_DAMAGE, PLAYER_GUN_RELOAD_TIME, PLAYER_GUN_SHOOT_SPEED, PLAYER_MAX_HP, PLAYER_START_HP, PLAYER_GUN_MAX_AMMO
+from constants import SPEED_PLAYER, PLAYER_GUN_BULLET_SPEED, SPRITE_PLAYER_INIT_ANGLE, CHARACTER_SCALING, PLAYER_DEATH_HP, PLAYER_GUN_DAMAGE, PLAYER_GUN_RELOAD_TIME, PLAYER_GUN_SHOOT_SPEED, PLAYER_MAX_HP, PLAYER_START_HP, PLAYER_GUN_MAX_AMMO
 from bullet import Bullet
 import math
 from lib import calculate_angle
@@ -13,7 +14,7 @@ class Player(arcade.Sprite):
         super().__init__()
 
         # Movement Speed
-        self.max_speed = 3
+        self.max_speed = SPEED_PLAYER
         self.speed_x = 0
         self.speed_y = 0
 
