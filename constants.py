@@ -76,3 +76,10 @@ class MOVE_DIRECTION:
 
 # Speed
 SPEED_SCROLLING = -10
+
+
+class DEATH:
+    """ Reasons for death/despawn """
+    OOB = 0
+    COLLISION = 1
+    KILLED = 2
