@@ -1,3 +1,4 @@
+from webbrowser import BackgroundBrowser
 from bullet import Bullet
 from bg import BackGround
 from player import Player
@@ -6,7 +7,7 @@ from gold import Gold
 
 import arcade
 import random
-from constants import SCREEN_WIDTH, SCREEN_HEIGHT, level1, SPRITE_PLAYER_INIT_ANGLE
+from constants import SCREEN_WIDTH, SCREEN_HEIGHT, SPRITE_PLAYER_INIT_ANGLE
 
 
 class GameView(arcade.View):
@@ -21,7 +22,6 @@ class GameView(arcade.View):
         # These are 'lists' that keep track of our sprites. Each sprite should
         # go into a list.
         self.player_list = arcade.SpriteList()
-        self.bg_list = arcade.SpriteList()
 
         # Separate variable that holds the player sprite
         self.player = None
@@ -65,7 +65,7 @@ class GameView(arcade.View):
         self.bg = BackGround()
         self.bg.center_x = self.bg.width/2
         self.bg.center_y = SCREEN_HEIGHT/2
-        self.bg_list.append(self.bg)
+        BackGround.bg_list.append(self.bg)
 
     def on_draw(self):
         """Render the screen."""
@@ -74,7 +74,7 @@ class GameView(arcade.View):
         self.clear()
 
         # Draw our sprites
-        self.bg_list.draw()
+        BackGround.bg_list.draw()
         Gold.gold_list.draw()
         self.player_list.draw()
         Enemy.enemy_list.draw()
@@ -116,17 +116,10 @@ class GameView(arcade.View):
 
     def on_update(self, delta_time):
         if random.randint(0, 200) == 1:
-            self.spawn_bg()
+            BackGround.spawn()
             Enemy.spawn_enemy()
 
-        for bg in self.bg_list:
-            bg.center_x += bg.speed
-            if bg.asset == "bg-1.png":
-                if bg.center_x - bg.width / 2 < - 220 - bg.speed:
-                    bg.center_x = bg.width/2
-            else:
-                if bg.center_x + bg.width < 0:
-                    bg.remove_from_sprite_lists()
+        BackGround.update(delta_time)
 
         # MOVE PLAYER: Add player y coordinate the current speed
         self.player.center_y += self.player.current_speed
@@ -185,7 +178,7 @@ class GameView(arcade.View):
 
         # T
         elif key == arcade.key.T:
-            self.spawn_bg()
+            BackGround.spawn()
 
     def on_key_release(self, key, modifiers):
         """Called when the user releases a key."""
@@ -208,19 +201,6 @@ class GameView(arcade.View):
         # A pressed
         elif self.right_key_down and not self.left_key_down:
             self.player.current_speed = -self.player.SPEED
-
-    def spawn_bg(self):
-        # Create BG sprite
-        assets = level1.assets
-        self.bg = BackGround(asset=random.choice(
-            assets), size=random.uniform(.9, 1.1))
-        self.bg.center_x = SCREEN_WIDTH + self.bg.width / 2
-        if random.randint(0, 1) == 1:
-            self.bg.center_y = SCREEN_HEIGHT + \
-                self.bg.height / 2 - random.uniform(50, 75)
-        else:
-            self.bg.center_y = self.bg.height / 2 + random.uniform(-50, 50)
-        self.bg_list.append(self.bg)
 
     def check_collisions(self):
         """Check for collisions and calculate score"""
