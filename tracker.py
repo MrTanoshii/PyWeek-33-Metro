@@ -1,9 +1,19 @@
 class Tracker():
-    def __init__(self):
-        self.score = 0
+    gold = 0
+    score = 0
 
-    def increment_score(self, value):
-        self.score += value
+    @classmethod
+    def increment_gold(cls, value):
+        cls.gold += value
 
-    def decrement_score(self, value):
-        self.score -= value
+    @classmethod
+    def decrement_gold(cls, value):
+        cls.gold -= value
+
+    @classmethod
+    def increment_score(cls, value):
+        cls.score += value
+
+    @classmethod
+    def decrement_score(cls, value):
+        cls.score -= value

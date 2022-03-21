@@ -34,6 +34,7 @@ PLAYER_GUN_DAMAGE = 1
 
 # Speed
 SPEED_SCROLLING = -10
+SPEED_PLAYER = 8
 
 
 class DEATH:
@@ -41,3 +42,4 @@ class DEATH:
     OOB = 0
     COLLISION = 1
     KILLED = 2
+    PICKED_UP = 3

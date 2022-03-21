@@ -34,7 +34,6 @@ class GameView(arcade.View):
         self.space_down = False
 
         # GUI
-        self.tracker = Tracker()
         self.gui_camera = None
 
         self.setup_complete = False
@@ -84,9 +83,19 @@ class GameView(arcade.View):
 
         # GUI - Score
         arcade.draw_text(
-            f"Score : {self.tracker.value}",
+            f"Score : {Tracker.score}",
             SCREEN_WIDTH / 5,
             SCREEN_HEIGHT - 50,
+            arcade.color.BLACK,
+            font_size=30,
+            anchor_x="center",
+        )
+
+        # GUI - Gold
+        arcade.draw_text(
+            f"Gold : {Tracker.gold}",
+            SCREEN_WIDTH / 5,
+            SCREEN_HEIGHT - 150,
             arcade.color.BLACK,
             font_size=30,
             anchor_x="center",
@@ -199,10 +208,10 @@ class GameView(arcade.View):
 
         # D pressed
         if self.left_key_down and not self.right_key_down:
-            self.player.current_speed = self.player.SPEED
+            self.player.current_speed = self.player.speed
         # A pressed
         elif self.right_key_down and not self.left_key_down:
-            self.player.current_speed = -self.player.SPEED
+            self.player.current_speed = -self.player.speed
 
     def check_collisions(self):
         """Check for collisions and calculate score"""
@@ -232,7 +241,7 @@ class GameView(arcade.View):
                     Enemy.despawn(enemy, DEATH.KILLED)
                     # Play a sound
                     arcade.play_sound(enemy.audio_destroyed)
-                    self.tracker.increment_score(10)
+                    Tracker.increment_score(10)
                 else:
                     # Play a sound
                     arcade.play_sound(enemy.audio_hit)
@@ -254,6 +263,10 @@ class GameView(arcade.View):
             Enemy.despawn(enemy, DEATH.COLLISION)
             arcade.play_sound(enemy.audio_destroyed)
             self.player.take_damage(enemy)
+        # Check gold collision with player
+        for gold in arcade.check_for_collision_with_list(self.player, Gold.gold_list):
+            Gold.despawn(gold, DEATH.PICKED_UP)
+            arcade.play_sound(gold.pick_up)
 
     def on_show(self):
         self.setup()
