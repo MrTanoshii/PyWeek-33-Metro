@@ -43,7 +43,7 @@ class Enemy(arcade.Sprite):
     def spawn_enemy(cls):
         enemy = Enemy(hit_box_algorithm="Detailed")
 
-        # Set bullet location
+        # Set enemy location
         enemy.center_x = SCREEN_WIDTH + enemy.width
         enemy.center_y = SCREEN_HEIGHT // 2 + \
             random.uniform(-SCREEN_HEIGHT/3.25, SCREEN_HEIGHT/3.25)
