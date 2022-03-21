@@ -1,5 +1,5 @@
 import arcade
-from constants import CHARACTER_SCALING, PLAYER_DEATH_HP, PLAYER_GUN_RELOAD_TIME, PLAYER_GUN_SHOOT_SPEED, PLAYER_MAX_HP, PLAYER_START_HP, PLAYER_GUN_MAX_AMMO
+from constants import CHARACTER_SCALING, PLAYER_DEATH_HP, PLAYER_GUN_DAMAGE, PLAYER_GUN_RELOAD_TIME, PLAYER_GUN_SHOOT_SPEED, PLAYER_MAX_HP, PLAYER_START_HP, PLAYER_GUN_MAX_AMMO
 from bullet import Bullet
 import time
 
@@ -24,6 +24,7 @@ class Player(arcade.Sprite):
         self.can_shoot = True
         self.shoot_speed = PLAYER_GUN_SHOOT_SPEED
         self.shoot_timer = 0
+        self.gun_damage = PLAYER_GUN_DAMAGE
 
         # Ammo
         self.max_ammo = PLAYER_GUN_MAX_AMMO
@@ -55,7 +56,7 @@ class Player(arcade.Sprite):
     def shoot(self, friendly_bullet_list):
         if not self.is_reloading and self.cur_ammo > 0:
             self.cur_ammo -= 1
-            bullet = Bullet("Detailed", 20, 0)
+            bullet = Bullet("Detailed", 20, 0, damage_value=self.gun_damage)
 
             # Set bullet location
             bullet.center_x = self.center_x + self.width

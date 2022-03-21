@@ -9,7 +9,7 @@ class Bullet(arcade.Sprite):
     friendly_bullet_list = arcade.SpriteList()
     enemy_bullet_list = arcade.SpriteList()
 
-    def __init__(self, hit_box_algorithm, speed_x, speed_y, angle=0):
+    def __init__(self, hit_box_algorithm, speed_x, speed_y, angle=0, damage_value=1):
         # Let parent initialize
         super().__init__()
 
@@ -18,7 +18,7 @@ class Bullet(arcade.Sprite):
         self.speed_y = speed_y
 
         # Damage
-        self.damage_value = 2
+        self.damage_value = damage_value
 
         # Angle
         self.angle = angle
