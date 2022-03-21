@@ -60,3 +60,15 @@ MENU_FONT_SIZE = 30
 
 # Game View
 GAME_BACKGROUND_COLOR = arcade.csscolor.DARK_GREEN
+
+
+class MOVE_DIRECTION:
+    LEFT = 0
+    BOTTOM_LEFT = 1
+    BOTTOM = 2
+    BOTTOM_RIGHT = 3
+    RIGHT = 4
+    TOP_RIGHT = 5
+    TOP = 6
+    TOP_LEFT = 7
+    IDLE = 8

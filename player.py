@@ -1,10 +1,11 @@
-import arcade
+from lib import calculate_angle
+import math
+from bullet import Bullet
+from constants import MOVE_DIRECTION, PLAYER_GUN_BULLET_SPEED, SPRITE_PLAYER_INIT_ANGLE, CHARACTER_SCALING, PLAYER_DEATH_HP, PLAYER_GUN_DAMAGE, PLAYER_GUN_RELOAD_TIME, PLAYER_GUN_SHOOT_SPEED, PLAYER_MAX_HP, PLAYER_START_HP, PLAYER_GUN_MAX_AMMO
 from constants import SPEED_PLAYER, PLAYER_GUN_BULLET_SPEED, SPRITE_PLAYER_INIT_ANGLE, CHARACTER_SCALING, \
     PLAYER_DEATH_HP, PLAYER_GUN_DAMAGE, PLAYER_GUN_RELOAD_TIME, PLAYER_GUN_SHOOT_SPEED, PLAYER_MAX_HP, \
     PLAYER_START_HP, PLAYER_GUN_MAX_AMMO, MASTER_VOLUME
-from bullet import Bullet
-import math
-from lib import calculate_angle
+import arcade
 
 
 class Player(arcade.Sprite):
@@ -17,8 +18,9 @@ class Player(arcade.Sprite):
         super().__init__()
 
         # Movement Speed
-        self.current_speed = 0
-        self.speed = SPEED_PLAYER
+        self.max_speed = SPEED_PLAYER
+        self.speed_x = 0
+        self.speed_y = 0
 
         # Health
         self.max_health = PLAYER_START_HP
@@ -124,3 +126,35 @@ class Player(arcade.Sprite):
         else:
             new_angle = new_angle - SPRITE_PLAYER_INIT_ANGLE
         self.gun_angle = new_angle
+
+    def update(self, move_dir):
+        self.speed_x = 0
+        self.speed_y = 0
+
+        if move_dir == MOVE_DIRECTION.LEFT:
+            self.speed_x = -self.max_speed
+            self.speed_y = 0
+        elif move_dir == MOVE_DIRECTION.BOTTOM_LEFT:
+            self.speed_x = -self.max_speed * math.cos(math.radians(45))
+            self.speed_y = -self.max_speed * math.sin(math.radians(45))
+        elif move_dir == MOVE_DIRECTION.BOTTOM:
+            self.speed_x = 0
+            self.speed_y = -self.max_speed
+        elif move_dir == MOVE_DIRECTION.BOTTOM_RIGHT:
+            self.speed_x = self.max_speed * math.cos(math.radians(45))
+            self.speed_y = -self.max_speed * math.sin(math.radians(45))
+        elif move_dir == MOVE_DIRECTION.RIGHT:
+            self.speed_x = self.max_speed
+            self.speed_y = 0
+        elif move_dir == MOVE_DIRECTION.TOP_RIGHT:
+            self.speed_x = self.max_speed * math.cos(math.radians(45))
+            self.speed_y = self.max_speed * math.sin(math.radians(45))
+        elif move_dir == MOVE_DIRECTION.TOP:
+            self.speed_x = 0
+            self.speed_y = self.max_speed
+        elif move_dir == MOVE_DIRECTION.TOP_LEFT:
+            self.speed_x = -self.max_speed * math.cos(math.radians(45))
+            self.speed_y = self.max_speed * math.sin(math.radians(45))
+
+        self.center_x += self.speed_x
+        self.center_y += self.speed_y
