@@ -265,12 +265,12 @@ class GameView(arcade.View):
                 # Remove bullet
                 bullet.remove_from_sprite_lists()
         # Check enemy collision with player
-            enemy_collision_list = arcade.check_for_collision_with_list(
-                self.player, Enemy.enemy_list)
-            for enemy in enemy_collision_list:
-                enemy.remove_from_sprite_lists()
-                arcade.play_sound(enemy.audio_destroyed)
-                self.player.take_damage(enemy)
+        enemy_collision_list = arcade.check_for_collision_with_list(
+            self.player, Enemy.enemy_list)
+        for enemy in enemy_collision_list:
+            enemy.remove_from_sprite_lists()
+            arcade.play_sound(enemy.audio_destroyed)
+            self.player.take_damage(enemy)
 
     def on_show(self):
         self.setup()
