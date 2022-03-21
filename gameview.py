@@ -1,6 +1,8 @@
+from bullet import Bullet
+from bg import BackGround
 from player import Player
 from enemy import Enemy
-from bg import BackGround
+
 import arcade
 import random
 from constants import SCREEN_WIDTH, SCREEN_HEIGHT, level1
@@ -18,8 +20,6 @@ class GameView(arcade.View):
         # These are 'lists' that keep track of our sprites. Each sprite should
         # go into a list.
         self.player_list = None
-        self.enemy_list = None
-        self.bullet_list = None
         self.bg_list = None
 
         # Separate variable that holds the player sprite
@@ -44,8 +44,6 @@ class GameView(arcade.View):
 
         # Create the sprite lists
         self.player_list = arcade.SpriteList()
-        self.enemy_list = arcade.SpriteList()
-        self.bullet_list = arcade.SpriteList()
         self.bg_list = arcade.SpriteList()
 
         # Create player sprite
@@ -76,8 +74,8 @@ class GameView(arcade.View):
         # Draw our sprites
         self.bg_list.draw()
         self.player_list.draw()
-        self.enemy_list.draw()
-        self.bullet_list.draw()
+        Enemy.enemy_list.draw()
+        Bullet.bullet_list.draw()
 
         arcade.draw_text(
             f"Score : {self.score}",
@@ -94,7 +92,7 @@ class GameView(arcade.View):
     def on_update(self, delta_time: float):
         if random.randint(0, 200) == 1:
             self.spawn_bg()
-            self.spawn_enemy()
+            Enemy.spawn_enemy()
 
         for bg in self.bg_list:
             bg.center_x += bg.SPEED
@@ -107,53 +105,10 @@ class GameView(arcade.View):
 
         # MOVE PLAYER: Add player y coordinate the current speed
         self.player.center_y += self.player.current_speed
+        self.score += Bullet.update()
 
-        # Cycle trough all enemies
-        for enemy in self.enemy_list:
+        Enemy.update()
 
-            # Move all Enemies Forwards
-            enemy.center_x += enemy.SPEED
-
-            # Check if enemy is in view, if not delete it
-            if enemy.center_x + enemy.width < 0:
-                enemy.remove_from_sprite_lists()
-
-        # Cycle trough all bullets
-        for bullet in self.bullet_list:
-
-            # Move all Bullets Forwards
-            bullet.center_x += bullet.SPEED
-
-            """ Collision """
-            # Add enemy to list, if collided with bullet
-            enemy_hit_list = arcade.check_for_collision_with_list(
-                bullet, self.enemy_list
-            )
-
-            # Loop through each coin we hit (if any) and remove it
-            for _enemy in enemy_hit_list:
-
-                # Remove bullet damage from enemy HP
-                _enemy.HIT_POINTS -= bullet.DAMAGE
-
-                # Remove bullet
-                bullet.remove_from_sprite_lists()
-
-                # if HP 0, destroy enemy
-                if _enemy.HIT_POINTS <= 0:
-                    _enemy.remove_from_sprite_lists()
-                    # Play a sound
-                    arcade.play_sound(_enemy.audio_destroyed)
-                    self.score += 1
-                else:
-                    # Play a sound
-                    arcade.play_sound(_enemy.audio_hit)
-
-            """ Remove off screen bullets """
-
-            # Check if bullet is in view, if not delete it
-            if bullet.center_x - bullet.width / 2 > SCREEN_WIDTH:
-                self.bullet_list.remove(bullet)
 
     def on_key_press(self, key, modifiers):
         """Called whenever a key is pressed."""
@@ -171,11 +126,11 @@ class GameView(arcade.View):
         # Space
         if key == arcade.key.SPACE:
             self.space_down = True
-            self.player.shoot(self.bullet_list)
+            self.player.shoot(Bullet.bullet_list)
 
         # E
         if key == arcade.key.E:
-            self.spawn_enemy()
+            Enemy.spawn_enemy()
 
         # T
         if key == arcade.key.T:
@@ -200,18 +155,7 @@ class GameView(arcade.View):
         elif self.right_key_down and not self.left_key_down:
             self.player.current_speed = -self.player.SPEED
 
-    def spawn_enemy(self):
-        enemy = Enemy(hit_box_algorithm="Detailed")
 
-        # Set bullet location
-        enemy.center_x = SCREEN_WIDTH + enemy.width
-        enemy.center_y = SCREEN_HEIGHT // 2 + random.uniform(-SCREEN_HEIGHT/3.25, SCREEN_HEIGHT/3.25)
-
-        # Turn the enemy 90 degree
-        enemy.angle = -90
-
-        # Add to player sprite list
-        self.enemy_list.append(enemy)
 
     def spawn_bg(self):
         # Create BG sprite
