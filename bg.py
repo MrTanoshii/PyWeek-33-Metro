@@ -1,15 +1,15 @@
 import arcade
-from constants import BG_SCALING
+from constants import BG_SCALING, SPEED_SCROLLING
 
 
 class BackGround(arcade.Sprite):
     """ Player Sprite """
 
-    def __init__(self, speed=-10, asset="bg-1.png", size=1):
+    def __init__(self, speed=SPEED_SCROLLING, asset="bg-1.png", size=1):
         # Let parent initialize
         super().__init__()
 
-        self.SPEED = speed
+        self.speed = speed
 
         # Set our scale
         self.scale = size or BG_SCALING
