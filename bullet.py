@@ -21,7 +21,8 @@ class Bullet(arcade.Sprite):
 
         # load player texture
         base_path = "resources/"
-        self.idle_texture_pair = arcade.load_texture_pair(f"{base_path}images/bullet.png", hit_box_algorithm=hit_box_algorithm)
+        self.idle_texture_pair = arcade.load_texture_pair(
+            f"{base_path}images/bullet.png", hit_box_algorithm=hit_box_algorithm)
         # Load sounds
         self.audio_gunshot = arcade.load_sound(f"{base_path}audio/gunshot.wav")
 
@@ -50,13 +51,13 @@ class Bullet(arcade.Sprite):
             for _enemy in enemy_hit_list:
 
                 # Remove bullet damage from enemy HP
-                _enemy.HIT_POINTS -= bullet.DAMAGE
+                _enemy.HP -= bullet.DAMAGE
 
                 # Remove bullet
                 bullet.remove_from_sprite_lists()
 
                 # if HP 0, destroy enemy
-                if _enemy.HIT_POINTS <= 0:
+                if _enemy.HP <= 0:
                     _enemy.remove_from_sprite_lists()
                     # Play a sound
                     arcade.play_sound(_enemy.audio_destroyed)

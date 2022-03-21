@@ -7,22 +7,25 @@ class Enemy(arcade.Sprite):
     enemy_list = arcade.SpriteList()
 
     """ Player Sprite """
+
     def __init__(self, hit_box_algorithm):
         # Let parent initialize
         super().__init__()
 
         self.current_speed = 0
         self.SPEED = -2
-        self.HIT_POINTS = 10
+        self.HP = 10
 
         # Set our scalea
         self.scale = ENEMY_SCALING
 
         # load player texture
         base_path = "resources/"
-        self.idle_texture_pair = arcade.load_texture_pair(f"{base_path}images/enemy.png", hit_box_algorithm=hit_box_algorithm)
+        self.idle_texture_pair = arcade.load_texture_pair(
+            f"{base_path}images/enemy.png", hit_box_algorithm=hit_box_algorithm)
         # Load sounds
-        self.audio_destroyed = arcade.load_sound(f"{base_path}audio/enemy_destroyed.wav")
+        self.audio_destroyed = arcade.load_sound(
+            f"{base_path}audio/enemy_destroyed.wav")
         self.audio_hit = arcade.load_sound(f"{base_path}audio/enemy_hit.wav")
 
         # Set the initial texture
@@ -37,7 +40,8 @@ class Enemy(arcade.Sprite):
 
         # Set bullet location
         enemy.center_x = SCREEN_WIDTH + enemy.width
-        enemy.center_y = SCREEN_HEIGHT // 2 + random.uniform(-SCREEN_HEIGHT/3.25, SCREEN_HEIGHT/3.25)
+        enemy.center_y = SCREEN_HEIGHT // 2 + \
+            random.uniform(-SCREEN_HEIGHT/3.25, SCREEN_HEIGHT/3.25)
 
         # Turn the enemy 90 degree
         enemy.angle = -90
