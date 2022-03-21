@@ -5,7 +5,7 @@ from enemy import Enemy
 
 import arcade
 import random
-from constants import SCREEN_WIDTH, SCREEN_HEIGHT, level1
+from constants import SCREEN_WIDTH, SCREEN_HEIGHT, level1, SPRITE_PLAYER_INIT_ANGLE
 
 
 class GameView(arcade.View):
@@ -58,8 +58,8 @@ class GameView(arcade.View):
         self.player.center_x = SCREEN_WIDTH * .1
         self.player.center_y = SCREEN_HEIGHT * .5
 
-        # Turn the player -90 degree
-        self.player.angle = -90
+        # Rotate player to face to the right
+        self.player.angle = SPRITE_PLAYER_INIT_ANGLE
 
         # Add to player sprite list
         self.player_list.append(self.player)
@@ -151,6 +151,10 @@ class GameView(arcade.View):
                 if self.player.shoot_timer >= self.player.shoot_speed:
                     self.player.can_shoot = True
                     self.player.shoot_timer = 0
+
+    def on_mouse_motion(self, x, y, dx, dy):
+        """Called whenever mouse is moved."""
+        self.player.follow_mouse(x, y)
 
     def on_mouse_press(self, x, y, button, modifiers):
         """Called whenever a mouse key is pressed."""
