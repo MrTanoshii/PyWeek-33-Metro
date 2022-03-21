@@ -4,7 +4,7 @@ from bg import BackGround
 from player import Player
 from enemy import Enemy
 from gold import Gold
-from score_tracker import Score
+from tracker import Tracker
 
 import arcade
 import random
@@ -34,7 +34,7 @@ class GameView(arcade.View):
         self.space_down = False
 
         # GUI
-        self.score = Score()
+        self.tracker = Tracker()
         self.gui_camera = None
 
         self.setup_complete = False
@@ -84,7 +84,7 @@ class GameView(arcade.View):
 
         # GUI - Score
         arcade.draw_text(
-            f"Score : {self.score.value}",
+            f"Score : {self.tracker.value}",
             SCREEN_WIDTH / 5,
             SCREEN_HEIGHT - 50,
             arcade.color.BLACK,
@@ -232,7 +232,7 @@ class GameView(arcade.View):
                     Enemy.despawn(enemy, DEATH.KILLED)
                     # Play a sound
                     arcade.play_sound(enemy.audio_destroyed)
-                    self.score.increment(1)
+                    self.tracker.increment_score(10)
                 else:
                     # Play a sound
                     arcade.play_sound(enemy.audio_hit)
