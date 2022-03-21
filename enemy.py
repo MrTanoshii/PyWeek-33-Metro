@@ -2,6 +2,7 @@ import arcade
 from constants import ENEMY_SCALING, SCREEN_WIDTH, SCREEN_HEIGHT
 import random
 from bullet import Bullet
+from gold import Gold
 
 
 class Enemy(arcade.Sprite):
@@ -52,6 +53,9 @@ class Enemy(arcade.Sprite):
 
         # Add to player sprite list
         cls.enemy_list.append(enemy)
+
+    def despawn(self):
+        self.remove_from_sprite_lists()
 
     @classmethod
     def update(cls):

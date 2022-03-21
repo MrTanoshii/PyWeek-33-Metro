@@ -2,6 +2,7 @@ from bullet import Bullet
 from bg import BackGround
 from player import Player
 from enemy import Enemy
+from gold import Gold
 
 import arcade
 import random
@@ -19,8 +20,8 @@ class GameView(arcade.View):
 
         # These are 'lists' that keep track of our sprites. Each sprite should
         # go into a list.
-        self.player_list = None
-        self.bg_list = None
+        self.player_list = arcade.SpriteList()
+        self.bg_list = arcade.SpriteList()
 
         # Separate variable that holds the player sprite
         self.player = None
@@ -49,10 +50,6 @@ class GameView(arcade.View):
 
         # self.gui_camera = arcade.Camera(self.window.width, self.window.height)
 
-        # Create the sprite lists
-        self.player_list = arcade.SpriteList()
-        self.bg_list = arcade.SpriteList()
-
         # Create player sprite
         self.player = Player(hit_box_algorithm="Detailed")
 
@@ -80,6 +77,7 @@ class GameView(arcade.View):
 
         # Draw our sprites
         self.bg_list.draw()
+        Gold.gold_list.draw()
         self.player_list.draw()
         Enemy.enemy_list.draw()
         Bullet.friendly_bullet_list.draw()
@@ -247,23 +245,23 @@ class GameView(arcade.View):
             )
 
             # Loop through each enemy we hit (if any) and remove it
-            for _enemy in enemy_hit_list:
+            for enemy in enemy_hit_list:
 
                 # Remove bullet damage from enemy HP
-                _enemy.HP -= bullet.damage_value
+                enemy.HP -= bullet.damage_value
 
                 # Remove bullet
-                bullet.remove_from_sprite_lists()
+                Bullet.despawn(bullet)
 
                 # if HP 0, destroy enemy
-                if _enemy.HP <= 0:
-                    _enemy.remove_from_sprite_lists()
+                if enemy.HP <= 0:
+                    Enemy.despawn(enemy)
                     # Play a sound
-                    arcade.play_sound(_enemy.audio_destroyed)
+                    arcade.play_sound(enemy.audio_destroyed)
                     self.score += 1
                 else:
                     # Play a sound
-                    arcade.play_sound(_enemy.audio_hit)
+                    arcade.play_sound(enemy.audio_hit)
         # Check enemy bullet collisions
         for bullet in Bullet.enemy_bullet_list:
             # Move all Bullets Forwards
@@ -275,12 +273,12 @@ class GameView(arcade.View):
                 # Apply damage to player
                 self.player.take_damage(bullet)
                 # Remove bullet
-                bullet.remove_from_sprite_lists()
+                Bullet.despawn(bullet)
         # Check enemy collision with player
         enemy_collision_list = arcade.check_for_collision_with_list(
             self.player, Enemy.enemy_list)
         for enemy in enemy_collision_list:
-            enemy.remove_from_sprite_lists()
+            Enemy.despawn(enemy)
             arcade.play_sound(enemy.audio_destroyed)
             self.player.take_damage(enemy)
 
