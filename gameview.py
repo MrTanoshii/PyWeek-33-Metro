@@ -9,9 +9,7 @@ from gold import Gold
 
 import arcade
 import random
-<< << << < HEAD
-== == == =
->>>>>> > e312f0e(refactor: bg spawn & update handled by class)
+from constants import SCREEN_WIDTH, SCREEN_HEIGHT, SPRITE_PLAYER_INIT_ANGLE, DEATH
 
 
 class GameView(arcade.View):
@@ -126,6 +124,7 @@ class GameView(arcade.View):
             Enemy.spawn_enemy()
 
         BackGround.update(delta_time)
+        Gold.update(delta_time)
 
         player_move_dir = None
         if self.left_key_down:
@@ -252,7 +251,7 @@ class GameView(arcade.View):
 
                 # if HP 0, destroy enemy
                 if enemy.HP <= 0:
-                    Enemy.despawn(enemy)
+                    Enemy.despawn(enemy, DEATH.KILLED)
                     # Play a sound
                     arcade.play_sound(enemy.audio_destroyed)
                     self.score += 1
@@ -272,10 +271,9 @@ class GameView(arcade.View):
                 # Remove bullet
                 Bullet.despawn(bullet)
         # Check enemy collision with player
-        enemy_collision_list = arcade.check_for_collision_with_list(
-            self.player, Enemy.enemy_list)
-        for enemy in enemy_collision_list:
-            Enemy.despawn(enemy)
+        for enemy in arcade.check_for_collision_with_list(
+                self.player, Enemy.enemy_list):
+            Enemy.despawn(enemy, DEATH.COLLISION)
             arcade.play_sound(enemy.audio_destroyed)
             self.player.take_damage(enemy)
 
