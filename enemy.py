@@ -1,8 +1,11 @@
 import arcade
-from constants import ENEMY_SCALING
+from constants import ENEMY_SCALING, SCREEN_WIDTH, SCREEN_HEIGHT
+import random
 
 
 class Enemy(arcade.Sprite):
+    enemy_list = arcade.SpriteList()
+
     """ Player Sprite """
     def __init__(self, hit_box_algorithm):
         # Let parent initialize
@@ -27,3 +30,29 @@ class Enemy(arcade.Sprite):
 
         # Hit box will be set based on the first image used.
         self.hit_box = self.texture.hit_box_points
+
+    @classmethod
+    def spawn_enemy(cls):
+        enemy = Enemy(hit_box_algorithm="Detailed")
+
+        # Set bullet location
+        enemy.center_x = SCREEN_WIDTH + enemy.width
+        enemy.center_y = SCREEN_HEIGHT // 2 + random.uniform(-SCREEN_HEIGHT/3.25, SCREEN_HEIGHT/3.25)
+
+        # Turn the enemy 90 degree
+        enemy.angle = -90
+
+        # Add to player sprite list
+        cls.enemy_list.append(enemy)
+
+    @classmethod
+    def update(cls):
+        # Cycle trough all enemies
+        for enemy in cls.enemy_list:
+
+            # Move all Enemies Forwards
+            enemy.center_x += enemy.SPEED
+
+            # Check if enemy is in view, if not delete it
+            if enemy.center_x + enemy.width < 0:
+                enemy.remove_from_sprite_lists()
