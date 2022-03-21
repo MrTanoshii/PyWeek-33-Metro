@@ -16,7 +16,7 @@ GOLD_SCALING = 1.0
 SPRITE_PLAYER_INIT_ANGLE = 90
 
 
-class level1:
+class LEVEL1:
     assets = ["tree.png", "bush.png"]
 
 
