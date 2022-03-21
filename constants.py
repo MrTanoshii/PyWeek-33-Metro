@@ -15,3 +15,8 @@ BG_SCALING = 1.0
 class level1:
     assets = ["tree.png", "bush.png"]
 
+
+# Player
+PLAYER_MAX_HP = 3
+PLAYER_START_HP = MAX_HP
+PLAYER_DEATH_HP = 0

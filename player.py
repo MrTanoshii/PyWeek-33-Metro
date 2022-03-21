@@ -1,5 +1,5 @@
 import arcade
-from constants import CHARACTER_SCALING
+from constants import CHARACTER_SCALING, PLAYER_DEATH_HP, PLAYER_MAX_HP, PLAYER_START_HP
 from bullet import Bullet
 
 
@@ -10,8 +10,14 @@ class Player(arcade.Sprite):
         # Let parent initialize
         super().__init__()
 
+        # Movement Speed
         self.current_speed = 0
         self.SPEED = 3
+
+        # Health
+        self.max_health = PLAYER_START_HP
+        self.cur_health = PLAYER_MAX_HP
+        self.death_health = PLAYER_DEATH_HP
 
         # Set our scale
         self.scale = CHARACTER_SCALING
@@ -42,3 +48,14 @@ class Player(arcade.Sprite):
 
         # Play a sound
         arcade.play_sound(bullet.audio_gunshot)
+
+    def take_damage(self, damage_source):
+        """Handles damage taken by Player"""
+        self.cur_health -= damage_source.damage_value
+        if self.cur_health <= self.death_health:
+            self.death()
+
+    def death(self):
+        """Handles death of Player"""
+        # TO BE IMPROVED, player health resets
+        self.cur_health = self.max_health
