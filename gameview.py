@@ -5,7 +5,7 @@ from enemy import Enemy
 
 import arcade
 import random
-from constants import SCREEN_WIDTH, SCREEN_HEIGHT, level1, SPRITE_PLAYER_INIT_ANGLE
+from constants import SCREEN_WIDTH, SCREEN_HEIGHT, level1, SPRITE_PLAYER_INIT_ANGLE, MOVE_DIRECTION
 
 
 class GameView(arcade.View):
@@ -29,6 +29,8 @@ class GameView(arcade.View):
         # What key is pressed down?
         self.left_key_down = False
         self.right_key_down = False
+        self.up_key_down = False
+        self.down_key_down = False
         self.space_down = False
 
         # GUI
@@ -130,8 +132,29 @@ class GameView(arcade.View):
                 if bg.center_x + bg.width < 0:
                     bg.remove_from_sprite_lists()
 
-        # MOVE PLAYER: Add player y coordinate the current speed
-        self.player.center_y += self.player.current_speed
+        player_move_dir = None
+        if self.left_key_down:
+            if self.up_key_down:
+                player_move_dir = MOVE_DIRECTION.TOP_LEFT
+            elif self.down_key_down:
+                player_move_dir = MOVE_DIRECTION.BOTTOM_LEFT
+            else:
+                player_move_dir = MOVE_DIRECTION.LEFT
+        elif self.right_key_down:
+            if self.up_key_down:
+                player_move_dir = MOVE_DIRECTION.TOP_RIGHT
+            elif self.down_key_down:
+                player_move_dir = MOVE_DIRECTION.BOTTOM_RIGHT
+            else:
+                player_move_dir = MOVE_DIRECTION.RIGHT
+        elif self.up_key_down:
+            player_move_dir = MOVE_DIRECTION.TOP
+        elif self.down_key_down:
+            player_move_dir = MOVE_DIRECTION.BOTTOM
+        else:
+            player_move_dir = MOVE_DIRECTION.IDLE
+
+        self.player.update(player_move_dir)
         self.check_collisions()
 
         Enemy.update()
@@ -166,26 +189,19 @@ class GameView(arcade.View):
     def on_key_press(self, key, modifiers):
         """Called whenever a key is pressed."""
 
-        # Left
         if key == arcade.key.LEFT or key == arcade.key.A:
             self.left_key_down = True
-            self.update_player_speed()
-
-        # Right
         elif key == arcade.key.RIGHT or key == arcade.key.D:
             self.right_key_down = True
-            self.update_player_speed()
-
-        # Space
+        elif key == arcade.key.UP or key == arcade.key.W:
+            self.up_key_down = True
+        elif key == arcade.key.DOWN or key == arcade.key.S:
+            self.down_key_down = True
         elif key == arcade.key.SPACE:
             self.space_down = True
             self.shoot_pressed = True
-
-        # E
         elif key == arcade.key.E:
             Enemy.spawn_enemy()
-
-        # T
         elif key == arcade.key.T:
             self.spawn_bg()
 
@@ -193,23 +209,15 @@ class GameView(arcade.View):
         """Called when the user releases a key."""
         if key == arcade.key.LEFT or key == arcade.key.A:
             self.left_key_down = False
-            self.update_player_speed()
         elif key == arcade.key.RIGHT or key == arcade.key.D:
             self.right_key_down = False
-            self.update_player_speed()
+        elif key == arcade.key.UP or key == arcade.key.W:
+            self.up_key_down = False
+        elif key == arcade.key.DOWN or key == arcade.key.S:
+            self.down_key_down = False
         elif key == arcade.key.SPACE:
             self.space_down = False
             self.shoot_pressed = False
-
-    def update_player_speed(self):
-        self.player.current_speed = 0
-
-        # D pressed
-        if self.left_key_down and not self.right_key_down:
-            self.player.current_speed = self.player.SPEED
-        # A pressed
-        elif self.right_key_down and not self.left_key_down:
-            self.player.current_speed = -self.player.SPEED
 
     def spawn_bg(self):
         # Create BG sprite
