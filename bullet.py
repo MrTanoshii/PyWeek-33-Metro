@@ -45,3 +45,6 @@ class Bullet(arcade.Sprite):
             # Delete bullets that are off-screen
             if bullet.center_x - bullet.width / 2 > SCREEN_WIDTH or bullet.center_y - bullet.height / 2 > SCREEN_HEIGHT:
                 cls.friendly_bullet_list.remove(bullet)
+
+    def despawn(self):
+        self.remove_from_sprite_lists()
