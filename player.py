@@ -1,7 +1,8 @@
 import arcade
-from constants import CHARACTER_SCALING, PLAYER_DEATH_HP, PLAYER_GUN_DAMAGE, PLAYER_GUN_RELOAD_TIME, PLAYER_GUN_SHOOT_SPEED, PLAYER_MAX_HP, PLAYER_START_HP, PLAYER_GUN_MAX_AMMO
+from constants import PLAYER_GUN_BULLET_SPEED, SPRITE_PLAYER_INIT_ANGLE, CHARACTER_SCALING, PLAYER_DEATH_HP, PLAYER_GUN_DAMAGE, PLAYER_GUN_RELOAD_TIME, PLAYER_GUN_SHOOT_SPEED, PLAYER_MAX_HP, PLAYER_START_HP, PLAYER_GUN_MAX_AMMO
 from bullet import Bullet
-import time
+import math
+from lib import calculate_angle
 
 
 class Player(arcade.Sprite):
@@ -29,6 +30,7 @@ class Player(arcade.Sprite):
         # Ammo
         self.max_ammo = PLAYER_GUN_MAX_AMMO
         self.cur_ammo = self.max_ammo
+        self.gun_bullet_speed = PLAYER_GUN_BULLET_SPEED
         self.reload_speed = PLAYER_GUN_RELOAD_TIME
         self.is_reloading = False
         self.reload_timer = 0
@@ -56,11 +58,21 @@ class Player(arcade.Sprite):
     def shoot(self, friendly_bullet_list):
         if not self.is_reloading and self.cur_ammo > 0:
             self.cur_ammo -= 1
-            bullet = Bullet("Detailed", 20, 0, damage_value=self.gun_damage)
+
+            # Calculate bullet speed
+            speed_x = self.gun_bullet_speed * \
+                math.cos(math.radians(self.angle + SPRITE_PLAYER_INIT_ANGLE))
+            speed_y = self.gun_bullet_speed * \
+                math.sin(math.radians(self.angle + SPRITE_PLAYER_INIT_ANGLE))
+
+            bullet = Bullet("Detailed", speed_x, speed_y,
+                            self.angle + SPRITE_PLAYER_INIT_ANGLE, self.gun_damage)
 
             # Set bullet location
-            bullet.center_x = self.center_x + self.width
-            bullet.center_y = self.center_y
+            bullet.center_x = self.center_x + \
+                (self.width * math.cos(math.radians(self.angle + SPRITE_PLAYER_INIT_ANGLE)))
+            bullet.center_y = self.center_y + \
+                (self.width * math.sin(math.radians(self.angle + SPRITE_PLAYER_INIT_ANGLE)))
 
             # Add to bullet sprite list
             friendly_bullet_list.append(bullet)
@@ -97,3 +109,13 @@ class Player(arcade.Sprite):
         # TO BE IMPROVED, player health resets
         self.cur_health = self.max_health
         print("You died.")
+
+    def follow_mouse(self, mouse_x: float, mouse_y: float):
+        """Handles player sprite angle rotation to follow mouse"""
+        new_angle = calculate_angle(
+            self.center_x, self.center_y, mouse_x, mouse_y)
+        if (mouse_x < self.center_x):
+            new_angle = new_angle + SPRITE_PLAYER_INIT_ANGLE
+        else:
+            new_angle = new_angle - SPRITE_PLAYER_INIT_ANGLE
+        self.angle = new_angle
