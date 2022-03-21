@@ -5,18 +5,21 @@ from bullet import Bullet
 
 class Player(arcade.Sprite):
     """ Player Sprite """
+
     def __init__(self, hit_box_algorithm):
-        self.current_speed = 0
-        self.SPEED = 3
         # Let parent initialize
         super().__init__()
+
+        self.current_speed = 0
+        self.SPEED = 3
 
         # Set our scale
         self.scale = CHARACTER_SCALING
 
         # load player texture
         base_path = "resources/images/"
-        self.idle_texture_pair = arcade.load_texture_pair(f"{base_path}car.png", hit_box_algorithm=hit_box_algorithm)
+        self.idle_texture_pair = arcade.load_texture_pair(
+            f"{base_path}car.png", hit_box_algorithm=hit_box_algorithm)
 
         # Set the initial texture
         self.texture = self.idle_texture_pair[0]
