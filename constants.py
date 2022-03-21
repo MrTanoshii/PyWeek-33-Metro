@@ -72,3 +72,7 @@ class MOVE_DIRECTION:
     TOP = 6
     TOP_LEFT = 7
     IDLE = 8
+
+
+# Speed
+SPEED_SCROLLING = -10
