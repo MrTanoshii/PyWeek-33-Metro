@@ -9,13 +9,19 @@ class Bullet(arcade.Sprite):
     friendly_bullet_list = arcade.SpriteList()
     enemy_bullet_list = arcade.SpriteList()
 
-    def __init__(self, hit_box_algorithm):
+    def __init__(self, hit_box_algorithm, speed_x, speed_y, angle=0):
         # Let parent initialize
         super().__init__()
 
-        self.current_speed = 0
-        self.SPEED = 20
+        # Speed
+        self.speed_x = speed_x
+        self.speed_y = speed_y
+
+        # Damage
         self.damage_value = 2
+
+        # Angle
+        self.angle = angle
 
         # Set our scale
         self.scale = BULLET_SCALING

@@ -40,7 +40,7 @@ class Player(arcade.Sprite):
         self.audio_hit = arcade.load_sound(f"{base_path}audio/enemy_hit.wav")
 
     def shoot(self, friendly_bullet_list):
-        bullet = Bullet(hit_box_algorithm="Detailed")
+        bullet = Bullet("Detailed", 20, 0)
 
         # Set bullet location
         bullet.center_x = self.center_x + self.width

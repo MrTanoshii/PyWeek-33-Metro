@@ -193,7 +193,8 @@ class GameView(arcade.View):
         # Check friendly bullet collisions
         for bullet in Bullet.friendly_bullet_list:
             # Move all Bullets Forwards
-            bullet.center_x += bullet.SPEED
+            bullet.center_x += bullet.speed_x
+            bullet.center_y += bullet.speed_y
 
             """ Collision """
             # Add enemy to list, if collided with bullet
@@ -222,7 +223,8 @@ class GameView(arcade.View):
         # Check enemy bullet collisions
         for bullet in Bullet.enemy_bullet_list:
             # Move all Bullets Forwards
-            bullet.center_x += bullet.SPEED
+            bullet.center_x += bullet.speed_x
+            bullet.center_y += bullet.speed_y
 
             # Loop through each coin we hit (if any) and remove it
             if arcade.check_for_collision(self.player, bullet):

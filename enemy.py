@@ -45,7 +45,7 @@ class Enemy(arcade.Sprite):
             random.uniform(-SCREEN_HEIGHT/3.25, SCREEN_HEIGHT/3.25)
 
         # Turn the enemy 90 degree
-        enemy.angle = -90
+        enemy.angle = 90
 
         # Add to player sprite list
         cls.enemy_list.append(enemy)
@@ -64,7 +64,7 @@ class Enemy(arcade.Sprite):
 
     def shoot(self, enemy_bullet_list):
         """Handle Enemy shooting"""
-        bullet = Bullet(hit_box_algorithm="Detailed")
+        bullet = Bullet("Detailed", -20, 0, 180)
 
         # Set bullet location
         bullet.center_x = self.center_x + self.width
