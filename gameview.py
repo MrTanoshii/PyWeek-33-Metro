@@ -103,7 +103,7 @@ class GameView(arcade.View):
     # Run every tick
     # TODO: How to limit fps? Does computing power affect the speed?
 
-    def on_update(self, delta_time: float):
+    def on_update(self, delta_time):
         if random.randint(0, 200) == 1:
             self.spawn_bg()
             Enemy.spawn_enemy()
