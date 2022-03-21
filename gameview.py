@@ -38,7 +38,7 @@ class GameView1(arcade.View):
         self.space_down = False
 
         # GUI
-        self.score = Score()
+        self.tracker = Tracker()
         self.gui_camera = None
 
         self.setup_complete = False
