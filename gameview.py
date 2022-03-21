@@ -1,3 +1,6 @@
+from constants import SCREEN_WIDTH, SCREEN_HEIGHT, SPRITE_PLAYER_INIT_ANGLE
+from constants import SCREEN_WIDTH, SCREEN_HEIGHT, level1, SPRITE_PLAYER_INIT_ANGLE, MOVE_DIRECTION
+from webbrowser import BackgroundBrowser
 from bullet import Bullet
 from bg import BackGround
 from player import Player
@@ -6,7 +9,9 @@ from gold import Gold
 
 import arcade
 import random
-from constants import SCREEN_WIDTH, SCREEN_HEIGHT, level1, SPRITE_PLAYER_INIT_ANGLE, MOVE_DIRECTION
+<< << << < HEAD
+== == == =
+>>>>>> > e312f0e(refactor: bg spawn & update handled by class)
 
 
 class GameView(arcade.View):
@@ -21,7 +26,6 @@ class GameView(arcade.View):
         # These are 'lists' that keep track of our sprites. Each sprite should
         # go into a list.
         self.player_list = arcade.SpriteList()
-        self.bg_list = arcade.SpriteList()
 
         # Separate variable that holds the player sprite
         self.player = None
@@ -67,7 +71,7 @@ class GameView(arcade.View):
         self.bg = BackGround()
         self.bg.center_x = self.bg.width/2
         self.bg.center_y = SCREEN_HEIGHT/2
-        self.bg_list.append(self.bg)
+        BackGround.bg_list.append(self.bg)
 
     def on_draw(self):
         """Render the screen."""
@@ -76,7 +80,7 @@ class GameView(arcade.View):
         self.clear()
 
         # Draw our sprites
-        self.bg_list.draw()
+        BackGround.bg_list.draw()
         Gold.gold_list.draw()
         self.player_list.draw()
         Enemy.enemy_list.draw()
@@ -118,17 +122,10 @@ class GameView(arcade.View):
 
     def on_update(self, delta_time):
         if random.randint(0, 200) == 1:
-            self.spawn_bg()
+            BackGround.spawn()
             Enemy.spawn_enemy()
 
-        for bg in self.bg_list:
-            bg.center_x += bg.speed
-            if bg.asset == "bg-1.png":
-                if bg.center_x - bg.width / 2 < - 220 - bg.speed:
-                    bg.center_x = bg.width/2
-            else:
-                if bg.center_x + bg.width < 0:
-                    bg.remove_from_sprite_lists()
+        BackGround.update(delta_time)
 
         player_move_dir = None
         if self.left_key_down:
@@ -201,7 +198,7 @@ class GameView(arcade.View):
         elif key == arcade.key.E:
             Enemy.spawn_enemy()
         elif key == arcade.key.T:
-            self.spawn_bg()
+            BackGround.spawn()
 
     def on_key_release(self, key, modifiers):
         """Called when the user releases a key."""
