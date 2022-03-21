@@ -1,6 +1,5 @@
 import arcade
 from constants import BULLET_SCALING, SCREEN_WIDTH, SCREEN_HEIGHT
-# from enemy import Enemy
 
 
 class Bullet(arcade.Sprite):
