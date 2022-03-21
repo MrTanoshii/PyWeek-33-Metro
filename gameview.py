@@ -120,9 +120,9 @@ class GameView(arcade.View):
             Enemy.spawn_enemy()
 
         for bg in self.bg_list:
-            bg.center_x += bg.SPEED
+            bg.center_x += bg.speed
             if bg.asset == "bg-1.png":
-                if bg.center_x - bg.width / 2 < - 220 - bg.SPEED:
+                if bg.center_x - bg.width / 2 < - 220 - bg.speed:
                     bg.center_x = bg.width/2
             else:
                 if bg.center_x + bg.width < 0:
