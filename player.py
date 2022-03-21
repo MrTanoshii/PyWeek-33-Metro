@@ -40,11 +40,11 @@ class Player(arcade.Sprite):
 
         # load player texture
         base_path = "resources/"
-        self.idle_texture_pair = arcade.load_texture_pair(
+        self.idle_texture = arcade.load_texture(
             f"{base_path}images/car.png", hit_box_algorithm=hit_box_algorithm)
 
         # Set the initial texture
-        self.texture = self.idle_texture_pair[0]
+        self.texture = self.idle_texture
 
         # Hit box will be set based on the first image used.
         self.hit_box = self.texture.hit_box_points
