@@ -9,6 +9,8 @@ from gold import Gold
 class Enemy(arcade.Sprite):
     enemy_list = arcade.SpriteList()
 
+    audio_volume = MASTER_VOLUME
+
     """ Player Sprite """
 
     def __init__(self, hit_box_algorithm):
@@ -33,7 +35,6 @@ class Enemy(arcade.Sprite):
         self.audio_destroyed = arcade.load_sound(
             f"{base_path}audio/enemy_destroyed.wav")
         self.audio_hit = arcade.load_sound(f"{base_path}audio/enemy_hit.wav")
-        self.audio_volume = AUDIO_VOLUME
 
         # Set the initial texture
         self.texture = self.idle_texture

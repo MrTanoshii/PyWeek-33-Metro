@@ -1,5 +1,5 @@
 import arcade
-from constants import BULLET_SCALING, SCREEN_WIDTH, SCREEN_HEIGHT
+from constants import BULLET_SCALING, SCREEN_WIDTH, SCREEN_HEIGHT, MASTER_VOLUME
 
 
 class Bullet(arcade.Sprite):
@@ -7,6 +7,8 @@ class Bullet(arcade.Sprite):
 
     friendly_bullet_list = arcade.SpriteList()
     enemy_bullet_list = arcade.SpriteList()
+
+    audio_volume = MASTER_VOLUME
 
     def __init__(self, hit_box_algorithm, speed_x, speed_y, angle=0, damage_value=1):
         # Let parent initialize
