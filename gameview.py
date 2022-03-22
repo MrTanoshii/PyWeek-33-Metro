@@ -68,6 +68,9 @@ class GameView(arcade.View):
         BackGround.bg_list.append(self.bg)
         self.setup_complete = True
 
+        # Preload enemy
+        Enemy.preload()
+
     def on_draw(self):
         """Render the screen."""
 
@@ -121,9 +124,6 @@ class GameView(arcade.View):
             font_size=30,
             anchor_x="center",
         )
-
-    # Run every tick
-    # TODO: How to limit fps? Does computing power affect the speed?
 
     def on_update(self, delta_time):
         if random.randint(0, 200) == 1:

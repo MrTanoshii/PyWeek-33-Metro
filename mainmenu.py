@@ -2,6 +2,7 @@ import arcade
 import mapview
 import constants as C
 
+
 class MainMenu(arcade.View):
     """Class that manages the 'menu' view."""
 
