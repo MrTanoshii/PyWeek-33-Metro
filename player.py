@@ -83,7 +83,7 @@ class Player(arcade.Sprite):
                 math.sin(math.radians(self.gun_angle +
                          C.WEAPON_INIT_ANGLE))
 
-            bullet = Bullet("Detailed", speed_x, speed_y,
+            bullet = Bullet("Simple", speed_x, speed_y,
                             self.gun_angle + C.WEAPON_INIT_ANGLE, self.gun_damage)
 
             # Set bullet location

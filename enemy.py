@@ -45,7 +45,7 @@ class Enemy(arcade.Sprite):
 
     @classmethod
     def spawn_enemy(cls):
-        enemy = Enemy(hit_box_algorithm="Detailed")
+        enemy = Enemy(hit_box_algorithm="Simple")
 
         # Set enemy location
         enemy.center_x = SCREEN_WIDTH + enemy.width
@@ -75,9 +75,15 @@ class Enemy(arcade.Sprite):
             if enemy.center_x + enemy.width < 0:
                 cls.despawn(enemy, DEATH.OOB)
 
+    @classmethod
+    def preload(cls):
+        Enemy.spawn_enemy()
+
+        cls.enemy_list = arcade.SpriteList()
+
     def shoot(self, enemy_bullet_list):
         """Handle Enemy shooting"""
-        bullet = Bullet("Detailed", -20, 0, 180)
+        bullet = Bullet("Simple", -20, 0, 180)
 
         # Set bullet location
         bullet.center_x = self.center_x + self.width
