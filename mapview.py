@@ -1,8 +1,5 @@
 import constants as C
 import gameview
-from constants import SCREEN_WIDTH, SCREEN_HEIGHT, CENTER_POINTS, LIST1
-import constants
-from constants import SCREEN_WIDTH, SCREEN_HEIGHT, CENTER_POINTS
 import arcade
 
 
@@ -38,23 +35,20 @@ class MapView(arcade.View):
         self.background = arcade.load_texture(
             "resources/images/pixel_map.png")
         self.cursor_sprite = arcade.Sprite(
-            ":resources:images/animated_characters/female_person/femalePerson_idle.png", 0.5)
+            "resources/images/goat_cursor.png", 0.05)
 
-        self.cursor_sprite.center_x = 50
-        self.cursor_sprite.center_y = 50
         self.player_list.append(self.cursor_sprite)
         self.load_monuments()
 
     def load_monuments(self):
         """Loads map monuments onto map"""
-        for monument in constants.MAP_MONUMENTS:
-            monument_sprite = arcade.Sprite(
-                "resources/images/" +
-                constants.MAP_MONUMENTS[monument]["img_name"],
-                constants.MAP_MONUMENTS[monument]["scale"])
-            monument_sprite.center_x = constants.MAP_MONUMENTS[monument]["center_x"]
-            monument_sprite.center_y = constants.MAP_MONUMENTS[monument]["center_y"]
-            self.monument_list.append(monument_sprite)
+        for mon_dict in C.MAP_MONUMENTS_LIST:
+            monument = arcade.Sprite(
+                "resources/images/" + mon_dict["img_name"],
+                mon_dict["scale"])
+            monument.center_x = mon_dict["center_x"]
+            monument.center_y = mon_dict["center_y"]
+            self.monument_list.append(monument)
 
     def on_draw(self):
         """Render the screen."""

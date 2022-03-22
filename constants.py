@@ -7,21 +7,22 @@ SCREEN_WIDTH = 1280
 SCREEN_HEIGHT = 720
 SCREEN_TITLE = "REVƎЯ"
 
-MAP_MONUMENTS = {
-    "EGYPT": {
+MAP_MONUMENTS_LIST = [
+    {
+        "name": "EGYPT",
         "img_name": "pyramids.jpeg",
         "scale": .5,
         "center_x": 700,
         "center_y": 450
     },
-    "INDIA": {
+    {
+        "name": "INDIA",
         "img_name": "taj_mahal.jpeg",
         "scale": .5,
         "center_x": 900,
         "center_y": 450
     }
-}
-
+]
 # Scaling
 CHARACTER_SCALING = 1
 BULLET_SCALING = 0.15
