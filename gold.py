@@ -8,6 +8,8 @@ class Gold(arcade.Sprite):
 
     gold_list = arcade.SpriteList()
 
+    audio_volume = MASTER_VOLUME
+
     def __init__(self, hit_box_algorithm="Detailed"):
         # Let parent initialize
         super().__init__()
@@ -22,7 +24,6 @@ class Gold(arcade.Sprite):
 
         # Load sfx
         self.pick_up = arcade.load_sound(f"{base_path}sounds/coin1.wav")
-        self.audio_volume = MASTER_VOLUME
 
         # Speed
         self.speed = SPEED_SCROLLING
