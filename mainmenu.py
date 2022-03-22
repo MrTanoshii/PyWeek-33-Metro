@@ -1,5 +1,4 @@
 import arcade
-import gameview
 import mapview
 from constants import SCREEN_WIDTH, SCREEN_HEIGHT, MENU_FONT_SIZE, MENU_BACKGROUND_COLOR
 

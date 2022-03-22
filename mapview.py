@@ -1,5 +1,5 @@
 import arcade
-from constants import SCREEN_WIDTH, SCREEN_HEIGHT, CENTER_POINTS, LIST1
+from constants import SCREEN_WIDTH, SCREEN_HEIGHT, CENTER_POINTS
 import gameview
 
 
