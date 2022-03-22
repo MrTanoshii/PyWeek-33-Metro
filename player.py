@@ -3,6 +3,7 @@ import constants as C
 from bullet import Bullet
 import math
 from lib import calculate_angle
+from weapon import Weapon
 
 
 class Player(arcade.Sprite):
@@ -70,19 +71,21 @@ class Player(arcade.Sprite):
             # Calculate bullet speed
             speed_x = self.gun_bullet_speed * \
                 math.cos(math.radians(self.gun_angle +
-                         C.SPRITE_PLAYER_INIT_ANGLE))
+                         C.WEAPON_INIT_ANGLE))
             speed_y = self.gun_bullet_speed * \
                 math.sin(math.radians(self.gun_angle +
-                         C.SPRITE_PLAYER_INIT_ANGLE))
+                         C.WEAPON_INIT_ANGLE))
 
             bullet = Bullet("Detailed", speed_x, speed_y,
-                            self.gun_angle + C.SPRITE_PLAYER_INIT_ANGLE, self.gun_damage)
+                            self.gun_angle + C.WEAPON_INIT_ANGLE, self.gun_damage)
 
             # Set bullet location
             bullet.center_x = self.center_x + \
-                (self.width * math.cos(math.radians(self.gun_angle + C.SPRITE_PLAYER_INIT_ANGLE)))
+                (self.width / 2 *
+                 math.cos(math.radians(self.gun_angle + C.WEAPON_INIT_ANGLE)))
             bullet.center_y = self.center_y + \
-                (self.width * math.sin(math.radians(self.gun_angle + C.SPRITE_PLAYER_INIT_ANGLE)))
+                (self.height / 2 *
+                 math.sin(math.radians(self.gun_angle + C.WEAPON_INIT_ANGLE)))
 
             # Add to bullet sprite list
             friendly_bullet_list.append(bullet)
@@ -125,9 +128,9 @@ class Player(arcade.Sprite):
         new_angle = calculate_angle(
             self.center_x, self.center_y, mouse_x, mouse_y)
         if mouse_x < self.center_x:
-            new_angle = new_angle + C.SPRITE_PLAYER_INIT_ANGLE
+            new_angle = new_angle + C.WEAPON_INIT_ANGLE
         else:
-            new_angle = new_angle - C.SPRITE_PLAYER_INIT_ANGLE
+            new_angle = new_angle - C.WEAPON_INIT_ANGLE
         self.gun_angle = new_angle
 
     def on_mouse_motion(self, x, y, dx, dy):
