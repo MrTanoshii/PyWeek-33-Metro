@@ -9,7 +9,8 @@ from settings import Settings
 import arcade
 import mapview
 import random
-from constants import SCREEN_WIDTH, SCREEN_HEIGHT, SPRITE_PLAYER_INIT_ANGLE, DEATH
+from constants import GAME_BACKGROUND_COLOR, SCREEN_WIDTH, SCREEN_HEIGHT, level1, SPRITE_PLAYER_INIT_ANGLE
+import pause_menu_view
 
 
 class GameView1(arcade.View):
@@ -24,10 +25,19 @@ class GameView1(arcade.View):
         # These are 'lists' that keep track of our sprites. Each sprite should
         # go into a list.
         self.player_list = arcade.SpriteList()
+        self.bg_list = arcade.SpriteList()
 
         # Separate variable that holds the player sprite
-        self.player = None
+        self.player = Player(hit_box_algorithm="Detailed")
+        self.player.center_x = SCREEN_WIDTH * .1
+        self.player.center_y = SCREEN_HEIGHT * .5
+        self.player.angle = SPRITE_PLAYER_INIT_ANGLE
+        self.player_list.append(self.player)
         self.bg = None
+        self.bg = BackGround()
+        self.bg.center_x = self.bg.width/2
+        self.bg.center_y = SCREEN_HEIGHT/2
+        self.bg_list.append(self.bg)
 
         # What key is pressed down?
         self.left_key_down = False
@@ -42,37 +52,21 @@ class GameView1(arcade.View):
         # Player shoot
         self.shoot_pressed = False
 
-        arcade.set_background_color(arcade.csscolor.DARK_GREEN)
-
     def setup(self):
         """ Set up everything with the game """
 
-        # self.gui_camera = arcade.Camera(self.window.width, self.window.height)
-
-        # Create player sprite
-        self.player = Player(hit_box_algorithm="Detailed")
-
-        # Set player location
-        self.player.center_x = SCREEN_WIDTH * .1
-        self.player.center_y = SCREEN_HEIGHT * .5
-
-        # Rotate player to face to the right
-        self.player.angle = SPRITE_PLAYER_INIT_ANGLE
-
-        # Add to player sprite list
-        self.player_list.append(self.player)
-
-        # Create BG sprite
-        self.bg = BackGround()
-        self.bg.center_x = self.bg.width/2
-        self.bg.center_y = SCREEN_HEIGHT/2
-        BackGround.bg_list.append(self.bg)
+        self.left_key_down = False
+        self.right_key_down = False
+        self.space_down = False
+        self.shoot_pressed = False
 
     def on_draw(self):
         """Render the screen."""
 
         # Clear the screen to the background color
         self.clear()
+
+        arcade.set_background_color(GAME_BACKGROUND_COLOR)
 
         # Draw our sprites
         BackGround.bg_list.draw()
@@ -199,7 +193,9 @@ class GameView1(arcade.View):
         elif key == arcade.key.ESCAPE:
             #game_view = mapview.MapView()
             self.window.show_view(mapview.MapView())
-            
+
+        elif key == arcade.key.ESCAPE:
+            self.window.show_view(pause_menu_view.PauseMenuView(self))
 
     def on_key_release(self, key, modifiers):
         """Called when the user releases a key."""
@@ -250,11 +246,13 @@ class GameView1(arcade.View):
                 if enemy.HP <= 0:
                     Enemy.despawn(enemy, DEATH.KILLED)
                     # Play a sound
-                    arcade.play_sound(enemy.audio_destroyed, volume=enemy.audio_volume)
+                    arcade.play_sound(enemy.audio_destroyed,
+                                      volume=enemy.audio_volume)
                     Tracker.increment_score(10)
                 else:
                     # Play a sound
-                    arcade.play_sound(enemy.audio_hit, volume=enemy.audio_volume)
+                    arcade.play_sound(
+                        enemy.audio_hit, volume=enemy.audio_volume)
         # Check enemy bullet collisions
         for bullet in Bullet.enemy_bullet_list:
             # Move all Bullets Forwards
@@ -282,6 +280,8 @@ class GameView1(arcade.View):
         self.setup()
 
 # DUMMY Game View Map2 India Can be implemented in Single Game View itself using Scene
+
+
 class GameView2(arcade.View):
     """
     Main application class.
@@ -467,7 +467,7 @@ class GameView2(arcade.View):
             Settings.master_volume_toggle()
 
         elif key == arcade.key.ESCAPE:
-            
+
             self.window.show_view(mapview.MapView())
 
     def on_key_release(self, key, modifiers):
@@ -519,11 +519,13 @@ class GameView2(arcade.View):
                 if enemy.HP <= 0:
                     Enemy.despawn(enemy, DEATH.KILLED)
                     # Play a sound
-                    arcade.play_sound(enemy.audio_destroyed, volume=enemy.audio_volume)
+                    arcade.play_sound(enemy.audio_destroyed,
+                                      volume=enemy.audio_volume)
                     Tracker.increment_score(10)
                 else:
                     # Play a sound
-                    arcade.play_sound(enemy.audio_hit, volume=enemy.audio_volume)
+                    arcade.play_sound(
+                        enemy.audio_hit, volume=enemy.audio_volume)
         # Check enemy bullet collisions
         for bullet in Bullet.enemy_bullet_list:
             # Move all Bullets Forwards
