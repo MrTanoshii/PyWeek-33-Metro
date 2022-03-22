@@ -35,6 +35,7 @@ class Enemy(arcade.Sprite):
         self.audio_destroyed = arcade.load_sound(
             f"{base_path}audio/enemy_destroyed.wav")
         self.audio_hit = arcade.load_sound(f"{base_path}audio/enemy_hit.wav")
+        self.audio_volume = MASTER_VOLUME
 
         # Set the initial texture
         self.texture = self.idle_texture

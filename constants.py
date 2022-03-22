@@ -72,3 +72,38 @@ MENU_FONT_SIZE = 30
 
 # Game View
 GAME_BACKGROUND_COLOR = arcade.csscolor.DARK_GREEN
+
+
+class MOVE_DIRECTION:
+    LEFT = 0
+    BOTTOM_LEFT = 1
+    BOTTOM = 2
+    BOTTOM_RIGHT = 3
+    RIGHT = 4
+    TOP_RIGHT = 5
+    TOP = 6
+    TOP_LEFT = 7
+    IDLE = 8
+
+
+# Speed
+SPEED_SCROLLING = -10
+SPEED_PLAYER = 8
+
+
+class DEATH:
+    """ Reasons for death/despawn """
+    OOB = 0
+    COLLISION = 1
+    KILLED = 2
+    PICKED_UP = 3
+
+
+# Audio
+MASTER_VOLUME = 0.1
+# Menu
+MENU_BACKGROUND_COLOR = arcade.csscolor.DIM_GREY
+MENU_FONT_SIZE = 30
+
+# Game View
+GAME_BACKGROUND_COLOR = arcade.csscolor.DARK_GREEN
