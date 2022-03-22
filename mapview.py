@@ -82,8 +82,11 @@ class MapView(arcade.View):
 
     def on_mouse_press(self, x, y, button, modifiers):
         p = self.cursor_sprite.collides_with_list(self.monument_list)
-        for location in p:
-            self.window.show_view(gameview.GameView())
+        if p:
+            for location in p:
+                game = gameview.GameView()
+                game.setup()
+                self.window.show_view(game)
 
 
 # Make center points as dictionary and call out other views mostly
