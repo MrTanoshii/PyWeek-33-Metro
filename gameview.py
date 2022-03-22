@@ -1,11 +1,15 @@
+from webbrowser import BackgroundBrowser
 from bullet import Bullet
 from bg import BackGround
 from player import Player
 from enemy import Enemy
+from gold import Gold
+from tracker import Tracker
+from settings import Settings
 
 import arcade
 import random
-from constants import SCREEN_WIDTH, SCREEN_HEIGHT, level1, SPRITE_PLAYER_INIT_ANGLE
+from constants import SCREEN_WIDTH, SCREEN_HEIGHT, SPRITE_PLAYER_INIT_ANGLE, DEATH
 
 
 class GameView(arcade.View):
@@ -19,8 +23,7 @@ class GameView(arcade.View):
 
         # These are 'lists' that keep track of our sprites. Each sprite should
         # go into a list.
-        self.player_list = None
-        self.bg_list = None
+        self.player_list = arcade.SpriteList()
 
         # Separate variable that holds the player sprite
         self.player = None
@@ -32,7 +35,6 @@ class GameView(arcade.View):
         self.space_down = False
 
         # GUI
-        self.score = 0
         self.gui_camera = None
 
         self.setup_complete = False
@@ -46,10 +48,6 @@ class GameView(arcade.View):
         """ Set up everything with the game """
 
         # self.gui_camera = arcade.Camera(self.window.width, self.window.height)
-
-        # Create the sprite lists
-        self.player_list = arcade.SpriteList()
-        self.bg_list = arcade.SpriteList()
 
         # Create player sprite
         self.player = Player(hit_box_algorithm="Detailed")
@@ -68,7 +66,7 @@ class GameView(arcade.View):
         self.bg = BackGround()
         self.bg.center_x = self.bg.width/2
         self.bg.center_y = SCREEN_HEIGHT/2
-        self.bg_list.append(self.bg)
+        BackGround.bg_list.append(self.bg)
 
     def on_draw(self):
         """Render the screen."""
@@ -77,7 +75,8 @@ class GameView(arcade.View):
         self.clear()
 
         # Draw our sprites
-        self.bg_list.draw()
+        BackGround.bg_list.draw()
+        Gold.gold_list.draw()
         self.player_list.draw()
         Enemy.enemy_list.draw()
         Bullet.friendly_bullet_list.draw()
@@ -85,9 +84,19 @@ class GameView(arcade.View):
 
         # GUI - Score
         arcade.draw_text(
-            f"Score : {self.score}",
+            f"Score : {Tracker.score}",
             SCREEN_WIDTH / 5,
             SCREEN_HEIGHT - 50,
+            arcade.color.BLACK,
+            font_size=30,
+            anchor_x="center",
+        )
+
+        # GUI - Gold
+        arcade.draw_text(
+            f"Gold : {Tracker.gold}",
+            SCREEN_WIDTH / 5,
+            SCREEN_HEIGHT - 150,
             arcade.color.BLACK,
             font_size=30,
             anchor_x="center",
@@ -118,17 +127,11 @@ class GameView(arcade.View):
 
     def on_update(self, delta_time):
         if random.randint(0, 200) == 1:
-            self.spawn_bg()
+            BackGround.spawn()
             Enemy.spawn_enemy()
 
-        for bg in self.bg_list:
-            bg.center_x += bg.SPEED
-            if bg.asset == "bg-1.png":
-                if bg.center_x - bg.width / 2 < - 220 - bg.SPEED:
-                    bg.center_x = bg.width/2
-            else:
-                if bg.center_x + bg.width < 0:
-                    bg.remove_from_sprite_lists()
+        BackGround.update(delta_time)
+        Gold.update(delta_time)
 
         # MOVE PLAYER: Add player y coordinate the current speed
         self.player.center_y += self.player.current_speed
@@ -187,7 +190,11 @@ class GameView(arcade.View):
 
         # T
         elif key == arcade.key.T:
-            self.spawn_bg()
+            BackGround.spawn()
+
+        # M
+        elif key == arcade.key.M:
+            Settings.master_volume_toggle()
 
     def on_key_release(self, key, modifiers):
         """Called when the user releases a key."""
@@ -206,23 +213,10 @@ class GameView(arcade.View):
 
         # D pressed
         if self.left_key_down and not self.right_key_down:
-            self.player.current_speed = self.player.SPEED
+            self.player.current_speed = self.player.speed
         # A pressed
         elif self.right_key_down and not self.left_key_down:
-            self.player.current_speed = -self.player.SPEED
-
-    def spawn_bg(self):
-        # Create BG sprite
-        assets = level1.assets
-        self.bg = BackGround(asset=random.choice(
-            assets), size=random.uniform(.9, 1.1))
-        self.bg.center_x = SCREEN_WIDTH + self.bg.width / 2
-        if random.randint(0, 1) == 1:
-            self.bg.center_y = SCREEN_HEIGHT + \
-                self.bg.height / 2 - random.uniform(50, 75)
-        else:
-            self.bg.center_y = self.bg.height / 2 + random.uniform(-50, 50)
-        self.bg_list.append(self.bg)
+            self.player.current_speed = -self.player.speed
 
     def check_collisions(self):
         """Check for collisions and calculate score"""
@@ -239,23 +233,23 @@ class GameView(arcade.View):
             )
 
             # Loop through each enemy we hit (if any) and remove it
-            for _enemy in enemy_hit_list:
+            for enemy in enemy_hit_list:
 
                 # Remove bullet damage from enemy HP
-                _enemy.HP -= bullet.damage_value
+                enemy.HP -= bullet.damage_value
 
                 # Remove bullet
-                bullet.remove_from_sprite_lists()
+                Bullet.despawn(bullet)
 
                 # if HP 0, destroy enemy
-                if _enemy.HP <= 0:
-                    _enemy.remove_from_sprite_lists()
+                if enemy.HP <= 0:
+                    Enemy.despawn(enemy, DEATH.KILLED)
                     # Play a sound
-                    arcade.play_sound(_enemy.audio_destroyed)
-                    self.score += 1
+                    arcade.play_sound(enemy.audio_destroyed, volume=enemy.audio_volume)
+                    Tracker.increment_score(10)
                 else:
                     # Play a sound
-                    arcade.play_sound(_enemy.audio_hit)
+                    arcade.play_sound(enemy.audio_hit, volume=enemy.audio_volume)
         # Check enemy bullet collisions
         for bullet in Bullet.enemy_bullet_list:
             # Move all Bullets Forwards
@@ -267,14 +261,17 @@ class GameView(arcade.View):
                 # Apply damage to player
                 self.player.take_damage(bullet)
                 # Remove bullet
-                bullet.remove_from_sprite_lists()
+                Bullet.despawn(bullet)
         # Check enemy collision with player
-        enemy_collision_list = arcade.check_for_collision_with_list(
-            self.player, Enemy.enemy_list)
-        for enemy in enemy_collision_list:
-            enemy.remove_from_sprite_lists()
-            arcade.play_sound(enemy.audio_destroyed)
+        for enemy in arcade.check_for_collision_with_list(
+                self.player, Enemy.enemy_list):
+            Enemy.despawn(enemy, DEATH.COLLISION)
+            arcade.play_sound(enemy.audio_destroyed, volume=enemy.audio_volume)
             self.player.take_damage(enemy)
+        # Check gold collision with player
+        for gold in arcade.check_for_collision_with_list(self.player, Gold.gold_list):
+            Gold.despawn(gold, DEATH.PICKED_UP)
+            arcade.play_sound(gold.pick_up, volume=gold.audio_volume)
 
     def on_show(self):
         self.setup()

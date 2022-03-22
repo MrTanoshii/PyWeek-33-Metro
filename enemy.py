@@ -1,11 +1,15 @@
 import arcade
-from constants import ENEMY_SCALING, SCREEN_WIDTH, SCREEN_HEIGHT
+from constants import ENEMY_SCALING, SCREEN_WIDTH, SCREEN_HEIGHT, DEATH
+from constants import MASTER_VOLUME
 import random
 from bullet import Bullet
+from gold import Gold
 
 
 class Enemy(arcade.Sprite):
     enemy_list = arcade.SpriteList()
+
+    audio_volume = MASTER_VOLUME
 
     """ Player Sprite """
 
@@ -25,15 +29,15 @@ class Enemy(arcade.Sprite):
 
         # load player texture
         base_path = "resources/"
-        self.idle_texture_pair = arcade.load_texture_pair(
-            f"{base_path}images/enemy.png", hit_box_algorithm=hit_box_algorithm)
+        self.idle_texture = arcade.load_texture(
+            f"{base_path}images/tank_enemy.png", hit_box_algorithm=hit_box_algorithm)
         # Load sounds
         self.audio_destroyed = arcade.load_sound(
             f"{base_path}audio/enemy_destroyed.wav")
         self.audio_hit = arcade.load_sound(f"{base_path}audio/enemy_hit.wav")
 
         # Set the initial texture
-        self.texture = self.idle_texture_pair[0]
+        self.texture = self.idle_texture
 
         # Hit box will be set based on the first image used.
         self.hit_box = self.texture.hit_box_points
@@ -42,16 +46,21 @@ class Enemy(arcade.Sprite):
     def spawn_enemy(cls):
         enemy = Enemy(hit_box_algorithm="Detailed")
 
-        # Set bullet location
+        # Set enemy location
         enemy.center_x = SCREEN_WIDTH + enemy.width
         enemy.center_y = SCREEN_HEIGHT // 2 + \
             random.uniform(-SCREEN_HEIGHT/3.25, SCREEN_HEIGHT/3.25)
 
         # Turn the enemy 90 degree
-        enemy.angle = 90
+        enemy.angle = 0
 
         # Add to player sprite list
         cls.enemy_list.append(enemy)
+
+    def despawn(self, death):
+        if death == DEATH.KILLED:
+            Gold.spawn(self.center_x, self.center_y)
+        self.remove_from_sprite_lists()
 
     @classmethod
     def update(cls):
@@ -63,7 +72,7 @@ class Enemy(arcade.Sprite):
 
             # Check if enemy is in view, if not delete it
             if enemy.center_x + enemy.width < 0:
-                enemy.remove_from_sprite_lists()
+                cls.despawn(enemy, DEATH.OOB)
 
     def shoot(self, enemy_bullet_list):
         """Handle Enemy shooting"""

@@ -1,6 +1,5 @@
 import arcade
-from constants import BULLET_SCALING, SCREEN_WIDTH, SCREEN_HEIGHT
-# from enemy import Enemy
+from constants import BULLET_SCALING, SCREEN_WIDTH, SCREEN_HEIGHT, MASTER_VOLUME
 
 
 class Bullet(arcade.Sprite):
@@ -8,6 +7,8 @@ class Bullet(arcade.Sprite):
 
     friendly_bullet_list = arcade.SpriteList()
     enemy_bullet_list = arcade.SpriteList()
+
+    audio_volume = MASTER_VOLUME
 
     def __init__(self, hit_box_algorithm, speed_x, speed_y, angle=0, damage_value=1):
         # Let parent initialize
@@ -28,13 +29,13 @@ class Bullet(arcade.Sprite):
 
         # load player texture
         base_path = "resources/"
-        self.idle_texture_pair = arcade.load_texture_pair(
+        self.idle_texture = arcade.load_texture(
             f"{base_path}images/bullet.png", hit_box_algorithm=hit_box_algorithm)
         # Load sounds
         self.audio_gunshot = arcade.load_sound(f"{base_path}audio/gunshot.wav")
 
         # Set the initial texture
-        self.texture = self.idle_texture_pair[0]
+        self.texture = self.idle_texture
 
         # Hit box will be set based on the first image used.
         self.hit_box = self.texture.hit_box_points
@@ -46,3 +47,6 @@ class Bullet(arcade.Sprite):
             # Delete bullets that are off-screen
             if bullet.center_x - bullet.width / 2 > SCREEN_WIDTH or bullet.center_y - bullet.height / 2 > SCREEN_HEIGHT:
                 cls.friendly_bullet_list.remove(bullet)
+
+    def despawn(self):
+        self.remove_from_sprite_lists()

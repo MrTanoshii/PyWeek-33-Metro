@@ -1,5 +1,7 @@
 import arcade
-from constants import PLAYER_GUN_BULLET_SPEED, SPRITE_PLAYER_INIT_ANGLE, CHARACTER_SCALING, PLAYER_DEATH_HP, PLAYER_GUN_DAMAGE, PLAYER_GUN_RELOAD_TIME, PLAYER_GUN_SHOOT_SPEED, PLAYER_MAX_HP, PLAYER_START_HP, PLAYER_GUN_MAX_AMMO
+from constants import SPEED_PLAYER, PLAYER_GUN_BULLET_SPEED, SPRITE_PLAYER_INIT_ANGLE, CHARACTER_SCALING, \
+    PLAYER_DEATH_HP, PLAYER_GUN_DAMAGE, PLAYER_GUN_RELOAD_TIME, PLAYER_GUN_SHOOT_SPEED, PLAYER_MAX_HP, \
+    PLAYER_START_HP, PLAYER_GUN_MAX_AMMO, MASTER_VOLUME
 from bullet import Bullet
 import math
 from lib import calculate_angle
@@ -8,13 +10,15 @@ from lib import calculate_angle
 class Player(arcade.Sprite):
     """ Player Sprite """
 
+    audio_volume = MASTER_VOLUME
+
     def __init__(self, hit_box_algorithm):
         # Let parent initialize
         super().__init__()
 
         # Movement Speed
         self.current_speed = 0
-        self.SPEED = 3
+        self.speed = SPEED_PLAYER
 
         # Health
         self.max_health = PLAYER_START_HP
@@ -26,6 +30,7 @@ class Player(arcade.Sprite):
         self.shoot_speed = PLAYER_GUN_SHOOT_SPEED
         self.shoot_timer = 0
         self.gun_damage = PLAYER_GUN_DAMAGE
+        self.gun_angle = 0
 
         # Ammo
         self.max_ammo = PLAYER_GUN_MAX_AMMO
@@ -40,11 +45,11 @@ class Player(arcade.Sprite):
 
         # load player texture
         base_path = "resources/"
-        self.idle_texture_pair = arcade.load_texture_pair(
-            f"{base_path}images/car.png", hit_box_algorithm=hit_box_algorithm)
+        self.idle_texture = arcade.load_texture(
+            f"{base_path}images/donky-example-player.png", hit_box_algorithm=hit_box_algorithm)
 
         # Set the initial texture
-        self.texture = self.idle_texture_pair[0]
+        self.texture = self.idle_texture
 
         # Hit box will be set based on the first image used.
         self.hit_box = self.texture.hit_box_points
@@ -61,24 +66,24 @@ class Player(arcade.Sprite):
 
             # Calculate bullet speed
             speed_x = self.gun_bullet_speed * \
-                math.cos(math.radians(self.angle + SPRITE_PLAYER_INIT_ANGLE))
+                math.cos(math.radians(self.gun_angle + SPRITE_PLAYER_INIT_ANGLE))
             speed_y = self.gun_bullet_speed * \
-                math.sin(math.radians(self.angle + SPRITE_PLAYER_INIT_ANGLE))
+                math.sin(math.radians(self.gun_angle + SPRITE_PLAYER_INIT_ANGLE))
 
             bullet = Bullet("Detailed", speed_x, speed_y,
-                            self.angle + SPRITE_PLAYER_INIT_ANGLE, self.gun_damage)
+                            self.gun_angle + SPRITE_PLAYER_INIT_ANGLE, self.gun_damage)
 
             # Set bullet location
             bullet.center_x = self.center_x + \
-                (self.width * math.cos(math.radians(self.angle + SPRITE_PLAYER_INIT_ANGLE)))
+                (self.width * math.cos(math.radians(self.gun_angle + SPRITE_PLAYER_INIT_ANGLE)))
             bullet.center_y = self.center_y + \
-                (self.width * math.sin(math.radians(self.angle + SPRITE_PLAYER_INIT_ANGLE)))
+                (self.width * math.sin(math.radians(self.gun_angle + SPRITE_PLAYER_INIT_ANGLE)))
 
             # Add to bullet sprite list
             friendly_bullet_list.append(bullet)
 
             # Play weapon shoot sfx
-            arcade.play_sound(bullet.audio_gunshot)
+            arcade.play_sound(bullet.audio_gunshot, volume=self.audio_volume)
 
             if self.cur_ammo <= 0:
                 self.is_reloading = True
@@ -97,7 +102,7 @@ class Player(arcade.Sprite):
         """Handles damage taken by Player"""
         # Play damage taken sound
         # TODO: Change sound effect
-        arcade.play_sound(self.audio_destroyed)
+        arcade.play_sound(self.audio_destroyed, volume=self.audio_volume)
         # Decrease player hp
         self.cur_health -= damage_source.damage_value
         # Cause death of player if hp low
@@ -111,11 +116,11 @@ class Player(arcade.Sprite):
         print("You died.")
 
     def follow_mouse(self, mouse_x: float, mouse_y: float):
-        """Handles player sprite angle rotation to follow mouse"""
+        """Handles bullet angle rotation to follow mouse"""
         new_angle = calculate_angle(
             self.center_x, self.center_y, mouse_x, mouse_y)
-        if (mouse_x < self.center_x):
+        if mouse_x < self.center_x:
             new_angle = new_angle + SPRITE_PLAYER_INIT_ANGLE
         else:
             new_angle = new_angle - SPRITE_PLAYER_INIT_ANGLE
-        self.angle = new_angle
+        self.gun_angle = new_angle
