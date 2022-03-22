@@ -37,7 +37,7 @@ class MapView(arcade.View):
         self.background = arcade.load_texture(
             "resources/images/map/pixel_map.png")
         self.cursor_sprite = arcade.Sprite(
-            "resources/images/goat_cursor.png", 0.05)
+            "resources/images/goat_cursor.png", 1)
 
         self.cursor_list.append(self.cursor_sprite)
         self.load_monuments()
