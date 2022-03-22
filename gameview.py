@@ -240,11 +240,11 @@ class GameView(arcade.View):
                 if enemy.HP <= 0:
                     Enemy.despawn(enemy, DEATH.KILLED)
                     # Play a sound
-                    arcade.play_sound(enemy.audio_destroyed)
+                    arcade.play_sound(enemy.audio_destroyed, volume=enemy.audio_volume)
                     Tracker.increment_score(10)
                 else:
                     # Play a sound
-                    arcade.play_sound(enemy.audio_hit)
+                    arcade.play_sound(enemy.audio_hit, volume=enemy.audio_volume)
         # Check enemy bullet collisions
         for bullet in Bullet.enemy_bullet_list:
             # Move all Bullets Forwards
@@ -261,12 +261,12 @@ class GameView(arcade.View):
         for enemy in arcade.check_for_collision_with_list(
                 self.player, Enemy.enemy_list):
             Enemy.despawn(enemy, DEATH.COLLISION)
-            arcade.play_sound(enemy.audio_destroyed)
+            arcade.play_sound(enemy.audio_destroyed, volume=enemy.audio_volume)
             self.player.take_damage(enemy)
         # Check gold collision with player
         for gold in arcade.check_for_collision_with_list(self.player, Gold.gold_list):
             Gold.despawn(gold, DEATH.PICKED_UP)
-            arcade.play_sound(gold.pick_up)
+            arcade.play_sound(gold.pick_up, volume=gold.audio_volume)
 
     def on_show(self):
         self.setup()
