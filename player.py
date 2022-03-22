@@ -7,6 +7,7 @@ from lib import calculate_angle
 
 class Player(arcade.Sprite):
     """ Player Sprite """
+    player_list = arcade.SpriteList()
 
     audio_volume = C.MASTER_VOLUME
 
@@ -17,6 +18,7 @@ class Player(arcade.Sprite):
         # Set player location
         self.center_x = C.SCREEN_WIDTH * .1
         self.center_y = C.SCREEN_HEIGHT * .5
+        self.angle = C.SPRITE_PLAYER_INIT_ANGLE
 
         # Movement Speed
 
@@ -63,6 +65,9 @@ class Player(arcade.Sprite):
         self.audio_destroyed = arcade.load_sound(
             f"{base_path}audio/enemy_destroyed.wav")
         self.audio_hit = arcade.load_sound(f"{base_path}audio/enemy_hit.wav")
+
+        Player.player_list.append(self)
+
 
     def shoot(self, friendly_bullet_list):
         if not self.is_reloading and self.cur_ammo > 0:

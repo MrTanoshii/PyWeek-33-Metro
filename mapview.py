@@ -60,7 +60,6 @@ class MapView(arcade.View):
         arcade.draw_lrwh_rectangle_textured(0, 0,
                                             C.SCREEN_WIDTH, C.SCREEN_HEIGHT,
                                             self.background)
-
         self.monument_list.draw()
         self.cursor_list.draw()
 
