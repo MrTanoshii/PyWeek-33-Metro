@@ -8,6 +8,7 @@ from settings import Settings
 
 import arcade
 import mapview
+from pause_menu_view import PauseMenuView
 import random
 from constants import GAME_BACKGROUND_COLOR, SCREEN_WIDTH, SCREEN_HEIGHT, LEVEL1, SPRITE_PLAYER_INIT_ANGLE, DEATH
 import pause_menu_view
@@ -197,7 +198,7 @@ class GameView(arcade.View):
 
         elif key == arcade.key.ESCAPE:
 
-            self.window.show_view(mapview.MapView())
+            self.window.show_view(PauseMenuView(self))
 
     def on_key_release(self, key, modifiers):
         """Called when the user releases a key."""
@@ -279,4 +280,4 @@ class GameView(arcade.View):
             arcade.play_sound(gold.pick_up, volume=gold.audio_volume)
 
     def on_show(self):
-        self.setup()
+        pass
