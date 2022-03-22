@@ -25,10 +25,19 @@ class GameView1(arcade.View):
         # These are 'lists' that keep track of our sprites. Each sprite should
         # go into a list.
         self.player_list = arcade.SpriteList()
+        self.bg_list = arcade.SpriteList()
 
         # Separate variable that holds the player sprite
-        self.player = None
+        self.player = Player(hit_box_algorithm="Detailed")
+        self.player.center_x = SCREEN_WIDTH * .1
+        self.player.center_y = SCREEN_HEIGHT * .5
+        self.player.angle = SPRITE_PLAYER_INIT_ANGLE
+        self.player_list.append(self.player)
         self.bg = None
+        self.bg = BackGround()
+        self.bg.center_x = self.bg.width/2
+        self.bg.center_y = SCREEN_HEIGHT/2
+        self.bg_list.append(self.bg)
 
         # What key is pressed down?
         self.left_key_down = False
@@ -50,32 +59,18 @@ class GameView1(arcade.View):
     def setup(self):
         """ Set up everything with the game """
 
-        # self.gui_camera = arcade.Camera(self.window.width, self.window.height)
-
-        # Create player sprite
-        self.player = Player(hit_box_algorithm="Detailed")
-
-        # Set player location
-        self.player.center_x = SCREEN_WIDTH * .1
-        self.player.center_y = SCREEN_HEIGHT * .5
-
-        # Rotate player to face to the right
-        self.player.angle = SPRITE_PLAYER_INIT_ANGLE
-
-        # Add to player sprite list
-        self.player_list.append(self.player)
-
-        # Create BG sprite
-        self.bg = BackGround()
-        self.bg.center_x = self.bg.width/2
-        self.bg.center_y = SCREEN_HEIGHT/2
-        BackGround.bg_list.append(self.bg)
+        self.left_key_down = False
+        self.right_key_down = False
+        self.space_down = False
+        self.shoot_pressed = False
 
     def on_draw(self):
         """Render the screen."""
 
         # Clear the screen to the background color
         self.clear()
+
+        arcade.set_background_color(GAME_BACKGROUND_COLOR)
 
         # Draw our sprites
         BackGround.bg_list.draw()
@@ -216,6 +211,9 @@ class GameView1(arcade.View):
         elif key == arcade.key.ESCAPE:
 
             self.window.show_view(mapview.MapView())
+
+        elif key == arcade.key.ESCAPE:
+            self.window.show_view(pause_menu_view.PauseMenuView(self))
 
     def on_key_release(self, key, modifiers):
         """Called when the user releases a key."""

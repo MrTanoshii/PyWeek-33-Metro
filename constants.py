@@ -89,3 +89,9 @@ class DEATH:
 
 # Audio
 MASTER_VOLUME = 0.1
+# Menu
+MENU_BACKGROUND_COLOR = (255, 255, 255, 200)
+MENU_FONT_SIZE = 30
+
+# Game View
+GAME_BACKGROUND_COLOR = arcade.csscolor.DARK_GREEN

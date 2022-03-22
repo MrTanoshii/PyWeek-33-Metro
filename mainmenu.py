@@ -122,7 +122,6 @@ class MapView(arcade.View):
             for i in CENTER_POINTS:
                 if [p[0].center_x, p[0].center_y] == i:
                     print(p[0].collision_radius, p[0].center_x, p[0].center_y)
-                    game_view = GameView()
                     self.window.show_view(GameView())
 
 # Make center points as dictionary and call out other views mostly
