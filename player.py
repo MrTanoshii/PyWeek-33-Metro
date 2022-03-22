@@ -3,12 +3,14 @@ import constants as C
 from bullet import Bullet
 import math
 from lib import calculate_angle
+from weapon import Weapon
 from bullet import Bullet
 
 
 class Player(arcade.Sprite):
     """ Player Sprite """
     player_list = arcade.SpriteList()
+    weapon = arcade.Sprite()
 
     audio_volume = C.MASTER_VOLUME
 
@@ -24,7 +26,6 @@ class Player(arcade.Sprite):
         self.angle = C.SPRITE_PLAYER_INIT_ANGLE
 
         # Movement Speed
-
         self.max_speed = C.SPEED_PLAYER
         self.speed_x = 0
         self.speed_y = 0
@@ -34,20 +35,10 @@ class Player(arcade.Sprite):
         self.cur_health = C.PLAYER_MAX_HP
         self.death_health = C.PLAYER_DEATH_HP
 
-        # Shooting
-        self.can_shoot = True
-        self.shoot_speed = C.PLAYER_GUN_SHOOT_SPEED
-        self.shoot_timer = 0
-        self.gun_damage = C.PLAYER_GUN_DAMAGE
-        self.gun_angle = 0
-
-        # Ammo
-        self.max_ammo = C.PLAYER_GUN_MAX_AMMO
-        self.cur_ammo = self.max_ammo
-        self.gun_bullet_speed = C.PLAYER_GUN_BULLET_SPEED
-        self.reload_speed = C.PLAYER_GUN_RELOAD_TIME
-        self.is_reloading = False
-        self.reload_timer = 0
+        # Weapon
+        self.weapon = Weapon()
+        Player.weapon = self.weapon
+        self.weapon_angle = 0
 
         # Set our scale
         self.scale = C.CHARACTER_SCALING
@@ -74,64 +65,57 @@ class Player(arcade.Sprite):
     def shoot(self, delta_time, shoot_pressed):
         """Handles shooting & reloading"""
 
-        if self.can_shoot:
+        if self.weapon.can_shoot:
             # Shoot
+            # TODO: Implement fire_type
             if shoot_pressed:
-                self.can_shoot = False
-                if not self.is_reloading and self.cur_ammo > 0:
-                    # Decrease ammo count
-                    self.cur_ammo -= 1
-                    # Calculate bullet speed
-                    speed_x = self.gun_bullet_speed * \
-                        math.cos(math.radians(self.gun_angle +
-                                              C.WEAPON_INIT_ANGLE))
-                    speed_y = self.gun_bullet_speed * \
-                        math.sin(math.radians(self.gun_angle +
-                                              C.WEAPON_INIT_ANGLE))
+                self.weapon.can_shoot = False
+                # Decrease ammo count
+                self.weapon.cur_ammo -= 1
+                # Calculate bullet speed
+                speed_x = self.weapon.bullet_speed * \
+                    math.cos(math.radians(self.weapon_angle +
+                                          C.WEAPON_INIT_ANGLE))
+                speed_y = self.weapon.bullet_speed * \
+                    math.sin(math.radians(self.weapon_angle +
+                                          C.WEAPON_INIT_ANGLE))
 
-                    bullet = Bullet("Detailed", speed_x, speed_y,
-                                    self.gun_angle + C.WEAPON_INIT_ANGLE, self.gun_damage)
+                bullet = Bullet("Detailed", speed_x, speed_y, self.weapon.bullet_texture_list,
+                                self.weapon_angle + C.WEAPON_INIT_ANGLE, self.weapon.bullet_damage)
 
-                    # Set bullet location
-                    bullet.center_x = self.center_x + \
-                        (self.width / 2 *
-                         math.cos(math.radians(self.gun_angle + C.WEAPON_INIT_ANGLE)))
-                    bullet.center_y = self.center_y + \
-                        (self.height / 2 *
-                         math.sin(math.radians(self.gun_angle + C.WEAPON_INIT_ANGLE)))
+                # Set bullet location
+                bullet.center_x = self.center_x + \
+                    (self.width / 2 *
+                        math.cos(math.radians(self.weapon_angle + C.WEAPON_INIT_ANGLE)))
+                bullet.center_y = self.center_y + \
+                    (self.height / 2 *
+                        math.sin(math.radians(self.weapon_angle + C.WEAPON_INIT_ANGLE)))
 
-                    # Add to bullet sprite list
-                    Bullet.friendly_bullet_list.append(bullet)
+                # Add to bullet sprite list
+                Bullet.friendly_bullet_list.append(bullet)
 
-                    # Play weapon shoot sfx
-                    arcade.play_sound(bullet.audio_gunshot,
-                                      volume=self.audio_volume)
+                # Play weapon shoot sfx
+                arcade.play_sound(bullet.audio_gunshot,
+                                  volume=self.audio_volume)
 
-                    # Start reload if ammo depleted
-                    if self.cur_ammo <= 0:
-                        self.is_reloading = True
-                # else:
-                    # Play empty gun sfx
+                # Start reload if ammo depleted
+                if self.weapon.cur_ammo <= 0:
+                    self.weapon.is_reloading = True
+            else:
+                pass
+                # Play empty weapon sfx
         else:
             # Reload weapon
-            if self.is_reloading:
-                self.reload_timer += delta_time
-                if self.reload_timer >= self.reload_speed:
-                    self.reload_weapon()
+            if self.weapon.is_reloading:
+                self.weapon.reload_timer += delta_time
+                if self.weapon.reload_timer >= self.weapon.reload_time:
+                    self.weapon.reload_weapon()
             # Wait until weapon can shoot
             else:
-                self.shoot_timer += delta_time
-                if self.shoot_timer >= self.shoot_speed:
-                    self.can_shoot = True
-                    self.shoot_timer = 0
-
-    def reload_weapon(self):
-        """Handles gun reload"""
-        self.cur_ammo = self.max_ammo
-        self.reload_timer = 0
-        self.is_reloading = False
-        self.can_shoot = True
-        # Play weapon reload sfx
+                self.weapon.shoot_timer += delta_time
+                if self.weapon.shoot_timer >= self.weapon.shoot_time:
+                    self.weapon.can_shoot = True
+                    self.weapon.shoot_timer = 0
 
     def take_damage(self, damage_source):
         """Handles damage taken by Player"""
@@ -158,7 +142,7 @@ class Player(arcade.Sprite):
             new_angle = new_angle + C.WEAPON_INIT_ANGLE
         else:
             new_angle = new_angle - C.WEAPON_INIT_ANGLE
-        self.gun_angle = new_angle
+        self.weapon_angle = new_angle
 
     def on_mouse_motion(self, x, y, dx, dy):
         """Called whenever mouse is moved."""

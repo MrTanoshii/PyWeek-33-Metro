@@ -10,7 +10,7 @@ class Bullet(arcade.Sprite):
 
     audio_volume = MASTER_VOLUME
 
-    def __init__(self, hit_box_algorithm, speed_x, speed_y, angle=0, damage_value=1):
+    def __init__(self, hit_box_algorithm, speed_x, speed_y, texture_list=None, angle=0, damage_value=1):
         # Let parent initialize
         super().__init__()
 
@@ -27,15 +27,20 @@ class Bullet(arcade.Sprite):
         # Set our scale
         self.scale = BULLET_SCALING
 
-        # load player texture
         base_path = "resources/"
-        self.idle_texture = arcade.load_texture(
-            f"{base_path}images/bullet.png", hit_box_algorithm=hit_box_algorithm)
+
+        # Load & set bullet texture
+        # TODO: Remove regular non animated texture loading when enemies have their own bullets
+        if texture_list == None:
+            self.texture = arcade.load_texture(
+                f"{base_path}images/bullet.png", hit_box_algorithm=hit_box_algorithm)
+        else:
+            self.texture_list = texture_list
+            self.texture = self.texture_list[0]
+        self.cur_texture = 0
+
         # Load sounds
         self.audio_gunshot = arcade.load_sound(f"{base_path}audio/gunshot.wav")
-
-        # Set the initial texture
-        self.texture = self.idle_texture
 
         # Hit box will be set based on the first image used.
         self.hit_box = self.texture.hit_box_points
@@ -47,6 +52,12 @@ class Bullet(arcade.Sprite):
             # Delete bullets that are off-screen
             if bullet.center_x - bullet.width / 2 > SCREEN_WIDTH or bullet.center_y - bullet.height / 2 > SCREEN_HEIGHT:
                 cls.friendly_bullet_list.remove(bullet)
+
+    def update_animation(self, delta_time: float = 1 / 60):
+        self.cur_texture += 1
+        if self.cur_texture > len(self.texture_list) - 1:
+            self.cur_texture = 0
+        self.texture = self.texture_list[self.cur_texture]
 
     def despawn(self):
         self.remove_from_sprite_lists()

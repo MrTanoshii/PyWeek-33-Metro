@@ -77,9 +77,14 @@ class GameView(arcade.View):
         BackGround.bg_list.draw()
         Gold.gold_list.draw()
         Player.player_list.draw()
+        Player.weapon.draw()
         Enemy.enemy_list.draw()
         Bullet.friendly_bullet_list.draw()
         Bullet.enemy_bullet_list.draw()
+
+        # Update animations
+        Bullet.friendly_bullet_list.update_animation()
+        Bullet.enemy_bullet_list.update_animation()
 
         # GUI - Score
         arcade.draw_text(
@@ -111,9 +116,9 @@ class GameView(arcade.View):
             anchor_x="center",
         )
 
-        # GUI - Player HP
+        # GUI - Player Ammo
         arcade.draw_text(
-            f"Ammo : {self.player.cur_ammo} \ {self.player.max_ammo}",
+            f"Ammo : {self.player.weapon.cur_ammo} \ {self.player.weapon.max_ammo}",
             (C.SCREEN_WIDTH / 5) + 500,
             C.SCREEN_HEIGHT - 50,
             arcade.color.BLACK,
@@ -157,6 +162,7 @@ class GameView(arcade.View):
     def on_key_press(self, key, modifiers):
         """Called whenever a key is pressed."""
 
+        # Movement | WASD + Arrow keys
         if key == arcade.key.LEFT or key == arcade.key.A:
             self.left_key_down = True
         elif key == arcade.key.RIGHT or key == arcade.key.D:
@@ -165,9 +171,30 @@ class GameView(arcade.View):
             self.up_key_down = True
         elif key == arcade.key.DOWN or key == arcade.key.S:
             self.down_key_down = True
+
+        # Shoot | Spacebar
         elif key == arcade.key.SPACE:
             self.space_down = True
             self.shoot_pressed = True
+
+        # Weapon swap | 1-3
+        elif key == arcade.key.KEY_1 or arcade.key.KEY_2 or arcade.key.KEY_3:
+            requested_weapon = ""
+            # 1 - Rifle
+            if key == arcade.key.KEY_1:
+                requested_weapon = "Rifle"
+            # 2 - Shotgun
+            elif key == arcade.key.KEY_2:
+                requested_weapon = "Shotgun"
+            # 3 - RPG
+            elif key == arcade.key.KEY_3:
+                requested_weapon = "RPG"
+
+            # Swap weapon
+            if Player.weapon.weapon_name != requested_weapon:
+                Player.weapon.swap_weapon(requested_weapon)
+
+        # E
         elif key == arcade.key.E:
             Enemy.spawn_enemy()
 
@@ -181,6 +208,8 @@ class GameView(arcade.View):
 
     def on_key_release(self, key, modifiers):
         """Called when the user releases a key."""
+
+        # Movement | WASD + Arrow keys
         if key == arcade.key.LEFT or key == arcade.key.A:
             self.left_key_down = False
         elif key == arcade.key.RIGHT or key == arcade.key.D:
@@ -189,6 +218,8 @@ class GameView(arcade.View):
             self.up_key_down = False
         elif key == arcade.key.DOWN or key == arcade.key.S:
             self.down_key_down = False
+
+        # Shoot | Spacebar
         elif key == arcade.key.SPACE:
             self.space_down = False
             self.shoot_pressed = False

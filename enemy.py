@@ -77,7 +77,7 @@ class Enemy(arcade.Sprite):
 
     def shoot(self, enemy_bullet_list):
         """Handle Enemy shooting"""
-        bullet = Bullet("Detailed", -20, 0, 180)
+        bullet = Bullet("Detailed", -20, 0, None, 180)
 
         # Set bullet location
         bullet.center_x = self.center_x + self.width
