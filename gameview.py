@@ -1,4 +1,3 @@
-from webbrowser import BackgroundBrowser
 from bullet import Bullet
 from bg import BackGround
 from player import Player
