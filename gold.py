@@ -1,5 +1,5 @@
 import arcade
-from constants import GOLD_SCALING, SPEED_SCROLLING, DEATH
+from constants import GOLD_SCALING, SPEED_SCROLLING, DEATH, AUDIO_VOLUME
 from tracker import Tracker
 
 
@@ -21,8 +21,8 @@ class Gold(arcade.Sprite):
         self.scale = GOLD_SCALING
 
         # Load sfx
-        self.pick_up = arcade.load_sound(
-            f"{base_path}sounds/coin1.wav")
+        self.pick_up = arcade.load_sound(f"{base_path}sounds/coin1.wav")
+        self.audio_volume = AUDIO_VOLUME
 
         # Speed
         self.speed = SPEED_SCROLLING
