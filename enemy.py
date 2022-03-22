@@ -30,7 +30,7 @@ class Enemy(arcade.Sprite):
         # load player texture
         base_path = "resources/"
         self.idle_texture = arcade.load_texture(
-            f"{base_path}images/enemy.png", hit_box_algorithm=hit_box_algorithm)
+            f"{base_path}images/tank_enemy.png", hit_box_algorithm=hit_box_algorithm)
         # Load sounds
         self.audio_destroyed = arcade.load_sound(
             f"{base_path}audio/enemy_destroyed.wav")
@@ -52,7 +52,7 @@ class Enemy(arcade.Sprite):
             random.uniform(-SCREEN_HEIGHT/3.25, SCREEN_HEIGHT/3.25)
 
         # Turn the enemy 90 degree
-        enemy.angle = 90
+        enemy.angle = 0
 
         # Add to player sprite list
         cls.enemy_list.append(enemy)
