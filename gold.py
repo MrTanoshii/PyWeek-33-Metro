@@ -22,7 +22,7 @@ class Gold(arcade.Sprite):
 
         # Load sfx
         self.pick_up = arcade.load_sound(f"{base_path}sounds/coin1.wav")
-        self.audio_volume = AUDIO_VOLUME
+        self.audio_volume = MASTER_VOLUME
 
         # Speed
         self.speed = SPEED_SCROLLING
