@@ -1,6 +1,5 @@
 import arcade
-from constants import SCREEN_WIDTH, SCREEN_HEIGHT, MENU_FONT_SIZE, MENU_BACKGROUND_COLOR
-
+import constants as C
 
 class PauseMenuView(arcade.View):
     """Class that manages the 'menu' view."""
@@ -11,7 +10,7 @@ class PauseMenuView(arcade.View):
 
     def on_show(self):
         """Called when switching to this view."""
-        arcade.set_background_color(MENU_BACKGROUND_COLOR)
+        arcade.set_background_color(C.MENU_BACKGROUND_COLOR)
 
     def on_draw(self):
         """Draw the menu"""
@@ -19,10 +18,10 @@ class PauseMenuView(arcade.View):
 
         arcade.draw_text(
             "Game Paused - ESC to exit | Any key to resume",
-            SCREEN_WIDTH / 2,
-            SCREEN_HEIGHT / 2,
+            C.SCREEN_WIDTH / 2,
+            C.SCREEN_HEIGHT / 2,
             arcade.color.BLACK,
-            font_size=MENU_FONT_SIZE,
+            font_size=C.MENU_FONT_SIZE,
             anchor_x="center",
         )
 

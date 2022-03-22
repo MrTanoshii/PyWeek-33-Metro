@@ -7,6 +7,7 @@ from lib import calculate_angle
 
 class Player(arcade.Sprite):
     """ Player Sprite """
+    player_list = arcade.SpriteList()
 
     audio_volume = C.MASTER_VOLUME
 
@@ -19,8 +20,10 @@ class Player(arcade.Sprite):
         # Set player location
         self.center_x = C.SCREEN_WIDTH * .1
         self.center_y = C.SCREEN_HEIGHT * .5
+        self.angle = C.SPRITE_PLAYER_INIT_ANGLE
 
         # Movement Speed
+
         self.max_speed = C.SPEED_PLAYER
         self.speed_x = 0
         self.speed_y = 0
@@ -64,6 +67,9 @@ class Player(arcade.Sprite):
         self.audio_destroyed = arcade.load_sound(
             f"{base_path}audio/enemy_destroyed.wav")
         self.audio_hit = arcade.load_sound(f"{base_path}audio/enemy_hit.wav")
+
+        Player.player_list.append(self)
+
 
     def shoot(self, friendly_bullet_list):
         if not self.is_reloading and self.cur_ammo > 0:
@@ -134,6 +140,7 @@ class Player(arcade.Sprite):
             new_angle = new_angle - C.WEAPON_INIT_ANGLE
         self.gun_angle = new_angle
 
+
     def on_mouse_motion(self, x, y, dx, dy):
         """Called whenever mouse is moved."""
         self.player.follow_mouse(x, y)
@@ -198,3 +205,11 @@ class Player(arcade.Sprite):
         # Move player
         self.center_x += self.speed_x
         self.center_y += self.speed_y
+        if self.center_x > C.SCREEN_WIDTH / 2:
+            self.center_x = C.SCREEN_WIDTH / 2
+        if self.center_x < 0:
+            self.center_x = 0
+        if self.center_y > C.SCREEN_HEIGHT * .85:
+            self.center_y = C.SCREEN_HEIGHT * .85
+        if self.center_y < C.SCREEN_HEIGHT * .15:
+            self.center_y = C.SCREEN_HEIGHT * .15
