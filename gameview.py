@@ -1,5 +1,4 @@
 import pause_menu_view
-from constants import  MOVE_DIRECTION
 from bullet import Bullet
 from bg import BackGround
 from player import Player
@@ -209,16 +208,6 @@ class GameView(arcade.View):
             self.space_down = False
             self.shoot_pressed = False
 
-    def update_player_speed(self):
-        self.player.current_speed = 0
-
-        # D pressed
-        if self.left_key_down and not self.right_key_down:
-            self.player.current_speed = self.player.speed
-        # A pressed
-        elif self.right_key_down and not self.left_key_down:
-            self.player.current_speed = -self.player.speed
-
     def check_collisions(self):
         """Check for collisions and calculate score"""
         # Check friendly bullet collisions
@@ -278,4 +267,3 @@ class GameView(arcade.View):
 
     def on_show(self):
         pass
-
