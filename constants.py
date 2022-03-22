@@ -1,3 +1,5 @@
+import arcade
+
 """ Include all constant values """
 
 # Window Size and Title
@@ -5,8 +7,8 @@ SCREEN_WIDTH = 1280
 SCREEN_HEIGHT = 720
 SCREEN_TITLE = "REVƎЯ"
 CENTER_POINTS = [[700, 450], [900, 450]]
-DICT1 = {'EGYPT':[700,450],'INDIA':[900,450]}
-LIST1 = ['EGYPT','INDIA']
+DICT1 = {'EGYPT': [700, 450], 'INDIA': [900, 450]}
+LIST1 = ['EGYPT', 'INDIA']
 
 
 # Scaling
@@ -62,5 +64,12 @@ class DEATH:
     KILLED = 2
     PICKED_UP = 3
 
+
 # Audio
 MASTER_VOLUME = 0.1
+# Menu
+MENU_BACKGROUND_COLOR = (255, 255, 255, 200)
+MENU_FONT_SIZE = 30
+
+# Game View
+GAME_BACKGROUND_COLOR = arcade.csscolor.DARK_GREEN
