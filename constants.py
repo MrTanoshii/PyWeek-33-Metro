@@ -1,3 +1,5 @@
+import arcade
+
 """ Include all constant values """
 
 # Window Size and Title
@@ -30,3 +32,10 @@ PLAYER_GUN_BULLET_SPEED = 20
 PLAYER_GUN_SHOOT_SPEED = 0.1
 PLAYER_GUN_RELOAD_TIME = 3
 PLAYER_GUN_DAMAGE = 1
+
+# Menu
+MENU_BACKGROUND_COLOR = (255, 255, 255, 200)
+MENU_FONT_SIZE = 30
+
+# Game View
+GAME_BACKGROUND_COLOR = arcade.csscolor.DARK_GREEN

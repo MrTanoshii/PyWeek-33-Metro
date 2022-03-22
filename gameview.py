@@ -5,7 +5,8 @@ from enemy import Enemy
 
 import arcade
 import random
-from constants import SCREEN_WIDTH, SCREEN_HEIGHT, level1, SPRITE_PLAYER_INIT_ANGLE
+from constants import GAME_BACKGROUND_COLOR, SCREEN_WIDTH, SCREEN_HEIGHT, level1, SPRITE_PLAYER_INIT_ANGLE
+import pause_menu_view
 
 
 class GameView(arcade.View):
@@ -19,12 +20,20 @@ class GameView(arcade.View):
 
         # These are 'lists' that keep track of our sprites. Each sprite should
         # go into a list.
-        self.player_list = None
-        self.bg_list = None
+        self.player_list = arcade.SpriteList()
+        self.bg_list = arcade.SpriteList()
 
         # Separate variable that holds the player sprite
-        self.player = None
+        self.player = Player(hit_box_algorithm="Detailed")
+        self.player.center_x = SCREEN_WIDTH * .1
+        self.player.center_y = SCREEN_HEIGHT * .5
+        self.player.angle = SPRITE_PLAYER_INIT_ANGLE
+        self.player_list.append(self.player)
         self.bg = None
+        self.bg = BackGround()
+        self.bg.center_x = self.bg.width/2
+        self.bg.center_y = SCREEN_HEIGHT/2
+        self.bg_list.append(self.bg)
 
         # What key is pressed down?
         self.left_key_down = False
@@ -40,41 +49,21 @@ class GameView(arcade.View):
         # Player shoot
         self.shoot_pressed = False
 
-        arcade.set_background_color(arcade.csscolor.DARK_GREEN)
-
     def setup(self):
         """ Set up everything with the game """
 
-        # self.gui_camera = arcade.Camera(self.window.width, self.window.height)
-
-        # Create the sprite lists
-        self.player_list = arcade.SpriteList()
-        self.bg_list = arcade.SpriteList()
-
-        # Create player sprite
-        self.player = Player(hit_box_algorithm="Detailed")
-
-        # Set player location
-        self.player.center_x = SCREEN_WIDTH * .1
-        self.player.center_y = SCREEN_HEIGHT * .5
-
-        # Rotate player to face to the right
-        self.player.angle = SPRITE_PLAYER_INIT_ANGLE
-
-        # Add to player sprite list
-        self.player_list.append(self.player)
-
-        # Create BG sprite
-        self.bg = BackGround()
-        self.bg.center_x = self.bg.width/2
-        self.bg.center_y = SCREEN_HEIGHT/2
-        self.bg_list.append(self.bg)
+        self.left_key_down = False
+        self.right_key_down = False
+        self.space_down = False
+        self.shoot_pressed = False
 
     def on_draw(self):
         """Render the screen."""
 
         # Clear the screen to the background color
         self.clear()
+
+        arcade.set_background_color(GAME_BACKGROUND_COLOR)
 
         # Draw our sprites
         self.bg_list.draw()
@@ -188,6 +177,9 @@ class GameView(arcade.View):
         # T
         elif key == arcade.key.T:
             self.spawn_bg()
+
+        elif key == arcade.key.ESCAPE:
+            self.window.show_view(pause_menu_view.PauseMenuView(self))
 
     def on_key_release(self, key, modifiers):
         """Called when the user releases a key."""
