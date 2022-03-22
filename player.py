@@ -3,7 +3,6 @@ import constants as C
 from bullet import Bullet
 import math
 from lib import calculate_angle
-from weapon import Weapon
 
 
 class Player(arcade.Sprite):
