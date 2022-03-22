@@ -34,8 +34,8 @@ MAP_MONUMENTS_LIST = [
         "name": "CHINA",
         "level": "3",
         "img_name": "icon3.png",
-        "center_x": 950,
-        "center_y": 330,
+        "center_x": 870,
+        "center_y": 420,
         "player": "donky-example-player.png",
         "enemy": "tank_enemy.png",
         "assets": ["cactus256.png", "tree.png"]
