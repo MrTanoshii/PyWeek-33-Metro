@@ -1,7 +1,6 @@
 import arcade
 from constants import SCREEN_WIDTH, SCREEN_HEIGHT, CENTER_POINTS, LIST1
-from gameview import GameView1, GameView2
-
+import gameview
 
 
 class MapView(arcade.View):
@@ -25,7 +24,7 @@ class MapView(arcade.View):
         self.monument_list = None
         self.monument_sprite = None
 
-        #arcade.set_background_color((170,218,255))
+        # arcade.set_background_color((170,218,255))
 
         # self.set_mouse_visible(False)
 
@@ -50,12 +49,14 @@ class MapView(arcade.View):
             "resources/images/pyramids.jpeg", 0.5)
         self.monument_sprite.center_x = CENTER_POINTS[0][0]
         self.monument_sprite.center_y = CENTER_POINTS[0][1]
+        self.monument_sprite.name = "EGYPT"
         self.monument_list.append(self.monument_sprite)
 
         self.monument_sprite = arcade.Sprite(
             "resources/images/taj_mahal.jpeg", 0.5)
         self.monument_sprite.center_x = CENTER_POINTS[1][0]
         self.monument_sprite.center_y = CENTER_POINTS[1][1]
+        self.monument_sprite.name = "INDIA"
         self.monument_list.append(self.monument_sprite)
 
     def on_draw(self):
@@ -74,8 +75,8 @@ class MapView(arcade.View):
     def on_mouse_motion(self, x, y, dx, dy):
         for monument in self.monument_list:
             monument.scale = 0.5
-        self.player_sprite.center_x = x
-        self.player_sprite.center_y = y
+        self.player_sprite.center_x = x+20
+        self.player_sprite.center_y = y-20
 
     def on_update(self, delta_time):
         self.monument_sprite.update()
@@ -89,17 +90,12 @@ class MapView(arcade.View):
         # self.monument_sprite.clear()
 
     def on_mouse_press(self, x, y, button, modifiers):
-        if self.player_sprite.collides_with_list(self.monument_list):
-            p = self.player_sprite.collides_with_list(self.monument_list)
-            for i in range(len(CENTER_POINTS)):
-                if [p[0].center_x, p[0].center_y] == CENTER_POINTS[i]:
-                    print(i, LIST1[i])
-                    if LIST1[i]=="EGYPT":
-                        game_view = GameView1()
-                        self.window.show_view(GameView1())
-                    elif LIST1[i]=="INDIA":
-                        game_view = GameView2()
-                        self.window.show_view(GameView2())
+        p = self.player_sprite.collides_with_list(self.monument_list)
+        for location in p:
+            if location.name == "EGYPT":
+                self.window.show_view(gameview.GameView1())
+            elif location.name == "INDIA":
+                self.window.show_view(gameview.GameView2())
 
 # Make center points as dictionary and call out other views mostly
 
