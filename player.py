@@ -170,3 +170,11 @@ class Player(arcade.Sprite):
 
         self.center_x += self.speed_x
         self.center_y += self.speed_y
+        if self.center_x > C.SCREEN_WIDTH / 2:
+            self.center_x = C.SCREEN_WIDTH / 2
+        if self.center_x < 0:
+            self.center_x = 0
+        if self.center_y > C.SCREEN_HEIGHT * .85:
+            self.center_y = C.SCREEN_HEIGHT * .85
+        if self.center_y < C.SCREEN_HEIGHT * .15:
+            self.center_y = C.SCREEN_HEIGHT * .15

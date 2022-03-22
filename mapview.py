@@ -91,10 +91,11 @@ class MapView(arcade.View):
         if C.DEBUG:
             print(x, y)
         target = arcade.check_for_collision_with_list(self.cursor_sprite, self.monument_list)
-        Player.current_level = target[0].level
-        game = gameview.GameView()
-        game.setup()
-        self.window.show_view(game)
+        if target:
+            Player.current_level = target[0].level
+            game = gameview.GameView()
+            game.setup()
+            self.window.show_view(game)
 
 # Make center points as dictionary and call out other views mostly
 
