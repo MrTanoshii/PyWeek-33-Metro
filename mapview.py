@@ -93,9 +93,9 @@ class MapView(arcade.View):
         p = self.player_sprite.collides_with_list(self.monument_list)
         for location in p:
             if location.name == "EGYPT":
-                self.window.show_view(gameview.GameView1())
+                self.window.show_view(gameview.GameView())
             elif location.name == "INDIA":
-                self.window.show_view(gameview.GameView2())
+                self.window.show_view(gameview.GameView())
 
 # Make center points as dictionary and call out other views mostly
 
