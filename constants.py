@@ -85,3 +85,6 @@ class DEATH:
     COLLISION = 1
     KILLED = 2
     PICKED_UP = 3
+
+
+AUDIO_VOLUME = 0.1
