@@ -10,6 +10,20 @@ CENTER_POINTS = [[700, 450], [900, 450]]
 DICT1 = {'EGYPT': [700, 450], 'INDIA': [900, 450]}
 LIST1 = ['EGYPT', 'INDIA']
 
+MAP_MONUMENTS = {
+    "EGYPT": {
+        "img_name": "pyramids.jpeg",
+        "scale": .5,
+        "center_x": 700,
+        "center_y": 450
+    } ,
+    "INDIA": {
+        "img_name": "taj_mahal.jpeg",
+        "scale": .5,
+        "center_x": 900,
+        "center_y": 450
+    }
+}
 
 # Scaling
 CHARACTER_SCALING = 1
