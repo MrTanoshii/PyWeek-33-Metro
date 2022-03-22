@@ -133,29 +133,13 @@ class GameView(arcade.View):
         BackGround.update(delta_time)
         Gold.update(delta_time)
 
-        player_move_dir = None
-        if self.left_key_down:
-            if self.up_key_down:
-                player_move_dir = MOVE_DIRECTION.TOP_LEFT
-            elif self.down_key_down:
-                player_move_dir = MOVE_DIRECTION.BOTTOM_LEFT
-            else:
-                player_move_dir = MOVE_DIRECTION.LEFT
-        elif self.right_key_down:
-            if self.up_key_down:
-                player_move_dir = MOVE_DIRECTION.TOP_RIGHT
-            elif self.down_key_down:
-                player_move_dir = MOVE_DIRECTION.BOTTOM_RIGHT
-            else:
-                player_move_dir = MOVE_DIRECTION.RIGHT
-        elif self.up_key_down:
-            player_move_dir = MOVE_DIRECTION.TOP
-        elif self.down_key_down:
-            player_move_dir = MOVE_DIRECTION.BOTTOM
-        else:
-            player_move_dir = MOVE_DIRECTION.IDLE
-
-        self.player.update(player_move_dir)
+        movement_key_pressed = {
+            "left": self.left_key_down,
+            "up": self.up_key_down,
+            "down": self.down_key_down,
+            "right": self.right_key_down
+        }
+        self.player.update(movement_key_pressed)
         self.check_collisions()
 
         Enemy.update()
