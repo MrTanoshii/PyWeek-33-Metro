@@ -86,5 +86,6 @@ class DEATH:
     KILLED = 2
     PICKED_UP = 3
 
+
 # Audio
 MASTER_VOLUME = 0.1
