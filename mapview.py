@@ -18,7 +18,7 @@ class MapView(arcade.View):
         # These are 'lists' that keep track of our sprites. Each sprite should
         # go into a list.
         self.cursor_sprite = None
-        self.player_list = None
+        self.cursor_list = None
 
         self.background = None
 
@@ -31,14 +31,14 @@ class MapView(arcade.View):
 
         # self.gui_camera = arcade.Camera(self.window.width, self.window.height)
         self.monument_list = arcade.SpriteList()
-        self.player_list = arcade.SpriteList()
+        self.cursor_list = arcade.SpriteList()
         # Create the sprite lists
         self.background = arcade.load_texture(
             "resources/images/pixel_map.png")
         self.cursor_sprite = arcade.Sprite(
             "resources/images/goat_cursor.png", 0.05)
 
-        self.player_list.append(self.cursor_sprite)
+        self.cursor_list.append(self.cursor_sprite)
         self.load_monuments()
 
     def load_monuments(self):
@@ -62,7 +62,7 @@ class MapView(arcade.View):
                                             self.background)
 
         self.monument_list.draw()
-        self.player_list.draw()
+        self.cursor_list.draw()
 
     def on_mouse_motion(self, x, y, dx, dy):
         for monument in self.monument_list:
