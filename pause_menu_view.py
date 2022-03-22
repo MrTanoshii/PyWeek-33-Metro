@@ -16,6 +16,7 @@ class PauseMenuView(arcade.View):
     def on_draw(self):
         """Draw the menu"""
         self.clear()
+
         arcade.draw_text(
             "Game Paused - ESC to exit | Any key to resume",
             SCREEN_WIDTH / 2,
