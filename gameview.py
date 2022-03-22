@@ -5,6 +5,7 @@ from player import Player
 from enemy import Enemy
 from gold import Gold
 from tracker import Tracker
+from settings import Settings
 
 import arcade
 import random
@@ -193,7 +194,7 @@ class GameView(arcade.View):
 
         # M
         elif key == arcade.key.M:
-            BackGround.spawn()
+            Settings.master_volume_toggle()
 
     def on_key_release(self, key, modifiers):
         """Called when the user releases a key."""
