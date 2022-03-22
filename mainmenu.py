@@ -59,6 +59,8 @@ class MapView(arcade.View):
         self.monument_list = None
         self.monument_sprite = None
 
+        #arcade.set_background_color((170,218,255))
+
         # self.set_mouse_visible(False)
 
     def setup(self):
@@ -69,7 +71,7 @@ class MapView(arcade.View):
         self.player_list = arcade.SpriteList()
         # Create the sprite lists
         self.background = arcade.load_texture(
-            "resources/images/earthmap1k.jpg")
+            "resources/images/world_map_4.png")
 
         self.player_sprite = arcade.Sprite(
             ":resources:images/animated_characters/female_person/femalePerson_idle.png", 0.5)
