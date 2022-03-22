@@ -2,13 +2,11 @@
 import constants as C
 import gameview
 import arcade
+from player import Player
 
 
 class MapView(arcade.View):
     """ Class Managing the Map View"""
-
-    # def on_show(self):
-    #     self.background = "resources/images/map.png"
 
     def __init__(self):
 
@@ -24,7 +22,10 @@ class MapView(arcade.View):
 
         self.monument_list = None
 
-        # arcade.set_background_color((170,218,255))
+        self.level = 0
+        self.normal_scale = .2
+        self.highlight_scale = .5
+        self.highlight = False
 
     def setup(self):
         """ Set up everything with the game """
@@ -34,7 +35,7 @@ class MapView(arcade.View):
         self.cursor_list = arcade.SpriteList()
         # Create the sprite lists
         self.background = arcade.load_texture(
-            "resources/images/pixel_map.png")
+            "resources/images/map/pixel_map.png")
         self.cursor_sprite = arcade.Sprite(
             "resources/images/goat_cursor.png", 0.05)
 
@@ -45,8 +46,9 @@ class MapView(arcade.View):
         """Loads map monuments onto map"""
         for mon_dict in C.MAP_MONUMENTS_LIST:
             monument = arcade.Sprite(
-                "resources/images/" + mon_dict["img_name"],
-                mon_dict["scale"])
+                "resources/images/map/" + mon_dict["img_name"],
+                self.normal_scale)
+            monument.level = mon_dict["level"]
             monument.center_x = mon_dict["center_x"]
             monument.center_y = mon_dict["center_y"]
             self.monument_list.append(monument)
@@ -64,8 +66,6 @@ class MapView(arcade.View):
         self.cursor_list.draw()
 
     def on_mouse_motion(self, x, y, dx, dy):
-        for monument in self.monument_list:
-            monument.scale = 0.5
         self.cursor_sprite.center_x = x+20
         self.cursor_sprite.center_y = y-20
 
@@ -74,21 +74,29 @@ class MapView(arcade.View):
         hit_list = arcade.check_for_collision_with_list(
             self.cursor_sprite, self.monument_list)
 
-        for i in hit_list:
-            i.scale = 0.7
-
-        # self.monument_sprite.clear()
+        if len(hit_list):
+            for i, monument in enumerate(self.monument_list):
+                if i != self.monument_list.index(hit_list[0]):
+                    monument.scale = self.normal_scale
+                else:
+                    monument.scale = self.highlight_scale
+                    self.highlight = True
+        elif self.highlight:
+            for monument in self.monument_list:
+                monument.scale = self.normal_scale
+            self.highlight = False
 
     def on_mouse_press(self, x, y, button, modifiers):
-        p = self.cursor_sprite.collides_with_list(self.monument_list)
-        for location in p:
-            game = gameview.GameView()
-            game.setup()
-            self.window.show_view(game)
 
+        if C.DEBUG:
+            print(x, y)
+        target = arcade.check_for_collision_with_list(self.cursor_sprite, self.monument_list)
+        Player.current_level = target[0].level
+        game = gameview.GameView()
+        game.setup()
+        self.window.show_view(game)
 
 # Make center points as dictionary and call out other views mostly
-
 
     def on_show(self):
         self.setup()

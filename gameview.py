@@ -24,6 +24,8 @@ class GameView(arcade.View):
         # Call the parent class and set up the window
         super().__init__()
 
+        self.level = Player.current_level
+
         # These are 'lists' that keep track of our sprites. Each sprite should
         # go into a list.
 
@@ -53,14 +55,14 @@ class GameView(arcade.View):
         # self.gui_camera = arcade.Camera(self.window.width, self.window.height)
 
         # Create player sprite
-        self.player = Player(hit_box_algorithm="Detailed")
+        self.player = Player(hit_box_algorithm="Simple")
 
         # Rotate player to face to the right
 
         # Add to player sprite list
 
         # Create BG sprite
-        self.bg = BackGround()
+        self.bg = BackGround(self.level)
         self.bg.center_x = self.bg.width/2
         self.bg.center_y = C.SCREEN_HEIGHT/2
         BackGround.bg_list.append(self.bg)
@@ -125,7 +127,6 @@ class GameView(arcade.View):
 
     def on_update(self, delta_time):
         if random.randint(0, 200) == 1:
-            BackGround.spawn()
             Enemy.spawn_enemy()
 
         BackGround.update(delta_time)
@@ -201,8 +202,6 @@ class GameView(arcade.View):
             self.shoot_pressed = True
         elif key == arcade.key.E:
             Enemy.spawn_enemy()
-        elif key == arcade.key.T:
-            BackGround.spawn()
 
         # M
         elif key == arcade.key.M:
