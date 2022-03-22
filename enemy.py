@@ -1,6 +1,6 @@
 import arcade
 from constants import ENEMY_SCALING, SCREEN_WIDTH, SCREEN_HEIGHT, DEATH
-from constants import AUDIO_VOLUME
+from constants import MASTER_VOLUME
 import random
 from bullet import Bullet
 from gold import Gold

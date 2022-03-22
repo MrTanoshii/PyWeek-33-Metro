@@ -1,5 +1,5 @@
 import arcade
-from constants import GOLD_SCALING, SPEED_SCROLLING, DEATH, AUDIO_VOLUME
+from constants import GOLD_SCALING, SPEED_SCROLLING, DEATH, MASTER_VOLUME
 from tracker import Tracker
 
 

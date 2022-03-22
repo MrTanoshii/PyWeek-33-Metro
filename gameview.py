@@ -191,6 +191,10 @@ class GameView(arcade.View):
         elif key == arcade.key.T:
             BackGround.spawn()
 
+        # M
+        elif key == arcade.key.M:
+            BackGround.spawn()
+
     def on_key_release(self, key, modifiers):
         """Called when the user releases a key."""
         if key == arcade.key.LEFT or key == arcade.key.A:
