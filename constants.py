@@ -6,9 +6,6 @@ import arcade
 SCREEN_WIDTH = 1280
 SCREEN_HEIGHT = 720
 SCREEN_TITLE = "REVƎЯ"
-CENTER_POINTS = [[700, 450], [900, 450]]
-DICT1 = {'EGYPT': [700, 450], 'INDIA': [900, 450]}
-LIST1 = ['EGYPT', 'INDIA']
 
 MAP_MONUMENTS = {
     "EGYPT": {
@@ -16,7 +13,7 @@ MAP_MONUMENTS = {
         "scale": .5,
         "center_x": 700,
         "center_y": 450
-    } ,
+    },
     "INDIA": {
         "img_name": "taj_mahal.jpeg",
         "scale": .5,
