@@ -1,7 +1,7 @@
 import arcade
 
 import constants
-from constants import SCREEN_WIDTH, SCREEN_HEIGHT, CENTER_POINTS, LIST1
+import constants as C
 import gameview
 
 
@@ -36,7 +36,6 @@ class MapView(arcade.View):
         # Create the sprite lists
         self.background = arcade.load_texture(
             "resources/images/pixel_map.png")
-
         self.cursor_sprite = arcade.Sprite(
             ":resources:images/animated_characters/female_person/femalePerson_idle.png", 0.5)
 
@@ -65,7 +64,7 @@ class MapView(arcade.View):
         self.clear()
 
         arcade.draw_lrwh_rectangle_textured(0, 0,
-                                            SCREEN_WIDTH, SCREEN_HEIGHT,
+                                            C.SCREEN_WIDTH, C.SCREEN_HEIGHT,
                                             self.background)
 
         self.monument_list.draw()
