@@ -16,6 +16,7 @@ class PauseMenuView(arcade.View):
     def on_draw(self):
         """Draw the menu"""
         self.clear()
+
         arcade.draw_text(
             "Game Paused - ESC to exit | Any key to resume",
             SCREEN_WIDTH / 2,
@@ -29,7 +30,7 @@ class PauseMenuView(arcade.View):
         """Use a mouse press to advance to the 'game' view."""
         self.window.show_view(self.game_view)
 
-    def on_key_press(self, key, modifiers):
+    def on_key_press(self, key, _modifiers):
         """Handle keyboard key press"""
         if key == arcade.key.ESCAPE:
             arcade.exit()
