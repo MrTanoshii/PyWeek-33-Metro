@@ -137,26 +137,11 @@ class GameView(arcade.View):
             "down": self.down_key_down,
             "right": self.right_key_down
         }
-        self.player.update(movement_key_pressed)
+        self.player.update(delta_time, movement_key_pressed,
+                           self.shoot_pressed)
         self.check_collisions()
 
         Enemy.update()
-
-        # Player shoot
-        if self.player.can_shoot:
-            if self.shoot_pressed:
-                self.player.can_shoot = False
-                self.player.shoot(Bullet.friendly_bullet_list)
-        else:
-            if self.player.is_reloading:
-                self.player.reload_timer += delta_time
-                if self.player.reload_timer >= self.player.reload_speed:
-                    self.player.reload_weapon()
-            else:
-                self.player.shoot_timer += delta_time
-                if self.player.shoot_timer >= self.player.shoot_speed:
-                    self.player.can_shoot = True
-                    self.player.shoot_timer = 0
 
     def on_mouse_motion(self, x, y, dx, dy):
         """Called whenever mouse is moved."""

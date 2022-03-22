@@ -3,6 +3,7 @@ import constants as C
 from bullet import Bullet
 import math
 from lib import calculate_angle
+from bullet import Bullet
 
 
 class Player(arcade.Sprite):
@@ -70,40 +71,59 @@ class Player(arcade.Sprite):
 
         Player.player_list.append(self)
 
+    def shoot(self, delta_time, shoot_pressed):
+        """Handles shooting & reloading"""
 
-    def shoot(self, friendly_bullet_list):
-        if not self.is_reloading and self.cur_ammo > 0:
-            self.cur_ammo -= 1
+        if self.can_shoot:
+            # Shoot
+            if shoot_pressed:
+                self.can_shoot = False
+                if not self.is_reloading and self.cur_ammo > 0:
+                    # Decrease ammo count
+                    self.cur_ammo -= 1
+                    # Calculate bullet speed
+                    speed_x = self.gun_bullet_speed * \
+                        math.cos(math.radians(self.gun_angle +
+                                              C.WEAPON_INIT_ANGLE))
+                    speed_y = self.gun_bullet_speed * \
+                        math.sin(math.radians(self.gun_angle +
+                                              C.WEAPON_INIT_ANGLE))
 
-            # Calculate bullet speed
-            speed_x = self.gun_bullet_speed * \
-                math.cos(math.radians(self.gun_angle +
-                         C.WEAPON_INIT_ANGLE))
-            speed_y = self.gun_bullet_speed * \
-                math.sin(math.radians(self.gun_angle +
-                         C.WEAPON_INIT_ANGLE))
+                    bullet = Bullet("Detailed", speed_x, speed_y,
+                                    self.gun_angle + C.WEAPON_INIT_ANGLE, self.gun_damage)
 
-            bullet = Bullet("Detailed", speed_x, speed_y,
-                            self.gun_angle + C.WEAPON_INIT_ANGLE, self.gun_damage)
+                    # Set bullet location
+                    bullet.center_x = self.center_x + \
+                        (self.width / 2 *
+                         math.cos(math.radians(self.gun_angle + C.WEAPON_INIT_ANGLE)))
+                    bullet.center_y = self.center_y + \
+                        (self.height / 2 *
+                         math.sin(math.radians(self.gun_angle + C.WEAPON_INIT_ANGLE)))
 
-            # Set bullet location
-            bullet.center_x = self.center_x + \
-                (self.width / 2 *
-                 math.cos(math.radians(self.gun_angle + C.WEAPON_INIT_ANGLE)))
-            bullet.center_y = self.center_y + \
-                (self.height / 2 *
-                 math.sin(math.radians(self.gun_angle + C.WEAPON_INIT_ANGLE)))
+                    # Add to bullet sprite list
+                    Bullet.friendly_bullet_list.append(bullet)
 
-            # Add to bullet sprite list
-            friendly_bullet_list.append(bullet)
+                    # Play weapon shoot sfx
+                    arcade.play_sound(bullet.audio_gunshot,
+                                      volume=self.audio_volume)
 
-            # Play weapon shoot sfx
-            arcade.play_sound(bullet.audio_gunshot, volume=self.audio_volume)
-
-            if self.cur_ammo <= 0:
-                self.is_reloading = True
-        # else:
-            # Play empty gun sfx
+                    # Start reload if ammo depleted
+                    if self.cur_ammo <= 0:
+                        self.is_reloading = True
+                # else:
+                    # Play empty gun sfx
+        else:
+            # Reload weapon
+            if self.is_reloading:
+                self.reload_timer += delta_time
+                if self.reload_timer >= self.reload_speed:
+                    self.reload_weapon()
+            # Wait until weapon can shoot
+            else:
+                self.shoot_timer += delta_time
+                if self.shoot_timer >= self.shoot_speed:
+                    self.can_shoot = True
+                    self.shoot_timer = 0
 
     def reload_weapon(self):
         """Handles gun reload"""
@@ -140,13 +160,13 @@ class Player(arcade.Sprite):
             new_angle = new_angle - C.WEAPON_INIT_ANGLE
         self.gun_angle = new_angle
 
-
     def on_mouse_motion(self, x, y, dx, dy):
         """Called whenever mouse is moved."""
         self.player.follow_mouse(x, y)
 
-    def update(self, movement_key_pressed):
+    def update(self, delta_time, movement_key_pressed, shoot_pressed):
         self.move(movement_key_pressed)
+        self.shoot(delta_time, shoot_pressed)
 
     def move(self, movement_key_pressed):
         """Deduce player movement direction from pressed movement keys."""
