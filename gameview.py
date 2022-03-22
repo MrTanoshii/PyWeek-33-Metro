@@ -1,6 +1,3 @@
-from constants import SCREEN_WIDTH, SCREEN_HEIGHT, SPRITE_PLAYER_INIT_ANGLE
-from constants import SCREEN_WIDTH, SCREEN_HEIGHT, level1, SPRITE_PLAYER_INIT_ANGLE, MOVE_DIRECTION
-from webbrowser import BackgroundBrowser
 from bullet import Bullet
 from bg import BackGround
 from player import Player
@@ -268,11 +265,13 @@ class GameView(arcade.View):
                 if enemy.HP <= 0:
                     Enemy.despawn(enemy, DEATH.KILLED)
                     # Play a sound
-                    arcade.play_sound(enemy.audio_destroyed, volume=enemy.audio_volume)
+                    arcade.play_sound(enemy.audio_destroyed,
+                                      volume=enemy.audio_volume)
                     Tracker.increment_score(10)
                 else:
                     # Play a sound
-                    arcade.play_sound(enemy.audio_hit, volume=enemy.audio_volume)
+                    arcade.play_sound(
+                        enemy.audio_hit, volume=enemy.audio_volume)
         # Check enemy bullet collisions
         for bullet in Bullet.enemy_bullet_list:
             # Move all Bullets Forwards
