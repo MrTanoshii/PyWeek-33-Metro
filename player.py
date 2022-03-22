@@ -130,34 +130,67 @@ class Player(arcade.Sprite):
             new_angle = new_angle - C.SPRITE_PLAYER_INIT_ANGLE
         self.gun_angle = new_angle
 
-    def update(self, move_dir):
+    def on_mouse_motion(self, x, y, dx, dy):
+        """Called whenever mouse is moved."""
+        self.player.follow_mouse(x, y)
+
+    def update(self, movement_key_pressed):
+        self.move(movement_key_pressed)
+
+    def move(self, movement_key_pressed):
+        """Deduce player movement direction from pressed movement keys."""
+
+        # Find direction of movement
+        player_move_dir = None
+        if movement_key_pressed["left"]:
+            if movement_key_pressed["up"]:
+                player_move_dir = C.MOVE_DIRECTION.TOP_LEFT
+            elif movement_key_pressed["down"]:
+                player_move_dir = C.MOVE_DIRECTION.BOTTOM_LEFT
+            else:
+                player_move_dir = C.MOVE_DIRECTION.LEFT
+        elif movement_key_pressed["right"]:
+            if movement_key_pressed["up"]:
+                player_move_dir = C.MOVE_DIRECTION.TOP_RIGHT
+            elif movement_key_pressed["down"]:
+                player_move_dir = C.MOVE_DIRECTION.BOTTOM_RIGHT
+            else:
+                player_move_dir = C.MOVE_DIRECTION.RIGHT
+        elif movement_key_pressed["up"]:
+            player_move_dir = C.MOVE_DIRECTION.TOP
+        elif movement_key_pressed["down"]:
+            player_move_dir = C.MOVE_DIRECTION.BOTTOM
+        else:
+            player_move_dir = C.MOVE_DIRECTION.IDLE
+
+        # Calculate speed in x and y axes
         self.speed_x = 0
         self.speed_y = 0
-
-        if move_dir == C.MOVE_DIRECTION.LEFT:
+        if player_move_dir == C.MOVE_DIRECTION.LEFT:
             self.speed_x = -self.max_speed
             self.speed_y = 0
-        elif move_dir == C.MOVE_DIRECTION.BOTTOM_LEFT:
+        elif player_move_dir == C.MOVE_DIRECTION.BOTTOM_LEFT:
             self.speed_x = -self.max_speed * math.cos(math.radians(45))
             self.speed_y = -self.max_speed * math.sin(math.radians(45))
-        elif move_dir == C.MOVE_DIRECTION.BOTTOM:
+        elif player_move_dir == C.MOVE_DIRECTION.BOTTOM:
             self.speed_x = 0
             self.speed_y = -self.max_speed
-        elif move_dir == C.MOVE_DIRECTION.BOTTOM_RIGHT:
+        elif player_move_dir == C.MOVE_DIRECTION.BOTTOM_RIGHT:
             self.speed_x = self.max_speed * math.cos(math.radians(45))
             self.speed_y = -self.max_speed * math.sin(math.radians(45))
-        elif move_dir == C.MOVE_DIRECTION.RIGHT:
+        elif player_move_dir == C.MOVE_DIRECTION.RIGHT:
             self.speed_x = self.max_speed
             self.speed_y = 0
-        elif move_dir == C.MOVE_DIRECTION.TOP_RIGHT:
+        elif player_move_dir == C.MOVE_DIRECTION.TOP_RIGHT:
             self.speed_x = self.max_speed * math.cos(math.radians(45))
             self.speed_y = self.max_speed * math.sin(math.radians(45))
-        elif move_dir == C.MOVE_DIRECTION.TOP:
+        elif player_move_dir == C.MOVE_DIRECTION.TOP:
             self.speed_x = 0
             self.speed_y = self.max_speed
-        elif move_dir == C.MOVE_DIRECTION.TOP_LEFT:
+        elif player_move_dir == C.MOVE_DIRECTION.TOP_LEFT:
             self.speed_x = -self.max_speed * math.cos(math.radians(45))
             self.speed_y = self.max_speed * math.sin(math.radians(45))
 
+        # Move player
         self.center_x += self.speed_x
         self.center_y += self.speed_y
