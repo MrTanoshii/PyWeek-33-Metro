@@ -1,3 +1,5 @@
+import pause_menu_view
+from constants import GAME_BACKGROUND_COLOR, SCREEN_WIDTH, SCREEN_HEIGHT, LEVEL1, SPRITE_PLAYER_INIT_ANGLE, DEATH, MOVE_DIRECTION
 from bullet import Bullet
 from bg import BackGround
 from player import Player
@@ -9,11 +11,9 @@ from settings import Settings
 import arcade
 import mapview
 import random
-from constants import GAME_BACKGROUND_COLOR, SCREEN_WIDTH, SCREEN_HEIGHT, LEVEL1, SPRITE_PLAYER_INIT_ANGLE, DEATH
-import pause_menu_view
 
 
-class GameView1(arcade.View):
+class GameView(arcade.View):
     """
     Main application class.
     """
@@ -33,6 +33,8 @@ class GameView1(arcade.View):
         # What key is pressed down?
         self.left_key_down = False
         self.right_key_down = False
+        self.up_key_down = False
+        self.down_key_down = False
         self.space_down = False
 
         # GUI
@@ -52,10 +54,6 @@ class GameView1(arcade.View):
 
         # Create player sprite
         self.player = Player(hit_box_algorithm="Detailed")
-
-        # Set player location
-        self.player.center_x = SCREEN_WIDTH * .1
-        self.player.center_y = SCREEN_HEIGHT * .5
 
         # Rotate player to face to the right
         self.player.angle = SPRITE_PLAYER_INIT_ANGLE
@@ -134,8 +132,29 @@ class GameView1(arcade.View):
         BackGround.update(delta_time)
         Gold.update(delta_time)
 
-        # MOVE PLAYER: Add player y coordinate the current speed
-        self.player.center_y += self.player.current_speed
+        player_move_dir = None
+        if self.left_key_down:
+            if self.up_key_down:
+                player_move_dir = MOVE_DIRECTION.TOP_LEFT
+            elif self.down_key_down:
+                player_move_dir = MOVE_DIRECTION.BOTTOM_LEFT
+            else:
+                player_move_dir = MOVE_DIRECTION.LEFT
+        elif self.right_key_down:
+            if self.up_key_down:
+                player_move_dir = MOVE_DIRECTION.TOP_RIGHT
+            elif self.down_key_down:
+                player_move_dir = MOVE_DIRECTION.BOTTOM_RIGHT
+            else:
+                player_move_dir = MOVE_DIRECTION.RIGHT
+        elif self.up_key_down:
+            player_move_dir = MOVE_DIRECTION.TOP
+        elif self.down_key_down:
+            player_move_dir = MOVE_DIRECTION.BOTTOM
+        else:
+            player_move_dir = MOVE_DIRECTION.IDLE
+
+        self.player.update(player_move_dir)
         self.check_collisions()
 
         Enemy.update()
@@ -170,26 +189,19 @@ class GameView1(arcade.View):
     def on_key_press(self, key, modifiers):
         """Called whenever a key is pressed."""
 
-        # Left
         if key == arcade.key.LEFT or key == arcade.key.A:
             self.left_key_down = True
-            self.update_player_speed()
-
-        # Right
         elif key == arcade.key.RIGHT or key == arcade.key.D:
             self.right_key_down = True
-            self.update_player_speed()
-
-        # Space
+        elif key == arcade.key.UP or key == arcade.key.W:
+            self.up_key_down = True
+        elif key == arcade.key.DOWN or key == arcade.key.S:
+            self.down_key_down = True
         elif key == arcade.key.SPACE:
             self.space_down = True
             self.shoot_pressed = True
-
-        # E
         elif key == arcade.key.E:
             Enemy.spawn_enemy()
-
-        # T
         elif key == arcade.key.T:
             BackGround.spawn()
 
@@ -205,10 +217,12 @@ class GameView1(arcade.View):
         """Called when the user releases a key."""
         if key == arcade.key.LEFT or key == arcade.key.A:
             self.left_key_down = False
-            self.update_player_speed()
         elif key == arcade.key.RIGHT or key == arcade.key.D:
             self.right_key_down = False
-            self.update_player_speed()
+        elif key == arcade.key.UP or key == arcade.key.W:
+            self.up_key_down = False
+        elif key == arcade.key.DOWN or key == arcade.key.S:
+            self.down_key_down = False
         elif key == arcade.key.SPACE:
             self.space_down = False
             self.shoot_pressed = False
@@ -306,6 +320,8 @@ class GameView2(arcade.View):
         # What key is pressed down?
         self.left_key_down = False
         self.right_key_down = False
+        self.up_key_down = False
+        self.down_key_down = False
         self.space_down = False
 
         # GUI
@@ -407,8 +423,29 @@ class GameView2(arcade.View):
         BackGround.update(delta_time)
         Gold.update(delta_time)
 
-        # MOVE PLAYER: Add player y coordinate the current speed
-        self.player.center_y += self.player.current_speed
+        player_move_dir = None
+        if self.left_key_down:
+            if self.up_key_down:
+                player_move_dir = MOVE_DIRECTION.TOP_LEFT
+            elif self.down_key_down:
+                player_move_dir = MOVE_DIRECTION.BOTTOM_LEFT
+            else:
+                player_move_dir = MOVE_DIRECTION.LEFT
+        elif self.right_key_down:
+            if self.up_key_down:
+                player_move_dir = MOVE_DIRECTION.TOP_RIGHT
+            elif self.down_key_down:
+                player_move_dir = MOVE_DIRECTION.BOTTOM_RIGHT
+            else:
+                player_move_dir = MOVE_DIRECTION.RIGHT
+        elif self.up_key_down:
+            player_move_dir = MOVE_DIRECTION.TOP
+        elif self.down_key_down:
+            player_move_dir = MOVE_DIRECTION.BOTTOM
+        else:
+            player_move_dir = MOVE_DIRECTION.IDLE
+
+        self.player.update(player_move_dir)
         self.check_collisions()
 
         Enemy.update()
@@ -443,26 +480,19 @@ class GameView2(arcade.View):
     def on_key_press(self, key, modifiers):
         """Called whenever a key is pressed."""
 
-        # Left
         if key == arcade.key.LEFT or key == arcade.key.A:
             self.left_key_down = True
-            self.update_player_speed()
-
-        # Right
         elif key == arcade.key.RIGHT or key == arcade.key.D:
             self.right_key_down = True
-            self.update_player_speed()
-
-        # Space
+        elif key == arcade.key.UP or key == arcade.key.W:
+            self.up_key_down = True
+        elif key == arcade.key.DOWN or key == arcade.key.S:
+            self.down_key_down = True
         elif key == arcade.key.SPACE:
             self.space_down = True
             self.shoot_pressed = True
-
-        # E
         elif key == arcade.key.E:
             Enemy.spawn_enemy()
-
-        # T
         elif key == arcade.key.T:
             BackGround.spawn()
 
@@ -478,23 +508,28 @@ class GameView2(arcade.View):
         """Called when the user releases a key."""
         if key == arcade.key.LEFT or key == arcade.key.A:
             self.left_key_down = False
-            self.update_player_speed()
         elif key == arcade.key.RIGHT or key == arcade.key.D:
             self.right_key_down = False
-            self.update_player_speed()
+        elif key == arcade.key.UP or key == arcade.key.W:
+            self.up_key_down = False
+        elif key == arcade.key.DOWN or key == arcade.key.S:
+            self.down_key_down = False
         elif key == arcade.key.SPACE:
             self.space_down = False
             self.shoot_pressed = False
 
-    def update_player_speed(self):
-        self.player.current_speed = 0
-
-        # D pressed
-        if self.left_key_down and not self.right_key_down:
-            self.player.current_speed = self.player.speed
-        # A pressed
-        elif self.right_key_down and not self.left_key_down:
-            self.player.current_speed = -self.player.speed
+    def spawn_bg(self):
+        # Create BG sprite
+        assets = LEVEL1.assets
+        self.bg = BackGround(asset=random.choice(
+            assets), size=random.uniform(.9, 1.1))
+        self.bg.center_x = SCREEN_WIDTH + self.bg.width / 2
+        if random.randint(0, 1) == 1:
+            self.bg.center_y = SCREEN_HEIGHT + \
+                self.bg.height / 2 - random.uniform(50, 75)
+        else:
+            self.bg.center_y = self.bg.height / 2 + random.uniform(-50, 50)
+        self.bg_list.append(self.bg)
 
     def check_collisions(self):
         """Check for collisions and calculate score"""

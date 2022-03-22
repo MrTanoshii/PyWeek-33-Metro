@@ -6,11 +6,23 @@ import arcade
 SCREEN_WIDTH = 1280
 SCREEN_HEIGHT = 720
 SCREEN_TITLE = "REVƎЯ"
-CENTER_POINTS = [[700, 450], [900, 450]]
-DICT1 = {'EGYPT': [700, 450], 'INDIA': [900, 450]}
-LIST1 = ['EGYPT', 'INDIA']
 
-
+MAP_MONUMENTS_LIST = [
+    {
+        "name": "EGYPT",
+        "img_name": "pyramids.jpeg",
+        "scale": .5,
+        "center_x": 700,
+        "center_y": 450
+    },
+    {
+        "name": "INDIA",
+        "img_name": "taj_mahal.jpeg",
+        "scale": .5,
+        "center_x": 900,
+        "center_y": 450
+    }
+]
 # Scaling
 CHARACTER_SCALING = 1
 BULLET_SCALING = 0.15
@@ -38,6 +50,41 @@ PLAYER_GUN_BULLET_SPEED = 20
 PLAYER_GUN_SHOOT_SPEED = 0.1
 PLAYER_GUN_RELOAD_TIME = 3
 PLAYER_GUN_DAMAGE = 1
+
+# Speed
+SPEED_SCROLLING = -10
+SPEED_PLAYER = 8
+
+
+class DEATH:
+    """ Reasons for death/despawn """
+    OOB = 0
+    COLLISION = 1
+    KILLED = 2
+    PICKED_UP = 3
+
+
+# Audio
+MASTER_VOLUME = 0.1
+# Menu
+MENU_BACKGROUND_COLOR = arcade.csscolor.DIM_GREY
+MENU_FONT_SIZE = 30
+
+# Game View
+GAME_BACKGROUND_COLOR = arcade.csscolor.DARK_GREEN
+
+
+class MOVE_DIRECTION:
+    LEFT = 0
+    BOTTOM_LEFT = 1
+    BOTTOM = 2
+    BOTTOM_RIGHT = 3
+    RIGHT = 4
+    TOP_RIGHT = 5
+    TOP = 6
+    TOP_LEFT = 7
+    IDLE = 8
+
 
 # Speed
 SPEED_SCROLLING = -10
