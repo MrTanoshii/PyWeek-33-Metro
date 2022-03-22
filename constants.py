@@ -7,22 +7,71 @@ SCREEN_WIDTH = 1280
 SCREEN_HEIGHT = 720
 SCREEN_TITLE = "REVƎЯ"
 
+DEBUG = False
+
 MAP_MONUMENTS_LIST = [
     {
         "name": "EGYPT",
-        "img_name": "pyramids.jpeg",
-        "scale": .5,
-        "center_x": 700,
-        "center_y": 450
+        "level": "1",
+        "img_name": "icon1.png",
+        "center_x": 650,
+        "center_y": 325,
+        "player": "donky-example-player.png",
+        "enemy": "tank_enemy.png",
+        "assets": ["pyramids.png", "cactus.png"]
     },
     {
-        "name": "INDIA",
-        "img_name": "taj_mahal.jpeg",
-        "scale": .5,
-        "center_x": 900,
-        "center_y": 450
-    }
+        "name": "MOSCOW",
+        "level": "2",
+        "img_name": "icon2.png",
+        "center_x": 700,
+        "center_y": 480,
+        "player": "donky-example-player.png",
+        "enemy": "tank_enemy.png",
+        "assets": ["tree.png", "tree2.png"]
+    },
+    {
+        "name": "CHINA",
+        "level": "3",
+        "img_name": "icon3.png",
+        "center_x": 950,
+        "center_y": 330,
+        "player": "donky-example-player.png",
+        "enemy": "tank_enemy.png",
+        "assets": ["cactus256.png", "tree.png"]
+    },
+    {
+        "name": "OCEAN",
+        "level": "4",
+        "img_name": "icon4.png",
+        "center_x": 1206,
+        "center_y": 169,
+        "player": "donky-example-player.png",
+        "enemy": "tank_enemy.png",
+        "assets": ["cactus256.png", "tree.png"]
+    },
+    {
+        "name": "BRAZIL",
+        "level": "5",
+        "img_name": "icon5.png",
+        "center_x": 370,
+        "center_y": 180,
+        "player": "donky-example-player.png",
+        "enemy": "tank_enemy.png",
+        "assets": ["cactus256.png", "tree.png"]
+    },
+    {
+        "name": "USA",
+        "level": "6",
+        "img_name": "icon6.png",
+        "center_x": 140,
+        "center_y": 340,
+        "player": "donky-example-player.png",
+        "enemy": "tank_enemy.png",
+        "assets": ["cactus256.png", "tree.png"]
+    },
 ]
+
 # Scaling
 CHARACTER_SCALING = 1
 BULLET_SCALING = 0.15
@@ -38,7 +87,7 @@ WEAPON_INIT_ANGLE = -90
 
 
 class LEVEL1:
-    assets = ["tree.png", "bush.png"]
+    assets = ["tree.png", "bush.png", "cactus256.png", "tree2.png"]
 
 
 # Player

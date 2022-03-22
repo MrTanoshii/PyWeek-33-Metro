@@ -3,7 +3,6 @@ from constants import SCREEN_WIDTH, SCREEN_HEIGHT, SCREEN_TITLE
 from mainmenu import MainMenu
 
 
-
 def main():
     """Main function"""
     window = arcade.Window(SCREEN_WIDTH, SCREEN_HEIGHT, SCREEN_TITLE)
