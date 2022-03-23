@@ -4,6 +4,7 @@ from constants import MASTER_VOLUME
 import random
 from bullet import Bullet
 from gold import Gold
+from player import Player
 
 
 class Enemy(arcade.Sprite):
@@ -83,7 +84,7 @@ class Enemy(arcade.Sprite):
 
     def shoot(self, enemy_bullet_list):
         """Handle Enemy shooting"""
-        bullet = Bullet("Detailed", -20, 0, None, 180)
+        bullet = Bullet("Simple", -20, 0, Player.weapon.bullet_texture_list, 180)
 
 
         # Set bullet location
