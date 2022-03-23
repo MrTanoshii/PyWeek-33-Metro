@@ -1,3 +1,4 @@
+import random
 import arcade
 import constants as C
 from bullet import Bullet
@@ -126,8 +127,13 @@ class Player(arcade.Sprite):
                 Bullet.friendly_bullet_list.append(bullet)
 
                 # Play weapon shoot sfx
-                arcade.play_sound(bullet.audio_gunshot,
-                                  volume=self.audio_volume)
+                rand_num = random.randint(
+                    0, len(self.weapon.sfx_single_shot_list) - 1)
+                # TODO: Better volume math
+                volume = self.audio_volume + \
+                    self.weapon.sfx_single_shot_vol_gain_list[rand_num]
+                arcade.play_sound(self.weapon.sfx_single_shot_list[rand_num],
+                                  volume)
 
                 # Start reload if ammo depleted
                 if self.weapon.cur_ammo <= 0:

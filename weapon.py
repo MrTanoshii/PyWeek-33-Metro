@@ -94,6 +94,16 @@ class Weapon(arcade.Sprite):
                 self.reload_rate = weapon["reload_rate"]
                 self.is_reloading = False
 
+                # Load single shot sfx
+                self.sfx_single_shot_list = []
+                for sfx in weapon["sfx_single_shot_list"]:
+                    self.sfx_single_shot_list.append(arcade.load_sound(
+                        f"resources/audio/weapon/" + weapon["img_name"] + "/" + sfx))
+                # Load single shot sfx volume gain
+                self.sfx_single_shot_vol_gain_list = []
+                for vol_gain in weapon["sfx_single_shot_vol_gain_list"]:
+                    self.sfx_single_shot_vol_gain_list.append(vol_gain)
+
                 # Break out of loop if weapon found
                 break
 

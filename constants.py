@@ -132,11 +132,13 @@ WEAPON_LIST = [
         "bullet_scale": .3,
         "shoot_time": 0.1,
         "reload_time": 1.5,
-        "reload_rate": 30
+        "reload_rate": 30,
+        "sfx_single_shot_list": ["156073__duesto__ak-47.wav", "509430__seanmorrissey96__ak-47.wav", "616091__drummerdude525__ak-74-fire.wav"],
+        "sfx_single_shot_vol_gain_list": [-0.02, 0.06, 0.08]
     },
     {
         "name": "Shotgun",
-        "img_name": "weapon_ak",
+        "img_name": "weapon_shotgun",
         "width": 640,
         "height": 360,
         "scale": 3*WEAPON_SCALING,
@@ -151,7 +153,9 @@ WEAPON_LIST = [
         "bullet_scale": .5,
         "shoot_time": 0.3,
         "reload_time": 0.8,
-        "reload_rate": 1
+        "reload_rate": 1,
+        "sfx_single_shot_list": ["522282__filmmakersmanual__shotgun-firing-1.wav", "522284__filmmakersmanual__shotgun-firing-3.wav", "522285__filmmakersmanual__shotgun-firing-4.wav"],
+        "sfx_single_shot_vol_gain_list": [0.19, 0.19, 0.19]
     },
     {
         "name": "RPG",
@@ -170,7 +174,9 @@ WEAPON_LIST = [
         "bullet_scale": 2,
         "shoot_time": 0.3,
         "reload_time": 2.5,
-        "reload_rate": 1
+        "reload_rate": 1,
+        "sfx_single_shot_list": ["441499__matrixxx__rocket-01.wav", "441500__matrixxx__rocket-02.wav"],
+        "sfx_single_shot_vol_gain_list": [.4, .4]
     }
 ]
 
