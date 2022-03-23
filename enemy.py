@@ -159,6 +159,6 @@ class Enemy(arcade.Sprite):
         arcade.play_sound(bullet.audio_gunshot)
 
     def update_animation(self, delta_time: float = 1 / 60):
-        self.cur_texture += delta_time * 0.02
+        self.cur_texture += delta_time * self.animation_speed
         if self.cur_texture > len(self.texture_list) - 1:
             self.cur_texture = 0
