@@ -209,7 +209,7 @@ class GameView(arcade.View):
             self.shoot_pressed = True
 
         # Weapon swap | 1-3
-        elif key == arcade.key.KEY_1 or arcade.key.KEY_2 or arcade.key.KEY_3:
+        elif key == arcade.key.KEY_1 or key == arcade.key.KEY_2 or key == arcade.key.KEY_3:
             requested_weapon = ""
             # 1 - Rifle
             if key == arcade.key.KEY_1:
@@ -225,16 +225,16 @@ class GameView(arcade.View):
             if Player.weapon.weapon_name != requested_weapon:
                 Player.weapon.swap_weapon(requested_weapon)
 
-        # E
+        # Enemy spawn | E
         elif key == arcade.key.E:
             Enemy.spawn_enemy()
 
-        # M
+        # Volume Toggle | M
         elif key == arcade.key.M:
             Settings.master_volume_toggle()
 
+        # Pause menu | Escape
         elif key == arcade.key.ESCAPE:
-
             self.window.show_view(PauseMenuView(self))
 
     def on_key_release(self, key, modifiers):
