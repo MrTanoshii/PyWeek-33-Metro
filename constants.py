@@ -3,9 +3,10 @@ import arcade
 """ Include all constant values """
 
 # Window Size and Title
-SCREEN_WIDTH = 1280
+SCREEN_WIDTH = 1240
 SCREEN_HEIGHT = 720
 SCREEN_TITLE = "REVƎЯ"
+FULLSCREEN = False
 
 DEBUG = False
 
@@ -14,8 +15,8 @@ MAP_MONUMENTS_LIST = [
         "name": "EGYPT",
         "level": "1",
         "img_name": "icon1.png",
-        "center_x": 650,
-        "center_y": 325,
+        "center_x": 650 / 1280 * SCREEN_WIDTH,
+        "center_y": 325 / 720 * SCREEN_HEIGHT,
         "player": "donky-example-player.png",
         "enemy": "tank_enemy.png",
         "assets": ["pyramids.png", "cactus.png"]
@@ -24,8 +25,8 @@ MAP_MONUMENTS_LIST = [
         "name": "MOSCOW",
         "level": "2",
         "img_name": "icon2.png",
-        "center_x": 700,
-        "center_y": 480,
+        "center_x": 700 / 1280 * SCREEN_WIDTH,
+        "center_y": 480 / 720 * SCREEN_HEIGHT,
         "player": "donky-example-player.png",
         "enemy": "tank_enemy.png",
         "assets": ["tree.png", "tree2.png"]
@@ -34,8 +35,8 @@ MAP_MONUMENTS_LIST = [
         "name": "CHINA",
         "level": "3",
         "img_name": "icon3.png",
-        "center_x": 870,
-        "center_y": 420,
+        "center_x": 870 / 1280 * SCREEN_WIDTH,
+        "center_y": 420 / 720 * SCREEN_HEIGHT,
         "player": "donky-example-player.png",
         "enemy": "tank_enemy.png",
         "assets": ["cactus256.png", "tree.png"]
@@ -44,8 +45,8 @@ MAP_MONUMENTS_LIST = [
         "name": "OCEAN",
         "level": "4",
         "img_name": "icon4.png",
-        "center_x": 1206,
-        "center_y": 169,
+        "center_x": 1206 / 1280 * SCREEN_WIDTH,
+        "center_y": 169 / 720 * SCREEN_HEIGHT,
         "player": "donky-example-player.png",
         "enemy": "tank_enemy.png",
         "assets": ["cactus256.png", "tree.png"]
@@ -54,8 +55,8 @@ MAP_MONUMENTS_LIST = [
         "name": "BRAZIL",
         "level": "5",
         "img_name": "icon5.png",
-        "center_x": 370,
-        "center_y": 180,
+        "center_x": 370 / 1280 * SCREEN_WIDTH,
+        "center_y": 180 / 720 * SCREEN_HEIGHT,
         "player": "donky-example-player.png",
         "enemy": "tank_enemy.png",
         "assets": ["cactus256.png", "tree.png"]
@@ -64,8 +65,8 @@ MAP_MONUMENTS_LIST = [
         "name": "USA",
         "level": "6",
         "img_name": "icon6.png",
-        "center_x": 140,
-        "center_y": 340,
+        "center_x": 140 / 1280 * SCREEN_WIDTH,
+        "center_y": 340 / 720 * SCREEN_HEIGHT,
         "player": "donky-example-player.png",
         "enemy": "tank_enemy.png",
         "assets": ["cactus256.png", "tree.png"]
@@ -73,13 +74,13 @@ MAP_MONUMENTS_LIST = [
 ]
 
 # Scaling
-CHARACTER_SCALING = 1
-BULLET_SCALING = 0.15
+CHARACTER_SCALING = 1 / 720 * SCREEN_HEIGHT
+BULLET_SCALING = 0.15 / 720 * SCREEN_HEIGHT
 # This scales enemy sprites, always multiply by SCREEN_HEIGHT
 ENEMY_SCALING = 0.001*SCREEN_HEIGHT
-BG_SCALING = 1.0
-GOLD_SCALING = 0.5
-WEAPON_SCALING = 0.1
+BG_SCALING = 1.0 / 720 * SCREEN_HEIGHT
+GOLD_SCALING = 0.5 / 720 * SCREEN_HEIGHT
+WEAPON_SCALING = 0.1 / 720 * SCREEN_HEIGHT
 
 # Sprite Angle
 SPRITE_PLAYER_INIT_ANGLE = 0
