@@ -11,6 +11,7 @@ from tracker import Tracker
 from settings import Settings
 
 from pause_menu_view import PauseMenuView
+import mapview
 
 
 class GameView(arcade.View):
