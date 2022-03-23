@@ -1,7 +1,7 @@
 import arcade
 import os.path
 from constants import ENEMY_SCALING, SCREEN_WIDTH, SCREEN_HEIGHT, DEATH
-from constants import MASTER_VOLUME
+from constants import MASTER_VOLUME, MAP_MONUMENTS_LIST
 import random
 from bullet import Bullet
 from gold import Gold
@@ -61,15 +61,16 @@ class Enemy(arcade.Sprite):
         # Set our scale
         self.scale = ENEMY_SCALING
 
+        enemy_style = MAP_MONUMENTS_LIST[0]["enemy"]
+
         """ Load Assets """
-        base_path = f"resources/images/levels/{level}/"
+        base_path = f"resources/images/assets/enemies/{enemy_style}/"
 
         # Load texture
         self.texture_list = []
-        for i in range(1, 12):
-            if os.path.exists(f"{base_path}enemy/{i}.png"):
-                self.texture_list.append(arcade.load_texture(f"{base_path}enemy/{i}.png", hit_box_algorithm=hit_box_algorithm))
-            else: break
+        for filename in os.listdir(f"{base_path}animation/"):
+            self.texture_list.append(
+                arcade.load_texture(f"{base_path}animation/{filename}", hit_box_algorithm=hit_box_algorithm))
 
         self.cur_texture = 0
 
