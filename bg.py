@@ -8,7 +8,7 @@ class BackGround(arcade.Sprite):
     bg_list = arcade.SpriteList()
 
     def __init__(self, current_level, speed=SPEED_SCROLLING):
-        # Let parent initialize
+        # Inherit parent class
         super().__init__()
 
         self.speed = speed

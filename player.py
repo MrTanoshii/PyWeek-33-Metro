@@ -15,7 +15,7 @@ class Player(arcade.Sprite):
     audio_volume = C.MASTER_VOLUME
 
     def __init__(self, hit_box_algorithm):
-        # Let parent initialize
+        # Inherit parent class
         super().__init__()
 
         # Set player location

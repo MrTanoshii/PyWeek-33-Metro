@@ -20,7 +20,7 @@ class GameView(arcade.View):
     """
 
     def __init__(self):
-        # Call the parent class and set up the window
+        # Inherit parent class
         super().__init__()
 
         # These are 'lists' that keep track of our sprites. Each sprite should
