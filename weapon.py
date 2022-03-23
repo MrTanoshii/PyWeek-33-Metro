@@ -2,6 +2,28 @@ import constants as C
 import arcade
 
 
+bullet_texture_lists_list = {}
+
+
+# Create example bullet texture lists
+def init_bullet_texture_lists():
+    for weapon in C.WEAPON_LIST:
+
+        # Set weapon name
+        weapon_name = weapon["name"]
+
+        # Load animated bullet textures
+        bullet_texture_list = []
+        for i in range(1, weapon["bullet_texture_amount"] + 1):
+            bullet_texture_list.append(arcade.load_texture(
+                f"resources/images/weapon/" + weapon["img_name"] + "/bullet/" + str(i) + ".png",
+                hit_box_algorithm="Simple"))
+        bullet_texture_lists_list[weapon_name] = bullet_texture_list
+
+
+init_bullet_texture_lists()
+
+
 class Weapon(arcade.Sprite):
     """
     Weapon Sprite
