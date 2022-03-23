@@ -1,10 +1,11 @@
 import arcade
-from constants import ENEMY_SCALING, SCREEN_WIDTH, SCREEN_HEIGHT, DEATH
-from constants import MASTER_VOLUME
+import os.path
+import constants as C
 import random
 from bullet import Bullet
 from gold import Gold
 from player import Player
+import weapon
 
 
 class Enemy(arcade.Sprite):
@@ -41,46 +42,69 @@ class Enemy(arcade.Sprite):
     enemy_list = arcade.SpriteList()
 
     # Volume class attribute
-    audio_volume = MASTER_VOLUME
+    audio_volume = C.MASTER_VOLUME
 
-    def __init__(self, hit_box_algorithm):
-        # Inherit parent class
+    def __init__(self, hit_box_algorithm, level):
+        # Let parent initialize
+
         super().__init__()
 
-        self.current_speed = 0
-        self.SPEED = -2
-        self.HP = 10
+        enemy_style = C.MAP_MONUMENTS_LIST[level-1]["enemy"]
 
-        # Damage
-        self.damage_value = 3
+        # load enemy configs
+        self.config = C.ENEMIES[enemy_style]
+
+        """ Load Assets """
+        base_path = f"resources/images/assets/enemies/{enemy_style}/"
+
+        # Load texture
+        self.texture_list = []
+        for filename in os.listdir(f"{base_path}animation/"):
+            self.texture_list.append(
+                arcade.load_texture(f"{base_path}animation/{filename}", hit_box_algorithm=hit_box_algorithm))
+
+        self.cur_texture = 0
+
+        self.animation_speed = self.config["animation_speed"]
 
         # Set our scale
-        self.scale = ENEMY_SCALING
+        self.scale = self.config["scale"]
 
-        # load player texture
-        base_path = "resources/"
-        self.idle_texture = arcade.load_texture(
-            f"{base_path}images/tank_enemy.png", hit_box_algorithm=hit_box_algorithm)
         # Load sounds
-        self.audio_destroyed = arcade.load_sound(
-            f"{base_path}audio/enemy_destroyed.wav")
-        self.audio_hit = arcade.load_sound(f"{base_path}audio/enemy_hit.wav")
-        self.audio_volume = MASTER_VOLUME
+        self.audio_destroyed = arcade.load_sound(f"{base_path}enemy_destroyed.wav")
+        self.audio_hit = arcade.load_sound(f"{base_path}enemy_hit.wav")
+        self.audio_volume = C.MASTER_VOLUME
 
         # Set the initial texture
-        self.texture = self.idle_texture
+        self.texture = self.texture_list[0]
 
         # Hit box will be set based on the first image used.
         self.hit_box = self.texture.hit_box_points
 
+        """ Atributes """
+        # Speed
+        self.SPEED = self.config["speed"]
+        self.current_speed = 0
+
+        # Health
+        self.HP = self.config["health"]
+
+        # Shooting
+        self.damage_value = self.config["damage"]
+        self.weapon = self.config["weapon"]
+        self.bullet_scale = self.config["bullet_scale"]
+        self.shooting_speed = self.config["shooting_speed"]
+        self.bullet_speed = self.config["bullet_speed"]
+        self.barrel_location = self.config["barrel"]
+
     @classmethod
-    def spawn_enemy(cls):
-        enemy = Enemy(hit_box_algorithm="Simple")
+    def spawn_enemy(cls, level):
+        enemy = Enemy(hit_box_algorithm="Simple", level=level)
 
         # Set enemy location
-        enemy.center_x = SCREEN_WIDTH + enemy.width
-        enemy.center_y = SCREEN_HEIGHT // 2 + \
-            random.uniform(-SCREEN_HEIGHT/3.25, SCREEN_HEIGHT/3.25)
+        enemy.center_x = C.SCREEN_WIDTH + enemy.width
+        enemy.center_y = C.SCREEN_HEIGHT // 2 + \
+            random.uniform(-C.SCREEN_HEIGHT/3.25, C.SCREEN_HEIGHT/3.25)
 
         # Turn the enemy 90 degree
         enemy.angle = 0
@@ -89,7 +113,7 @@ class Enemy(arcade.Sprite):
         cls.enemy_list.append(enemy)
 
     def despawn(self, death):
-        if death == DEATH.KILLED:
+        if death == C.DEATH.KILLED:
             Gold.spawn(self.center_x, self.center_y)
         self.remove_from_sprite_lists()
 
@@ -103,22 +127,27 @@ class Enemy(arcade.Sprite):
 
             # Check if enemy is in view, if not delete it
             if enemy.center_x + enemy.width < 0:
-                cls.despawn(enemy, DEATH.OOB)
+                enemy.despawn(death=C.DEATH.OOB)
 
     @classmethod
-    def preload(cls):
-        Enemy.spawn_enemy()
+    def preload(cls, level):
+        Enemy.spawn_enemy(level)
 
         cls.enemy_list = arcade.SpriteList()
 
     def shoot(self, enemy_bullet_list):
         """Handle enemy shooting"""
-        bullet = Bullet("Simple", -20, 0,
-                        Player.weapon.bullet_texture_list, 180)
+        bullet = Bullet(
+            hit_box_algorithm="Simple",
+            speed_x=-self.bullet_speed,
+            speed_y=0,
+            texture_list=weapon.bullet_texture_lists_list[self.weapon],
+            angle=180,
+            damage_value=self.damage_value,
+            scale=self.bullet_scale)
 
         # Set bullet location
-        bullet.center_x = self.center_x + self.width
-        bullet.center_y = self.center_y
+        bullet.position = ((self.center_x - (self.width / 2) + self.barrel_location[0]), (self.center_y - (self.height / 2) + self.barrel_location[1]))
 
         # Turn the bullet -90 degree
         # bullet.angle = 0
@@ -128,3 +157,8 @@ class Enemy(arcade.Sprite):
 
         # Play a sound
         arcade.play_sound(bullet.audio_gunshot)
+
+    def update_animation(self, delta_time: float = 1 / 60):
+        self.cur_texture += delta_time * self.animation_speed
+        if self.cur_texture > len(self.texture_list) - 1:
+            self.cur_texture = 0

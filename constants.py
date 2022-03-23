@@ -3,10 +3,10 @@ import arcade
 """ Include all constant values """
 
 # Window Size and Title
-SCREEN_WIDTH = 3860
-SCREEN_HEIGHT = 2160
+SCREEN_WIDTH = 1280
+SCREEN_HEIGHT = 720
 SCREEN_TITLE = "REVƎЯ"
-FULLSCREEN = True
+FULLSCREEN = False
 CENTER_WINDOW = True
 
 CURSOR_VISIBLE = False
@@ -22,9 +22,9 @@ MAP_MONUMENTS_LIST = [
         "img_name": "icon1.png",
         "center_x": 650 * GLOBAL_SCALE,
         "center_y": 325 * GLOBAL_SCALE,
-        "player": "donky-example-player.png",
-        "enemy": "tank_enemy.png",
-        "assets": ["pyramids.png", "cactus.png"]
+        "assets": ["pyramids.png", "cactus.png"],
+        "enemy": "tank",
+        "player": "donky"
     },
     {
         "name": "MOSCOW",
@@ -32,9 +32,9 @@ MAP_MONUMENTS_LIST = [
         "img_name": "icon2.png",
         "center_x": 700 / 1280 * SCREEN_WIDTH,
         "center_y": 480 * GLOBAL_SCALE,
-        "player": "donky-example-player.png",
-        "enemy": "tank_enemy.png",
-        "assets": ["tree.png", "tree2.png"]
+        "assets": ["tree.png", "tree2.png"],
+        "enemy": "tank",
+        "player": "donky"
     },
     {
         "name": "CHINA",
@@ -42,9 +42,9 @@ MAP_MONUMENTS_LIST = [
         "img_name": "icon3.png",
         "center_x": 870 / 1280 * SCREEN_WIDTH,
         "center_y": 420 * GLOBAL_SCALE,
-        "player": "donky-example-player.png",
-        "enemy": "tank_enemy.png",
-        "assets": ["cactus256.png", "tree.png"]
+        "assets": ["cactus256.png", "tree.png"],
+        "enemy": "tank",
+        "player": "donky"
     },
     {
         "name": "OCEAN",
@@ -52,9 +52,9 @@ MAP_MONUMENTS_LIST = [
         "img_name": "icon4.png",
         "center_x": 1206 / 1280 * SCREEN_WIDTH,
         "center_y": 169 * GLOBAL_SCALE,
-        "player": "donky-example-player.png",
-        "enemy": "tank_enemy.png",
-        "assets": ["cactus256.png", "tree.png"]
+        "assets": ["cactus256.png", "tree.png"],
+        "enemy": "tank",
+        "player": "donky"
     },
     {
         "name": "BRAZIL",
@@ -62,9 +62,9 @@ MAP_MONUMENTS_LIST = [
         "img_name": "icon5.png",
         "center_x": 370 / 1280 * SCREEN_WIDTH,
         "center_y": 180 * GLOBAL_SCALE,
-        "player": "donky-example-player.png",
-        "enemy": "tank_enemy.png",
-        "assets": ["cactus256.png", "tree.png"]
+        "assets": ["cactus256.png", "tree.png"],
+        "enemy": "tank",
+        "player": "donky"
     },
     {
         "name": "USA",
@@ -72,11 +72,27 @@ MAP_MONUMENTS_LIST = [
         "img_name": "icon6.png",
         "center_x": 140 / 1280 * SCREEN_WIDTH,
         "center_y": 340 * GLOBAL_SCALE,
-        "player": "donky-example-player.png",
-        "enemy": "tank_enemy.png",
-        "assets": ["cactus256.png", "tree.png"]
+        "assets": ["cactus256.png", "tree.png"],
+        "enemy": "tank",
+        "player": "donky"
     },
 ]
+
+ENEMIES = {
+    "tank": {
+        "animation_speed": 0.02,
+        "scale": 1*GLOBAL_SCALE,
+        "speed": -2,
+        "spawn_rate": 1,
+        "health": 10,
+        "weapon": "RPG",
+        "shooting_speed": 5,  # in seconds
+        "bullet_scale": 1,
+        "bullet_speed": 20,
+        "damage": 1,
+        "barrel": (0, 80)
+    },
+}
 
 # Scaling
 CHARACTER_SCALING = 1 * GLOBAL_SCALE
