@@ -117,6 +117,7 @@ class Player(arcade.Sprite):
                     self.weapon.can_shoot = True
                     self.weapon.shoot_timer = 0
 
+
     def take_damage(self, damage_source):
         """Handles damage taken by Player"""
         # Play damage taken sound

@@ -10,7 +10,7 @@ class Gold(arcade.Sprite):
 
     audio_volume = MASTER_VOLUME
 
-    def __init__(self, hit_box_algorithm="Detailed"):
+    def __init__(self, hit_box_algorithm="Simple"):
         # Let parent initialize
         super().__init__()
 

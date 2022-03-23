@@ -31,13 +31,13 @@ class MapView(arcade.View):
         """ Set up everything with the game """
 
         # self.gui_camera = arcade.Camera(self.window.width, self.window.height)
-        self.monument_list = arcade.SpriteList()
+        self.monument_list = arcade.SpriteList(is_static=True)
         self.cursor_list = arcade.SpriteList()
         # Create the sprite lists
         self.background = arcade.load_texture(
             "resources/images/map/pixel_map.png")
         self.cursor_sprite = arcade.Sprite(
-            "resources/images/goat_cursor.png", 0.05)
+            "resources/images/goat_cursor.png", 1)
 
         self.cursor_list.append(self.cursor_sprite)
         self.load_monuments()
