@@ -3,6 +3,26 @@ import arcade
 
 
 class Weapon(arcade.Sprite):
+    """
+    Weapon Sprite
+
+    ...
+
+    Attributes
+    ----------
+    current_level : int
+        Hold the current level
+
+    Methods
+    -------
+    reload_weapon()
+        Reloads the current weapon
+    swap_weapon(weapon_name: str)
+        Swap the current weapon
+    set_weapon(weapon_name: str)
+        Set the current weapon
+    """
+
     def __init__(self):
         # Inherit parent class
         super().__init__()
@@ -11,7 +31,7 @@ class Weapon(arcade.Sprite):
         self.set_weapon("Rifle")
 
     def reload_weapon(self):
-        """Handle weapon reload"""
+        """ Reloads the current weapon """
         # Increment ammo count
         self.cur_ammo += self.reload_rate
 
@@ -29,10 +49,10 @@ class Weapon(arcade.Sprite):
 
             self.is_reloading = False
 
-    def swap_weapon(self, weapon_name):
+    def swap_weapon(self, weapon_name: str):
         self.set_weapon(weapon_name)
 
-    def set_weapon(self, weapon_name):
+    def set_weapon(self, weapon_name: str):
         """Handle weapon setting"""
 
         found_weapon = False

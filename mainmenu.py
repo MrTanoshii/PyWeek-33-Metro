@@ -4,7 +4,24 @@ import constants as C
 
 
 class MainMenu(arcade.View):
-    """Class that manages the 'menu' view."""
+    """
+    MainMenu View
+
+    ...
+
+    Methods
+    -------
+    on_show()
+        Show the main menu
+    on_draw()
+        Draw the main menu
+    on_mouse_press(x: float, y: float, button: int, modifiers: int)
+        Listen to mouse press event
+    """
+
+    def __init__(self):
+        # Inherit parent class
+        super().__init__()
 
     def on_show(self):
         """Called when switching to this view."""

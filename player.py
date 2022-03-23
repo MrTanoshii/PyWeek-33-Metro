@@ -8,16 +8,47 @@ from bullet import Bullet
 
 
 class Player(arcade.Sprite):
-    """ Player Sprite """
+    """
+    Player Sprite
+
+    ...
+
+    Attributes
+    ----------
+    player_list : arcade.SpriteList()
+        List of player sprites 
+    weapon : arcade.Sprite()
+        The weapon sprite
+    audio_volume : float
+        The volume of sfx
+
+    Methods
+    -------
+    shoot(delta_time: float, shoot_pressed: bool)
+        Handle shooting & reloading
+    take_damage(damage_source: arcade.Sprite())
+        Handles damage taken by player
+    death()
+        Handles death of player
+    follow_mouse(mouse_x: float, mouse_y: float)
+
+    on_mouse_motion(x: float, y: float, dx: float, dy: float)
+        Listen to mouse motion event
+    update(delta_time: float, movement_key_pressed: dict[str, bool], shoot_pressed: bool)
+        Update the player
+    move(movement_key_pressed: dict[str, bool])
+        Move the player
+    """
+
+    # SpriteList class attribute
     player_list = arcade.SpriteList()
     weapon = arcade.Sprite()
 
+    # Volume class attribute
     audio_volume = C.MASTER_VOLUME
 
-    current_level = None
-
     def __init__(self, hit_box_algorithm):
-        # Let parent initialize
+        # Inherit parent class
         super().__init__()
 
         # Set player location
@@ -117,9 +148,8 @@ class Player(arcade.Sprite):
                     self.weapon.can_shoot = True
                     self.weapon.shoot_timer = 0
 
-
     def take_damage(self, damage_source):
-        """Handles damage taken by Player"""
+        """Handles damage taken by player"""
         # Play damage taken sound
         # TODO: Change sound effect
         arcade.play_sound(self.audio_destroyed, volume=self.audio_volume)
@@ -130,8 +160,8 @@ class Player(arcade.Sprite):
             self.death()
 
     def death(self):
-        """Handles death of Player"""
-        # TO BE IMPROVED, player health resets
+        """Handles death of player"""
+        # TODO: Implement better player death
         self.cur_health = self.max_health
         print("You died.")
 

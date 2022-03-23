@@ -3,15 +3,40 @@ from constants import BULLET_SCALING, SCREEN_WIDTH, SCREEN_HEIGHT, MASTER_VOLUME
 
 
 class Bullet(arcade.Sprite):
-    """ Player Sprite """
+    """
+    Bullet Sprite
 
+    ...
+
+    Attributes
+    ----------
+    friendly_bullet_list : arcade.SpriteList
+        List of friendly bullet sprites 
+    enemy_bullet_list: arcade.SpriteList
+        List of enemy bullet sprites 
+
+    Class Methods
+    -------------
+    update()
+        Update the bullet
+
+    Methods
+    -------
+    update_animation(delta_time: float = 1 / 60)
+        Update the bullet animation
+    despawn()
+        Remove the bullet
+    """
+
+    # SpriteList class attribute
     friendly_bullet_list = arcade.SpriteList()
     enemy_bullet_list = arcade.SpriteList()
 
+    # Volume class attribute
     audio_volume = MASTER_VOLUME
 
     def __init__(self, hit_box_algorithm, speed_x, speed_y, texture_list=None, angle=0, damage_value=1, scale=1):
-        # Let parent initialize
+        # Inherit parent class
         super().__init__()
 
         # Speed

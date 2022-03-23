@@ -9,14 +9,46 @@ from player import Player
 
 
 class Enemy(arcade.Sprite):
+    """
+    Enemy Sprite
+
+    ...
+
+    Attributes
+    ----------
+    enemy_list : arcade.SpriteList()
+        List of friendly enemy sprites
+    audio_volume : float
+        The volume of sfx
+
+    Class Methods
+    -------------
+    spawn_enemy()
+        Create the enemy
+    update()
+        Update the enemy
+    preload()
+        Preload the enemy resources
+
+    Methods
+    -------
+    despawn()
+        Remove the enemy
+    shoot(enemy_bullet_list: arcade.SpriteList())
+        Handle enemy shooting
+    """
+
+    # SpriteList class attribute
     enemy_list = arcade.SpriteList()
 
+    # Volume class attribute
     audio_volume = MASTER_VOLUME
 
-    """ Enemy Sprite """
+
 
     def __init__(self, hit_box_algorithm, level):
         # Let parent initialize
+
         super().__init__()
 
         self.current_speed = 0
@@ -91,9 +123,9 @@ class Enemy(arcade.Sprite):
         cls.enemy_list = arcade.SpriteList()
 
     def shoot(self, enemy_bullet_list):
-        """Handle Enemy shooting"""
-        bullet = Bullet("Simple", -20, 0, Player.weapon.bullet_texture_list, 180)
-
+        """Handle enemy shooting"""
+        bullet = Bullet("Simple", -20, 0,
+                        Player.weapon.bullet_texture_list, 180)
 
         # Set bullet location
         bullet.center_x = self.center_x + self.width
