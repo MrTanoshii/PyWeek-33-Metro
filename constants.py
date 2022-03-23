@@ -114,6 +114,41 @@ FIRE_TYPE = {
     "CONE": 1
 }
 
+ENEMY_WEAPON_LIST = [
+    {
+        "name": "Tank",
+        "folder_name": "weapon_tank",
+        "fire_mode": FIRE_MODE["SEMI_AUTO"],
+        "fire_type": FIRE_TYPE["LINE"],
+        "max_ammo": 1,
+        "bullet_texture_amount": 39,
+        "bullet_speed": 20,
+        "bullet_damage": 5,
+        "bullet_scale": .8,
+        "shoot_time": 2,
+        "reload_time": 4,
+        "reload_rate": 1,
+        "sfx_single_shot_list": ["127845__garyq__tank-fire-mixed.wav"],
+        "sfx_single_shot_vol_gain_list": [0]
+    },
+    {
+        "name": "Heli",
+        "folder_name": "weapon_heli",
+        "fire_mode": FIRE_MODE["FULL_AUTO"],
+        "fire_type": FIRE_TYPE["LINE"],
+        "max_ammo": 8,
+        "bullet_texture_amount": 39,
+        "bullet_speed": 15,
+        "bullet_damage": 2,
+        "bullet_scale": .2,
+        "shoot_time": .05,
+        "reload_time": 4,
+        "reload_rate": 1,
+        "sfx_single_shot_list": ["522470__filmmakersmanual__heavy-machine-gun.wav"],
+        "sfx_single_shot_vol_gain_list": [0]
+    }
+]
+
 WEAPON_LIST = [
     {
         "name": "Rifle",
@@ -172,7 +207,7 @@ WEAPON_LIST = [
         "bullet_speed": 21,
         "bullet_damage": 15,
         "bullet_scale": 2,
-        "shoot_time": 0.3,
+        "shoot_time": 1,
         "reload_time": 2.5,
         "reload_rate": 1,
         "sfx_single_shot_list": ["441499__matrixxx__rocket-01.wav", "441500__matrixxx__rocket-02.wav"],
