@@ -15,7 +15,7 @@ class Enemy(arcade.Sprite):
     """ Player Sprite """
 
     def __init__(self, hit_box_algorithm):
-        # Let parent initialize
+        # Inherit parent class
         super().__init__()
 
         self.current_speed = 0
@@ -84,8 +84,8 @@ class Enemy(arcade.Sprite):
 
     def shoot(self, enemy_bullet_list):
         """Handle Enemy shooting"""
-        bullet = Bullet("Simple", -20, 0, Player.weapon.bullet_texture_list, 180)
-
+        bullet = Bullet("Simple", -20, 0,
+                        Player.weapon.bullet_texture_list, 180)
 
         # Set bullet location
         bullet.center_x = self.center_x + self.width

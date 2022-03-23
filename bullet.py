@@ -11,7 +11,7 @@ class Bullet(arcade.Sprite):
     audio_volume = MASTER_VOLUME
 
     def __init__(self, hit_box_algorithm, speed_x, speed_y, texture_list=None, angle=0, damage_value=1, scale=1):
-        # Let parent initialize
+        # Inherit parent class
         super().__init__()
 
         # Speed

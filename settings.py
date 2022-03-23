@@ -10,7 +10,7 @@ class Settings:
     """ Settings """
 
     def __init__(self):
-        # Let parent initialize
+        # Inherit parent class
         super().__init__()
 
     master_volume = MASTER_VOLUME
@@ -35,4 +35,3 @@ class Settings:
         Bullet.audio_volume = cls.master_volume
         Enemy.audio_volume = cls.master_volume
         Gold.audio_volume = cls.master_volume
-

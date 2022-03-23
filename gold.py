@@ -11,7 +11,7 @@ class Gold(arcade.Sprite):
     audio_volume = MASTER_VOLUME
 
     def __init__(self, hit_box_algorithm="Simple"):
-        # Let parent initialize
+        # Inherit parent class
         super().__init__()
 
         # Load texture

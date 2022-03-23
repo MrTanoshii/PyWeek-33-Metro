@@ -1,11 +1,14 @@
 import arcade
 import constants as C
 
+
 class PauseMenuView(arcade.View):
     """Class that manages the 'menu' view."""
 
     def __init__(self, game_view):
+        # Inherit parent class
         super().__init__()
+
         self.game_view = game_view
 
     def on_show(self):
