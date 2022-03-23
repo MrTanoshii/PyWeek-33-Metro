@@ -22,8 +22,6 @@ class GameView(arcade.View):
         # Call the parent class and set up the window
         super().__init__()
 
-        self.level = Player.current_level
-
         # These are 'lists' that keep track of our sprites. Each sprite should
         # go into a list.
 
@@ -62,7 +60,7 @@ class GameView(arcade.View):
         # Add to player sprite list
 
         # Create BG sprite
-        self.bg = BackGround(self.level)
+        self.bg = BackGround(mapview.MapView.current_level)
         self.bg.center_x = self.bg.width/2
         self.bg.center_y = C.SCREEN_HEIGHT/2
         BackGround.bg_list.append(self.bg)

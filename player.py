@@ -14,8 +14,6 @@ class Player(arcade.Sprite):
 
     audio_volume = C.MASTER_VOLUME
 
-    current_level = None
-
     def __init__(self, hit_box_algorithm):
         # Let parent initialize
         super().__init__()
@@ -117,7 +115,6 @@ class Player(arcade.Sprite):
                     self.weapon.can_shoot = True
                     self.weapon.shoot_timer = 0
 
-
     def take_damage(self, damage_source):
         """Handles damage taken by Player"""
         # Play damage taken sound
@@ -131,7 +128,7 @@ class Player(arcade.Sprite):
 
     def death(self):
         """Handles death of Player"""
-        # TO BE IMPROVED, player health resets
+        # TODO: Implement better player death
         self.cur_health = self.max_health
         print("You died.")
 
