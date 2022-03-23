@@ -1,4 +1,5 @@
 import arcade
+import os.path
 from constants import ENEMY_SCALING, SCREEN_WIDTH, SCREEN_HEIGHT, DEATH
 from constants import MASTER_VOLUME
 import random
@@ -12,9 +13,9 @@ class Enemy(arcade.Sprite):
 
     audio_volume = MASTER_VOLUME
 
-    """ Player Sprite """
+    """ Enemy Sprite """
 
-    def __init__(self, hit_box_algorithm):
+    def __init__(self, hit_box_algorithm, level):
         # Let parent initialize
         super().__init__()
 
@@ -28,25 +29,32 @@ class Enemy(arcade.Sprite):
         # Set our scale
         self.scale = ENEMY_SCALING
 
-        # load player texture
-        base_path = "resources/"
-        self.idle_texture = arcade.load_texture(
-            f"{base_path}images/tank_enemy.png", hit_box_algorithm=hit_box_algorithm)
+        """ Load Assets """
+        base_path = f"resources/images/levels/{level}/"
+
+        # Load texture
+        self.texture_list = []
+        for i in range(1, 12):
+            if os.path.exists(f"{base_path}enemy/{i}.png"):
+                self.texture_list.append(arcade.load_texture(f"{base_path}enemy/{i}.png", hit_box_algorithm=hit_box_algorithm))
+            else: break
+
+        self.cur_texture = 0
+
         # Load sounds
-        self.audio_destroyed = arcade.load_sound(
-            f"{base_path}audio/enemy_destroyed.wav")
-        self.audio_hit = arcade.load_sound(f"{base_path}audio/enemy_hit.wav")
+        self.audio_destroyed = arcade.load_sound(f"{base_path}enemy_destroyed.wav")
+        self.audio_hit = arcade.load_sound(f"{base_path}enemy_hit.wav")
         self.audio_volume = MASTER_VOLUME
 
         # Set the initial texture
-        self.texture = self.idle_texture
+        self.texture = self.texture_list[int(self.cur_texture)]
 
         # Hit box will be set based on the first image used.
         self.hit_box = self.texture.hit_box_points
 
     @classmethod
-    def spawn_enemy(cls):
-        enemy = Enemy(hit_box_algorithm="Simple")
+    def spawn_enemy(cls, level):
+        enemy = Enemy(hit_box_algorithm="Simple", level=level)
 
         # Set enemy location
         enemy.center_x = SCREEN_WIDTH + enemy.width
@@ -77,8 +85,8 @@ class Enemy(arcade.Sprite):
                 cls.despawn(enemy, DEATH.OOB)
 
     @classmethod
-    def preload(cls):
-        Enemy.spawn_enemy()
+    def preload(cls, level):
+        Enemy.spawn_enemy(level)
 
         cls.enemy_list = arcade.SpriteList()
 
@@ -99,3 +107,9 @@ class Enemy(arcade.Sprite):
 
         # Play a sound
         arcade.play_sound(bullet.audio_gunshot)
+
+    def update_animation(self, delta_time: float = 1 / 60):
+        self.cur_texture += 0.02
+        if self.cur_texture > len(self.texture_list) - 1:
+            self.cur_texture = 0
+        self.texture = self.texture_list[int(self.cur_texture)]

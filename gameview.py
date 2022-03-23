@@ -69,7 +69,7 @@ class GameView(arcade.View):
         self.setup_complete = True
 
         # Preload enemy
-        Enemy.preload()
+        Enemy.preload(self.level)
 
         # Cursor
         self.cursor_sprite = arcade.Sprite(
@@ -93,6 +93,7 @@ class GameView(arcade.View):
         # Update animations
         Bullet.friendly_bullet_list.update_animation()
         Bullet.enemy_bullet_list.update_animation()
+        Enemy.enemy_list.update_animation()
 
         # GUI - Score
         arcade.draw_text(
@@ -138,7 +139,7 @@ class GameView(arcade.View):
 
     def on_update(self, delta_time):
         if random.randint(0, 200) == 1:
-            Enemy.spawn_enemy()
+            Enemy.spawn_enemy(self.level)
 
         BackGround.update(delta_time)
         Gold.update(delta_time)
@@ -205,7 +206,7 @@ class GameView(arcade.View):
 
         # E
         elif key == arcade.key.E:
-            Enemy.spawn_enemy()
+            Enemy.spawn_enemy(self.level)
 
         # M
         elif key == arcade.key.M:

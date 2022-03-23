@@ -22,8 +22,6 @@ MAP_MONUMENTS_LIST = [
         "img_name": "icon1.png",
         "center_x": 650 * GLOBAL_SCALE,
         "center_y": 325 * GLOBAL_SCALE,
-        "player": "donky-example-player.png",
-        "enemy": "tank_enemy.png",
         "assets": ["pyramids.png", "cactus.png"]
     },
     {
@@ -32,8 +30,6 @@ MAP_MONUMENTS_LIST = [
         "img_name": "icon2.png",
         "center_x": 700 / 1280 * SCREEN_WIDTH,
         "center_y": 480 * GLOBAL_SCALE,
-        "player": "donky-example-player.png",
-        "enemy": "tank_enemy.png",
         "assets": ["tree.png", "tree2.png"]
     },
     {
@@ -42,8 +38,6 @@ MAP_MONUMENTS_LIST = [
         "img_name": "icon3.png",
         "center_x": 870 / 1280 * SCREEN_WIDTH,
         "center_y": 420 * GLOBAL_SCALE,
-        "player": "donky-example-player.png",
-        "enemy": "tank_enemy.png",
         "assets": ["cactus256.png", "tree.png"]
     },
     {
@@ -52,8 +46,6 @@ MAP_MONUMENTS_LIST = [
         "img_name": "icon4.png",
         "center_x": 1206 / 1280 * SCREEN_WIDTH,
         "center_y": 169 * GLOBAL_SCALE,
-        "player": "donky-example-player.png",
-        "enemy": "tank_enemy.png",
         "assets": ["cactus256.png", "tree.png"]
     },
     {
@@ -62,8 +54,6 @@ MAP_MONUMENTS_LIST = [
         "img_name": "icon5.png",
         "center_x": 370 / 1280 * SCREEN_WIDTH,
         "center_y": 180 * GLOBAL_SCALE,
-        "player": "donky-example-player.png",
-        "enemy": "tank_enemy.png",
         "assets": ["cactus256.png", "tree.png"]
     },
     {
@@ -72,8 +62,6 @@ MAP_MONUMENTS_LIST = [
         "img_name": "icon6.png",
         "center_x": 140 / 1280 * SCREEN_WIDTH,
         "center_y": 340 * GLOBAL_SCALE,
-        "player": "donky-example-player.png",
-        "enemy": "tank_enemy.png",
         "assets": ["cactus256.png", "tree.png"]
     },
 ]
