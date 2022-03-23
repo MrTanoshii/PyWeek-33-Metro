@@ -98,7 +98,84 @@ PLAYER_MAX_HP = 3
 PLAYER_START_HP = PLAYER_MAX_HP
 PLAYER_DEATH_HP = 0
 
-# Player Gun
+# Player Weapon
+
+FIRE_MODE = {
+    "SEMI_AUTO": 0,
+    "FULL_AUTO": 1,
+    "BURST": 2,
+}
+
+FIRE_TYPE = {
+    "LINE": 0,
+    "CONE": 1
+}
+
+WEAPON_LIST = [
+    {
+        "name": "Rifle",
+        "img_name": "weapon_ak",
+        "width": 1920,
+        "height": 1080,
+        "scale": WEAPON_SCALING,
+        "center_x": 0,
+        "center_y": 0,
+        "fire_mode": FIRE_MODE["FULL_AUTO"],
+        "fire_type": FIRE_TYPE["LINE"],
+        "max_ammo": 30,
+        "bullet_texture_amount": 1,
+        "bullet_speed": 25,
+        "bullet_damage": 3,
+        "shoot_time": 0.1,
+        "reload_time": 1.5,
+        "reload_rate": 30
+    },
+    {
+        "name": "Shotgun",
+        "img_name": "weapon_ak",
+        "width": 1920,
+        "height": 1080,
+        "scale": WEAPON_SCALING,
+        "center_x": 0,
+        "center_y": 0,
+        "fire_mode": FIRE_MODE["FULL_AUTO"],
+        "fire_type": FIRE_TYPE["CONE"],
+        "max_ammo": 8,
+        "bullet_texture_amount": 1,
+        "bullet_speed": 18,
+        "bullet_damage": 2,
+        "shoot_time": 0.3,
+        "reload_time": 0.8,
+        "reload_rate": 1
+    },
+    {
+        "name": "RPG",
+        "img_name": "weapon_rpg",
+        "width": 1920,
+        "height": 1080,
+        "scale": WEAPON_SCALING,
+        "center_x": 0,
+        "center_y": 0,
+        "fire_mode": FIRE_MODE["SEMI_AUTO"],
+        "fire_type": FIRE_TYPE["LINE"],
+        "max_ammo": 1,
+        "bullet_texture_amount": 24,
+        "bullet_speed": 21,
+        "bullet_damage": 15,
+        "shoot_time": 0.3,
+        "reload_time": 2.5,
+        "reload_rate": 1
+    }
+]
+
+# GUI
+GUI = {
+    "Weapon": {
+        "center_x": (SCREEN_WIDTH / 5) + 500,
+        "center_y": SCREEN_HEIGHT - 90
+    }
+}
+
 PLAYER_GUN_MAX_AMMO = 1000
 PLAYER_GUN_BULLET_SPEED = 20
 PLAYER_GUN_SHOOT_SPEED = 0.1
