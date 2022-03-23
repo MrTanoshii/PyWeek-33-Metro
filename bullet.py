@@ -76,7 +76,7 @@ class Bullet(arcade.Sprite):
         # Cycle through player bullets
         for bullet in cls.friendly_bullet_list:
             # Delete bullets that are off-screen
-            if abs(bullet.center_x - bullet.width / 2) > SCREEN_WIDTH or abs(
+            if abs(bullet.center_x - bullet.width / 2) - SCREEN_WIDTH / 2 > SCREEN_WIDTH / 2 or abs(
                     bullet.center_y - bullet.height / 2) > SCREEN_HEIGHT:
                 cls.friendly_bullet_list.remove(bullet)
 
