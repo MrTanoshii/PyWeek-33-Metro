@@ -56,7 +56,7 @@ class Bullet(arcade.Sprite):
 
         # Load & set bullet texture
         # TODO: Remove regular non animated texture loading when enemies have their own bullets
-        if texture_list == None:
+        if texture_list is None:
             self.texture = arcade.load_texture(
                 f"{base_path}images/bullet.png", hit_box_algorithm=hit_box_algorithm)
         else:
@@ -76,13 +76,15 @@ class Bullet(arcade.Sprite):
         # Cycle through player bullets
         for bullet in cls.friendly_bullet_list:
             # Delete bullets that are off-screen
-            if abs(bullet.center_x - bullet.width / 2) > SCREEN_WIDTH or abs(bullet.center_y - bullet.height / 2) > SCREEN_HEIGHT:
+            if abs(bullet.center_x - bullet.width / 2) - SCREEN_WIDTH / 2 > SCREEN_WIDTH / 2 or abs(
+                    bullet.center_y - bullet.height / 2) > SCREEN_HEIGHT:
                 cls.friendly_bullet_list.remove(bullet)
 
         # Cycle through enemy bullets
         for bullet in cls.enemy_bullet_list:
             # Delete bullets that are off-screen
-            if abs(bullet.center_x - bullet.width / 2) > SCREEN_WIDTH * 1.5 or abs(bullet.center_y - bullet.height / 2) > SCREEN_HEIGHT:
+            if abs(bullet.center_x - bullet.width / 2) > SCREEN_WIDTH * 1.5 or abs(
+                    bullet.center_y - bullet.height / 2) > SCREEN_HEIGHT:
                 cls.enemy_bullet_list.remove(bullet)
 
     def update_animation(self, delta_time: float = 1 / 60):

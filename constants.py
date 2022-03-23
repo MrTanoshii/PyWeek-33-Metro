@@ -3,7 +3,7 @@ import arcade
 """ Include all constant values """
 
 # Window Size and Title
-SCREEN_WIDTH = 1240
+SCREEN_WIDTH = 1280
 SCREEN_HEIGHT = 720
 SCREEN_TITLE = "REVƎЯ"
 FULLSCREEN = False
@@ -77,6 +77,22 @@ MAP_MONUMENTS_LIST = [
         "player": "donky"
     },
 ]
+
+ENEMIES = {
+    "tank": {
+        "animation_speed": 0.02,
+        "scale": 1*GLOBAL_SCALE,
+        "speed": -2,
+        "spawn_rate": 1,
+        "health": 10,
+        "weapon": "RPG",
+        "shooting_speed": 5,  # in seconds
+        "bullet_scale": 1,
+        "bullet_speed": 20,
+        "damage": 1,
+        "barrel": (0, 80)
+    },
+}
 
 # Scaling
 CHARACTER_SCALING = 1 * GLOBAL_SCALE

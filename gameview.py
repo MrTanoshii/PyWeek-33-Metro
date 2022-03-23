@@ -69,6 +69,8 @@ class GameView(arcade.View):
 
         self.cursor_sprite = None
 
+        self.level = mapview.MapView.current_level
+
         arcade.set_background_color(arcade.csscolor.GREEN)
 
     def setup(self):
@@ -191,6 +193,9 @@ class GameView(arcade.View):
         if button == arcade.MOUSE_BUTTON_LEFT:
             for enemy in Enemy.enemy_list:
                 enemy.shoot(Bullet.enemy_bullet_list)
+
+        if C.DEBUG:
+            print(x, y)
 
     def on_key_press(self, key, modifiers):
         """Called whenever a key is pressed."""

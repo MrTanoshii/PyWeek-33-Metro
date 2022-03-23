@@ -53,7 +53,8 @@ class Gold(arcade.Sprite):
         # Speed
         self.speed = SPEED_SCROLLING
 
-    def spawn(center_x, center_y):
+    @classmethod
+    def spawn(cls, center_x, center_y):
         gold = Gold()
         gold.center_x = center_x
         gold.center_y = center_y
