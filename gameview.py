@@ -1,17 +1,16 @@
-import pause_menu_view
-from bullet import Bullet
+import arcade
+import random
+
+import constants as C
 from bg import BackGround
 from player import Player
+from bullet import Bullet
 from enemy import Enemy
 from gold import Gold
 from tracker import Tracker
 from settings import Settings
-import constants as C
 
-import arcade
-import mapview
 from pause_menu_view import PauseMenuView
-import random
 
 
 class GameView(arcade.View):
