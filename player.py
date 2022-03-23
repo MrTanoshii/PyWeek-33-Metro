@@ -81,7 +81,7 @@ class Player(arcade.Sprite):
                                           C.WEAPON_INIT_ANGLE))
 
                 bullet = Bullet("Detailed", speed_x, speed_y, self.weapon.bullet_texture_list,
-                                self.weapon_angle + C.WEAPON_INIT_ANGLE, self.weapon.bullet_damage)
+                                self.weapon_angle + C.WEAPON_INIT_ANGLE, self.weapon.bullet_damage, scale=self.weapon.bullet_scale)
 
                 # Set bullet location
                 bullet.center_x = self.center_x + \

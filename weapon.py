@@ -65,6 +65,7 @@ class Weapon(arcade.Sprite):
                 self.cur_ammo = self.max_ammo
                 self.bullet_speed = weapon["bullet_speed"]
                 self.bullet_damage = weapon["bullet_damage"]
+                self.bullet_scale = weapon["bullet_scale"]
                 self.can_shoot = True
                 self.shoot_time = weapon["shoot_time"]
                 self.shoot_timer = 0

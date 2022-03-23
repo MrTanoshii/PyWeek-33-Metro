@@ -3,10 +3,10 @@ import arcade
 """ Include all constant values """
 
 # Window Size and Title
-SCREEN_WIDTH = 1240
-SCREEN_HEIGHT = 720
+SCREEN_WIDTH = 1980
+SCREEN_HEIGHT = 1080
 SCREEN_TITLE = "REVƎЯ"
-FULLSCREEN = False
+FULLSCREEN = True
 
 CURSOR_VISIBLE = False
 
@@ -115,9 +115,9 @@ WEAPON_LIST = [
     {
         "name": "Rifle",
         "img_name": "weapon_ak",
-        "width": 1920,
-        "height": 1080,
-        "scale": WEAPON_SCALING,
+        "width": 640,
+        "height": 360,
+        "scale": 3*WEAPON_SCALING,
         "center_x": 0,
         "center_y": 0,
         "fire_mode": FIRE_MODE["FULL_AUTO"],
@@ -126,6 +126,7 @@ WEAPON_LIST = [
         "bullet_texture_amount": 1,
         "bullet_speed": 25,
         "bullet_damage": 3,
+        "bullet_scale": 1,
         "shoot_time": 0.1,
         "reload_time": 1.5,
         "reload_rate": 30
@@ -133,9 +134,9 @@ WEAPON_LIST = [
     {
         "name": "Shotgun",
         "img_name": "weapon_ak",
-        "width": 1920,
-        "height": 1080,
-        "scale": WEAPON_SCALING,
+        "width": 640,
+        "height": 360,
+        "scale": 3*WEAPON_SCALING,
         "center_x": 0,
         "center_y": 0,
         "fire_mode": FIRE_MODE["FULL_AUTO"],
@@ -144,6 +145,7 @@ WEAPON_LIST = [
         "bullet_texture_amount": 1,
         "bullet_speed": 18,
         "bullet_damage": 2,
+        "bullet_scale": 1,
         "shoot_time": 0.3,
         "reload_time": 0.8,
         "reload_rate": 1
@@ -151,9 +153,9 @@ WEAPON_LIST = [
     {
         "name": "RPG",
         "img_name": "weapon_rpg",
-        "width": 1920,
-        "height": 1080,
-        "scale": WEAPON_SCALING,
+        "width": 640,
+        "height": 360,
+        "scale": 3*WEAPON_SCALING,
         "center_x": 0,
         "center_y": 0,
         "fire_mode": FIRE_MODE["SEMI_AUTO"],
@@ -162,6 +164,7 @@ WEAPON_LIST = [
         "bullet_texture_amount": 24,
         "bullet_speed": 21,
         "bullet_damage": 15,
+        "bullet_scale": 10,
         "shoot_time": 0.3,
         "reload_time": 2.5,
         "reload_rate": 1
