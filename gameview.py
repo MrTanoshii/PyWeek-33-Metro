@@ -46,6 +46,8 @@ class GameView(arcade.View):
         # Player shoot
         self.shoot_pressed = False
 
+        self.cursor_sprite = None
+
         arcade.set_background_color(arcade.csscolor.GREEN)
 
     def setup(self):
@@ -69,6 +71,11 @@ class GameView(arcade.View):
 
         # Preload enemy
         Enemy.preload()
+
+        # Cursor
+        self.cursor_sprite = arcade.Sprite(
+            "resources/images/goat_cursor.png", 1)
+
 
     def on_draw(self):
         """Render the screen."""
@@ -129,6 +136,8 @@ class GameView(arcade.View):
             anchor_x="center",
         )
 
+        self.cursor_sprite.draw()
+
     def on_update(self, delta_time):
         if random.randint(0, 200) == 1:
             Enemy.spawn_enemy()
@@ -151,6 +160,8 @@ class GameView(arcade.View):
     def on_mouse_motion(self, x, y, dx, dy):
         """Called whenever mouse is moved."""
         self.player.follow_mouse(x, y)
+        self.cursor_sprite.center_x = x + 20
+        self.cursor_sprite.center_y = y - 20
 
     def on_mouse_press(self, x, y, button, modifiers):
         """Called whenever a mouse key is pressed."""

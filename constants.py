@@ -3,9 +3,12 @@ import arcade
 """ Include all constant values """
 
 # Window Size and Title
-SCREEN_WIDTH = 1280
-SCREEN_HEIGHT = 720
+SCREEN_WIDTH = 1980
+SCREEN_HEIGHT = 1080
 SCREEN_TITLE = "REVƎЯ"
+FULLSCREEN = False
+
+CURSOR_VISIBLE = False
 
 DEBUG = False
 
@@ -14,8 +17,8 @@ MAP_MONUMENTS_LIST = [
         "name": "EGYPT",
         "level": "1",
         "img_name": "icon1.png",
-        "center_x": 650,
-        "center_y": 325,
+        "center_x": 650 / 1280 * SCREEN_WIDTH,
+        "center_y": 325 / 720 * SCREEN_HEIGHT,
         "player": "donky-example-player.png",
         "enemy": "tank_enemy.png",
         "assets": ["pyramids.png", "cactus.png"]
@@ -24,8 +27,8 @@ MAP_MONUMENTS_LIST = [
         "name": "MOSCOW",
         "level": "2",
         "img_name": "icon2.png",
-        "center_x": 700,
-        "center_y": 480,
+        "center_x": 700 / 1280 * SCREEN_WIDTH,
+        "center_y": 480 / 720 * SCREEN_HEIGHT,
         "player": "donky-example-player.png",
         "enemy": "tank_enemy.png",
         "assets": ["tree.png", "tree2.png"]
@@ -34,8 +37,8 @@ MAP_MONUMENTS_LIST = [
         "name": "CHINA",
         "level": "3",
         "img_name": "icon3.png",
-        "center_x": 870,
-        "center_y": 420,
+        "center_x": 870 / 1280 * SCREEN_WIDTH,
+        "center_y": 420 / 720 * SCREEN_HEIGHT,
         "player": "donky-example-player.png",
         "enemy": "tank_enemy.png",
         "assets": ["cactus256.png", "tree.png"]
@@ -44,8 +47,8 @@ MAP_MONUMENTS_LIST = [
         "name": "OCEAN",
         "level": "4",
         "img_name": "icon4.png",
-        "center_x": 1206,
-        "center_y": 169,
+        "center_x": 1206 / 1280 * SCREEN_WIDTH,
+        "center_y": 169 / 720 * SCREEN_HEIGHT,
         "player": "donky-example-player.png",
         "enemy": "tank_enemy.png",
         "assets": ["cactus256.png", "tree.png"]
@@ -54,8 +57,8 @@ MAP_MONUMENTS_LIST = [
         "name": "BRAZIL",
         "level": "5",
         "img_name": "icon5.png",
-        "center_x": 370,
-        "center_y": 180,
+        "center_x": 370 / 1280 * SCREEN_WIDTH,
+        "center_y": 180 / 720 * SCREEN_HEIGHT,
         "player": "donky-example-player.png",
         "enemy": "tank_enemy.png",
         "assets": ["cactus256.png", "tree.png"]
@@ -64,8 +67,8 @@ MAP_MONUMENTS_LIST = [
         "name": "USA",
         "level": "6",
         "img_name": "icon6.png",
-        "center_x": 140,
-        "center_y": 340,
+        "center_x": 140 / 1280 * SCREEN_WIDTH,
+        "center_y": 340 / 720 * SCREEN_HEIGHT,
         "player": "donky-example-player.png",
         "enemy": "tank_enemy.png",
         "assets": ["cactus256.png", "tree.png"]
@@ -73,13 +76,13 @@ MAP_MONUMENTS_LIST = [
 ]
 
 # Scaling
-CHARACTER_SCALING = 1
-BULLET_SCALING = 0.15
+CHARACTER_SCALING = 1 / 720 * SCREEN_HEIGHT
+BULLET_SCALING = 0.15 / 720 * SCREEN_HEIGHT
 # This scales enemy sprites, always multiply by SCREEN_HEIGHT
 ENEMY_SCALING = 0.001*SCREEN_HEIGHT
-BG_SCALING = 1.0
-GOLD_SCALING = 0.5
-WEAPON_SCALING = 0.1
+BG_SCALING = 1.0 / 720 * SCREEN_HEIGHT
+GOLD_SCALING = 0.5 / 720 * SCREEN_HEIGHT
+WEAPON_SCALING = 0.1 / 720 * SCREEN_HEIGHT
 
 # Sprite Angle
 SPRITE_PLAYER_INIT_ANGLE = 0
@@ -112,9 +115,9 @@ WEAPON_LIST = [
     {
         "name": "Rifle",
         "img_name": "weapon_ak",
-        "width": 1920,
-        "height": 1080,
-        "scale": WEAPON_SCALING,
+        "width": 640,
+        "height": 360,
+        "scale": 3*WEAPON_SCALING,
         "center_x": 0,
         "center_y": 0,
         "fire_mode": FIRE_MODE["FULL_AUTO"],
@@ -123,6 +126,7 @@ WEAPON_LIST = [
         "bullet_texture_amount": 1,
         "bullet_speed": 25,
         "bullet_damage": 3,
+        "bullet_scale": 1,
         "shoot_time": 0.1,
         "reload_time": 1.5,
         "reload_rate": 30
@@ -130,9 +134,9 @@ WEAPON_LIST = [
     {
         "name": "Shotgun",
         "img_name": "weapon_ak",
-        "width": 1920,
-        "height": 1080,
-        "scale": WEAPON_SCALING,
+        "width": 640,
+        "height": 360,
+        "scale": 3*WEAPON_SCALING,
         "center_x": 0,
         "center_y": 0,
         "fire_mode": FIRE_MODE["FULL_AUTO"],
@@ -141,6 +145,7 @@ WEAPON_LIST = [
         "bullet_texture_amount": 1,
         "bullet_speed": 18,
         "bullet_damage": 2,
+        "bullet_scale": 1,
         "shoot_time": 0.3,
         "reload_time": 0.8,
         "reload_rate": 1
@@ -148,9 +153,9 @@ WEAPON_LIST = [
     {
         "name": "RPG",
         "img_name": "weapon_rpg",
-        "width": 1920,
-        "height": 1080,
-        "scale": WEAPON_SCALING,
+        "width": 640,
+        "height": 360,
+        "scale": 3*WEAPON_SCALING,
         "center_x": 0,
         "center_y": 0,
         "fire_mode": FIRE_MODE["SEMI_AUTO"],
@@ -159,6 +164,7 @@ WEAPON_LIST = [
         "bullet_texture_amount": 24,
         "bullet_speed": 21,
         "bullet_damage": 15,
+        "bullet_scale": 10,
         "shoot_time": 0.3,
         "reload_time": 2.5,
         "reload_rate": 1
