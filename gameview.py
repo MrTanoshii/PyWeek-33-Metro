@@ -11,18 +11,40 @@ from tracker import Tracker
 from settings import Settings
 
 from pause_menu_view import PauseMenuView
+import mapview
 
 
 class GameView(arcade.View):
     """
-    Main application class.
+    GameView View
+
+    ...
+
+    Methods
+    -------
+    setup()
+        Set up the game view and initialize the variables
+    on_draw()
+        Draw the game view
+    on_update(delta_time: float)
+        Update the game view
+    on_mouse_motion(x: float, y: float, dx: float, dy: float)
+        Listen to mouse motion event
+    on_mouse_press(x: float, y: float, button: int, modifiers: int)
+        Listen to mouse press event
+    on_key_press(key: int, modifiers: int)
+        Listen to keyboard press event
+    on_key_release(key: int, modifiers: int)
+        Listen to keyboard release event
+    check_collision()
+        Check for collisions and calculate score
+    on_show()
+        Show the game view
     """
 
     def __init__(self):
-        # Call the parent class and set up the window
+        # Inherit parent class
         super().__init__()
-
-        self.level = Player.current_level
 
         # These are 'lists' that keep track of our sprites. Each sprite should
         # go into a list.
@@ -62,7 +84,7 @@ class GameView(arcade.View):
         # Add to player sprite list
 
         # Create BG sprite
-        self.bg = BackGround(self.level)
+        self.bg = BackGround(mapview.MapView.current_level)
         self.bg.center_x = self.bg.width/2
         self.bg.center_y = C.SCREEN_HEIGHT/2
         BackGround.bg_list.append(self.bg)
@@ -189,7 +211,7 @@ class GameView(arcade.View):
             self.shoot_pressed = True
 
         # Weapon swap | 1-3
-        elif key == arcade.key.KEY_1 or arcade.key.KEY_2 or arcade.key.KEY_3:
+        elif key == arcade.key.KEY_1 or key == arcade.key.KEY_2 or key == arcade.key.KEY_3:
             requested_weapon = ""
             # 1 - Rifle
             if key == arcade.key.KEY_1:
@@ -205,16 +227,16 @@ class GameView(arcade.View):
             if Player.weapon.weapon_name != requested_weapon:
                 Player.weapon.swap_weapon(requested_weapon)
 
-        # E
+        # Enemy spawn | E
         elif key == arcade.key.E:
             Enemy.spawn_enemy(self.level)
 
-        # M
+        # Volume Toggle | M
         elif key == arcade.key.M:
             Settings.master_volume_toggle()
 
+        # Pause menu | Escape
         elif key == arcade.key.ESCAPE:
-
             self.window.show_view(PauseMenuView(self))
 
     def on_key_release(self, key, modifiers):

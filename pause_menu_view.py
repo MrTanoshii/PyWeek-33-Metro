@@ -1,11 +1,29 @@
 import arcade
 import constants as C
 
+
 class PauseMenuView(arcade.View):
-    """Class that manages the 'menu' view."""
+    """
+    PauseMenuView View
+
+    ...
+
+    Methods
+    -------
+    on_show()
+        Show the pause menu view
+    on_draw()
+        Draw the pause menu view
+    on_mouse_press(x: float, y: float, button: int, modifiers: int)
+        Listen to mouse press event
+    on_key_press(key: int, modifiers: int)
+        Listen to keyboard press event
+    """
 
     def __init__(self, game_view):
+        # Inherit parent class
         super().__init__()
+
         self.game_view = game_view
 
     def on_show(self):

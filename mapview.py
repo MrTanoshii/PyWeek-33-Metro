@@ -6,11 +6,39 @@ from player import Player
 
 
 class MapView(arcade.View):
-    """ Class Managing the Map View"""
+    """
+    MapView View
+
+    ...
+
+    Attributes
+    ----------
+    current_level : int
+        Hold the current level
+
+    Methods
+    -------
+    setup()
+        Set up the map view and initialize the variables
+    load_monuments()
+        Load the monuments
+    on_draw()
+        Draw the map view
+    on_mouse_motion(x: float, y: float, dx: float, dy: float)
+        Listen to mouse motion event
+    on_update(delta_time: float)
+        Update the map view
+    on_mouse_press(x: float, y: float, button: int, modifiers: int)
+        Listen to mouse press event
+    on_show()
+        Show the map view
+    """
+
+    # Level class attribute
+    current_level = 0
 
     def __init__(self):
-
-        # Call the parent class and set up the window
+        # Inherit parent class
         super().__init__()
 
         # These are 'lists' that keep track of our sprites. Each sprite should
@@ -90,9 +118,10 @@ class MapView(arcade.View):
 
         if C.DEBUG:
             print(x, y)
-        target = arcade.check_for_collision_with_list(self.cursor_sprite, self.monument_list)
-        if target:
-            Player.current_level = target[0].level
+        hit_monument = arcade.check_for_collision_with_list(
+            self.cursor_sprite, self.monument_list)
+        if hit_monument:
+            MapView.current_level = hit_monument[0].level
             game = gameview.GameView()
             game.setup()
             self.window.show_view(game)
