@@ -1,5 +1,6 @@
 import arcade
 import constants as C
+from gamedata import GameData
 
 
 class PauseMenuView(arcade.View):
@@ -20,11 +21,13 @@ class PauseMenuView(arcade.View):
         Listen to keyboard press event
     """
 
-    def __init__(self, game_view):
+    def __init__(self, game_view, map_view, current_level):
         # Inherit parent class
         super().__init__()
 
         self.game_view = game_view
+        self.map_view = map_view
+        self.current_level = current_level
 
     def on_show(self):
         """Called when switching to this view."""
@@ -35,7 +38,7 @@ class PauseMenuView(arcade.View):
         self.clear()
 
         arcade.draw_text(
-            "Game Paused - ESC to exit | Any key to resume",
+            "Paused | Q: quit game | M: leave level | SPACE: back to game",
             C.SCREEN_WIDTH / 2,
             C.SCREEN_HEIGHT / 2,
             arcade.color.BLACK,
@@ -49,7 +52,14 @@ class PauseMenuView(arcade.View):
 
     def on_key_press(self, key, _modifiers):
         """Handle keyboard key press"""
-        if key == arcade.key.ESCAPE:
+        if key == arcade.key.Q:
             arcade.exit()
-        else:
+        elif key == arcade.key.M:
+            self.window.show_view(self.map_view)
+            self.save_data()
+        elif key == arcade.key.SPACE:
             self.window.show_view(self.game_view)
+
+    def save_data(self):
+        GameData.update_highscore(self.current_level)
+        GameData.deposit_gold()

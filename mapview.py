@@ -1,8 +1,8 @@
-
 import constants as C
 import gameview
 import arcade
 from player import Player
+from gamedata import GameData
 
 
 class MapView(arcade.View):
@@ -58,6 +58,8 @@ class MapView(arcade.View):
     def setup(self):
         """ Set up everything with the game """
 
+        Player.player_list = arcade.SpriteList()
+
         # self.gui_camera = arcade.Camera(self.window.width, self.window.height)
         self.monument_list = arcade.SpriteList(is_static=True)
         self.cursor_list = arcade.SpriteList()
@@ -90,6 +92,16 @@ class MapView(arcade.View):
         arcade.draw_lrwh_rectangle_textured(0, 0,
                                             C.SCREEN_WIDTH, C.SCREEN_HEIGHT,
                                             self.background)
+        # GUI - Gold
+        arcade.draw_text(
+            f"Gold : {GameData.gold}",
+            C.SCREEN_WIDTH / 5,
+            C.SCREEN_HEIGHT - 150,
+            arcade.color.BLACK,
+            font_size=30,
+            anchor_x="center",
+        )
+
         self.monument_list.draw()
         self.cursor_list.draw()
 
@@ -122,7 +134,7 @@ class MapView(arcade.View):
             self.cursor_sprite, self.monument_list)
         if hit_monument:
             MapView.current_level = hit_monument[0].level
-            game = gameview.GameView()
+            game = gameview.GameView(self)
             game.setup()
             self.window.show_view(game)
 
