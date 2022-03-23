@@ -3,8 +3,8 @@ import arcade
 """ Include all constant values """
 
 # Window Size and Title
-SCREEN_WIDTH = 1980
-SCREEN_HEIGHT = 1080
+SCREEN_WIDTH = 3860
+SCREEN_HEIGHT = 2160
 SCREEN_TITLE = "REVƎЯ"
 FULLSCREEN = True
 CENTER_WINDOW = True
