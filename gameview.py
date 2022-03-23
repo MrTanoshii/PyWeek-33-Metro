@@ -138,9 +138,6 @@ class GameView(arcade.View):
         self.cursor_sprite.draw()
 
     def on_update(self, delta_time):
-
-        print(len(Bullet.enemy_bullet_list))
-
         if random.randint(0, 200) == 1:
             Enemy.spawn_enemy(self.level)
 
