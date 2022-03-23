@@ -1,7 +1,6 @@
 import arcade
 import os.path
-from constants import ENEMY_SCALING, SCREEN_WIDTH, SCREEN_HEIGHT, DEATH
-from constants import MASTER_VOLUME, MAP_MONUMENTS_LIST
+import constants as C
 import random
 from bullet import Bullet
 from gold import Gold
@@ -42,7 +41,7 @@ class Enemy(arcade.Sprite):
     enemy_list = arcade.SpriteList()
 
     # Volume class attribute
-    audio_volume = MASTER_VOLUME
+    audio_volume = C.MASTER_VOLUME
 
 
 
@@ -59,9 +58,9 @@ class Enemy(arcade.Sprite):
         self.damage_value = 3
 
         # Set our scale
-        self.scale = ENEMY_SCALING
+        self.scale = C.ENEMY_SCALING
 
-        enemy_style = MAP_MONUMENTS_LIST[0]["enemy"]
+        enemy_style = C.MAP_MONUMENTS_LIST[0]["enemy"]
 
         """ Load Assets """
         base_path = f"resources/images/assets/enemies/{enemy_style}/"
@@ -77,7 +76,7 @@ class Enemy(arcade.Sprite):
         # Load sounds
         self.audio_destroyed = arcade.load_sound(f"{base_path}enemy_destroyed.wav")
         self.audio_hit = arcade.load_sound(f"{base_path}enemy_hit.wav")
-        self.audio_volume = MASTER_VOLUME
+        self.audio_volume = C.MASTER_VOLUME
 
         # Set the initial texture
         self.texture = self.texture_list[int(self.cur_texture)]
@@ -90,9 +89,9 @@ class Enemy(arcade.Sprite):
         enemy = Enemy(hit_box_algorithm="Simple", level=level)
 
         # Set enemy location
-        enemy.center_x = SCREEN_WIDTH + enemy.width
-        enemy.center_y = SCREEN_HEIGHT // 2 + \
-            random.uniform(-SCREEN_HEIGHT/3.25, SCREEN_HEIGHT/3.25)
+        enemy.center_x = C.SCREEN_WIDTH + enemy.width
+        enemy.center_y = C.SCREEN_HEIGHT // 2 + \
+            random.uniform(-C.SCREEN_HEIGHT/3.25, C.SCREEN_HEIGHT/3.25)
 
         # Turn the enemy 90 degree
         enemy.angle = 0
@@ -101,7 +100,7 @@ class Enemy(arcade.Sprite):
         cls.enemy_list.append(enemy)
 
     def despawn(self, death):
-        if death == DEATH.KILLED:
+        if death == C.DEATH.KILLED:
             Gold.spawn(self.center_x, self.center_y)
         self.remove_from_sprite_lists()
 
@@ -115,7 +114,7 @@ class Enemy(arcade.Sprite):
 
             # Check if enemy is in view, if not delete it
             if enemy.center_x + enemy.width < 0:
-                cls.despawn(enemy, DEATH.OOB)
+                cls.despawn(enemy, C.DEATH.OOB)
 
     @classmethod
     def preload(cls, level):
