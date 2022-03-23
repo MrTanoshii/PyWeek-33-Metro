@@ -77,7 +77,7 @@ MAP_MONUMENTS_LIST = [
 
 # Scaling
 CHARACTER_SCALING = 1 / 720 * SCREEN_HEIGHT
-BULLET_SCALING = 0.15 / 720 * SCREEN_HEIGHT
+BULLET_SCALING = 1 / 720 * SCREEN_HEIGHT
 # This scales enemy sprites, always multiply by SCREEN_HEIGHT
 ENEMY_SCALING = 0.001*SCREEN_HEIGHT
 BG_SCALING = 1.0 / 720 * SCREEN_HEIGHT
@@ -123,10 +123,10 @@ WEAPON_LIST = [
         "fire_mode": FIRE_MODE["FULL_AUTO"],
         "fire_type": FIRE_TYPE["LINE"],
         "max_ammo": 30,
-        "bullet_texture_amount": 1,
+        "bullet_texture_amount": 39,
         "bullet_speed": 25,
         "bullet_damage": 3,
-        "bullet_scale": 1,
+        "bullet_scale": .3,
         "shoot_time": 0.1,
         "reload_time": 1.5,
         "reload_rate": 30
@@ -145,7 +145,7 @@ WEAPON_LIST = [
         "bullet_texture_amount": 1,
         "bullet_speed": 18,
         "bullet_damage": 2,
-        "bullet_scale": 1,
+        "bullet_scale": .5,
         "shoot_time": 0.3,
         "reload_time": 0.8,
         "reload_rate": 1
@@ -164,7 +164,7 @@ WEAPON_LIST = [
         "bullet_texture_amount": 24,
         "bullet_speed": 21,
         "bullet_damage": 15,
-        "bullet_scale": 10,
+        "bullet_scale": 2,
         "shoot_time": 0.3,
         "reload_time": 2.5,
         "reload_rate": 1
