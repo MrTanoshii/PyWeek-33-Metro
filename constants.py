@@ -78,6 +78,22 @@ MAP_MONUMENTS_LIST = [
     },
 ]
 
+ENEMIES = {
+    "tank": {
+        "animation_speed": 1,
+        "scale": 1*GLOBAL_SCALE,
+        "speed": -2,
+        "spawn_rate": 1,
+        "health": 10,
+        "weapon": "RPG",
+        "shooting_speed": 5,  # in seconds
+        "bullet_scale": 1,
+        "bullet_speed": 20,
+        "damage": 1,
+        "barrel": (0, 80)
+    },
+}
+
 # Scaling
 CHARACTER_SCALING = 1 * GLOBAL_SCALE
 BULLET_SCALING = 1 * GLOBAL_SCALE
