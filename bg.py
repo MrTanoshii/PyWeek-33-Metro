@@ -1,5 +1,5 @@
 import arcade
-from constants import BG_SCALING, SPEED_SCROLLING, SCREEN_HEIGHT
+from constants import BG_SCALING, SPEED_SCROLLING, SCREEN_HEIGHT, GLOBAL_SCALE
 
 
 class BackGround(arcade.Sprite):
@@ -27,6 +27,6 @@ class BackGround(arcade.Sprite):
     def update(cls, delta_time: float = 1 / 60):
         for bg in cls.bg_list:
             bg.center_x += bg.speed
-            if bg.center_x - bg.width / 2 < -880 / 720 * SCREEN_HEIGHT - bg.speed:
+            if bg.center_x - bg.width / 2 < -880 * GLOBAL_SCALE - bg.speed:
                 bg.center_x = bg.width/2
         return super().on_update(delta_time)
