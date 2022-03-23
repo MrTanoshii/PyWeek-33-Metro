@@ -42,7 +42,7 @@ class GameView(arcade.View):
         Show the game view
     """
 
-    def __init__(self):
+    def __init__(self, map_view):
         # Inherit parent class
         super().__init__()
 
@@ -70,6 +70,8 @@ class GameView(arcade.View):
         self.cursor_sprite = None
 
         self.level = mapview.MapView.current_level
+
+        self.map_view = map_view
 
         arcade.set_background_color(arcade.csscolor.GREEN)
 
@@ -242,7 +244,7 @@ class GameView(arcade.View):
 
         # Pause menu | Escape
         elif key == arcade.key.ESCAPE:
-            self.window.show_view(PauseMenuView(self))
+            self.window.show_view(PauseMenuView(self, self.map_view, self.level))
 
     def on_key_release(self, key, modifiers):
         """Called when the user releases a key."""
