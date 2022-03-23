@@ -16,7 +16,30 @@ import random
 
 class GameView(arcade.View):
     """
-    Main application class.
+    GameView View
+
+    ...
+
+    Methods
+    -------
+    setup()
+        Set up the game view and initialize the variables
+    on_draw()
+        Draw the game view
+    on_update(delta_time: float)
+        Update the game view
+    on_mouse_motion(x: float, y: float, dx: float, dy: float)
+        Listen to mouse motion event
+    on_mouse_press(x: float, y: float, button: int, modifiers: int)
+        Listen to mouse press event
+    on_key_press(key: int, modifiers: int)
+        Listen to keyboard press event
+    on_key_release(key: int, modifiers: int)
+        Listen to keyboard release event
+    check_collision()
+        Check for collisions and calculate score
+    on_show()
+        Show the game view
     """
 
     def __init__(self):

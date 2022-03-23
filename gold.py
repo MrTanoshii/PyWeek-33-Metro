@@ -4,10 +4,35 @@ from tracker import Tracker
 
 
 class Gold(arcade.Sprite):
-    """ Gold Sprite """
+    """
+    Gold Sprite
 
+    ...
+
+    Attributes
+    ----------
+    gold_list : arcade.SpriteList()
+        List of gold sprites 
+    audio_volume : float
+        The volume of sfx
+
+    Class Methods
+    -------
+    update(delta_time: float = 1 / 60)
+        Update the gold
+
+    Methods
+    -------
+    spawn(center_x: float, center_y:float)
+        Create the gold
+    despawn(death: Literal)
+        Remove the gold
+    """
+
+    # SpriteList class attribute
     gold_list = arcade.SpriteList()
 
+    # Volume class attribute
     audio_volume = MASTER_VOLUME
 
     def __init__(self, hit_box_algorithm="Simple"):

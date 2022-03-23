@@ -6,9 +6,35 @@ from player import Player
 
 
 class MapView(arcade.View):
-    """ Class Managing the Map View"""
+    """
+    MapView View
 
-    # Holds the current level played
+    ...
+
+    Attributes
+    ----------
+    current_level : int
+        Hold the current level
+
+    Methods
+    -------
+    setup()
+        Set up the map view and initialize the variables
+    load_monuments()
+        Load the monuments
+    on_draw()
+        Draw the map view
+    on_mouse_motion(x: float, y: float, dx: float, dy: float)
+        Listen to mouse motion event
+    on_update(delta_time: float)
+        Update the map view
+    on_mouse_press(x: float, y: float, button: int, modifiers: int)
+        Listen to mouse press event
+    on_show()
+        Show the map view
+    """
+
+    # Level class attribute
     current_level = 0
 
     def __init__(self):

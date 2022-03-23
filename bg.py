@@ -3,8 +3,23 @@ from constants import BG_SCALING, SPEED_SCROLLING, SCREEN_HEIGHT
 
 
 class BackGround(arcade.Sprite):
-    """ Background Sprite """
+    """
+    Background Sprite
 
+    ...
+
+    Attributes
+    ----------
+    bg_list : arcade.SpriteList()
+        List of all backGround sprites
+
+    Class Methods
+    -------------
+    update(delta_time: float = 1 / 60)
+        Update the background
+    """
+
+    # SpriteList class attribute
     bg_list = arcade.SpriteList()
 
     def __init__(self, current_level, speed=SPEED_SCROLLING):

@@ -7,14 +7,33 @@ from gold import Gold
 
 
 class Settings:
-    """ Settings """
+    """
+    Settings Class
+
+    ...
+
+    Attributes
+    ----------
+    master_volume : float
+        The volume of sfx
+    mute : bool
+        True/False for muting sfx
+
+    Class Methods
+    -------------
+    master_volume_toggle()
+        Toggles the master volume
+    update_master_volume()
+        Updates the master volume of classes
+    """
+
+    # Volume class attribute
+    master_volume = MASTER_VOLUME
+    mute = False
 
     def __init__(self):
         # Inherit parent class
         super().__init__()
-
-    master_volume = MASTER_VOLUME
-    mute = False
 
     @classmethod
     def master_volume_toggle(cls):
