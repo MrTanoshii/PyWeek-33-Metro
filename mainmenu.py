@@ -6,6 +6,10 @@ import constants as C
 class MainMenu(arcade.View):
     """Class that manages the 'menu' view."""
 
+    def __init__(self):
+        # Inherit parent class
+        super().__init__()
+
     def on_show(self):
         """Called when switching to this view."""
         arcade.set_background_color(C.MENU_BACKGROUND_COLOR)
