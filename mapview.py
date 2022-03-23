@@ -8,6 +8,9 @@ from player import Player
 class MapView(arcade.View):
     """ Class Managing the Map View"""
 
+    # Holds the current level played
+    current_level = 0
+
     def __init__(self):
 
         # Call the parent class and set up the window
@@ -90,9 +93,10 @@ class MapView(arcade.View):
 
         if C.DEBUG:
             print(x, y)
-        target = arcade.check_for_collision_with_list(self.cursor_sprite, self.monument_list)
-        if target:
-            Player.current_level = target[0].level
+        hit_monument = arcade.check_for_collision_with_list(
+            self.cursor_sprite, self.monument_list)
+        if hit_monument:
+            MapView.current_level = hit_monument[0].level
             game = gameview.GameView()
             game.setup()
             self.window.show_view(game)
