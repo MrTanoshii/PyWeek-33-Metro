@@ -1,4 +1,5 @@
 import arcade
+import os.path
 import constants as C
 from bullet import Bullet
 import math
@@ -74,13 +75,21 @@ class Player(arcade.Sprite):
         # Set our scale
         self.scale = C.CHARACTER_SCALING
 
-        # load player texture
-        base_path = "resources/"
-        self.idle_texture = arcade.load_texture(
-            f"{base_path}images/donky-example-player.png", hit_box_algorithm=hit_box_algorithm)
+        player_style = C.MAP_MONUMENTS_LIST[0]["player"]
+
+        """ Load Assets """
+        base_path = f"resources/images/assets/players/{player_style}/"
+
+        # Load texture
+        self.texture_list = []
+        for filename in os.listdir(f"{base_path}animation/"):
+            self.texture_list.append(
+                arcade.load_texture(f"{base_path}animation/{filename}", hit_box_algorithm=hit_box_algorithm))
+
+        self.cur_texture = 0
 
         # Set the initial texture
-        self.texture = self.idle_texture
+        self.texture = self.texture_list[int(self.cur_texture)]
 
         # Hit box will be set based on the first image used.
         self.hit_box = self.texture.hit_box_points
@@ -88,8 +97,8 @@ class Player(arcade.Sprite):
         # Load sounds
         # TODO: Change SFX
         self.audio_destroyed = arcade.load_sound(
-            f"{base_path}audio/enemy_destroyed.wav")
-        self.audio_hit = arcade.load_sound(f"{base_path}audio/enemy_hit.wav")
+            f"{base_path}destroyed.wav")
+        self.audio_hit = arcade.load_sound(f"{base_path}hit.wav")
 
         Player.player_list.append(self)
 
@@ -248,3 +257,9 @@ class Player(arcade.Sprite):
             self.center_y = C.SCREEN_HEIGHT * .85
         if self.center_y < C.SCREEN_HEIGHT * .15:
             self.center_y = C.SCREEN_HEIGHT * .15
+
+    def update_animation(self, delta_time: float = 1 / 60):
+        self.cur_texture += 0.02
+        if self.cur_texture > len(self.texture_list) - 1:
+            self.cur_texture = 0
+        self.texture = self.texture_list[int(self.cur_texture)]

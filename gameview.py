@@ -177,6 +177,7 @@ class GameView(arcade.View):
         self.check_collisions()
 
         Enemy.update()
+        Bullet.update()
 
     def on_mouse_motion(self, x, y, dx, dy):
         """Called whenever mouse is moved."""
