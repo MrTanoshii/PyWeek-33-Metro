@@ -37,9 +37,6 @@ class MapView(arcade.View):
     # Level class attribute
     current_level = 0
 
-    # Holds the current level played
-    current_level = 0
-
     def __init__(self):
         # Inherit parent class
         super().__init__()
