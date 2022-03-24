@@ -1,5 +1,5 @@
 import arcade
-from constants import MASTER_VOLUME
+import constants as C
 from player import Player
 from bullet import Bullet
 from enemy import Enemy
@@ -28,7 +28,7 @@ class Settings:
     """
 
     # Volume class attribute
-    master_volume = MASTER_VOLUME
+    master_volume = C.AUDIO.MASTER_VOLUME
     mute = False
 
     def __init__(self):
@@ -43,14 +43,13 @@ class Settings:
         if cls.mute:
             cls.master_volume = 0
         else:
-            cls.master_volume = MASTER_VOLUME
+            cls.master_volume = C.AUDIO.MASTER_VOLUME
 
         # Update all volumes
         cls.update_master_volume()
 
     @classmethod
     def update_master_volume(cls):
-        Player.audio_volume = cls.master_volume
         Bullet.audio_volume = cls.master_volume
         Enemy.audio_volume = cls.master_volume
         Gold.audio_volume = cls.master_volume
