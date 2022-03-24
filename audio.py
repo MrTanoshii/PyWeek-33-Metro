@@ -362,7 +362,7 @@ class Audio():
 
         if C.DEBUG.ALL or C.DEBUG.AUDIO:
             print("Loading: Enemy death sfx")
-        for enemy in C.ENEMY_LIST:
+        for enemy in C.ENEMY_LIST.values():
             sound_list = []
             for i in range(0, len(enemy["sfx_death"])):
                 sound = None
@@ -444,7 +444,7 @@ class Audio():
 
         if C.DEBUG.ALL or C.DEBUG.AUDIO:
             print("Loading: Enemy hit sfx")
-        for enemy in C.ENEMY_LIST:
+        for enemy in C.ENEMY_LIST.values():
             sound_list = []
             for i in range(0, len(enemy["sfx_hit"])):
                 sound = None

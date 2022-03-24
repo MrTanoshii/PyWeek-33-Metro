@@ -8,18 +8,29 @@ bullet_texture_lists_list = {}
 
 # Create example bullet texture lists
 def init_bullet_texture_lists():
-    for weapon in C.WEAPON_LIST:
+    # for weapon in C.WEAPON_LIST:
 
-        # Set weapon name
-        weapon_name = weapon["name"]
+    #     # Set weapon name
+    #     weapon_name = weapon["name"]
 
-        # Load animated bullet textures
+    #     # Load animated bullet textures
+    #     bullet_texture_list = []
+    #     for i in range(1, weapon["bullet_texture_amount"] + 1):
+    #         bullet_texture_list.append(arcade.load_texture(
+    #             f"resources/images/weapon/" + weapon["img_name"] + "/bullet/" + str(i) + ".png",
+    #             hit_box_algorithm="Simple"))
+    #     bullet_texture_lists_list[weapon_name] = bullet_texture_list
+
+    # Load animated bullet textures
+    for enemy_weapon in C.ENEMY_WEAPON_LIST:
         bullet_texture_list = []
-        for i in range(1, weapon["bullet_texture_amount"] + 1):
+        for i in range(1, enemy_weapon["bullet_texture_amount"] + 1):
             bullet_texture_list.append(arcade.load_texture(
-                f"resources/images/weapon/" + weapon["img_name"] + "/bullet/" + str(i) + ".png",
+                f"resources/images/weapon/" +
+                enemy_weapon["bullet_texture_dir_name"] +
+                "/bullet/" + str(i) + ".png",
                 hit_box_algorithm="Simple"))
-        bullet_texture_lists_list[weapon_name] = bullet_texture_list
+        bullet_texture_lists_list[enemy_weapon["name"]] = bullet_texture_list
 
 
 init_bullet_texture_lists()

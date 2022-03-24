@@ -80,8 +80,8 @@ class Bullet(arcade.Sprite):
         # Cycle through enemy bullets
         for bullet in cls.enemy_bullet_list:
             # Delete bullets that are off-screen
-            if abs(bullet.center_x - bullet.width / 2) > SCREEN_WIDTH * 1.5 or abs(
-                    bullet.center_y - bullet.height / 2) > SCREEN_HEIGHT:
+            if abs(bullet.center_x - bullet.width / 2) > C.SCREEN_WIDTH * 1.5 or abs(
+                    bullet.center_y - bullet.height / 2) > C.SCREEN_HEIGHT:
                 cls.enemy_bullet_list.remove(bullet)
 
     def update_animation(self, delta_time: float = 1 / 60):

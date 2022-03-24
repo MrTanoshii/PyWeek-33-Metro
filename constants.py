@@ -137,6 +137,74 @@ VIEW_LIST = [
     }
 ]
 
+
+class FIRE_MODE:
+    SEMI_AUTO = 0
+    FULL_AUTO = 1
+    BURST = 2,
+
+
+class FIRE_TYPE:
+    LINE = 0
+    CONE = 1
+
+
+ENEMY_WEAPON_LIST = [
+    {
+        "name": "tank",
+        "folder_name": "weapon_tank",
+        "fire_mode": FIRE_MODE.SEMI_AUTO,
+        "fire_type": FIRE_TYPE.LINE,
+        "max_ammo": 1,
+        "bullet_texture_amount": 39,
+        "bullet_speed": 20,
+        "bullet_damage": 5,
+        "bullet_texture_dir_name": "weapon_rpg",
+        "bullet_texture_amount": 24,
+        "bullet_scale": .8,
+        "shoot_time": 2,
+        "reload_time": 5,
+        "reload_rate": 1,
+        "sfx_single_shot_list": [AUDIO.SOUND["weapon_tank_1"]["name"]],
+        "sfx_single_shot_vol_gain_list": [AUDIO.SOUND["weapon_tank_1"]["gain"]]
+    },
+    {
+        "name": "heli",
+        "folder_name": "weapon_heli",
+        "fire_mode": FIRE_MODE.FULL_AUTO,
+        "fire_type": FIRE_TYPE.LINE,
+        "max_ammo": 8,
+        "bullet_texture_amount": 39,
+        "bullet_speed": 15,
+        "bullet_damage": 2,
+        "bullet_texture_dir_name": "weapon_rpg",
+        "bullet_texture_amount": 24,
+        "bullet_scale": .2,
+        "shoot_time": .05,
+        "reload_time": 5,
+        "reload_rate": 1,
+        "sfx_single_shot_list": [AUDIO.SOUND["weapon_heli_1"]["name"]],
+        "sfx_single_shot_vol_gain_list": [AUDIO.SOUND["weapon_heli_1"]["gain"]]
+    }
+]
+
+ENEMY_LIST = {
+    "tank": {
+        "name": "tank",
+        "weapon": "tank",
+        "animation_speed": 1.5,
+        "scale": 1*GLOBAL_SCALE,
+        "speed": -2,
+        "spawn_rate": 1,
+        "health": 10,
+        "barrel": (0, 80),
+        "sfx_death": [AUDIO.SOUND["enemy_death_tank_1"]["name"], AUDIO.SOUND["enemy_death_tank_2"]["name"]],
+        "sfx_death_gain": [AUDIO.SOUND["enemy_death_tank_1"]["gain"], AUDIO.SOUND["enemy_death_tank_2"]["gain"]],
+        "sfx_hit": [AUDIO.SOUND["enemy_hit_1"]["name"]],
+        "sfx_hit_gain": [AUDIO.SOUND["enemy_hit_1"]["gain"]]
+    }
+}
+
 MAP_MONUMENTS_LIST = [
     {
         "name": "EGYPT",
@@ -145,7 +213,7 @@ MAP_MONUMENTS_LIST = [
         "center_x": 650 * GLOBAL_SCALE,
         "center_y": 325 * GLOBAL_SCALE,
         "assets": ["pyramids.png", "cactus.png"],
-        "enemy": "tank",
+        "enemy": ENEMY_LIST["tank"],
         "player": "donky",
         "sfx_click": AUDIO.SOUND["ui_click"]["name"],
         "sfx_gain": AUDIO.SOUND["ui_click"]["gain"],
@@ -160,7 +228,7 @@ MAP_MONUMENTS_LIST = [
         "center_x": 700 / 1280 * SCREEN_WIDTH,
         "center_y": 480 * GLOBAL_SCALE,
         "assets": ["tree.png", "tree2.png"],
-        "enemy": "tank",
+        "enemy": ENEMY_LIST["tank"],
         "player": "donky",
         "sfx_click": AUDIO.SOUND["ui_click"]["name"],
         "sfx_gain": AUDIO.SOUND["ui_click"]["gain"],
@@ -174,7 +242,7 @@ MAP_MONUMENTS_LIST = [
         "center_x": 870 / 1280 * SCREEN_WIDTH,
         "center_y": 420 * GLOBAL_SCALE,
         "assets": ["cactus256.png", "tree.png"],
-        "enemy": "tank",
+        "enemy": ENEMY_LIST["tank"],
         "player": "donky",
         "sfx_click": AUDIO.SOUND["ui_click"]["name"],
         "sfx_gain": AUDIO.SOUND["ui_click"]["gain"],
@@ -188,7 +256,7 @@ MAP_MONUMENTS_LIST = [
         "center_x": 1206 / 1280 * SCREEN_WIDTH,
         "center_y": 169 * GLOBAL_SCALE,
         "assets": ["cactus256.png", "tree.png"],
-        "enemy": "tank",
+        "enemy": ENEMY_LIST["tank"],
         "player": "donky",
         "sfx_click": AUDIO.SOUND["ui_click"]["name"],
         "sfx_gain": AUDIO.SOUND["ui_click"]["gain"],
@@ -202,7 +270,7 @@ MAP_MONUMENTS_LIST = [
         "center_x": 370 / 1280 * SCREEN_WIDTH,
         "center_y": 180 * GLOBAL_SCALE,
         "assets": ["cactus256.png", "tree.png"],
-        "enemy": "tank",
+        "enemy": ENEMY_LIST["tank"],
         "player": "donky",
         "sfx_click": AUDIO.SOUND["ui_click"]["name"],
         "sfx_gain": AUDIO.SOUND["ui_click"]["gain"],
@@ -216,7 +284,7 @@ MAP_MONUMENTS_LIST = [
         "center_x": 140 / 1280 * SCREEN_WIDTH,
         "center_y": 340 * GLOBAL_SCALE,
         "assets": ["cactus256.png", "tree.png"],
-        "enemy": "tank",
+        "enemy": ENEMY_LIST["tank"],
         "player": "donky",
         "sfx_click": AUDIO.SOUND["ui_click"]["name"],
         "sfx_gain": AUDIO.SOUND["ui_click"]["gain"],
@@ -235,22 +303,6 @@ GOLD_LIST = [
         "sfx_pickup_gain": AUDIO.SOUND["gold_pickup_1"]["gain"]
     }
 ]
-
-ENEMIES = {
-    "tank": {
-        "animation_speed": 0.02,
-        "scale": 1*GLOBAL_SCALE,
-        "speed": -2,
-        "spawn_rate": 1,
-        "health": 10,
-        "weapon": "RPG",
-        "shooting_speed": 5,  # in seconds
-        "bullet_scale": 1,
-        "bullet_speed": 20,
-        "damage": 1,
-        "barrel": (0, 80)
-    },
-}
 
 # Scaling
 CHARACTER_SCALING = 1 * GLOBAL_SCALE
@@ -284,64 +336,6 @@ class PLAYER:
         "gain": AUDIO.SOUND["player_hit"]["gain"]
     }
 
-# Player Weapon
-
-
-class FIRE_MODE:
-    SEMI_AUTO = 0
-    FULL_AUTO = 1
-    BURST = 2,
-
-
-class FIRE_TYPE:
-    LINE = 0
-    CONE = 1
-
-
-ENEMY_LIST = [
-    {
-        "name": "Tank",
-        "sfx_death": [AUDIO.SOUND["enemy_death_tank_1"]["name"], AUDIO.SOUND["enemy_death_tank_2"]["name"]],
-        "sfx_death_gain": [AUDIO.SOUND["enemy_death_tank_1"]["gain"], AUDIO.SOUND["enemy_death_tank_2"]["gain"]],
-        "sfx_hit": [AUDIO.SOUND["enemy_hit_1"]["name"]],
-        "sfx_hit_gain": [AUDIO.SOUND["enemy_hit_1"]["gain"]]
-    }
-]
-
-ENEMY_WEAPON_LIST = [
-    {
-        "name": "Tank",
-        "folder_name": "weapon_tank",
-        "fire_mode": FIRE_MODE.SEMI_AUTO,
-        "fire_type": FIRE_TYPE.LINE,
-        "max_ammo": 1,
-        "bullet_texture_amount": 39,
-        "bullet_speed": 20,
-        "bullet_damage": 5,
-        "bullet_scale": .8,
-        "shoot_time": 2,
-        "reload_time": 4,
-        "reload_rate": 1,
-        "sfx_single_shot_list": [AUDIO.SOUND["weapon_tank_1"]["name"]],
-        "sfx_single_shot_vol_gain_list": [AUDIO.SOUND["weapon_tank_1"]["gain"]]
-    },
-    {
-        "name": "Heli",
-        "folder_name": "weapon_heli",
-        "fire_mode": FIRE_MODE.FULL_AUTO,
-        "fire_type": FIRE_TYPE.LINE,
-        "max_ammo": 8,
-        "bullet_texture_amount": 39,
-        "bullet_speed": 15,
-        "bullet_damage": 2,
-        "bullet_scale": .2,
-        "shoot_time": .05,
-        "reload_time": 4,
-        "reload_rate": 1,
-        "sfx_single_shot_list": [AUDIO.SOUND["weapon_heli_1"]["name"]],
-        "sfx_single_shot_vol_gain_list": [AUDIO.SOUND["weapon_heli_1"]["gain"]]
-    }
-]
 
 WEAPON_LIST = [
     {
