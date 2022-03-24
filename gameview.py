@@ -43,7 +43,7 @@ class GameView(arcade.View):
         Show the game view
     """
 
-    def __init__(self):
+    def __init__(self, map_view):
         # Inherit parent class
         super().__init__()
 
@@ -70,6 +70,10 @@ class GameView(arcade.View):
 
         self.cursor_sprite = None
 
+        self.level = mapview.MapView.current_level
+
+        self.map_view = map_view
+
         arcade.set_background_color(arcade.csscolor.GREEN)
 
     def setup(self):
@@ -92,7 +96,7 @@ class GameView(arcade.View):
         self.setup_complete = True
 
         # Preload enemy
-        Enemy.preload()
+        Enemy.preload(self.level)
 
         # Cursor
         self.cursor_sprite = arcade.Sprite(
@@ -129,6 +133,7 @@ class GameView(arcade.View):
         # Update animations
         Bullet.friendly_bullet_list.update_animation()
         Bullet.enemy_bullet_list.update_animation()
+        Enemy.enemy_list.update_animation()
 
         # GUI - Score
         arcade.draw_text(
@@ -178,7 +183,7 @@ class GameView(arcade.View):
 
     def on_update(self, delta_time):
         if random.randint(0, 200) == 1:
-            Enemy.spawn_enemy()
+            Enemy.spawn_enemy(self.level)
 
         BackGround.update(delta_time)
         Gold.update(delta_time)
@@ -194,6 +199,7 @@ class GameView(arcade.View):
         self.check_collisions()
 
         Enemy.update()
+        Bullet.update()
 
     def on_mouse_motion(self, x, y, dx, dy):
         """Called whenever mouse is moved."""
@@ -207,6 +213,9 @@ class GameView(arcade.View):
         if button == arcade.MOUSE_BUTTON_LEFT:
             for enemy in Enemy.enemy_list:
                 enemy.shoot(Bullet.enemy_bullet_list)
+
+        if C.DEBUG:
+            print(x, y)
 
     def on_key_press(self, key, modifiers):
         """Called whenever a key is pressed."""
@@ -245,7 +254,7 @@ class GameView(arcade.View):
 
         # Enemy spawn | E
         elif key == arcade.key.E:
-            Enemy.spawn_enemy()
+            Enemy.spawn_enemy(self.level)
 
         # Volume Toggle | M
         elif key == arcade.key.M:
@@ -253,11 +262,13 @@ class GameView(arcade.View):
 
         # Pause menu | Escape
         elif key == arcade.key.ESCAPE:
+
             # Stop bgm
             Audio.stop_sound(self.bgm_stream)
             self.bgm_stream = None
 
-            self.window.show_view(PauseMenuView(self))
+            self.window.show_view(PauseMenuView(self, self.map_view, self.level)))
+
 
     def on_key_release(self, key, modifiers):
         """Called when the user releases a key."""

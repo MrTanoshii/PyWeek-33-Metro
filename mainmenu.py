@@ -2,6 +2,7 @@ import arcade
 import mapview
 import constants as C
 from audio import Audio
+from gamedata import GameData
 
 
 class MainMenu(arcade.View):
@@ -45,4 +46,5 @@ class MainMenu(arcade.View):
 
     def on_mouse_press(self, _x, _y, _button, _modifiers):
         """Use a mouse press to advance to the 'game' view."""
+        GameData.read_data()
         self.window.show_view(mapview.MapView())

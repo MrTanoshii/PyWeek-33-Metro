@@ -1,10 +1,13 @@
 import arcade
-import constants as C
+import os.path
 import random
+import constants as C
 from bullet import Bullet
 from gold import Gold
 from player import Player
 from audio import Audio
+import weapon
+
 
 
 class Enemy(arcade.Sprite):
@@ -40,16 +43,28 @@ class Enemy(arcade.Sprite):
     # SpriteList class attribute
     enemy_list = arcade.SpriteList()
 
-    def __init__(self, hit_box_algorithm):
+    def __init__(self, hit_box_algorithm, level):
         # Inherit parent class
+
         super().__init__()
 
-        self.current_speed = 0
-        self.SPEED = -2
-        self.HP = 10
+        enemy_style = C.MAP_MONUMENTS_LIST[level-1]["enemy"]
 
-        # Damage
-        self.damage_value = 3
+        # load enemy configs
+        self.config = C.ENEMIES[enemy_style]
+
+        """ Load Assets """
+        base_path = f"resources/images/assets/enemies/{enemy_style}/"
+
+        # Load texture
+        self.texture_list = []
+        for filename in os.listdir(f"{base_path}animation/"):
+            self.texture_list.append(
+                arcade.load_texture(f"{base_path}animation/{filename}", hit_box_algorithm=hit_box_algorithm))
+
+        self.cur_texture = 0
+
+        self.animation_speed = self.config["animation_speed"]
 
         # Set our scale
         self.scale = C.ENEMY_SCALING
@@ -82,14 +97,30 @@ class Enemy(arcade.Sprite):
                 break
 
         # Set the initial texture
-        self.texture = self.idle_texture
+        self.texture = self.texture_list[0]
 
         # Hit box will be set based on the first image used.
         self.hit_box = self.texture.hit_box_points
 
+        """ Atributes """
+        # Speed
+        self.SPEED = self.config["speed"]
+        self.current_speed = 0
+
+        # Health
+        self.HP = self.config["health"]
+
+        # Shooting
+        self.damage_value = self.config["damage"]
+        self.weapon = self.config["weapon"]
+        self.bullet_scale = self.config["bullet_scale"]
+        self.shooting_speed = self.config["shooting_speed"]
+        self.bullet_speed = self.config["bullet_speed"]
+        self.barrel_location = self.config["barrel"]
+
     @classmethod
-    def spawn_enemy(cls):
-        enemy = Enemy(hit_box_algorithm="Simple")
+    def spawn_enemy(cls, level):
+        enemy = Enemy(hit_box_algorithm="Simple", level=level)
 
         # Set enemy location
         enemy.center_x = C.SCREEN_WIDTH + enemy.width
@@ -105,7 +136,7 @@ class Enemy(arcade.Sprite):
     def despawn(self, death):
         # Play enemy death sfx
         Audio.play_rand_sound(self.sfx_death_list)
-
+    
         if death == C.DEATH.KILLED:
             Gold.spawn(self.center_x, self.center_y)
         self.remove_from_sprite_lists()
@@ -123,25 +154,35 @@ class Enemy(arcade.Sprite):
                 cls.despawn(enemy, C.DEATH.OOB)
 
     @classmethod
-    def preload(cls):
-        Enemy.spawn_enemy()
+    def preload(cls, level):
+        Enemy.spawn_enemy(level)
 
         cls.enemy_list = arcade.SpriteList()
 
     def shoot(self, enemy_bullet_list):
         """Handle enemy shooting"""
-        bullet = Bullet("Simple", -20, 0,
-                        Player.weapon.bullet_texture_list, 180)
+        bullet = Bullet(
+            hit_box_algorithm="Simple",
+            speed_x=-self.bullet_speed,
+            speed_y=0,
+            texture_list=weapon.bullet_texture_lists_list[self.weapon],
+            angle=180,
+            damage_value=self.damage_value,
+            scale=self.bullet_scale)
 
         # Set bullet location
-        bullet.center_x = self.center_x + self.width
-        bullet.center_y = self.center_y
+        bullet.position = ((self.center_x - (self.width / 2) + self.barrel_location[0]), (self.center_y - (self.height / 2) + self.barrel_location[1]))
 
         # Turn the bullet -90 degree
         # bullet.angle = 0
 
         # Add to bullet sprite list
         enemy_bullet_list.append(bullet)
-
+        
         # Play weapon shoot sfx
         Audio.play_rand_sound(self.sfx_single_shot_list)
+
+    def update_animation(self, delta_time: float = 1 / 60):
+        self.cur_texture += delta_time * self.animation_speed
+        if self.cur_texture > len(self.texture_list) - 1:
+            self.cur_texture = 0
