@@ -6,6 +6,7 @@ import math
 from lib import calculate_angle
 from weapon import Weapon
 from bullet import Bullet
+from audio import Audio
 
 
 class Player(arcade.Sprite):
@@ -45,9 +46,6 @@ class Player(arcade.Sprite):
     player_list = arcade.SpriteList()
     weapon = arcade.Sprite()
 
-    # Volume class attribute
-    audio_volume = C.MASTER_VOLUME
-
     def __init__(self, hit_box_algorithm):
         # Inherit parent class
         super().__init__()
@@ -63,9 +61,9 @@ class Player(arcade.Sprite):
         self.speed_y = 0
 
         # Health
-        self.max_health = C.PLAYER_START_HP
-        self.cur_health = C.PLAYER_MAX_HP
-        self.death_health = C.PLAYER_DEATH_HP
+        self.max_health = C.PLAYER.MAX_HP
+        self.cur_health = C.PLAYER.START_HP
+        self.death_health = C.PLAYER.DEATH_HP
 
         # Weapon
         self.weapon = Weapon()
@@ -94,22 +92,26 @@ class Player(arcade.Sprite):
         # Hit box will be set based on the first image used.
         self.hit_box = self.texture.hit_box_points
 
-        # Load sounds
-        # TODO: Change SFX
-        self.audio_destroyed = arcade.load_sound(
-            f"{base_path}destroyed.wav")
-        self.audio_hit = arcade.load_sound(f"{base_path}hit.wav")
+        # Set player sounds
+        self.sfx_death_list = Audio.sfx_player_death_list
+        self.sfx_hit_list = Audio.sfx_player_hit_list
 
         Player.player_list.append(self)
 
     def shoot(self, delta_time, shoot_pressed):
         """Handles shooting & reloading"""
 
-        if self.weapon.can_shoot:
-            # Shoot
+        # Reload weapon
+        if self.weapon.is_reloading and not shoot_pressed:
+            self.weapon.reload_timer += delta_time
+            if self.weapon.reload_timer >= self.weapon.reload_time:
+                self.weapon.reload_weapon()
+        if self.weapon.can_shoot and shoot_pressed:
+            # Shoot if ammo available
             # TODO: Implement fire_type
-            if shoot_pressed:
+            if self.weapon.cur_ammo > 0:
                 self.weapon.can_shoot = False
+                self.weapon.is_reloading = False
                 # Decrease ammo count
                 self.weapon.cur_ammo -= 1
                 # Calculate bullet speed
@@ -134,44 +136,46 @@ class Player(arcade.Sprite):
                 # Add to bullet sprite list
                 Bullet.friendly_bullet_list.append(bullet)
 
-                # Play weapon shoot sfx
-                arcade.play_sound(bullet.audio_gunshot,
-                                  volume=self.audio_volume)
+                # Play random weapon shoot sfx
+                Audio.play_rand_sound(self.weapon.sfx_single_shot_list)
 
                 # Start reload if ammo depleted
                 if self.weapon.cur_ammo <= 0:
                     self.weapon.is_reloading = True
+
+                self.weapon.shoot_timer = 0
             else:
-                pass
-                # Play empty weapon sfx
-        else:
-            # Reload weapon
-            if self.weapon.is_reloading:
+                # Reload weapon
                 self.weapon.reload_timer += delta_time
                 if self.weapon.reload_timer >= self.weapon.reload_time:
                     self.weapon.reload_weapon()
-            # Wait until weapon can shoot
-            else:
-                self.weapon.shoot_timer += delta_time
-                if self.weapon.shoot_timer >= self.weapon.shoot_time:
-                    self.weapon.can_shoot = True
-                    self.weapon.shoot_timer = 0
+                # TODO: Play empty weapon sfx
+        else:
+            self.weapon.shoot_timer += delta_time
+            if self.weapon.shoot_timer >= self.weapon.shoot_time:
+                self.weapon.can_shoot = True
+                self.weapon.shoot_timer = 0
 
     def take_damage(self, damage_source):
         """Handles damage taken by player"""
-        # Play damage taken sound
-        # TODO: Change sound effect
-        arcade.play_sound(self.audio_destroyed, volume=self.audio_volume)
         # Decrease player hp
         self.cur_health -= damage_source.damage_value
         # Cause death of player if hp low
         if self.cur_health <= self.death_health:
             self.death()
 
+        # Play random player hit sfx
+        Audio.play_rand_sound(self.sfx_hit_list)
+
     def death(self):
         """Handles death of player"""
+
         # TODO: Implement better player death
         self.cur_health = self.max_health
+
+        # Play random death sfx
+        Audio.play_rand_sound(self.sfx_death_list)
+
         print("You died.")
 
     def follow_mouse(self, mouse_x: float, mouse_y: float):
