@@ -167,7 +167,7 @@ WEAPON_LIST = [
         "bullet_scale": .5,
         "shoot_time": 0.3,
         "reload_time": 0.8,
-        "reload_rate": 1
+        "reload_rate": 8
     },
     {
         "name": "RPG",
