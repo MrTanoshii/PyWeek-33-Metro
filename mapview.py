@@ -2,6 +2,7 @@ import constants as C
 import gameview
 import arcade
 from player import Player
+import shopview
 from audio import Audio
 from gamedata import GameData
 
@@ -55,6 +56,9 @@ class MapView(arcade.View):
         self.highlight_scale = .5
         self.highlight = False
 
+        """ Map sprites """
+        self.shop_sprite = None
+        self.gold_sprite = None
         # Find & set map bgm
         view = None
         for view_dict in C.VIEW_LIST:
@@ -75,12 +79,21 @@ class MapView(arcade.View):
 
         # self.gui_camera = arcade.Camera(self.window.width, self.window.height)
         MapView.monument_list = arcade.SpriteList(is_static=True)
+        
         self.cursor_list = arcade.SpriteList()
         # Create the sprite lists
         self.background = arcade.load_texture(
             "resources/images/map/pixel_map.png")
         self.cursor_sprite = arcade.Sprite(
             "resources/images/goat_cursor.png", 1)
+
+        # setup map sprites
+        self.shop_sprite = arcade.Sprite("resources/images/map/temp_shop.png", 0.2)  # Initializing a global Shop Sprite URL - https://www.iconsdb.com/white-icons/shop-icon.html
+        self.gold_sprite = arcade.Sprite("resources/images/map/gold-bar.png", 0.6)  # Initializing a global Shop Sprite URL - https://www.iconsdb.com/white-icons/shop-icon.html
+
+        # Sprite Locations
+        self.gold_sprite.position = (1200, 680)
+        self.shop_sprite.position = (int(C.SCREEN_WIDTH*.96), int(C.SCREEN_HEIGHT*.87))
 
         self.cursor_list.append(self.cursor_sprite)
         self.load_monuments()
@@ -123,22 +136,44 @@ class MapView(arcade.View):
         arcade.draw_lrwh_rectangle_textured(0, 0,
                                             C.SCREEN_WIDTH, C.SCREEN_HEIGHT,
                                             self.background)
+        self.gold_sprite.draw()
         # GUI - Gold
         arcade.draw_text(
-            f"Gold : {GameData.gold}",
-            C.SCREEN_WIDTH / 5,
-            C.SCREEN_HEIGHT - 150,
+            GameData.gold,
+            self.gold_sprite.position[0]*.99,
+            self.gold_sprite.position[1]*1.005,
             arcade.color.BLACK,
+            font_name="Kenney High",
+            bold=True,
             font_size=30,
-            anchor_x="center",
+            anchor_x="left",
+            anchor_y="center",
         )
+        
+        # arcade.draw_text(
+        #     f"SHOP",
+        #     self.shop_sprite.position[0],
+        #     self.shop_sprite.position[1]*.9,
+        #     arcade.color.BLACK,
+        #     font_size=20,
+        #     anchor_x="center",
+        # )
 
         MapView.monument_list.draw()
+        self.shop_sprite.draw(pixelated=True)
         self.cursor_list.draw()
 
     def on_mouse_motion(self, x, y, dx, dy):
         self.cursor_sprite.center_x = x+20
         self.cursor_sprite.center_y = y-20
+
+        # Check if shops hit cursor (Simply because less number of checking)
+        if self.shop_sprite.collides_with_sprite(self.cursor_sprite):
+            self.shop_sprite.color = (0, 255, 0)
+            self.shop_sprite.scale = .24
+        else:
+            self.shop_sprite.color = (255, 255, 255)
+            self.shop_sprite.scale = .2
 
     def on_update(self, delta_time):
 
@@ -162,7 +197,7 @@ class MapView(arcade.View):
             self.bgm_stream = Audio.play_sound(self.bgm, True)
 
         # MapView.update_monument_list()
-
+        
     def on_mouse_press(self, x, y, button, modifiers):
 
         if C.DEBUG.ALL or C.DEBUG.MAP:
@@ -183,6 +218,10 @@ class MapView(arcade.View):
                 game = gameview.GameView(self)
                 game.setup()
                 self.window.show_view(game)
+
+        # Check if shops hit cursor (Simply because less number of checking)
+        if self.shop_sprite.collides_with_sprite(self.cursor_sprite):
+            self.window.show_view(shopview.ShopView())
 
 # Make center points as dictionary and call out other views mostly
 

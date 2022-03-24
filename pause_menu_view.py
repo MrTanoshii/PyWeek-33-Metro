@@ -3,6 +3,7 @@ import constants as C
 from audio import Audio
 from gamedata import GameData
 from tracker import Tracker
+import shopview
 
 
 class PauseMenuView(arcade.View):
@@ -53,12 +54,12 @@ class PauseMenuView(arcade.View):
         self.clear()
 
         arcade.draw_text(
-            "Paused | Q: quit game | M: leave level | SPACE: back to game",
+            "Paused | Q: quit game | M: leave level | SPACE: back to game | S: Go to Shop",
             C.SCREEN_WIDTH / 2,
             C.SCREEN_HEIGHT / 2,
             arcade.color.BLACK,
             font_size=C.MENU_FONT_SIZE,
-            anchor_x="center",
+            anchor_x="center"
         )
 
     def on_mouse_press(self, _x, _y, _button, _modifiers):
@@ -85,6 +86,8 @@ class PauseMenuView(arcade.View):
             Audio.stop_sound(self.bgm_stream)
             self.bgm_stream = None
             self.window.show_view(self.game_view)
+        elif key == arcade.key.S: #Added binding
+            self.window.show_view(shopview.ShopView())
 
     def exit_level(self):
         GameData.update_highscore(self.current_level)

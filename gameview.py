@@ -12,6 +12,7 @@ from settings import Settings
 from audio import Audio
 
 from pause_menu_view import PauseMenuView
+import shopview
 import mapview
 
 
@@ -61,6 +62,7 @@ class GameView(arcade.View):
         self.down_key_down = False
         self.space_down = False
 
+
         # GUI
         self.gui_camera = None
         self.setup_complete = False
@@ -100,7 +102,8 @@ class GameView(arcade.View):
 
         # Cursor
         self.cursor_sprite = arcade.Sprite(
-            "resources/images/goat_cursor.png", 1)
+            "resources/images/crosshair.png", 0.7)
+        self.cursor_sprite.color = (128, 0, 0)
 
         # Find & set map bgm
         view = None
@@ -197,6 +200,7 @@ class GameView(arcade.View):
         self.player.update(delta_time, movement_key_pressed,
                            self.shoot_pressed)
         self.check_collisions()
+
 
         Enemy.update()
         Bullet.update()
