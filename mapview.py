@@ -92,6 +92,7 @@ class MapView(arcade.View):
                 "resources/images/map/" + mon_dict["img_name"],
                 self.normal_scale)
             monument.level = mon_dict["level"]
+            monument.name = mon_dict["name"]
             monument.center_x = mon_dict["center_x"]
             monument.center_y = mon_dict["center_y"]
       
@@ -175,7 +176,7 @@ class MapView(arcade.View):
             Audio.stop_sound(self.bgm_stream)
             self.bgm_stream = None
 
-            game = gameview.GameView()
+            game = gameview.GameView(self)
             game.setup()
             self.window.show_view(game)
 
