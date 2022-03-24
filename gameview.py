@@ -61,8 +61,6 @@ class GameView(arcade.View):
         self.down_key_down = False
         self.space_down = False
 
-        #Counting the enemy killed -> Temporary level completion (kill 5 enemies)
-        self.enemy_killed = 0
 
         # GUI
         self.gui_camera = None
@@ -184,8 +182,6 @@ class GameView(arcade.View):
                            self.shoot_pressed)
         self.check_collisions()
 
-        if self.enemy_killed >= 10:
-            self.window.show_view(shopview.ShopView())
 
         Enemy.update()
         Bullet.update()
@@ -297,7 +293,6 @@ class GameView(arcade.View):
                 # if HP 0, destroy enemy
                 if enemy.HP <= 0:
                     Enemy.despawn(enemy, C.DEATH.KILLED)
-                    self.enemy_killed +=1 #Increment Enemy killed
                     # Play a sound
                     arcade.play_sound(enemy.audio_destroyed,
                                       volume=enemy.audio_volume)
