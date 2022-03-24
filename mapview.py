@@ -59,7 +59,8 @@ class MapView(arcade.View):
         self.highlight_scale = .3 * global_scale()
         self.highlight = False
         self.normal_scale_step = C.STEP_CONFS["story_scale"] * global_scale()
-        self.highlight_scale_step = C.STEP_CONFS["story_scale_big"] * global_scale()
+        self.highlight_scale_step = C.STEP_CONFS["story_scale_big"] * \
+            global_scale()
         self.highlight_step = False
 
         """ Map sprites """
@@ -124,11 +125,11 @@ class MapView(arcade.View):
             monument.center_y = mon_dict["center_y"] * global_scale()
 
             if GameData.level_data[str(monument.level)]["passed"] == 0 and GameData.level_data[str(monument.level)][
-                "locked"] == 0:
+                    "locked"] == 0:
                 monument.color = (255, 255, 64)
                 monument.unlocked = True
             elif GameData.level_data[str(monument.level)]["passed"] == 0 and GameData.level_data[str(monument.level)][
-                "locked"] == 1:
+                    "locked"] == 1:
                 monument.color = (255, 64, 64)
                 monument.unlocked = False
             else:
@@ -221,6 +222,15 @@ class MapView(arcade.View):
             anchor_y="center",
         )
 
+        arcade.draw_text(
+            f"SHOP",
+            1200,
+            620,
+            arcade.color.BLACK,
+            font_size=20,
+            anchor_x="center",
+        )
+
         # arcade.draw_text(
         #     f"SHOP",
         #     self.shop_sprite.position[0],
@@ -237,9 +247,9 @@ class MapView(arcade.View):
 
     def on_mouse_motion(self, x, y, dx, dy):
         self.cursor_sprite.center_x = x + \
-                                      C.MAP["Cursor"]["offset_x"] * global_scale()
+            C.MAP["Cursor"]["offset_x"] * global_scale()
         self.cursor_sprite.center_y = y + \
-                                      C.MAP["Cursor"]["offset_y"] * global_scale()
+            C.MAP["Cursor"]["offset_y"] * global_scale()
 
         # Check if shops hit cursor (Simply because less number of checking)
         if self.shop_sprite.collides_with_sprite(self.cursor_sprite):
@@ -293,8 +303,10 @@ class MapView(arcade.View):
 
         if C.DEBUG.ALL or C.DEBUG.MAP:
             print(x, y)
-        hit_monument = arcade.check_for_collision_with_list(self.cursor_sprite, MapView.monument_list)
-        hit_step = arcade.check_for_collision_with_list(self.cursor_sprite, MapView.step_list)
+        hit_monument = arcade.check_for_collision_with_list(
+            self.cursor_sprite, MapView.monument_list)
+        hit_step = arcade.check_for_collision_with_list(
+            self.cursor_sprite, MapView.step_list)
         if hit_monument:
             if hit_monument[0].unlocked:
                 MapView.current_level = hit_monument[0].level
@@ -309,6 +321,9 @@ class MapView(arcade.View):
                 game = gameview.GameView(self)
                 game.setup()
                 self.window.show_view(game)
+# Check if shops hit cursor (Simply because less number of checking)
+        if MapView.shop_sprite.collides_with_sprite(self.cursor_sprite):
+            self.window.show_view(shopview.ShopView())
 
         elif hit_step and (hit_step[0].level is not None):
             if hit_step[0].unlocked:
