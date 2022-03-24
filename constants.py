@@ -80,7 +80,7 @@ MAP_MONUMENTS_LIST = [
 
 ENEMIES = {
     "tank": {
-        "animation_speed": 0.02,
+        "animation_speed": 1.5,
         "scale": 1*GLOBAL_SCALE,
         "speed": -2,
         "spawn_rate": 1,
