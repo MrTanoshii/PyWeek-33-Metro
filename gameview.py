@@ -267,7 +267,7 @@ class GameView(arcade.View):
             Audio.stop_sound(self.bgm_stream)
             self.bgm_stream = None
 
-            self.window.show_view(PauseMenuView(self, self.map_view, self.level)))
+            self.window.show_view(PauseMenuView(self, self.map_view, self.level))
 
 
     def on_key_release(self, key, modifiers):

@@ -6,7 +6,6 @@ from audio import Audio
 from gamedata import GameData
 
 
-
 class MapView(arcade.View):
     """
     MapView View
