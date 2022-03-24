@@ -218,7 +218,7 @@ class GameView(arcade.View):
             for enemy in Enemy.enemy_list:
                 enemy.shoot(Bullet.enemy_bullet_list)
 
-        if C.DEBUG:
+        if C.DEBUG.MAP:
             print(x, y)
 
     def on_key_press(self, key, modifiers):
