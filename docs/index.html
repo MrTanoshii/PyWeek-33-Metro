@@ -78,19 +78,26 @@
                 </div>
                </div>
 
+               <div class="dropdown">
+                <button class="dropbtn" onclick="ToggleDarkMode()">
+                  <i class="fa fa-moon-o" style="color:#FFF;" id="style-toggle"></i>
+                </button>
+               </div>
+
             </div>
 
             <div class="header-text">
                <h1 class="project-name">Meteoroids by Metro</h1>
                <h2><span>Sidescrolling driving game,</span><br><span>where you save good leaders from their evil twins</span></h2>
             </div>
+            <div class="spacing-2"></div>
          </div>
       </header>
 
       <!--   skip the header   -->
       <main id="content" class="main-content" role="main"></main>
 
-      <div id="maincontent" class="light">
+      <div id="maincontent" class="dark">
 
          <!--    begin of about     -->
          <div class="about">
@@ -150,7 +157,7 @@
 
                <p>Join our <a href="https://discord.gg/he8vQWgX5r">discord server</a> and come say hi. Don't hesitate to ask about the game or maybe come and give some feedback.</p>
                <div class="spacing-1"></div>
-               <button class="btn join" onclick="window.location.href='https://discord.gg/he8vQWgX5r'">Join Now</button>
+               <button id="discord-join-btn" onclick="window.location.href='https://discord.gg/he8vQWgX5r'">Join Now</button>
             </div>
             <!--    end of dc    -->
 
@@ -392,11 +399,6 @@
                </div>
             </div>
             <!--    end of day 7     -->
-
-            <div class="spacing-2"></div>
-
-            <div class="spacing-2"></div>
-
          </div>
          <!--    end of daily progress     -->
 

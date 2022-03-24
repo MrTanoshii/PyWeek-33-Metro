@@ -101,13 +101,25 @@
 }
 
 /* body */
-body {margin:0px;}
+body {
+    margin:0px;
+    background-color: #222;
+}
 
 .header-text, .topnav {
  word-wrap:break-word;
  max-width:64rem;
  padding:2rem 6rem;
  margin:0 auto;
+}
+
+.light {
+    background-color:#FFF;
+    color:#222;
+}
+.dark {
+    background-color:#222;
+    color:#FFF;
 }
 
 
@@ -146,6 +158,23 @@ body {margin:0px;}
  width:auto;
  background:#e19447;
  outline:thick solid #e19447
+}
+
+#discord-join-btn {
+  background-color: #7289DA; /* DC purple */
+  border: none;
+  color: white;
+  padding: 15px 32px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+}
+#discord-join-btn:hover {
+  background-color: #6279CA; /* DC purple */
+}
+#discord-join-btn:active {
+  background-color: #4269AA; /* DC purple */
 }
 
 /* Pregenerated CSS */
@@ -938,18 +967,14 @@ table td,table th{
 .c7{
     border-right-style:solid;
     padding:5pt 5pt 5pt 5pt;
-    border-bottom-color:#000000;
     border-top-width:1pt;
     border-right-width:1pt;
-    border-left-color:#000000;
     vertical-align:top;
-    border-right-color:#000000;
     border-left-width:1pt;
     border-top-style:solid;
     border-left-style:solid;
     border-bottom-width:1pt;
     width:234pt;
-    border-top-color:#000000;
     border-bottom-style:solid
 }
 .c2{
@@ -972,7 +997,6 @@ table td,table th{
     text-align:left
 }
 .c18{
-    color:#000000;
     font-weight:400;
     text-decoration:none;
     vertical-align:sub;
@@ -981,7 +1005,6 @@ table td,table th{
     font-style:normal
 }
 .c3{
-    color:#000000;
     font-weight:700;
     text-decoration:none;
     vertical-align:baseline;
@@ -990,7 +1013,6 @@ table td,table th{
     font-style:normal
 }
 .c5{
-    color:#000000;
     font-weight:400;
     text-decoration:none;
     vertical-align:baseline;
@@ -999,7 +1021,6 @@ table td,table th{
     font-style:normal
 }
 .c1{
-    color:#000000;
     font-weight:400;
     text-decoration:none;
     vertical-align:baseline;
@@ -1008,7 +1029,6 @@ table td,table th{
     font-style:normal
 }
 .c9{
-    color:#000000;
     font-weight:400;
     text-decoration:none;
     vertical-align:baseline;
@@ -1045,7 +1065,6 @@ table td,table th{
 .c16{
     text-decoration-skip-ink:none;
     -webkit-text-decoration-skip:none;
-    color:#1155cc;
     text-decoration:underline
 }
 .c21{
@@ -1092,7 +1111,6 @@ table td,table th{
 }
 .title{
     padding-top:0pt;
-    color:#000000;
     font-size:26pt;
     padding-bottom:3pt;
     font-family:"Arial";
@@ -1104,7 +1122,6 @@ table td,table th{
 }
 .subtitle{
     padding-top:0pt;
-    color:#666666;
     font-size:15pt;
     padding-bottom:16pt;
     font-family:"Arial";
@@ -1115,19 +1132,16 @@ table td,table th{
     text-align:left
 }
 li{
-    color:#000000;
     font-size:11pt;
     font-family:"Arial"
 }
 p{
     margin:0;
-    color:#000000;
     font-size:11pt;
     font-family:"Arial"
 }
 h1{
     padding-top:0pt;
-    color:#000000;
     font-size:20pt;
     padding-bottom:0pt;
     font-family:"Arial";
@@ -1139,7 +1153,6 @@ h1{
 }
 h2{
     padding-top:0pt;
-    color:#000000;
     font-size:16pt;
     padding-bottom:0pt;
     font-family:"Arial";
