@@ -81,7 +81,6 @@ class MapView(arcade.View):
 
         # self.gui_camera = arcade.Camera(self.window.width, self.window.height)
         MapView.monument_list = arcade.SpriteList(is_static=True)
-
         self.cursor_list = arcade.SpriteList()
         # Create the sprite lists
         self.background = arcade.load_texture(
@@ -156,6 +155,15 @@ class MapView(arcade.View):
             font_size=30 * global_scale(),
             anchor_x="left",
             anchor_y="center",
+        )
+
+        arcade.draw_text(
+            f"SHOP",
+            1200,
+            620,
+            arcade.color.BLACK,
+            font_size=20,
+            anchor_x="center",
         )
 
         # arcade.draw_text(
@@ -233,6 +241,9 @@ class MapView(arcade.View):
                 game = gameview.GameView(self)
                 game.setup()
                 self.window.show_view(game)
+# Check if shops hit cursor (Simply because less number of checking)
+        if MapView.shop_sprite.collides_with_sprite(self.cursor_sprite):
+            self.window.show_view(shopview.ShopView())
 
         # Check if shops hit cursor (Simply because less number of checking)
         if self.shop_sprite.collides_with_sprite(self.cursor_sprite):
