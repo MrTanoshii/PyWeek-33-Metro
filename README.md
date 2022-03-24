@@ -1,7 +1,7 @@
 <div align="center">
 
   <h3>Theme is "Evil Twin"</h3>
-![alt text](https://github.com/MrTanoshii/PyWeek-33-Metro/blob/art/assets/web_assets/jeep_rpg.gif)
+![hero](/art/assets/web_assets/jeep_rpg.gif)
 [![PyWeek 33](https://img.shields.io/badge/PyWeek-33-blue)](https://pyweek.org/33/)
 [![PyWeek 33 Rules - Revision 2020-02-06](https://img.shields.io/badge/Rules-2020--02--06-blue)](https://pyweek.readthedocs.io/en/latest/rules.html)
 [![Team Metroids](https://img.shields.io/badge/Team-Metroids-brightgreen)](https://pyweek.org/e/meme_py123/)
