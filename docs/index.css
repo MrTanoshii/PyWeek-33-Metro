@@ -93,6 +93,13 @@
     padding:3em;
 }
 
+/* maincontent */
+#maincontent{
+ max-width:64rem;
+ padding:2rem 6rem;
+ margin:0 auto;
+}
+
 /* body */
 body {margin:0px;}
 
@@ -1058,11 +1065,6 @@ table td,table th{
     line-height:1.0;
     text-align:left
 }
-.c20{
-    background-color:#ffffff;
-    max-width:468pt;
-    padding:72pt 72pt 72pt 72pt
-}
 .c14{
     margin-left:72pt;
     padding-left:0pt
@@ -1148,20 +1150,13 @@ h2{
     text-align:left
 }
 h3{
-    padding-top:0pt;
-    color:#434343;
     font-size:14pt;
-    padding-bottom:0pt;
     font-family:"Arial";
     line-height:1.15;
-    page-break-after:avoid;
-    orphans:2;
-    widows:2;
     text-align:left
 }
 h4{
     padding-top:0pt;
-    color:#666666;
     font-size:12pt;
     padding-bottom:0pt;
     font-family:"Arial";
