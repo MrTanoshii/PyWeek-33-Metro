@@ -204,9 +204,6 @@ class GameView(arcade.View):
                            self.shoot_pressed)
         self.check_collisions()
 
-        if self.enemy_killed >= 10:
-            self.window.show_view(shopview.ShopView())
-
         Enemy.update()
         Bullet.update()
 
