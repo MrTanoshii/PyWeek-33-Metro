@@ -101,11 +101,17 @@ class Player(arcade.Sprite):
     def shoot(self, delta_time, shoot_pressed):
         """Handles shooting & reloading"""
 
-        if self.weapon.can_shoot:
-            # Shoot
+        # Reload weapon
+        if self.weapon.is_reloading and not shoot_pressed:
+            self.weapon.reload_timer += delta_time
+            if self.weapon.reload_timer >= self.weapon.reload_time:
+                self.weapon.reload_weapon()
+        if self.weapon.can_shoot and shoot_pressed:
+            # Shoot if ammo available
             # TODO: Implement fire_type
-            if shoot_pressed:
+            if self.weapon.cur_ammo > 0:
                 self.weapon.can_shoot = False
+                self.weapon.is_reloading = False
                 # Decrease ammo count
                 self.weapon.cur_ammo -= 1
                 # Calculate bullet speed
@@ -136,21 +142,19 @@ class Player(arcade.Sprite):
                 # Start reload if ammo depleted
                 if self.weapon.cur_ammo <= 0:
                     self.weapon.is_reloading = True
+
+                self.weapon.shoot_timer = 0
             else:
-                pass
-                # Play empty weapon sfx
-        else:
-            # Reload weapon
-            if self.weapon.is_reloading:
+                # Reload weapon
                 self.weapon.reload_timer += delta_time
                 if self.weapon.reload_timer >= self.weapon.reload_time:
                     self.weapon.reload_weapon()
-            # Wait until weapon can shoot
-            else:
-                self.weapon.shoot_timer += delta_time
-                if self.weapon.shoot_timer >= self.weapon.shoot_time:
-                    self.weapon.can_shoot = True
-                    self.weapon.shoot_timer = 0
+                # TODO: Play empty weapon sfx
+        else:
+            self.weapon.shoot_timer += delta_time
+            if self.weapon.shoot_timer >= self.weapon.shoot_time:
+                self.weapon.can_shoot = True
+                self.weapon.shoot_timer = 0
 
     def take_damage(self, damage_source):
         """Handles damage taken by player"""
