@@ -66,7 +66,7 @@ class MapView(arcade.View):
                 break
 
         # Start bgm
-        self.bgm_stream = Audio.play_sound(self.bgm)
+        self.bgm_stream = Audio.play_sound(self.bgm, True)
 
     def setup(self):
         """ Set up everything with the game """
@@ -159,7 +159,7 @@ class MapView(arcade.View):
 
         # Restart bgm
         if self.bgm_stream == None:
-            self.bgm_stream = Audio.play_sound(self.bgm)
+            self.bgm_stream = Audio.play_sound(self.bgm, True)
 
         # MapView.update_monument_list()
 
