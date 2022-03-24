@@ -1,6 +1,7 @@
 import arcade
 import constants as C
 from gamedata import GameData
+from tracker import Tracker
 
 
 class PauseMenuView(arcade.View):
@@ -56,10 +57,11 @@ class PauseMenuView(arcade.View):
             arcade.exit()
         elif key == arcade.key.M:
             self.window.show_view(self.map_view)
-            self.save_data()
+            self.exit_level()
         elif key == arcade.key.SPACE:
             self.window.show_view(self.game_view)
 
-    def save_data(self):
+    def exit_level(self):
         GameData.update_highscore(self.current_level)
         GameData.deposit_gold()
+        Tracker.reset_trackers()

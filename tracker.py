@@ -44,3 +44,8 @@ class Tracker():
     @classmethod
     def decrement_score(cls, value):
         cls.score -= value
+
+    @classmethod
+    def reset_trackers(cls):
+        cls.score = 0
+        cls.gold = 0
