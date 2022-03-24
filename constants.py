@@ -376,7 +376,7 @@ WEAPON_LIST = [
         "bullet_scale": .5,
         "shoot_time": 0.3,
         "reload_time": 0.8,
-        "reload_rate": 8
+        "reload_rate": 8,
         "sfx_single_shot_list": [AUDIO.SOUND["weapon_shotgun_1"]["name"], AUDIO.SOUND["weapon_shotgun_2"]["name"], AUDIO.SOUND["weapon_shotgun_3"]["name"]],
         "sfx_single_shot_vol_gain_list": [AUDIO.SOUND["weapon_shotgun_1"]["gain"], AUDIO.SOUND["weapon_shotgun_2"]["gain"], AUDIO.SOUND["weapon_shotgun_3"]["gain"]]
     },
