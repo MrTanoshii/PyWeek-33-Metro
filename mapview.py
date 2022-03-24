@@ -36,6 +36,7 @@ class MapView(arcade.View):
 
     # Level class attribute
     current_level = 0
+    monument_list = None
 
     def __init__(self):
         # Inherit parent class
@@ -48,8 +49,6 @@ class MapView(arcade.View):
 
         self.background = None
 
-        self.monument_list = None
-
         self.level = 0
         self.normal_scale = .2
         self.highlight_scale = .5
@@ -61,7 +60,7 @@ class MapView(arcade.View):
         Player.player_list = arcade.SpriteList()
 
         # self.gui_camera = arcade.Camera(self.window.width, self.window.height)
-        self.monument_list = arcade.SpriteList(is_static=True)
+        MapView.monument_list = arcade.SpriteList(is_static=True)
         self.cursor_list = arcade.SpriteList()
         # Create the sprite lists
         self.background = arcade.load_texture(
@@ -78,10 +77,20 @@ class MapView(arcade.View):
             monument = arcade.Sprite(
                 "resources/images/map/" + mon_dict["img_name"],
                 self.normal_scale)
+            mon_id = mon_dict["level"]
+            if GameData.level_data[str(mon_id)]["passed"] == 0 and GameData.level_data[str(mon_id)]["locked"] == 0:
+                monument.color = (255, 255, 64)
+                monument.unlocked = True
+            elif GameData.level_data[str(mon_id)]["passed"] == 0 and GameData.level_data[str(mon_id)]["locked"] == 1:
+                monument.color = (255, 64, 64)
+                monument.unlocked = False
+            else:
+                monument.color = (255, 255, 255)
+                monument.unlocked = True
             monument.level = mon_dict["level"]
             monument.center_x = mon_dict["center_x"]
             monument.center_y = mon_dict["center_y"]
-            self.monument_list.append(monument)
+            MapView.monument_list.append(monument)
 
     def on_draw(self):
         """Render the screen."""
@@ -102,7 +111,7 @@ class MapView(arcade.View):
             anchor_x="center",
         )
 
-        self.monument_list.draw()
+        MapView.monument_list.draw()
         self.cursor_list.draw()
 
     def on_mouse_motion(self, x, y, dx, dy):
@@ -112,33 +121,49 @@ class MapView(arcade.View):
     def on_update(self, delta_time):
 
         hit_list = arcade.check_for_collision_with_list(
-            self.cursor_sprite, self.monument_list)
+            self.cursor_sprite, MapView.monument_list)
 
         if len(hit_list):
-            for i, monument in enumerate(self.monument_list):
-                if i != self.monument_list.index(hit_list[0]):
+            for i, monument in enumerate(MapView.monument_list):
+                if i != MapView.monument_list.index(hit_list[0]):
                     monument.scale = self.normal_scale
                 else:
                     monument.scale = self.highlight_scale
                     self.highlight = True
         elif self.highlight:
-            for monument in self.monument_list:
+            for monument in MapView.monument_list:
                 monument.scale = self.normal_scale
             self.highlight = False
+
+        # MapView.update_monument_list()
 
     def on_mouse_press(self, x, y, button, modifiers):
 
         if C.DEBUG:
             print(x, y)
         hit_monument = arcade.check_for_collision_with_list(
-            self.cursor_sprite, self.monument_list)
+            self.cursor_sprite, MapView.monument_list)
         if hit_monument:
-            MapView.current_level = hit_monument[0].level
-            game = gameview.GameView(self)
-            game.setup()
-            self.window.show_view(game)
+            if hit_monument[0].unlocked:
+                MapView.current_level = hit_monument[0].level
+                game = gameview.GameView(self)
+                game.setup()
+                self.window.show_view(game)
 
 # Make center points as dictionary and call out other views mostly
 
     def on_show(self):
         self.setup()
+
+    @classmethod
+    def update_monument_list(cls):
+        for i, monument in enumerate(cls.monument_list):
+            if GameData.level_data[str(i)]["passed"] == 0 and GameData.level_data[str(i)]["locked"] == 0:
+                monument.color = (255, 255, 64)
+                monument.unlocked = True
+            elif GameData.level_data[str(i)]["passed"] == 0 and GameData.level_data[str(i)]["locked"] == 1:
+                monument.color = (255, 64, 64)
+                monument.unlocked = False
+            else:
+                monument.color = (255, 255, 255)
+                monument.unlocked = True
