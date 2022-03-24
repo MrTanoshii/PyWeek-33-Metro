@@ -64,6 +64,9 @@ class GameView(arcade.View):
         self.down_key_down = False
         self.space_down = False
 
+        # Counting the enemy killed -> Temporary level completion (kill 5 enemies)
+        self.enemy_killed = 0
+
         # GUI
         self.gui_camera = None
         self.setup_complete = False
@@ -383,6 +386,7 @@ class GameView(arcade.View):
                 if enemy.HP <= 0:
                     # Play enemy death sfx
                     Audio.play_rand_sound(enemy.sfx_death_list)
+                    self.enemy_killed += 1  # Increment Enemy killed
 
                     Tracker.increment_score(enemy.score)
 
