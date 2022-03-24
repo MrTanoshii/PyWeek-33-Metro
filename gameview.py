@@ -101,7 +101,8 @@ class GameView(arcade.View):
 
         # Cursor
         self.cursor_sprite = arcade.Sprite(
-            "resources/images/goat_cursor.png", 1)
+            "resources/images/crosshair.png", 0.7)
+        self.cursor_sprite.color = (128, 0, 0)
 
     def on_draw(self):
         """Render the screen."""
