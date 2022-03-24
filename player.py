@@ -1,4 +1,3 @@
-import random
 import arcade
 import constants as C
 from bullet import Bullet
