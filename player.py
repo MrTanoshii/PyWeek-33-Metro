@@ -114,6 +114,8 @@ class Player(arcade.Sprite):
                 self.weapon.is_reloading = False
                 # Decrease ammo count
                 self.weapon.cur_ammo -= 1
+                self.weapon.update_tracked_ammo(
+                    self.weapon.weapon_name, self.weapon.cur_ammo)
                 # Calculate bullet speed
                 speed_x = self.weapon.bullet_speed * \
                     math.cos(math.radians(self.weapon_angle +

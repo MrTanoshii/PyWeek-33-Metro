@@ -37,6 +37,8 @@ class Weapon(arcade.Sprite):
 
     Methods
     -------
+    update_tracked_ammo(weapon_name: str, ammo_count: int)
+        Keep the ammo count tracked
     reload_weapon()
         Reloads the current weapon
     swap_weapon(weapon_name: str)
@@ -49,16 +51,29 @@ class Weapon(arcade.Sprite):
         # Inherit parent class
         super().__init__()
 
+        # Set sound
+        self.sound = None
+
+        self.tracked_ammo = {}
+        for weapon in C.WEAPON_LIST:
+            self.tracked_ammo[weapon["name"]
+                              ] = weapon["max_ammo"]
+
         # Set default weapon
         self.set_weapon("Rifle")
 
-        # Set sound
-        self.sound = None
+    def update_tracked_ammo(self, weapon_name: str, ammo_count: int):
+        """ Keep the ammo count tracked """
+        for weapon in self.tracked_ammo:
+            if weapon == weapon_name:
+                self.tracked_ammo[weapon] = ammo_count
+                break
 
     def reload_weapon(self):
         """ Reloads the current weapon """
         # Increment ammo count
         self.cur_ammo += self.reload_rate
+        self.update_tracked_ammo(self.weapon_name, self.cur_ammo)
 
         # Allow shooting if ammo present
         self.can_shoot = True
@@ -108,7 +123,7 @@ class Weapon(arcade.Sprite):
                 self.fire_mode = weapon["fire_mode"]
                 self.fire_type = weapon["fire_type"]
                 self.max_ammo = weapon["max_ammo"]
-                self.cur_ammo = self.max_ammo
+                self.cur_ammo = self.tracked_ammo[self.weapon_name]
                 self.bullet_speed = weapon["bullet_speed"]
                 self.bullet_damage = weapon["bullet_damage"]
                 self.bullet_scale = weapon["bullet_scale"]
@@ -118,7 +133,10 @@ class Weapon(arcade.Sprite):
                 self.reload_time = weapon["reload_time"]
                 self.reload_timer = 0
                 self.reload_rate = weapon["reload_rate"]
-                self.is_reloading = False
+                if self.cur_ammo <= 0:
+                    self.is_reloading = True
+                else:
+                    self.is_reloading = False
 
                 # Find & set single shot sfx
                 for i in range(0, len(Audio.sfx_player_weapon_shoot_list)):
