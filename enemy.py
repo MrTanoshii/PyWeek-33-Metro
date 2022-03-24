@@ -144,6 +144,4 @@ class Enemy(arcade.Sprite):
         enemy_bullet_list.append(bullet)
 
         # Play weapon shoot sfx
-        rand_num = random.randint(
-            0, len(self.sfx_single_shot_list) - 1)
-        Audio.play_sound(self.sfx_single_shot_list[rand_num])
+        Audio.play_rand_sound(self.sfx_single_shot_list)
