@@ -73,24 +73,23 @@ class GameData:
     def reset_data(cls, gold=True, level=True, loadout=True):
         # Reset all data
         if gold:
-            cls.gold = 0
-            Tracker.gold = cls.gold
+            cls.gold = 100
 
         if level:
             cls.level_data = {
-                1: {"score": 0, "passed": 0},
-                2: {"score": 0, "passed": 0},
-                3: {"score": 0, "passed": 0},
-                4: {"score": 0, "passed": 0},
-                5: {"score": 0, "passed": 0},
-                6: {"score": 0, "passed": 0},
+                1: {"score": 0, "passed": 0, "locked": 0},
+                2: {"score": 0, "passed": 0, "locked": 1},
+                3: {"score": 0, "passed": 0, "locked": 1},
+                4: {"score": 0, "passed": 0, "locked": 1},
+                5: {"score": 0, "passed": 0, "locked": 1},
+                6: {"score": 0, "passed": 0, "locked": 1},
             }
 
         if loadout:
-            cls.loadout = {"rifle": 0, "Shotgun": 0, "RGB": 0}
+            cls.loadout = {"rifle": 0, "Shotgun": 1, "RGB": 0}
 
         # Write changes
-        cls.update_data()
+        cls.write_data()
 
     @classmethod
     def update_gold(cls, amount):
@@ -118,8 +117,15 @@ class GameData:
 
         current_highscore = cls.level_data[str(level)]["score"]
 
-        if Tracker.score < current_highscore:
-            cls.level_data[level]["score"] = Tracker.score
+        if Tracker.score > current_highscore:
+            cls.level_data[str(level)]["score"] = Tracker.score
+
+            if cls.level_data[str(level)]["score"] > 100:
+                # player passed the level
+                cls.level_data[str(level)]["passed"] = 1
+
+                cls.level_data[str(level+1)]["locked"] = 0
+
 
             # Write changes
             cls.write_data()
