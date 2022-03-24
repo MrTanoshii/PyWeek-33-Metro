@@ -126,6 +126,10 @@ class GameData:
 
                 cls.level_data[str(level+1)]["locked"] = 0
 
+                # Update map icons
+                from mapview import MapView
+                MapView.update_monument_list()
+
 
             # Write changes
             cls.write_data()

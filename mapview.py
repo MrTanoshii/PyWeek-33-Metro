@@ -158,10 +158,10 @@ class MapView(arcade.View):
     @classmethod
     def update_monument_list(cls):
         for i, monument in enumerate(cls.monument_list):
-            if GameData.level_data[str(i)]["passed"] == 0 and GameData.level_data[str(i)]["locked"] == 0:
+            if GameData.level_data[str(i+1)]["passed"] == 0 and GameData.level_data[str(i+1)]["locked"] == 0:
                 monument.color = (255, 255, 64)
                 monument.unlocked = True
-            elif GameData.level_data[str(i)]["passed"] == 0 and GameData.level_data[str(i)]["locked"] == 1:
+            elif GameData.level_data[str(i+1)]["passed"] == 0 and GameData.level_data[str(i+1)]["locked"] == 1:
                 monument.color = (255, 64, 64)
                 monument.unlocked = False
             else:
