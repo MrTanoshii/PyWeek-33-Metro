@@ -2,6 +2,7 @@ import constants as C
 import gameview
 import arcade
 from player import Player
+import shopview
 from gamedata import GameData
 
 
@@ -61,13 +62,19 @@ class MapView(arcade.View):
 
         # self.gui_camera = arcade.Camera(self.window.width, self.window.height)
         MapView.monument_list = arcade.SpriteList(is_static=True)
+        
         self.cursor_list = arcade.SpriteList()
         # Create the sprite lists
         self.background = arcade.load_texture(
             "resources/images/map/pixel_map.png")
         self.cursor_sprite = arcade.Sprite(
             "resources/images/goat_cursor.png", 1)
-
+        
+        #Keeping it as Class Variable as it may save the state
+        MapView.shop_sprite = arcade.Sprite("resources/images/map/temp_shop.png",0.2) #Initializing a global Shop Sprite URL - https://www.iconsdb.com/white-icons/shop-icon.html
+        #Sprite Locations
+        MapView.shop_sprite.center_x = 1200
+        MapView.shop_sprite.center_y = 680
         self.cursor_list.append(self.cursor_sprite)
         self.load_monuments()
 
@@ -110,8 +117,18 @@ class MapView(arcade.View):
             font_size=30,
             anchor_x="center",
         )
+        
+        arcade.draw_text(
+            f"SHOP",
+            1200,
+            620,
+            arcade.color.BLACK,
+            font_size=20,
+            anchor_x="center",
+        )
 
         MapView.monument_list.draw()
+        self.shop_sprite.draw(pixelated=True)
         self.cursor_list.draw()
 
     def on_mouse_motion(self, x, y, dx, dy):
@@ -134,6 +151,8 @@ class MapView(arcade.View):
             for monument in MapView.monument_list:
                 monument.scale = self.normal_scale
             self.highlight = False
+        
+        
 
         # MapView.update_monument_list()
 
@@ -149,6 +168,9 @@ class MapView(arcade.View):
                 game = gameview.GameView(self)
                 game.setup()
                 self.window.show_view(game)
+#Check if shops hit cursor (Simply because less number of checking)
+        if MapView.shop_sprite.collides_with_sprite(self.cursor_sprite):
+            self.window.show_view(shopview.ShopView())
 
 # Make center points as dictionary and call out other views mostly
 
