@@ -1,5 +1,6 @@
 import constants as C
 import arcade
+from audio import Audio
 
 
 class Weapon(arcade.Sprite):
@@ -29,6 +30,9 @@ class Weapon(arcade.Sprite):
 
         # Set default weapon
         self.set_weapon("Rifle")
+
+        # Set sound
+        self.sound = None
 
     def reload_weapon(self):
         """ Reloads the current weapon """
@@ -62,17 +66,18 @@ class Weapon(arcade.Sprite):
 
                 # Set weapon name
                 self.weapon_name = weapon["name"]
+                self.img_name = weapon["img_name"]
 
                 # Load weapon texture
                 self.texture = arcade.load_texture(
-                    f"resources/images/weapon/" + weapon["img_name"] + "/" + weapon["img_name"] + ".png", weapon["center_x"], weapon["center_y"], weapon["width"], weapon["height"])
+                    f"resources/images/weapon/" + self.img_name + "/" + self.img_name + ".png", weapon["center_x"], weapon["center_y"], weapon["width"], weapon["height"])
                 self.scale = weapon["scale"]
 
                 # Load animated bullet textures
                 self.bullet_texture_list = []
                 for i in range(1, weapon["bullet_texture_amount"] + 1):
                     self.bullet_texture_list.append(arcade.load_texture(
-                        f"resources/images/weapon/" + weapon["img_name"] + "/bullet/" + str(i) + ".png", hit_box_algorithm="Detailed"))
+                        f"resources/images/weapon/" + self.img_name + "/bullet/" + str(i) + ".png", hit_box_algorithm="Detailed"))
 
                 # Set GUI location
                 self.center_x = C.GUI["Weapon"]["center_x"]
@@ -94,18 +99,13 @@ class Weapon(arcade.Sprite):
                 self.reload_rate = weapon["reload_rate"]
                 self.is_reloading = False
 
-                # Load single shot sfx
-                self.sfx_single_shot_list = []
-                for sfx in weapon["sfx_single_shot_list"]:
-                    self.sfx_single_shot_list.append(arcade.load_sound(
-                        f"resources/audio/weapon/" + weapon["img_name"] + "/" + sfx))
-                # Load single shot sfx volume gain
-                self.sfx_single_shot_vol_gain_list = []
-                for vol_gain in weapon["sfx_single_shot_vol_gain_list"]:
-                    self.sfx_single_shot_vol_gain_list.append(vol_gain)
+                # Find & set single shot sfx
+                for i in range(0, len(Audio.sfx_player_weapon_shoot_list)):
+                    if Audio.sfx_player_weapon_shoot_list[i]["weapon_name"] == self.weapon_name:
+                        self.sfx_single_shot_list = Audio.sfx_player_weapon_shoot_list[i]["sound"]
+                        break
 
                 # Break out of loop if weapon found
                 break
-
         if not found_weapon:
             print("Error: Weapon not found.")

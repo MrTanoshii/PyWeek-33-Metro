@@ -1,10 +1,10 @@
 import arcade
-from constants import ENEMY_SCALING, SCREEN_WIDTH, SCREEN_HEIGHT, DEATH
-from constants import MASTER_VOLUME
+import constants as C
 import random
 from bullet import Bullet
 from gold import Gold
 from player import Player
+from audio import Audio
 
 
 class Enemy(arcade.Sprite):
@@ -40,9 +40,6 @@ class Enemy(arcade.Sprite):
     # SpriteList class attribute
     enemy_list = arcade.SpriteList()
 
-    # Volume class attribute
-    audio_volume = MASTER_VOLUME
-
     def __init__(self, hit_box_algorithm):
         # Inherit parent class
         super().__init__()
@@ -55,17 +52,34 @@ class Enemy(arcade.Sprite):
         self.damage_value = 3
 
         # Set our scale
-        self.scale = ENEMY_SCALING
+        self.scale = C.ENEMY_SCALING
 
         # load player texture
         base_path = "resources/"
         self.idle_texture = arcade.load_texture(
             f"{base_path}images/tank_enemy.png", hit_box_algorithm=hit_box_algorithm)
-        # Load sounds
-        self.audio_destroyed = arcade.load_sound(
-            f"{base_path}audio/enemy_destroyed.wav")
-        self.audio_hit = arcade.load_sound(f"{base_path}audio/enemy_hit.wav")
-        self.audio_volume = MASTER_VOLUME
+
+        # TODO: Change hardcoded enemy
+        self.name = C.ENEMY_LIST[0]["name"]
+        self.weapon = C.ENEMY_WEAPON_LIST[0]["name"]
+
+        # Find & set hit sfx
+        for i in range(0, len(Audio.sfx_enemy_hit_list)):
+            if Audio.sfx_enemy_hit_list[i]["enemy_name"] == self.name:
+                self.sfx_hit_list = Audio.sfx_enemy_hit_list[i]["sound"]
+                break
+
+        # Find & set death sfx
+        for i in range(0, len(Audio.sfx_enemy_death_list)):
+            if Audio.sfx_enemy_death_list[i]["enemy_name"] == self.name:
+                self.sfx_death_list = Audio.sfx_enemy_death_list[i]["sound"]
+                break
+
+        # Find & set single shot sfx
+        for i in range(0, len(Audio.sfx_enemy_weapon_shoot_list)):
+            if Audio.sfx_enemy_weapon_shoot_list[i]["weapon_name"] == self.weapon:
+                self.sfx_single_shot_list = Audio.sfx_enemy_weapon_shoot_list[i]["sound"]
+                break
 
         # Set the initial texture
         self.texture = self.idle_texture
@@ -78,9 +92,9 @@ class Enemy(arcade.Sprite):
         enemy = Enemy(hit_box_algorithm="Simple")
 
         # Set enemy location
-        enemy.center_x = SCREEN_WIDTH + enemy.width
-        enemy.center_y = SCREEN_HEIGHT // 2 + \
-            random.uniform(-SCREEN_HEIGHT/3.25, SCREEN_HEIGHT/3.25)
+        enemy.center_x = C.SCREEN_WIDTH + enemy.width
+        enemy.center_y = C.SCREEN_HEIGHT // 2 + \
+            random.uniform(-C.SCREEN_HEIGHT/3.25, C.SCREEN_HEIGHT/3.25)
 
         # Turn the enemy 90 degree
         enemy.angle = 0
@@ -89,7 +103,10 @@ class Enemy(arcade.Sprite):
         cls.enemy_list.append(enemy)
 
     def despawn(self, death):
-        if death == DEATH.KILLED:
+        # Play enemy death sfx
+        Audio.play_rand_sound(self.sfx_death_list)
+
+        if death == C.DEATH.KILLED:
             Gold.spawn(self.center_x, self.center_y)
         self.remove_from_sprite_lists()
 
@@ -103,7 +120,7 @@ class Enemy(arcade.Sprite):
 
             # Check if enemy is in view, if not delete it
             if enemy.center_x + enemy.width < 0:
-                cls.despawn(enemy, DEATH.OOB)
+                cls.despawn(enemy, C.DEATH.OOB)
 
     @classmethod
     def preload(cls):
@@ -126,5 +143,7 @@ class Enemy(arcade.Sprite):
         # Add to bullet sprite list
         enemy_bullet_list.append(bullet)
 
-        # Play a sound
-        arcade.play_sound(bullet.audio_gunshot)
+        # Play weapon shoot sfx
+        rand_num = random.randint(
+            0, len(self.sfx_single_shot_list) - 1)
+        Audio.play_sound(self.sfx_single_shot_list[rand_num])

@@ -3,6 +3,7 @@ import constants as C
 import gameview
 import arcade
 from player import Player
+from audio import Audio
 
 
 class MapView(arcade.View):
@@ -55,6 +56,19 @@ class MapView(arcade.View):
         self.highlight_scale = .5
         self.highlight = False
 
+        # Find & set map bgm
+        view = None
+        for view_dict in C.VIEW_LIST:
+            if view_dict["name"] == "Map":
+                view = view_dict
+        for i in range(0, len(Audio.bgm_list)):
+            if Audio.bgm_list[i]["view_name"] == view["name"]:
+                self.bgm = Audio.bgm_list[i]["sound"]
+                break
+
+        # Start bgm
+        self.bgm_stream = Audio.play_sound(self.bgm)
+
     def setup(self):
         """ Set up everything with the game """
 
@@ -76,9 +90,17 @@ class MapView(arcade.View):
             monument = arcade.Sprite(
                 "resources/images/map/" + mon_dict["img_name"],
                 self.normal_scale)
+            monument.name = mon_dict["name"]
             monument.level = mon_dict["level"]
             monument.center_x = mon_dict["center_x"]
             monument.center_y = mon_dict["center_y"]
+
+            # Find & set click sfx
+            for i in range(0, len(Audio.sfx_ui_list)):
+                if Audio.sfx_ui_list[i]["ui_name"] == monument.name:
+                    monument.sfx_click = Audio.sfx_ui_list[i]["sound"]
+                    break
+
             self.monument_list.append(monument)
 
     def on_draw(self):
@@ -116,12 +138,20 @@ class MapView(arcade.View):
 
     def on_mouse_press(self, x, y, button, modifiers):
 
-        if C.DEBUG:
+        if C.DEBUG.ALL or C.DEBUG.MAP:
             print(x, y)
         hit_monument = arcade.check_for_collision_with_list(
             self.cursor_sprite, self.monument_list)
         if hit_monument:
             MapView.current_level = hit_monument[0].level
+
+            # Play monument click sfx
+            Audio.play_sound(hit_monument[0].sfx_click)
+
+            # Stop bgm
+            Audio.stop_sound(self.bgm_stream)
+            self.bgm_stream = None
+
             game = gameview.GameView()
             game.setup()
             self.window.show_view(game)

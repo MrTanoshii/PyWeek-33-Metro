@@ -1,6 +1,7 @@
 import arcade
 import mapview
 import constants as C
+from audio import Audio
 
 
 class MainMenu(arcade.View):
@@ -22,6 +23,9 @@ class MainMenu(arcade.View):
     def __init__(self):
         # Inherit parent class
         super().__init__()
+
+        # Load sounds
+        self.audio = Audio()
 
     def on_show(self):
         """Called when switching to this view."""

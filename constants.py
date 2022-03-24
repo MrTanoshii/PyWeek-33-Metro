@@ -11,9 +11,131 @@ CENTER_WINDOW = True
 
 CURSOR_VISIBLE = False
 
-DEBUG = False
+
+class DEBUG:
+    ALL = False
+    AUDIO = False
+    MAP = False
+
 
 GLOBAL_SCALE = SCREEN_WIDTH / 1280
+
+
+# Audio
+class AUDIO:
+    """
+    Volume levels for various sounds
+
+    ...
+
+    Value: float
+    Range of values: 0.0 - 1.0
+    """
+    # Folder path
+    FOLDER = "resources/audio/"
+
+    # Master Volume
+    MASTER_VOLUME = 0.8
+
+    BGM_VOLUME = 0.7
+    SFX_VOLUME = 1
+
+    SOUND = {
+        "ui_click": {
+            "name": "388713__totalcult__finger-click-02.wav",
+            "gain": 0
+        },
+        "bgm_1": {
+            "name": "427441__kiluaboy__clouds.wav",
+            "gain": 0
+        },
+        "bgm_2": {
+            "name": "428857__supervanz__arpegio01-loop.wav",
+            "gain": 1
+        },
+        "bgm_3": {
+            "name": "428858__supervanz__duskwalkin-loop.wav",
+            "gain": -0.5
+        },
+        "gold_pickup_1": {
+            "name": "402767__matrixxx__retro-coin-03.wav",
+            "gain": -0.73
+        },
+        "player_death": {
+            "name": "396798__scorpion67890__male-death-1.ogg",
+            "gain": 0.1
+        },
+        "player_hit": {
+            "name": "553285__nettoi__hurt4.ogg",
+            "gain": 0.1
+        },
+        "enemy_death_tank_1": {
+            "name": "587183__derplayer__explosion-03.wav",
+            "gain": -0.9
+        },
+        "enemy_death_tank_2": {
+            "name": "587184__derplayer__explosion-02.wav",
+            "gain": -0.9
+        },
+        "enemy_hit_1": {
+            "name": "260435__roganmcdougald__metal-impact-ceramic-piece-in-sink.wav",
+            "gain": -0.85
+        },
+        "weapon_tank_1": {
+            "name": "127845__garyq__tank-fire-mixed.wav",
+            "gain": -0.4
+        },
+        "weapon_heli_1": {
+            "name": "522470__filmmakersmanual__heavy-machine-gun.wav",
+            "gain": 0
+        },
+        "weapon_ak_1": {
+            "name": "156073__duesto__ak-47.wav",
+            "gain": -.9
+        },
+        "weapon_ak_2": {
+            "name": "509430__seanmorrissey96__ak-47.wav",
+            "gain": -.7
+        },
+        "weapon_ak_3": {
+            "name": "616091__drummerdude525__ak-74-fire.wav",
+            "gain": -.75
+        },
+        "weapon_shotgun_1": {
+            "name": "522282__filmmakersmanual__shotgun-firing-1.wav",
+            "gain": -.7
+        },
+        "weapon_shotgun_2": {
+            "name": "522284__filmmakersmanual__shotgun-firing-3.wav",
+            "gain": -.7
+        },
+        "weapon_shotgun_3": {
+            "name": "522285__filmmakersmanual__shotgun-firing-4.wav",
+            "gain": -.7
+        },
+        "weapon_rpg_1": {
+            "name": "441499__matrixxx__rocket-01.wav",
+            "gain": -0.65
+        },
+        "weapon_rpg_2": {
+            "name": "441500__matrixxx__rocket-02.wav",
+            "gain": -0.65
+        }
+    }
+
+
+VIEW_LIST = [
+    {
+        "name": "Map",
+        "bgm_name": AUDIO.SOUND["bgm_2"]["name"],
+        "bgm_gain": AUDIO.SOUND["bgm_2"]["gain"]
+    },
+    {
+        "name": "Pause",
+        "bgm_name": AUDIO.SOUND["bgm_1"]["name"],
+        "bgm_gain": AUDIO.SOUND["bgm_1"]["gain"]
+    }
+]
 
 MAP_MONUMENTS_LIST = [
     {
@@ -24,7 +146,11 @@ MAP_MONUMENTS_LIST = [
         "center_y": 325 * GLOBAL_SCALE,
         "player": "donky-example-player.png",
         "enemy": "tank_enemy.png",
-        "assets": ["pyramids.png", "cactus.png"]
+        "assets": ["pyramids.png", "cactus.png"],
+        "sfx_click": AUDIO.SOUND["ui_click"]["name"],
+        "sfx_gain": AUDIO.SOUND["ui_click"]["gain"],
+        "bgm_name": AUDIO.SOUND["bgm_3"]["name"],
+        "bgm_gain": AUDIO.SOUND["bgm_3"]["gain"]
     },
     {
         "name": "MOSCOW",
@@ -34,7 +160,11 @@ MAP_MONUMENTS_LIST = [
         "center_y": 480 * GLOBAL_SCALE,
         "player": "donky-example-player.png",
         "enemy": "tank_enemy.png",
-        "assets": ["tree.png", "tree2.png"]
+        "assets": ["tree.png", "tree2.png"],
+        "sfx_click": AUDIO.SOUND["ui_click"]["name"],
+        "sfx_gain": AUDIO.SOUND["ui_click"]["gain"],
+        "bgm_name": AUDIO.SOUND["bgm_3"]["name"],
+        "bgm_gain": AUDIO.SOUND["bgm_3"]["gain"]
     },
     {
         "name": "CHINA",
@@ -44,7 +174,11 @@ MAP_MONUMENTS_LIST = [
         "center_y": 420 * GLOBAL_SCALE,
         "player": "donky-example-player.png",
         "enemy": "tank_enemy.png",
-        "assets": ["cactus256.png", "tree.png"]
+        "assets": ["cactus256.png", "tree.png"],
+        "sfx_click": AUDIO.SOUND["ui_click"]["name"],
+        "sfx_gain": AUDIO.SOUND["ui_click"]["gain"],
+        "bgm_name": AUDIO.SOUND["bgm_3"]["name"],
+        "bgm_gain": AUDIO.SOUND["bgm_3"]["gain"]
     },
     {
         "name": "OCEAN",
@@ -54,7 +188,11 @@ MAP_MONUMENTS_LIST = [
         "center_y": 169 * GLOBAL_SCALE,
         "player": "donky-example-player.png",
         "enemy": "tank_enemy.png",
-        "assets": ["cactus256.png", "tree.png"]
+        "assets": ["cactus256.png", "tree.png"],
+        "sfx_click": AUDIO.SOUND["ui_click"]["name"],
+        "sfx_gain": AUDIO.SOUND["ui_click"]["gain"],
+        "bgm_name": AUDIO.SOUND["bgm_3"]["name"],
+        "bgm_gain": AUDIO.SOUND["bgm_3"]["gain"]
     },
     {
         "name": "BRAZIL",
@@ -64,7 +202,11 @@ MAP_MONUMENTS_LIST = [
         "center_y": 180 * GLOBAL_SCALE,
         "player": "donky-example-player.png",
         "enemy": "tank_enemy.png",
-        "assets": ["cactus256.png", "tree.png"]
+        "assets": ["cactus256.png", "tree.png"],
+        "sfx_click": AUDIO.SOUND["ui_click"]["name"],
+        "sfx_gain": AUDIO.SOUND["ui_click"]["gain"],
+        "bgm_name": AUDIO.SOUND["bgm_3"]["name"],
+        "bgm_gain": AUDIO.SOUND["bgm_3"]["gain"]
     },
     {
         "name": "USA",
@@ -74,8 +216,23 @@ MAP_MONUMENTS_LIST = [
         "center_y": 340 * GLOBAL_SCALE,
         "player": "donky-example-player.png",
         "enemy": "tank_enemy.png",
-        "assets": ["cactus256.png", "tree.png"]
+        "assets": ["cactus256.png", "tree.png"],
+        "sfx_click": AUDIO.SOUND["ui_click"]["name"],
+        "sfx_gain": AUDIO.SOUND["ui_click"]["gain"],
+        "bgm_name": AUDIO.SOUND["bgm_3"]["name"],
+        "bgm_gain": AUDIO.SOUND["bgm_3"]["gain"]
     },
+]
+
+# TODO: Add missing details
+GOLD_LIST = [
+    {
+        "name": "Gold",
+        "img_name": "",
+        "value": 10,
+        "sfx_pickup": AUDIO.SOUND["gold_pickup_1"]["name"],
+        "sfx_pickup_gain": AUDIO.SOUND["gold_pickup_1"]["gain"]
+    }
 ]
 
 # Scaling
@@ -97,29 +254,49 @@ class LEVEL1:
 
 
 # Player
-PLAYER_MAX_HP = 3
-PLAYER_START_HP = PLAYER_MAX_HP
-PLAYER_DEATH_HP = 0
+class PLAYER:
+    MAX_HP = 3
+    START_HP = 3
+    DEATH_HP = 0
+    SFX_DEATH = {
+        "name": AUDIO.SOUND["player_death"]["name"],
+        "gain": AUDIO.SOUND["player_death"]["gain"]
+    }
+    SFX_HIT = {
+        "name": AUDIO.SOUND["player_hit"]["name"],
+        "gain": AUDIO.SOUND["player_hit"]["gain"]
+    }
 
 # Player Weapon
 
-FIRE_MODE = {
-    "SEMI_AUTO": 0,
-    "FULL_AUTO": 1,
-    "BURST": 2,
-}
 
-FIRE_TYPE = {
-    "LINE": 0,
-    "CONE": 1
-}
+class FIRE_MODE:
+    SEMI_AUTO = 0
+    FULL_AUTO = 1
+    BURST = 2,
+
+
+class FIRE_TYPE:
+    LINE = 0
+    CONE = 1
+
+
+ENEMY_LIST = [
+    {
+        "name": "Tank",
+        "sfx_death": [AUDIO.SOUND["enemy_death_tank_1"]["name"], AUDIO.SOUND["enemy_death_tank_2"]["name"]],
+        "sfx_death_gain": [AUDIO.SOUND["enemy_death_tank_1"]["gain"], AUDIO.SOUND["enemy_death_tank_2"]["gain"]],
+        "sfx_hit": [AUDIO.SOUND["enemy_hit_1"]["name"]],
+        "sfx_hit_gain": [AUDIO.SOUND["enemy_hit_1"]["gain"]]
+    }
+]
 
 ENEMY_WEAPON_LIST = [
     {
         "name": "Tank",
         "folder_name": "weapon_tank",
-        "fire_mode": FIRE_MODE["SEMI_AUTO"],
-        "fire_type": FIRE_TYPE["LINE"],
+        "fire_mode": FIRE_MODE.SEMI_AUTO,
+        "fire_type": FIRE_TYPE.LINE,
         "max_ammo": 1,
         "bullet_texture_amount": 39,
         "bullet_speed": 20,
@@ -128,14 +305,14 @@ ENEMY_WEAPON_LIST = [
         "shoot_time": 2,
         "reload_time": 4,
         "reload_rate": 1,
-        "sfx_single_shot_list": ["127845__garyq__tank-fire-mixed.wav"],
-        "sfx_single_shot_vol_gain_list": [0]
+        "sfx_single_shot_list": [AUDIO.SOUND["weapon_tank_1"]["name"]],
+        "sfx_single_shot_vol_gain_list": [AUDIO.SOUND["weapon_tank_1"]["gain"]]
     },
     {
         "name": "Heli",
         "folder_name": "weapon_heli",
-        "fire_mode": FIRE_MODE["FULL_AUTO"],
-        "fire_type": FIRE_TYPE["LINE"],
+        "fire_mode": FIRE_MODE.FULL_AUTO,
+        "fire_type": FIRE_TYPE.LINE,
         "max_ammo": 8,
         "bullet_texture_amount": 39,
         "bullet_speed": 15,
@@ -144,8 +321,8 @@ ENEMY_WEAPON_LIST = [
         "shoot_time": .05,
         "reload_time": 4,
         "reload_rate": 1,
-        "sfx_single_shot_list": ["522470__filmmakersmanual__heavy-machine-gun.wav"],
-        "sfx_single_shot_vol_gain_list": [0]
+        "sfx_single_shot_list": [AUDIO.SOUND["weapon_heli_1"]["name"]],
+        "sfx_single_shot_vol_gain_list": [AUDIO.SOUND["weapon_heli_1"]["gain"]]
     }
 ]
 
@@ -158,8 +335,8 @@ WEAPON_LIST = [
         "scale": 3*WEAPON_SCALING,
         "center_x": 0,
         "center_y": 0,
-        "fire_mode": FIRE_MODE["FULL_AUTO"],
-        "fire_type": FIRE_TYPE["LINE"],
+        "fire_mode": FIRE_MODE.FULL_AUTO,
+        "fire_type": FIRE_TYPE.LINE,
         "max_ammo": 30,
         "bullet_texture_amount": 39,
         "bullet_speed": 25,
@@ -168,8 +345,8 @@ WEAPON_LIST = [
         "shoot_time": 0.1,
         "reload_time": 1.5,
         "reload_rate": 30,
-        "sfx_single_shot_list": ["156073__duesto__ak-47.wav", "509430__seanmorrissey96__ak-47.wav", "616091__drummerdude525__ak-74-fire.wav"],
-        "sfx_single_shot_vol_gain_list": [-0.02, 0.06, 0.08]
+        "sfx_single_shot_list": [AUDIO.SOUND["weapon_ak_1"]["name"], AUDIO.SOUND["weapon_ak_2"]["name"], AUDIO.SOUND["weapon_ak_3"]["name"]],
+        "sfx_single_shot_vol_gain_list": [AUDIO.SOUND["weapon_ak_1"]["gain"], AUDIO.SOUND["weapon_ak_2"]["gain"], AUDIO.SOUND["weapon_ak_3"]["gain"]]
     },
     {
         "name": "Shotgun",
@@ -179,8 +356,8 @@ WEAPON_LIST = [
         "scale": 3*WEAPON_SCALING,
         "center_x": 0,
         "center_y": 0,
-        "fire_mode": FIRE_MODE["FULL_AUTO"],
-        "fire_type": FIRE_TYPE["CONE"],
+        "fire_mode": FIRE_MODE.FULL_AUTO,
+        "fire_type": FIRE_TYPE.CONE,
         "max_ammo": 8,
         "bullet_texture_amount": 1,
         "bullet_speed": 18,
@@ -189,8 +366,8 @@ WEAPON_LIST = [
         "shoot_time": 0.3,
         "reload_time": 0.8,
         "reload_rate": 1,
-        "sfx_single_shot_list": ["522282__filmmakersmanual__shotgun-firing-1.wav", "522284__filmmakersmanual__shotgun-firing-3.wav", "522285__filmmakersmanual__shotgun-firing-4.wav"],
-        "sfx_single_shot_vol_gain_list": [0.19, 0.19, 0.19]
+        "sfx_single_shot_list": [AUDIO.SOUND["weapon_shotgun_1"]["name"], AUDIO.SOUND["weapon_shotgun_2"]["name"], AUDIO.SOUND["weapon_shotgun_3"]["name"]],
+        "sfx_single_shot_vol_gain_list": [AUDIO.SOUND["weapon_shotgun_1"]["gain"], AUDIO.SOUND["weapon_shotgun_2"]["gain"], AUDIO.SOUND["weapon_shotgun_3"]["gain"]]
     },
     {
         "name": "RPG",
@@ -200,8 +377,8 @@ WEAPON_LIST = [
         "scale": 3*WEAPON_SCALING,
         "center_x": 0,
         "center_y": 0,
-        "fire_mode": FIRE_MODE["SEMI_AUTO"],
-        "fire_type": FIRE_TYPE["LINE"],
+        "fire_mode": FIRE_MODE.SEMI_AUTO,
+        "fire_type": FIRE_TYPE.LINE,
         "max_ammo": 1,
         "bullet_texture_amount": 24,
         "bullet_speed": 21,
@@ -210,8 +387,8 @@ WEAPON_LIST = [
         "shoot_time": 1,
         "reload_time": 2.5,
         "reload_rate": 1,
-        "sfx_single_shot_list": ["441499__matrixxx__rocket-01.wav", "441500__matrixxx__rocket-02.wav"],
-        "sfx_single_shot_vol_gain_list": [.4, .4]
+        "sfx_single_shot_list": [AUDIO.SOUND["weapon_rpg_1"]["name"], AUDIO.SOUND["weapon_rpg_2"]["name"]],
+        "sfx_single_shot_vol_gain_list": [AUDIO.SOUND["weapon_rpg_1"]["gain"], AUDIO.SOUND["weapon_rpg_2"]["gain"]]
     }
 ]
 
@@ -222,12 +399,6 @@ GUI = {
         "center_y": SCREEN_HEIGHT - 90
     }
 }
-
-PLAYER_GUN_MAX_AMMO = 1000
-PLAYER_GUN_BULLET_SPEED = 20
-PLAYER_GUN_SHOOT_SPEED = 0.1
-PLAYER_GUN_RELOAD_TIME = 3
-PLAYER_GUN_DAMAGE = 1
 
 # Speed
 SPEED_SCROLLING = -10
@@ -242,8 +413,6 @@ class DEATH:
     PICKED_UP = 3
 
 
-# Audio
-MASTER_VOLUME = 0.1
 # Menu
 MENU_BACKGROUND_COLOR = arcade.csscolor.DIM_GREY
 MENU_FONT_SIZE = 30
