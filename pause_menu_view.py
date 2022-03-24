@@ -43,7 +43,7 @@ class PauseMenuView(arcade.View):
                 break
 
         # Start bgm
-        self.bgm_stream = Audio.play_sound(self.bgm)
+        self.bgm_stream = Audio.play_sound(self.bgm, True)
 
     def on_show(self):
         """Called when switching to this view."""

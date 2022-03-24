@@ -70,7 +70,7 @@ class MapView(arcade.View):
                 break
 
         # Start bgm
-        self.bgm_stream = Audio.play_sound(self.bgm)
+        self.bgm_stream = Audio.play_sound(self.bgm, True)
 
     def setup(self):
         """ Set up everything with the game """
@@ -108,7 +108,7 @@ class MapView(arcade.View):
             monument.name = mon_dict["name"]
             monument.center_x = mon_dict["center_x"]
             monument.center_y = mon_dict["center_y"]
-      
+
             if GameData.level_data[str(monument.level)]["passed"] == 0 and GameData.level_data[str(monument.level)]["locked"] == 0:
                 monument.color = (255, 255, 64)
                 monument.unlocked = True
@@ -118,13 +118,13 @@ class MapView(arcade.View):
             else:
                 monument.color = (255, 255, 255)
                 monument.unlocked = True
-            
+
             # Find & set click sfx
             for i in range(0, len(Audio.sfx_ui_list)):
                 if Audio.sfx_ui_list[i]["ui_name"] == monument.name:
                     monument.sfx_click = Audio.sfx_ui_list[i]["sound"]
                     break
-                    
+
             MapView.monument_list.append(monument)
 
     def on_draw(self):
@@ -192,6 +192,12 @@ class MapView(arcade.View):
                 monument.scale = self.normal_scale
             self.highlight = False
 
+        # Restart bgm
+        if self.bgm_stream == None:
+            self.bgm_stream = Audio.play_sound(self.bgm, True)
+
+        # MapView.update_monument_list()
+        
     def on_mouse_press(self, x, y, button, modifiers):
 
         if C.DEBUG.ALL or C.DEBUG.MAP:
@@ -199,19 +205,19 @@ class MapView(arcade.View):
         hit_monument = arcade.check_for_collision_with_list(
             self.cursor_sprite, MapView.monument_list)
         if hit_monument:
-          if hit_monument[0].unlocked:
-            MapView.current_level = hit_monument[0].level
+            if hit_monument[0].unlocked:
+                MapView.current_level = hit_monument[0].level
 
-            # Play monument click sfx
-            Audio.play_sound(hit_monument[0].sfx_click)
+                # Play monument click sfx
+                Audio.play_sound(hit_monument[0].sfx_click)
 
-            # Stop bgm
-            Audio.stop_sound(self.bgm_stream)
-            self.bgm_stream = None
+                # Stop bgm
+                Audio.stop_sound(self.bgm_stream)
+                self.bgm_stream = None
 
-            game = gameview.GameView(self)
-            game.setup()
-            self.window.show_view(game)
+                game = gameview.GameView(self)
+                game.setup()
+                self.window.show_view(game)
 
         # Check if shops hit cursor (Simply because less number of checking)
         if self.shop_sprite.collides_with_sprite(self.cursor_sprite):

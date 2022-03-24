@@ -34,7 +34,7 @@ class Audio():
         Load all player hit sfx
     load_sfx_enemy_hit()
         Load all enemy hit sfx
-    play_sound(cls, requested_sound: arcade.Sound) -> Player | None
+    play_sound(cls, requested_sound: arcade.Sound, looping: bool = False) -> Player | None
         Play sound
     play_rand_sound(cls, requested_sound_list: list) -> Player | None
         Play random sound from list
@@ -485,7 +485,7 @@ class Audio():
             print("Complete: Enemy hit sfx")
 
     @classmethod
-    def play_sound(cls, requested_sound: arcade.Sound):
+    def play_sound(cls, requested_sound: arcade.Sound, looping: bool = False):
         """ Play sound """
 
         if C.DEBUG.ALL or C.DEBUG.AUDIO:
@@ -496,7 +496,7 @@ class Audio():
             sound_gain = cls.find_gain(
                 requested_sound, check_item[0], cls.master_list)
             if not sound_gain is None:
-                return arcade.play_sound(requested_sound, min(sound_gain + check_item[1], 1) * cls.master_volume)
+                return arcade.play_sound(requested_sound, min(sound_gain + check_item[1], 1) * cls.master_volume, looping=looping)
 
     @classmethod
     def play_rand_sound(cls, requested_sound_list: list):

@@ -116,7 +116,7 @@ class GameView(arcade.View):
                 break
 
         # Start bgm
-        self.bgm_stream = Audio.play_sound(self.bgm)
+        self.bgm_stream = Audio.play_sound(self.bgm, True)
 
     def on_draw(self):
         """Render the screen."""
@@ -182,7 +182,7 @@ class GameView(arcade.View):
 
         # Restart bgm
         if self.bgm_stream == None:
-            self.bgm_stream = Audio.play_sound(self.bgm)
+            self.bgm_stream = Audio.play_sound(self.bgm, True)
 
     def on_update(self, delta_time):
         if random.randint(0, 200) == 1:
@@ -271,8 +271,8 @@ class GameView(arcade.View):
             Audio.stop_sound(self.bgm_stream)
             self.bgm_stream = None
 
-            self.window.show_view(PauseMenuView(self, self.map_view, self.level))
-
+            self.window.show_view(PauseMenuView(
+                self, self.map_view, self.level))
 
     def on_key_release(self, key, modifiers):
         """Called when the user releases a key."""
