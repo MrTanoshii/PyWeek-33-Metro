@@ -275,7 +275,7 @@ class GameView(arcade.View):
 
         # test atc demo, when press num pad 0 change skin
         elif key == arcade.key.NUM_0:
-            self.player.set_skin('GuyGoatRPG')
+            self.player.set_skin('GuySurfRevolver')
 
     def on_key_release(self, key, modifiers):
         """Called when the user releases a key."""

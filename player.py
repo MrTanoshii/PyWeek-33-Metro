@@ -78,14 +78,13 @@ class Player(arcade.Sprite):
         player_style = C.MAP_MONUMENTS_LIST[0]["player"]
 
         """ Load Assets """
-        base_path = f"resources/images/assets/players/{player_style}/"
+        dir_name = f"resources/images/assets/players/{player_style}/"
 
         # Load texture
         self.texture_list = []
-        for filename in os.listdir(f"{base_path}animation/"):
+        for filename in os.listdir(f"{dir_name}animation/"):
             self.texture_list.append(
-                arcade.load_texture(f"{base_path}animation/{filename}", hit_box_algorithm=hit_box_algorithm))
-                # arcade.load_texture("assets/GuyGoatAK/0001.png", hit_box_algorithm=hit_box_algorithm))
+                arcade.load_texture(f"{dir_name}animation/{filename}", hit_box_algorithm=hit_box_algorithm))
 
         self.cur_texture = 0
 
@@ -101,22 +100,22 @@ class Player(arcade.Sprite):
 
         Player.player_list.append(self)
 
-        texture_name_list = ["GuyGoatAK", "GuyGoatRevolver", "GuyGoatRPG", "GuyJeepAK", "GuyJeepRevolver", "GuyJeepRPG",
-                             "GuySurfAK", "GuySurfRevolver", "GuySurfRPG"]
+        # List of folder names from assets
+        texture_name_list = ["GuyGoatAK", "GuyGoatRevolver", "GuyGoatRPG", "GuyJeepAK", "GuyJeepRevolver",
+                             "GuyJeepRPG", "GuySurfAK", "GuySurfRevolver", "GuySurfRPG"]
 
+        # Create dictionary of all textures
         self.textures_dict = {}
-        for base_path in texture_name_list:
+        for dir_name in texture_name_list:
             texture_list = []
-            for filename in os.listdir(f"assets/{base_path}/"):
+            for filename in os.listdir(f"assets/{dir_name}/"):
                 texture_list.append(
-                    arcade.load_texture(f"assets/{base_path}/{filename}", hit_box_algorithm=hit_box_algorithm))
-            self.textures_dict[base_path] = texture_list
+                    arcade.load_texture(f"assets/{dir_name}/{filename}", hit_box_algorithm=hit_box_algorithm))
+            self.textures_dict[dir_name] = texture_list
 
-    def set_skin(self, name):
-        """Update current texture/skin"""
-
+    def set_skin(self, name: str):
+        """Takes asset/texture name as input and update current texture/skin"""
         self.texture_list = self.textures_dict[name]
-        print(self.texture_list)
         self.texture = self.textures_dict[name][0]
 
     def shoot(self, delta_time, shoot_pressed):
