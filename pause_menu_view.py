@@ -1,5 +1,6 @@
 import arcade
 import constants as C
+from audio import Audio
 from gamedata import GameData
 from tracker import Tracker
 import shopview
@@ -31,6 +32,19 @@ class PauseMenuView(arcade.View):
         self.map_view = map_view
         self.current_level = current_level
 
+        # Find & set pause menu bgm
+        view = None
+        for view_dict in C.VIEW_LIST:
+            if view_dict["name"] == "Pause":
+                view = view_dict
+        for i in range(0, len(Audio.bgm_list)):
+            if Audio.bgm_list[i]["view_name"] == view["name"]:
+                self.bgm = Audio.bgm_list[i]["sound"]
+                break
+
+        # Start bgm
+        self.bgm_stream = Audio.play_sound(self.bgm, True)
+
     def on_show(self):
         """Called when switching to this view."""
         arcade.set_background_color(C.MENU_BACKGROUND_COLOR)
@@ -50,16 +64,27 @@ class PauseMenuView(arcade.View):
 
     def on_mouse_press(self, _x, _y, _button, _modifiers):
         """Use a mouse press to advance to the 'game' view."""
+
+        # Stop bgm
+        Audio.stop_sound(self.bgm_stream)
+
         self.window.show_view(self.game_view)
 
     def on_key_press(self, key, _modifiers):
         """Handle keyboard key press"""
         if key == arcade.key.Q:
+            # Stop bgm
+            Audio.stop_sound(self.bgm_stream)
+            self.bgm_stream = None
             arcade.exit()
         elif key == arcade.key.M:
+            Audio.stop_sound(self.bgm_stream)
+            self.bgm_stream = None
             self.window.show_view(self.map_view)
             self.exit_level()
         elif key == arcade.key.SPACE:
+            Audio.stop_sound(self.bgm_stream)
+            self.bgm_stream = None
             self.window.show_view(self.game_view)
         elif key == arcade.key.S: #Added binding
             self.window.show_view(shopview.ShopView())

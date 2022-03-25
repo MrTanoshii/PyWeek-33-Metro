@@ -1,6 +1,7 @@
 import arcade
-from constants import GOLD_SCALING, SPEED_SCROLLING, DEATH, MASTER_VOLUME
+import constants as C
 from tracker import Tracker
+from audio import Audio
 
 
 class Gold(arcade.Sprite):
@@ -33,7 +34,7 @@ class Gold(arcade.Sprite):
     gold_list = arcade.SpriteList()
 
     # Volume class attribute
-    audio_volume = MASTER_VOLUME
+    audio_volume = C.AUDIO.MASTER_VOLUME
 
     def __init__(self, hit_box_algorithm="Simple"):
         # Inherit parent class
@@ -45,13 +46,19 @@ class Gold(arcade.Sprite):
             f"{base_path}images/items/gold_1.png", hit_box_algorithm=hit_box_algorithm)
 
         # Scale
-        self.scale = GOLD_SCALING
+        self.scale = C.GOLD_SCALING
 
-        # Load sfx
-        self.pick_up = arcade.load_sound(f"{base_path}sounds/coin1.wav")
+        # TODO: Change hardcoded gold
+        self.name = C.GOLD_LIST[0]["name"]
+
+        # Find & set pickup sfx
+        for i in range(0, len(Audio.sfx_gold_pickup_list)):
+            if Audio.sfx_gold_pickup_list[i]["gold_name"] == self.name:
+                self.sfx_pickup = Audio.sfx_gold_pickup_list[i]["sound"]
+                break
 
         # Speed
-        self.speed = SPEED_SCROLLING
+        self.speed = C.SPEED_SCROLLING
 
     @classmethod
     def spawn(cls, center_x, center_y):
@@ -61,9 +68,13 @@ class Gold(arcade.Sprite):
         Gold.gold_list.append(gold)
 
     def despawn(self, death):
-        if death == DEATH.PICKED_UP:
+        if death == C.DEATH.PICKED_UP:
             Tracker.increment_score(2)
             Tracker.increment_gold(5)
+
+            # Play pickup sfx sound
+            Audio.play_sound(self.sfx_pickup)
+
         self.remove_from_sprite_lists()
 
     @classmethod
@@ -71,4 +82,4 @@ class Gold(arcade.Sprite):
         for gold in cls.gold_list:
             gold.center_x += gold.speed
             if gold.center_x + gold.width <= 0:
-                cls.despawn(gold, DEATH.OOB)
+                cls.despawn(gold, C.DEATH.OOB)

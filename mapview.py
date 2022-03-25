@@ -3,6 +3,7 @@ import gameview
 import arcade
 from player import Player
 import shopview
+from audio import Audio
 from gamedata import GameData
 
 
@@ -55,6 +56,22 @@ class MapView(arcade.View):
         self.highlight_scale = .5
         self.highlight = False
 
+        """ Map sprites """
+        self.shop_sprite = None
+        self.gold_sprite = None
+        # Find & set map bgm
+        view = None
+        for view_dict in C.VIEW_LIST:
+            if view_dict["name"] == "Map":
+                view = view_dict
+        for i in range(0, len(Audio.bgm_list)):
+            if Audio.bgm_list[i]["view_name"] == view["name"]:
+                self.bgm = Audio.bgm_list[i]["sound"]
+                break
+
+        # Start bgm
+        self.bgm_stream = Audio.play_sound(self.bgm, True)
+
     def setup(self):
         """ Set up everything with the game """
 
@@ -69,12 +86,15 @@ class MapView(arcade.View):
             "resources/images/map/pixel_map.png")
         self.cursor_sprite = arcade.Sprite(
             "resources/images/goat_cursor.png", 1)
-        
-        #Keeping it as Class Variable as it may save the state
-        MapView.shop_sprite = arcade.Sprite("resources/images/map/temp_shop.png",0.2) #Initializing a global Shop Sprite URL - https://www.iconsdb.com/white-icons/shop-icon.html
-        #Sprite Locations
-        MapView.shop_sprite.center_x = 1200
-        MapView.shop_sprite.center_y = 680
+
+        # setup map sprites
+        self.shop_sprite = arcade.Sprite("resources/images/map/temp_shop.png", 0.2)  # Initializing a global Shop Sprite URL - https://www.iconsdb.com/white-icons/shop-icon.html
+        self.gold_sprite = arcade.Sprite("resources/images/map/gold-bar.png", 0.6)  # Initializing a global Shop Sprite URL - https://www.iconsdb.com/white-icons/shop-icon.html
+
+        # Sprite Locations
+        self.gold_sprite.position = (1200, 680)
+        self.shop_sprite.position = (int(C.SCREEN_WIDTH*.96), int(C.SCREEN_HEIGHT*.87))
+
         self.cursor_list.append(self.cursor_sprite)
         self.load_monuments()
 
@@ -84,19 +104,27 @@ class MapView(arcade.View):
             monument = arcade.Sprite(
                 "resources/images/map/" + mon_dict["img_name"],
                 self.normal_scale)
-            mon_id = mon_dict["level"]
-            if GameData.level_data[str(mon_id)]["passed"] == 0 and GameData.level_data[str(mon_id)]["locked"] == 0:
+            monument.level = mon_dict["level"]
+            monument.name = mon_dict["name"]
+            monument.center_x = mon_dict["center_x"]
+            monument.center_y = mon_dict["center_y"]
+
+            if GameData.level_data[str(monument.level)]["passed"] == 0 and GameData.level_data[str(monument.level)]["locked"] == 0:
                 monument.color = (255, 255, 64)
                 monument.unlocked = True
-            elif GameData.level_data[str(mon_id)]["passed"] == 0 and GameData.level_data[str(mon_id)]["locked"] == 1:
+            elif GameData.level_data[str(monument.level)]["passed"] == 0 and GameData.level_data[str(monument.level)]["locked"] == 1:
                 monument.color = (255, 64, 64)
                 monument.unlocked = False
             else:
                 monument.color = (255, 255, 255)
                 monument.unlocked = True
-            monument.level = mon_dict["level"]
-            monument.center_x = mon_dict["center_x"]
-            monument.center_y = mon_dict["center_y"]
+
+            # Find & set click sfx
+            for i in range(0, len(Audio.sfx_ui_list)):
+                if Audio.sfx_ui_list[i]["ui_name"] == monument.name:
+                    monument.sfx_click = Audio.sfx_ui_list[i]["sound"]
+                    break
+
             MapView.monument_list.append(monument)
 
     def on_draw(self):
@@ -108,24 +136,28 @@ class MapView(arcade.View):
         arcade.draw_lrwh_rectangle_textured(0, 0,
                                             C.SCREEN_WIDTH, C.SCREEN_HEIGHT,
                                             self.background)
+        self.gold_sprite.draw()
         # GUI - Gold
         arcade.draw_text(
-            f"Gold : {GameData.gold}",
-            C.SCREEN_WIDTH / 5,
-            C.SCREEN_HEIGHT - 150,
+            GameData.gold,
+            self.gold_sprite.position[0]*.99,
+            self.gold_sprite.position[1]*1.005,
             arcade.color.BLACK,
+            font_name="Kenney High",
+            bold=True,
             font_size=30,
-            anchor_x="center",
+            anchor_x="left",
+            anchor_y="center",
         )
         
-        arcade.draw_text(
-            f"SHOP",
-            1200,
-            620,
-            arcade.color.BLACK,
-            font_size=20,
-            anchor_x="center",
-        )
+        # arcade.draw_text(
+        #     f"SHOP",
+        #     self.shop_sprite.position[0],
+        #     self.shop_sprite.position[1]*.9,
+        #     arcade.color.BLACK,
+        #     font_size=20,
+        #     anchor_x="center",
+        # )
 
         MapView.monument_list.draw()
         self.shop_sprite.draw(pixelated=True)
@@ -134,6 +166,14 @@ class MapView(arcade.View):
     def on_mouse_motion(self, x, y, dx, dy):
         self.cursor_sprite.center_x = x+20
         self.cursor_sprite.center_y = y-20
+
+        # Check if shops hit cursor (Simply because less number of checking)
+        if self.shop_sprite.collides_with_sprite(self.cursor_sprite):
+            self.shop_sprite.color = (0, 255, 0)
+            self.shop_sprite.scale = .24
+        else:
+            self.shop_sprite.color = (255, 255, 255)
+            self.shop_sprite.scale = .2
 
     def on_update(self, delta_time):
 
@@ -154,22 +194,38 @@ class MapView(arcade.View):
         
         
 
-        # MapView.update_monument_list()
+        # Restart bgm
+        if self.bgm_stream == None:
+            self.bgm_stream = Audio.play_sound(self.bgm, True)
 
+        # MapView.update_monument_list()
+        
     def on_mouse_press(self, x, y, button, modifiers):
 
-        if C.DEBUG:
+        if C.DEBUG.ALL or C.DEBUG.MAP:
             print(x, y)
         hit_monument = arcade.check_for_collision_with_list(
             self.cursor_sprite, MapView.monument_list)
         if hit_monument:
             if hit_monument[0].unlocked:
                 MapView.current_level = hit_monument[0].level
+
+                # Play monument click sfx
+                Audio.play_sound(hit_monument[0].sfx_click)
+
+                # Stop bgm
+                Audio.stop_sound(self.bgm_stream)
+                self.bgm_stream = None
+
                 game = gameview.GameView(self)
                 game.setup()
                 self.window.show_view(game)
 #Check if shops hit cursor (Simply because less number of checking)
-        if MapView.shop_sprite.collides_with_sprite(self.cursor_sprite):
+        if self.shop_sprite.collides_with_sprite(self.cursor_sprite):
+            self.window.show_view(shopview.ShopView())
+
+        # Check if shops hit cursor (Simply because less number of checking)
+        if self.shop_sprite.collides_with_sprite(self.cursor_sprite):
             self.window.show_view(shopview.ShopView())
 
 # Make center points as dictionary and call out other views mostly
