@@ -80,7 +80,7 @@ _BGM = {
     },
     "bgm_2": {
         "name": "428857__supervanz__arpegio01-loop.wav",
-        "gain": 1
+        "gain": -0.5
     },
     "bgm_3": {
         "name": "428858__supervanz__duskwalkin-loop.wav",
@@ -91,7 +91,7 @@ _BGM = {
 _UI_SFX = {
     "ui_click": {
         "name": "388713__totalcult__finger-click-02.wav",
-        "gain": 0
+        "gain": -.9
     },
 }
 
