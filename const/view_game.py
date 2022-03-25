@@ -1,4 +1,5 @@
 import arcade
+from constants import GLOBAL_SCALE
 from const.window import *
 
 
