@@ -2,6 +2,7 @@ import arcade
 import const.constants as C
 from lib import global_scale
 import os
+from lib import global_scale
 
 # Base ShopView
 
