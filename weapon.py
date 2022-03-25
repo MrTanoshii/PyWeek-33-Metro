@@ -1,6 +1,7 @@
 import const.constants as C
 import arcade
 import math
+import random
 from bullet import Bullet
 from audio import Audio
 from lib import calculate_angle
@@ -111,57 +112,64 @@ class Weapon(arcade.Sprite):
             # Shoot if ammo available
             # TODO: Implement fire_type
             if self.cur_ammo > 0:
-                self.can_shoot = False
                 self.is_reloading = False
+                self.can_shoot = False
+
                 # Decrease ammo count
                 self.cur_ammo -= 1
                 self.update_tracked_ammo(
                     self.weapon_name, self.cur_ammo)
 
-                # Calculate angle from player to mouse location
-                calc_angle = calculate_angle(
-                    player.center_x, player.center_y, self.last_mouse_x + C.GUI["Crosshair"]["offset_x"], self.last_mouse_y + C.GUI["Crosshair"]["offset_y"])
-                if self.last_mouse_x + C.GUI["Crosshair"]["offset_x"] < player.center_x:
-                    calc_angle = calc_angle + C.WEAPON_INIT_ANGLE
-                else:
-                    calc_angle = calc_angle - C.WEAPON_INIT_ANGLE
-                self.weapon_angle = calc_angle
+                # Instantiate the amount of bullets per shot
+                for _ in range(0, self.bullet_amount):
+                    # Calculate angle from player to mouse location
+                    calc_angle = calculate_angle(
+                        player.center_x, player.center_y, self.last_mouse_x + C.GUI["Crosshair"]["offset_x"], self.last_mouse_y + C.GUI["Crosshair"]["offset_y"])
+                    if self.last_mouse_x + C.GUI["Crosshair"]["offset_x"] < player.center_x:
+                        calc_angle = calc_angle + self.init_angle
+                    else:
+                        calc_angle = calc_angle - self.init_angle
+                    self.weapon_angle = calc_angle
 
-                # Calculate bullet location
-                bullet_center_x = player.center_x + \
-                    (player.width / 2 *
-                        math.cos(math.radians(self.weapon_angle + C.WEAPON_INIT_ANGLE)))
-                bullet_center_y = player.center_y + \
-                    (player.height / 2 *
-                        math.sin(math.radians(self.weapon_angle + C.WEAPON_INIT_ANGLE)))
+                    # Calculate bullet location
+                    bullet_center_x = player.center_x + \
+                        (player.width / 2 *
+                            math.cos(math.radians(self.weapon_angle + self.init_angle)))
+                    bullet_center_y = player.center_y + \
+                        (player.height / 2 *
+                            math.sin(math.radians(self.weapon_angle + self.init_angle)))
 
-                # Calculate angle from bullet to mouse location
-                calc_angle = calculate_angle(
-                    bullet_center_x, bullet_center_y, self.last_mouse_x + C.GUI["Crosshair"]["offset_x"], self.last_mouse_y + C.GUI["Crosshair"]["offset_y"])
-                if self.last_mouse_x + C.GUI["Crosshair"]["offset_x"] < bullet_center_x:
-                    calc_angle = calc_angle + C.WEAPON_INIT_ANGLE
-                else:
-                    calc_angle = calc_angle - C.WEAPON_INIT_ANGLE
-                self.bullet_angle = calc_angle
+                    # Generate random pattern
+                    random_angle = random.uniform(-(self.bullet_spread/2),
+                                                  (self.bullet_spread/2))
+                    random_speed = random.uniform(
+                        -self.bullet_speed_spread + self.bullet_speed, self.bullet_speed_spread + self.bullet_speed)
 
-                # Calculate bullet speed
-                speed_x = self.bullet_speed * \
-                    math.cos(math.radians(self.bullet_angle +
-                                          C.WEAPON_INIT_ANGLE))
-                speed_y = self.bullet_speed * \
-                    math.sin(math.radians(self.bullet_angle +
-                                          C.WEAPON_INIT_ANGLE))
+                    # Calculate angle from bullet to mouse location
+                    calc_angle = calculate_angle(
+                        bullet_center_x, bullet_center_y, self.last_mouse_x + C.GUI["Crosshair"]["offset_x"], self.last_mouse_y + C.GUI["Crosshair"]["offset_y"])
+                    if self.last_mouse_x + C.GUI["Crosshair"]["offset_x"] < bullet_center_x:
+                        calc_angle = calc_angle + self.init_angle
+                    else:
+                        calc_angle = calc_angle - self.init_angle
+                    self.bullet_angle = calc_angle + random_angle
 
-                # Instantiate bullet
-                bullet = Bullet("Detailed", speed_x, speed_y, self.bullet_texture_list,
-                                self.bullet_angle + C.WEAPON_INIT_ANGLE, self.bullet_damage, scale=self.bullet_scale)
+                    # Calculate bullet speed
+                    speed_x = random_speed * math.cos(math.radians(self.bullet_angle +
+                                                                   self.init_angle))
+                    speed_y = random_speed * math.sin(math.radians(self.bullet_angle +
+                                                                   self.init_angle))
 
-                # Set bullet location
-                bullet.center_x = bullet_center_x
-                bullet.center_y = bullet_center_y
+                    # Instantiate bullet
+                    bullet = Bullet("Detailed", speed_x, speed_y, self.bullet_texture_list,
+                                    self.bullet_angle + self.init_angle, self.bullet_damage, scale=self.bullet_scale)
 
-                # Add to bullet sprite list
-                Bullet.friendly_bullet_list.append(bullet)
+                    # Set bullet location
+                    bullet.center_x = bullet_center_x
+                    bullet.center_y = bullet_center_y
+
+                    # Add to bullet sprite list
+                    Bullet.friendly_bullet_list.append(bullet)
 
                 # Play random weapon shoot sfx
                 Audio.play_rand_sound(self.sfx_single_shot_list)
@@ -214,11 +222,14 @@ class Weapon(arcade.Sprite):
                 self.center_y = C.GUI["Weapon"]["center_y"]
 
                 # Set Gun attributes
+                self.init_angle = weapon["init_angle"]
                 self.fire_mode = weapon["fire_mode"]
-                self.fire_type = weapon["fire_type"]
                 self.max_ammo = weapon["max_ammo"]
                 self.cur_ammo = self.tracked_ammo[self.weapon_name]
+                self.bullet_amount = weapon["bullet_amount"]
+                self.bullet_spread = weapon["bullet_spread"]
                 self.bullet_speed = weapon["bullet_speed"]
+                self.bullet_speed_spread = weapon["bullet_speed_spread"]
                 self.bullet_damage = weapon["bullet_damage"]
                 self.bullet_scale = weapon["bullet_scale"]
                 self.can_shoot = True
