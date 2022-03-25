@@ -220,6 +220,12 @@ class MapView(arcade.View):
             anchor_x="left",
             anchor_y="center",
         )
+
+
+<< << << < HEAD
+== == == =
+
+>>>>>> > 83d3ea2(refactor: Move constants to `const` folder)
         arcade.draw_text(
             f"SHOP",
             1200,
