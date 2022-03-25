@@ -1,0 +1,11 @@
+# Size
+SCREEN_WIDTH = 1280
+SCREEN_HEIGHT = 720
+FULLSCREEN = False
+
+# Title
+SCREEN_TITLE = "REVƎЯ"
+
+# Config
+CENTER_WINDOW = True
+CURSOR_VISIBLE = False

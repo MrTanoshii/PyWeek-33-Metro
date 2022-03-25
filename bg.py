@@ -1,5 +1,5 @@
 import arcade
-from const.constants import BG_SCALING, SPEED_SCROLLING, SCREEN_HEIGHT, GLOBAL_SCALE
+import const.constants as C
 
 
 class BackGround(arcade.Sprite):
@@ -22,13 +22,13 @@ class BackGround(arcade.Sprite):
     # SpriteList class attribute
     bg_list = arcade.SpriteList()
 
-    def __init__(self, current_level, speed=SPEED_SCROLLING):
+    def __init__(self, current_level, speed=C.SPEED_SCROLLING):
         # Inherit parent class
         super().__init__()
 
         self.speed = speed
         # Set our scale
-        self.scale = BG_SCALING
+        self.scale = C.BG_SCALING
 
         # load player texture
         self.idle_texture = arcade.load_texture(
@@ -41,6 +41,6 @@ class BackGround(arcade.Sprite):
     def update(cls, delta_time: float = 1 / 60):
         for bg in cls.bg_list:
             bg.center_x += bg.speed
-            if bg.center_x - bg.width / 2 < -880 * GLOBAL_SCALE - bg.speed:
+            if bg.center_x - bg.width / 2 < -880 * C.GLOBAL_SCALE - bg.speed:
                 bg.center_x = bg.width/2
         return super().on_update(delta_time)

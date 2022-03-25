@@ -55,7 +55,7 @@ class Enemy(arcade.Sprite):
         self.barrel_location = self.config["barrel"]
 
         # Speed
-        self.SPEED = self.config["speed"]
+        self.speed = self.config["speed"]
         self.current_speed = 0
 
         # Health
@@ -145,7 +145,7 @@ class Enemy(arcade.Sprite):
         for enemy in cls.enemy_list:
 
             # Move all Enemies Forwards
-            enemy.center_x += enemy.SPEED
+            enemy.center_x += enemy.speed
 
             # Check if enemy is in view, if not delete it
             if enemy.center_x + enemy.width < 0:
