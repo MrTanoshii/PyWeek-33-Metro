@@ -11,7 +11,7 @@ GUI = {
         "center_y": SCREEN_HEIGHT - 90
     },
     "Crosshair": {
-        "offset_x": 25,
-        "offset_y": -25
+        "offset_x": 25 * GLOBAL_SCALE,
+        "offset_y": -25 * GLOBAL_SCALE
     }
 }
