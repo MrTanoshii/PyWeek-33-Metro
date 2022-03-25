@@ -3,7 +3,6 @@ import gameview
 import arcade
 from player import Player
 import shopview
-from audio import Audio
 from gamedata import GameData
 from lib import global_scale
 from story_view import StoryView
@@ -221,7 +220,6 @@ class MapView(arcade.View):
             anchor_x="left",
             anchor_y="center",
         )
-
         arcade.draw_text(
             f"SHOP",
             1200,
@@ -343,6 +341,10 @@ class MapView(arcade.View):
             self.window.show_view(shopview.ShopView())
 
     # Make center points as dictionary and call out other views mostly
+# Make center points as dictionary and call out other views mostly
+
+    def open_story(self):
+        self.window.show_view(StoryView(self, MapView.current_level))
 
     def on_show(self):
         self.setup()
