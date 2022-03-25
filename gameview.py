@@ -1,7 +1,7 @@
 import arcade
 import random
 
-import constants as C
+import const.constants as C
 from bg import BackGround
 from player import Player
 from bullet import Bullet
@@ -61,7 +61,6 @@ class GameView(arcade.View):
         self.up_key_down = False
         self.down_key_down = False
         self.space_down = False
-
 
         # GUI
         self.gui_camera = None
@@ -200,7 +199,6 @@ class GameView(arcade.View):
         self.player.update(delta_time, movement_key_pressed,
                            self.shoot_pressed)
         self.check_collisions()
-
 
         Enemy.update()
         Bullet.update()

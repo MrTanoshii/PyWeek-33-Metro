@@ -1,6 +1,6 @@
 import arcade
 import random
-import constants as C
+import const.constants as C
 
 
 class Audio():

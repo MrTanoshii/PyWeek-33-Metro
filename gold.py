@@ -1,5 +1,5 @@
 import arcade
-import constants as C
+import const.constants as C
 from tracker import Tracker
 from audio import Audio
 

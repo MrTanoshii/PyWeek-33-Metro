@@ -1,7 +1,7 @@
 import arcade
 import os.path
 import random
-import constants as C
+import const.constants as C
 from bullet import Bullet
 from gold import Gold
 from player import Player
@@ -55,7 +55,7 @@ class Enemy(arcade.Sprite):
         self.barrel_location = self.config["barrel"]
 
         # Speed
-        self.SPEED = self.config["speed"]
+        self.speed = self.config["speed"]
         self.current_speed = 0
 
         # Health
@@ -77,7 +77,8 @@ class Enemy(arcade.Sprite):
         # Load texture
         self.texture_list = []
         file_name_list = os.listdir(f"{base_path}animation/")
-        file_name_list = sorted(file_name_list, key=lambda x: int(x.split('.')[0]))
+        file_name_list = sorted(
+            file_name_list, key=lambda x: int(x.split('.')[0]))
         for filename in file_name_list:
             self.texture_list.append(
                 arcade.load_texture(f"{base_path}animation/{filename}", hit_box_algorithm=hit_box_algorithm))
@@ -144,7 +145,7 @@ class Enemy(arcade.Sprite):
         for enemy in cls.enemy_list:
 
             # Move all Enemies Forwards
-            enemy.center_x += enemy.SPEED
+            enemy.center_x += enemy.speed
 
             # Check if enemy is in view, if not delete it
             if enemy.center_x + enemy.width < 0:

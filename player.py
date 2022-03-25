@@ -1,6 +1,6 @@
 import arcade
 import os.path
-import constants as C
+import const.constants as C
 from bullet import Bullet
 import math
 from lib import calculate_angle
@@ -56,7 +56,7 @@ class Player(arcade.Sprite):
         self.angle = C.SPRITE_PLAYER_INIT_ANGLE
 
         # Movement Speed
-        self.max_speed = C.SPEED_PLAYER
+        self.max_speed = C.PLAYER.SPEED
         self.speed_x = 0
         self.speed_y = 0
 
