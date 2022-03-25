@@ -205,9 +205,9 @@ class GameView(arcade.View):
 
     def on_mouse_motion(self, x, y, dx, dy):
         """Called whenever mouse is moved."""
-        self.player.follow_mouse(x, y)
-        self.cursor_sprite.center_x = x + 20
-        self.cursor_sprite.center_y = y - 20
+        self.player.weapon.on_mouse_motion(x, y, dx, dy)
+        self.cursor_sprite.center_x = x + C.GUI["Crosshair"]["offset_x"]
+        self.cursor_sprite.center_y = y + C.GUI["Crosshair"]["offset_y"]
 
     def on_mouse_press(self, x, y, button, modifiers):
         """Called whenever a mouse key is pressed."""

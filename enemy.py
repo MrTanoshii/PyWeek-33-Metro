@@ -1,6 +1,7 @@
 import arcade
 import os.path
 import random
+import math
 import const.constants as C
 from bullet import Bullet
 from gold import Gold
@@ -64,11 +65,16 @@ class Enemy(arcade.Sprite):
         # Set Weapon
         for weapon in C.ENEMY_WEAPON_LIST:
             if weapon["name"] == self.name:
-                self.damage_value = weapon["bullet_damage"]
                 self.weapon = weapon["name"]
-                self.bullet_scale = weapon["bullet_scale"]
+                self.weapon_init_angle = weapon["init_angle"]
+                self.damage_value = weapon["damage_value"]
                 self.shooting_speed = weapon["shoot_time"]
+                self.bullet_damage = weapon["bullet_damage"]
+                self.bullet_scale = weapon["bullet_scale"]
+                self.bullet_amount = weapon["bullet_amount"]
+                self.bullet_spread = weapon["bullet_spread"]
                 self.bullet_speed = weapon["bullet_speed"]
+                self.bullet_speed_spread = weapon["bullet_speed_spread"]
                 break
 
         """ Load Assets """
@@ -159,13 +165,23 @@ class Enemy(arcade.Sprite):
 
     def shoot(self, enemy_bullet_list):
         """Handle enemy shooting"""
+
+        # Generate random pattern
+        random_angle = random.uniform(-(self.bullet_spread/2),
+                                      (self.bullet_spread/2))
+        random_speed = random.uniform(
+            -self.bullet_speed_spread + self.bullet_speed, self.bullet_speed_spread + self.bullet_speed)
+
+        # Instantiate bullet
         bullet = Bullet(
             hit_box_algorithm="Simple",
-            speed_x=-self.bullet_speed,
-            speed_y=0,
+            speed_x=random_speed * math.cos(math.radians(random_angle +
+                                                         self.weapon_init_angle)),
+            speed_y=random_speed * math.sin(math.radians(random_angle +
+                                                         self.weapon_init_angle)),
             texture_list=weapon.bullet_texture_lists_list[self.weapon],
-            angle=180,
-            damage_value=self.damage_value,
+            angle=self.weapon_init_angle + random_angle,
+            damage_value=self.bullet_damage,
             scale=self.bullet_scale)
 
         # Set bullet location
