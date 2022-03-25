@@ -4,6 +4,7 @@ import const.constants as C
 import math
 from weapon import Weapon
 from audio import Audio
+from lib import global_scale
 
 
 class Player(arcade.Sprite):
@@ -48,8 +49,8 @@ class Player(arcade.Sprite):
         super().__init__()
 
         # Set player location
-        self.center_x = C.SCREEN_WIDTH * .1
-        self.center_y = C.SCREEN_HEIGHT * .5
+        self.center_x = C.SCREEN_WIDTH * .1 * global_scale()
+        self.center_y = C.SCREEN_HEIGHT * .5 * global_scale()
         self.angle = C.SPRITE_PLAYER_INIT_ANGLE
 
         # Movement Speed
@@ -68,7 +69,7 @@ class Player(arcade.Sprite):
         self.weapon_angle = 0
 
         # Set our scale
-        self.scale = C.CHARACTER_SCALING
+        self.scale = C.PLAYER.SCALE * global_scale()
 
         player_style = C.MAP_MONUMENTS_LIST[0]["player"]
 
@@ -181,16 +182,16 @@ class Player(arcade.Sprite):
             self.speed_y = self.max_speed * math.sin(math.radians(45))
 
         # Move player
-        self.center_x += self.speed_x
-        self.center_y += self.speed_y
-        if self.center_x > C.SCREEN_WIDTH / 2:
-            self.center_x = C.SCREEN_WIDTH / 2
-        if self.center_x < 0:
-            self.center_x = 0
-        if self.center_y > C.SCREEN_HEIGHT * .85:
-            self.center_y = C.SCREEN_HEIGHT * .85
-        if self.center_y < C.SCREEN_HEIGHT * .15:
-            self.center_y = C.SCREEN_HEIGHT * .15
+        self.center_x += self.speed_x * global_scale()
+        self.center_y += self.speed_y * global_scale()
+        if self.center_x > C.SCREEN_WIDTH / 2 * global_scale():
+            self.center_x = C.SCREEN_WIDTH / 2 * global_scale()
+        if self.center_x < 0 * global_scale():
+            self.center_x = 0 * global_scale()
+        if self.center_y > C.SCREEN_HEIGHT * .85 * global_scale():
+            self.center_y = C.SCREEN_HEIGHT * .85 * global_scale()
+        if self.center_y < C.SCREEN_HEIGHT * .15 * global_scale():
+            self.center_y = C.SCREEN_HEIGHT * .15 * global_scale()
 
     def update_animation(self, delta_time: float = 1 / 60):
         self.cur_texture += 0.02

@@ -14,6 +14,7 @@ class PLAYER:
         "name": AUDIO.SOUND["player_hit"]["name"],
         "gain": AUDIO.SOUND["player_hit"]["gain"]
     }
+    SCALE = 1
 
 
 # TODO: Refactor SPRITE_PLAYER_INIT_ANGLE into PLAYER
