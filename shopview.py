@@ -1,6 +1,5 @@
 import arcade
 import const.constants as C
-from lib import global_scale
 import os
 from lib import global_scale
 
@@ -16,8 +15,6 @@ class ShopView(arcade.View):
         self.Player1 = None
         self.list1 = os.listdir("assets/")
 
-    def setup(self):
-        """ Set up everything with the game """
         # Create the sprite lists
         self.move_spritel = arcade.Sprite(
             "resources/images/shop/shop_left.png", 0.2)
@@ -50,7 +47,6 @@ class ShopView(arcade.View):
     def on_show(self):
         """Called when switching to this view."""
         arcade.set_background_color(C.MENU_BACKGROUND_COLOR)
-        self.setup()
 
     def on_mouse_press(self, x, y, button, modifiers):
 

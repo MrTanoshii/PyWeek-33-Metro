@@ -5,6 +5,7 @@ from player import Player
 import shopview
 from gamedata import GameData
 from lib import global_scale
+from audio import Audio
 
 
 class MapView(arcade.View):
@@ -155,11 +156,6 @@ class MapView(arcade.View):
             anchor_y="center",
         )
 
-
-<< << << < HEAD
-== == == =
-
->>>>>> > 83d3ea2(refactor: Move constants to `const` folder)
         arcade.draw_text(
             f"SHOP",
             1200,
@@ -230,8 +226,8 @@ class MapView(arcade.View):
                 game = gameview.GameView(self)
                 game.setup()
                 self.window.show_view(game)
-# Check if shops hit cursor (Simply because less number of checking)
-        if MapView.shop_sprite.collides_with_sprite(self.cursor_sprite):
+        # Check if shops hit cursor (Simply because less number of checking)
+        if self.shop_sprite.collides_with_sprite(self.cursor_sprite):
             self.window.show_view(shopview.ShopView())
 
 # Make center points as dictionary and call out other views mostly
