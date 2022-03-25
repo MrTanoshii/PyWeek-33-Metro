@@ -40,6 +40,8 @@ class Player(arcade.Sprite):
         Update the player
     move(movement_key_pressed: dict[str, bool])
         Move the player
+    change_texture()
+        change the sprite texture
     """
 
     # SpriteList class attribute
@@ -83,6 +85,7 @@ class Player(arcade.Sprite):
         for filename in os.listdir(f"{base_path}animation/"):
             self.texture_list.append(
                 arcade.load_texture(f"{base_path}animation/{filename}", hit_box_algorithm=hit_box_algorithm))
+                # arcade.load_texture("assets/GuyGoatAK/0001.png", hit_box_algorithm=hit_box_algorithm))
 
         self.cur_texture = 0
 
@@ -97,6 +100,24 @@ class Player(arcade.Sprite):
         self.sfx_hit_list = Audio.sfx_player_hit_list
 
         Player.player_list.append(self)
+
+        texture_name_list = ["GuyGoatAK", "GuyGoatRevolver", "GuyGoatRPG", "GuyJeepAK", "GuyJeepRevolver", "GuyJeepRPG",
+                             "GuySurfAK", "GuySurfRevolver", "GuySurfRPG"]
+
+        self.textures_dict = {}
+        for base_path in texture_name_list:
+            texture_list = []
+            for filename in os.listdir(f"assets/{base_path}/"):
+                texture_list.append(
+                    arcade.load_texture(f"assets/{base_path}/{filename}", hit_box_algorithm=hit_box_algorithm))
+            self.textures_dict[base_path] = texture_list
+
+    def set_skin(self, name):
+        """Update current texture/skin"""
+
+        self.texture_list = self.textures_dict[name]
+        print(self.texture_list)
+        self.texture = self.textures_dict[name][0]
 
     def shoot(self, delta_time, shoot_pressed):
         """Handles shooting & reloading"""
@@ -265,7 +286,11 @@ class Player(arcade.Sprite):
             self.center_y = C.SCREEN_HEIGHT * .15
 
     def update_animation(self, delta_time: float = 1 / 60):
-        self.cur_texture += 0.02
+        self.cur_texture += 0.20
         if self.cur_texture > len(self.texture_list) - 1:
             self.cur_texture = 0
+
         self.texture = self.texture_list[int(self.cur_texture)]
+
+
+
