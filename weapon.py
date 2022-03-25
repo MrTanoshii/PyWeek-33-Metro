@@ -1,4 +1,4 @@
-import constants as C
+import const.constants as C
 import arcade
 from audio import Audio
 

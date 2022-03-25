@@ -1,5 +1,5 @@
 import arcade
-import constants as C
+import const.constants as C
 from player import Player
 from bullet import Bullet
 from enemy import Enemy

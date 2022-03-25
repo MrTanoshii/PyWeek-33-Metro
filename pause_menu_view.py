@@ -1,5 +1,5 @@
 import arcade
-import constants as C
+import const.constants as C
 from audio import Audio
 from gamedata import GameData
 from tracker import Tracker
@@ -86,7 +86,7 @@ class PauseMenuView(arcade.View):
             Audio.stop_sound(self.bgm_stream)
             self.bgm_stream = None
             self.window.show_view(self.game_view)
-        elif key == arcade.key.S: #Added binding
+        elif key == arcade.key.S:  # Added binding
             self.window.show_view(shopview.ShopView())
 
     def exit_level(self):

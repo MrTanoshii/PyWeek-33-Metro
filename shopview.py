@@ -1,7 +1,9 @@
 import arcade
-import constants as C
+import const.constants as C
 
-#Base ShopView
+# Base ShopView
+
+
 class ShopView(arcade.View):
 
     def __init__(self):

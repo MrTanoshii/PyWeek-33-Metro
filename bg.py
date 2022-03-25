@@ -1,5 +1,5 @@
 import arcade
-from constants import BG_SCALING, SPEED_SCROLLING, SCREEN_HEIGHT, GLOBAL_SCALE
+from const.constants import BG_SCALING, SPEED_SCROLLING, SCREEN_HEIGHT, GLOBAL_SCALE
 
 
 class BackGround(arcade.Sprite):

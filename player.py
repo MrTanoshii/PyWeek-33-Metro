@@ -1,6 +1,6 @@
 import arcade
 import os.path
-import constants as C
+import const.constants as C
 from bullet import Bullet
 import math
 from lib import calculate_angle

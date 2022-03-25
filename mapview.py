@@ -1,4 +1,4 @@
-import constants as C
+import const.constants as C
 import gameview
 import arcade
 from player import Player
@@ -79,7 +79,7 @@ class MapView(arcade.View):
 
         # self.gui_camera = arcade.Camera(self.window.width, self.window.height)
         MapView.monument_list = arcade.SpriteList(is_static=True)
-        
+
         self.cursor_list = arcade.SpriteList()
         # Create the sprite lists
         self.background = arcade.load_texture(
@@ -88,12 +88,17 @@ class MapView(arcade.View):
             "resources/images/goat_cursor.png", 1)
 
         # setup map sprites
-        self.shop_sprite = arcade.Sprite("resources/images/map/temp_shop.png", 0.2)  # Initializing a global Shop Sprite URL - https://www.iconsdb.com/white-icons/shop-icon.html
-        self.gold_sprite = arcade.Sprite("resources/images/map/gold-bar.png", 0.6)  # Initializing a global Shop Sprite URL - https://www.iconsdb.com/white-icons/shop-icon.html
+        # Initializing a global Shop Sprite URL - https://www.iconsdb.com/white-icons/shop-icon.html
+        self.shop_sprite = arcade.Sprite(
+            "resources/images/map/temp_shop.png", 0.2)
+        # Initializing a global Shop Sprite URL - https://www.iconsdb.com/white-icons/shop-icon.html
+        self.gold_sprite = arcade.Sprite(
+            "resources/images/map/gold-bar.png", 0.6)
 
         # Sprite Locations
         self.gold_sprite.position = (1200, 680)
-        self.shop_sprite.position = (int(C.SCREEN_WIDTH*.96), int(C.SCREEN_HEIGHT*.87))
+        self.shop_sprite.position = (
+            int(C.SCREEN_WIDTH*.96), int(C.SCREEN_HEIGHT*.87))
 
         self.cursor_list.append(self.cursor_sprite)
         self.load_monuments()
@@ -149,7 +154,7 @@ class MapView(arcade.View):
             anchor_x="left",
             anchor_y="center",
         )
-        
+
         # arcade.draw_text(
         #     f"SHOP",
         #     self.shop_sprite.position[0],
@@ -197,7 +202,7 @@ class MapView(arcade.View):
             self.bgm_stream = Audio.play_sound(self.bgm, True)
 
         # MapView.update_monument_list()
-        
+
     def on_mouse_press(self, x, y, button, modifiers):
 
         if C.DEBUG.ALL or C.DEBUG.MAP:

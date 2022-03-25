@@ -130,7 +130,6 @@ class GameData:
                 from mapview import MapView
                 MapView.update_monument_list()
 
-
             # Write changes
             cls.write_data()
 
@@ -144,6 +143,3 @@ class GameData:
 
             # Write changes
             cls.write_data()
-
-
-

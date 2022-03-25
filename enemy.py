@@ -1,7 +1,7 @@
 import arcade
 import os.path
 import random
-import constants as C
+import const.constants as C
 from bullet import Bullet
 from gold import Gold
 from player import Player
@@ -77,7 +77,8 @@ class Enemy(arcade.Sprite):
         # Load texture
         self.texture_list = []
         file_name_list = os.listdir(f"{base_path}animation/")
-        file_name_list = sorted(file_name_list, key=lambda x: int(x.split('.')[0]))
+        file_name_list = sorted(
+            file_name_list, key=lambda x: int(x.split('.')[0]))
         for filename in file_name_list:
             self.texture_list.append(
                 arcade.load_texture(f"{base_path}animation/{filename}", hit_box_algorithm=hit_box_algorithm))

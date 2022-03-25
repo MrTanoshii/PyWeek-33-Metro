@@ -1,6 +1,6 @@
 import arcade
 import mapview
-import constants as C
+import const.constants as C
 from audio import Audio
 from gamedata import GameData
 
