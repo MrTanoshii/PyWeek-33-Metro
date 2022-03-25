@@ -212,6 +212,11 @@ class PauseMenuView(arcade.View):
         self.window.show_view(self.map_view)
         self.exit_level()
 
+    def resume(self):
+        Audio.stop_sound(self.bgm_stream)
+        self.bgm_stream = None
+        self.window.show_view(self.game_view)
+
     def exit_level(self):
         GameData.update_highscore(self.current_level)
         GameData.deposit_gold()
@@ -223,4 +228,3 @@ class PauseMenuView(arcade.View):
 
         # Reset enemies
         Enemy.enemy_list = arcade.SpriteList()
-
