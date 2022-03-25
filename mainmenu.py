@@ -1,6 +1,8 @@
 import arcade
 import mapview
-import constants as C
+import const.constants as C
+from audio import Audio
+from gamedata import GameData
 
 
 class MainMenu(arcade.View):
@@ -23,6 +25,9 @@ class MainMenu(arcade.View):
         # Inherit parent class
         super().__init__()
 
+        # Load sounds
+        self.audio = Audio()
+
     def on_show(self):
         """Called when switching to this view."""
         arcade.set_background_color(C.MENU_BACKGROUND_COLOR)
@@ -41,4 +46,5 @@ class MainMenu(arcade.View):
 
     def on_mouse_press(self, _x, _y, _button, _modifiers):
         """Use a mouse press to advance to the 'game' view."""
+        GameData.read_data()
         self.window.show_view(mapview.MapView())

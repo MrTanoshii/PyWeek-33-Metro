@@ -1,7 +1,7 @@
 import arcade
 import random
 
-import constants as C
+import const.constants as C
 from bg import BackGround
 from player import Player
 from bullet import Bullet
@@ -9,8 +9,10 @@ from enemy import Enemy
 from gold import Gold
 from tracker import Tracker
 from settings import Settings
+from audio import Audio
 
 from pause_menu_view import PauseMenuView
+import shopview
 import mapview
 
 
@@ -42,7 +44,7 @@ class GameView(arcade.View):
         Show the game view
     """
 
-    def __init__(self):
+    def __init__(self, map_view):
         # Inherit parent class
         super().__init__()
 
@@ -69,6 +71,10 @@ class GameView(arcade.View):
 
         self.cursor_sprite = None
 
+        self.level = mapview.MapView.current_level
+
+        self.map_view = map_view
+
         arcade.set_background_color(arcade.csscolor.GREEN)
 
     def setup(self):
@@ -91,11 +97,25 @@ class GameView(arcade.View):
         self.setup_complete = True
 
         # Preload enemy
-        Enemy.preload()
+        Enemy.preload(self.level)
 
         # Cursor
         self.cursor_sprite = arcade.Sprite(
-            "resources/images/goat_cursor.png", 1)
+            "resources/images/crosshair.png", 0.7)
+        self.cursor_sprite.color = (128, 0, 0)
+
+        # Find & set map bgm
+        view = None
+        for monument_dict in C.MAP_MONUMENTS_LIST:
+            if monument_dict["level"] == mapview.MapView.current_level:
+                view = monument_dict
+        for i in range(0, len(Audio.bgm_list)):
+            if Audio.bgm_list[i]["view_name"] == view["name"]:
+                self.bgm = Audio.bgm_list[i]["sound"]
+                break
+
+        # Start bgm
+        self.bgm_stream = Audio.play_sound(self.bgm, True)
 
     def on_draw(self):
         """Render the screen."""
@@ -115,6 +135,7 @@ class GameView(arcade.View):
         # Update animations
         Bullet.friendly_bullet_list.update_animation()
         Bullet.enemy_bullet_list.update_animation()
+        Enemy.enemy_list.update_animation()
 
         # GUI - Score
         arcade.draw_text(
@@ -158,9 +179,13 @@ class GameView(arcade.View):
 
         self.cursor_sprite.draw()
 
+        # Restart bgm
+        if self.bgm_stream == None:
+            self.bgm_stream = Audio.play_sound(self.bgm, True)
+
     def on_update(self, delta_time):
         if random.randint(0, 200) == 1:
-            Enemy.spawn_enemy()
+            Enemy.spawn_enemy(self.level)
 
         BackGround.update(delta_time)
         Gold.update(delta_time)
@@ -176,12 +201,13 @@ class GameView(arcade.View):
         self.check_collisions()
 
         Enemy.update()
+        Bullet.update()
 
     def on_mouse_motion(self, x, y, dx, dy):
         """Called whenever mouse is moved."""
-        self.player.follow_mouse(x, y)
-        self.cursor_sprite.center_x = x + 20
-        self.cursor_sprite.center_y = y - 20
+        self.player.weapon.on_mouse_motion(x, y, dx, dy)
+        self.cursor_sprite.center_x = x + C.GUI["Crosshair"]["offset_x"]
+        self.cursor_sprite.center_y = y + C.GUI["Crosshair"]["offset_y"]
 
     def on_mouse_press(self, x, y, button, modifiers):
         """Called whenever a mouse key is pressed."""
@@ -189,6 +215,9 @@ class GameView(arcade.View):
         if button == arcade.MOUSE_BUTTON_LEFT:
             for enemy in Enemy.enemy_list:
                 enemy.shoot(Bullet.enemy_bullet_list)
+
+        if C.DEBUG.MAP:
+            print(x, y)
 
     def on_key_press(self, key, modifiers):
         """Called whenever a key is pressed."""
@@ -227,7 +256,7 @@ class GameView(arcade.View):
 
         # Enemy spawn | E
         elif key == arcade.key.E:
-            Enemy.spawn_enemy()
+            Enemy.spawn_enemy(self.level)
 
         # Volume Toggle | M
         elif key == arcade.key.M:
@@ -235,7 +264,13 @@ class GameView(arcade.View):
 
         # Pause menu | Escape
         elif key == arcade.key.ESCAPE:
-            self.window.show_view(PauseMenuView(self))
+
+            # Stop bgm
+            Audio.stop_sound(self.bgm_stream)
+            self.bgm_stream = None
+
+            self.window.show_view(PauseMenuView(
+                self, self.map_view, self.level))
 
     def on_key_release(self, key, modifiers):
         """Called when the user releases a key."""
@@ -281,14 +316,15 @@ class GameView(arcade.View):
                 # if HP 0, destroy enemy
                 if enemy.HP <= 0:
                     Enemy.despawn(enemy, C.DEATH.KILLED)
-                    # Play a sound
-                    arcade.play_sound(enemy.audio_destroyed,
-                                      volume=enemy.audio_volume)
+
+                    # Play enemy death sfx
+                    Audio.play_rand_sound(enemy.sfx_death_list)
+
                     Tracker.increment_score(10)
                 else:
-                    # Play a sound
-                    arcade.play_sound(
-                        enemy.audio_hit, volume=enemy.audio_volume)
+                    # Play enemy hit sfx
+                    Audio.play_rand_sound(enemy.sfx_hit_list)
+
         # Check enemy bullet collisions
         for bullet in Bullet.enemy_bullet_list:
             # Move all Bullets Forwards
@@ -301,16 +337,16 @@ class GameView(arcade.View):
                 self.player.take_damage(bullet)
                 # Remove bullet
                 Bullet.despawn(bullet)
+
         # Check enemy collision with player
         for enemy in arcade.check_for_collision_with_list(
                 self.player, Enemy.enemy_list):
             Enemy.despawn(enemy, C.DEATH.COLLISION)
-            arcade.play_sound(enemy.audio_destroyed, volume=enemy.audio_volume)
             self.player.take_damage(enemy)
+
         # Check gold collision with player
         for gold in arcade.check_for_collision_with_list(self.player, Gold.gold_list):
             Gold.despawn(gold, C.DEATH.PICKED_UP)
-            arcade.play_sound(gold.pick_up, volume=gold.audio_volume)
 
     def on_show(self):
         pass

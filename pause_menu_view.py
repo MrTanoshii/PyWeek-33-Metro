@@ -1,5 +1,9 @@
 import arcade
-import constants as C
+import const.constants as C
+from audio import Audio
+from gamedata import GameData
+from tracker import Tracker
+import shopview
 
 
 class PauseMenuView(arcade.View):
@@ -20,11 +24,26 @@ class PauseMenuView(arcade.View):
         Listen to keyboard press event
     """
 
-    def __init__(self, game_view):
+    def __init__(self, game_view, map_view, current_level):
         # Inherit parent class
         super().__init__()
 
         self.game_view = game_view
+        self.map_view = map_view
+        self.current_level = current_level
+
+        # Find & set pause menu bgm
+        view = None
+        for view_dict in C.VIEW_LIST:
+            if view_dict["name"] == "Pause":
+                view = view_dict
+        for i in range(0, len(Audio.bgm_list)):
+            if Audio.bgm_list[i]["view_name"] == view["name"]:
+                self.bgm = Audio.bgm_list[i]["sound"]
+                break
+
+        # Start bgm
+        self.bgm_stream = Audio.play_sound(self.bgm, True)
 
     def on_show(self):
         """Called when switching to this view."""
@@ -35,21 +54,42 @@ class PauseMenuView(arcade.View):
         self.clear()
 
         arcade.draw_text(
-            "Game Paused - ESC to exit | Any key to resume",
+            "Paused | Q: quit game | M: leave level | SPACE: back to game | S: Go to Shop",
             C.SCREEN_WIDTH / 2,
             C.SCREEN_HEIGHT / 2,
             arcade.color.BLACK,
             font_size=C.MENU_FONT_SIZE,
-            anchor_x="center",
+            anchor_x="center"
         )
 
     def on_mouse_press(self, _x, _y, _button, _modifiers):
         """Use a mouse press to advance to the 'game' view."""
+
+        # Stop bgm
+        Audio.stop_sound(self.bgm_stream)
+
         self.window.show_view(self.game_view)
 
     def on_key_press(self, key, _modifiers):
         """Handle keyboard key press"""
-        if key == arcade.key.ESCAPE:
+        if key == arcade.key.Q:
+            # Stop bgm
+            Audio.stop_sound(self.bgm_stream)
+            self.bgm_stream = None
             arcade.exit()
-        else:
+        elif key == arcade.key.M:
+            Audio.stop_sound(self.bgm_stream)
+            self.bgm_stream = None
+            self.window.show_view(self.map_view)
+            self.exit_level()
+        elif key == arcade.key.SPACE:
+            Audio.stop_sound(self.bgm_stream)
+            self.bgm_stream = None
             self.window.show_view(self.game_view)
+        elif key == arcade.key.S:  # Added binding
+            self.window.show_view(shopview.ShopView())
+
+    def exit_level(self):
+        GameData.update_highscore(self.current_level)
+        GameData.deposit_gold()
+        Tracker.reset_trackers()

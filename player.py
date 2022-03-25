@@ -1,10 +1,9 @@
 import arcade
-import constants as C
-from bullet import Bullet
+import os.path
+import const.constants as C
 import math
-from lib import calculate_angle
 from weapon import Weapon
-from bullet import Bullet
+from audio import Audio
 
 
 class Player(arcade.Sprite):
@@ -44,9 +43,6 @@ class Player(arcade.Sprite):
     player_list = arcade.SpriteList()
     weapon = arcade.Sprite()
 
-    # Volume class attribute
-    audio_volume = C.MASTER_VOLUME
-
     def __init__(self, hit_box_algorithm):
         # Inherit parent class
         super().__init__()
@@ -57,14 +53,14 @@ class Player(arcade.Sprite):
         self.angle = C.SPRITE_PLAYER_INIT_ANGLE
 
         # Movement Speed
-        self.max_speed = C.SPEED_PLAYER
+        self.max_speed = C.PLAYER.SPEED
         self.speed_x = 0
         self.speed_y = 0
 
         # Health
-        self.max_health = C.PLAYER_START_HP
-        self.cur_health = C.PLAYER_MAX_HP
-        self.death_health = C.PLAYER_DEATH_HP
+        self.max_health = C.PLAYER.MAX_HP
+        self.cur_health = C.PLAYER.START_HP
+        self.death_health = C.PLAYER.DEATH_HP
 
         # Weapon
         self.weapon = Weapon()
@@ -74,110 +70,57 @@ class Player(arcade.Sprite):
         # Set our scale
         self.scale = C.CHARACTER_SCALING
 
-        # load player texture
-        base_path = "resources/"
-        self.idle_texture = arcade.load_texture(
-            f"{base_path}images/donky-example-player.png", hit_box_algorithm=hit_box_algorithm)
+        player_style = C.MAP_MONUMENTS_LIST[0]["player"]
+
+        """ Load Assets """
+        base_path = f"resources/images/assets/players/{player_style}/"
+
+        # Load texture
+        self.texture_list = []
+        for filename in os.listdir(f"{base_path}animation/"):
+            self.texture_list.append(
+                arcade.load_texture(f"{base_path}animation/{filename}", hit_box_algorithm=hit_box_algorithm))
+
+        self.cur_texture = 0
 
         # Set the initial texture
-        self.texture = self.idle_texture
+        self.texture = self.texture_list[int(self.cur_texture)]
 
         # Hit box will be set based on the first image used.
         self.hit_box = self.texture.hit_box_points
 
-        # Load sounds
-        # TODO: Change SFX
-        self.audio_destroyed = arcade.load_sound(
-            f"{base_path}audio/enemy_destroyed.wav")
-        self.audio_hit = arcade.load_sound(f"{base_path}audio/enemy_hit.wav")
+        # Set player sounds
+        self.sfx_death_list = Audio.sfx_player_death_list
+        self.sfx_hit_list = Audio.sfx_player_hit_list
 
         Player.player_list.append(self)
 
     def shoot(self, delta_time, shoot_pressed):
         """Handles shooting & reloading"""
-
-        if self.weapon.can_shoot:
-            # Shoot
-            # TODO: Implement fire_type
-            if shoot_pressed:
-                self.weapon.can_shoot = False
-                # Decrease ammo count
-                self.weapon.cur_ammo -= 1
-                # Calculate bullet speed
-                speed_x = self.weapon.bullet_speed * \
-                    math.cos(math.radians(self.weapon_angle +
-                                          C.WEAPON_INIT_ANGLE))
-                speed_y = self.weapon.bullet_speed * \
-                    math.sin(math.radians(self.weapon_angle +
-                                          C.WEAPON_INIT_ANGLE))
-
-                bullet = Bullet("Detailed", speed_x, speed_y, self.weapon.bullet_texture_list,
-                                self.weapon_angle + C.WEAPON_INIT_ANGLE, self.weapon.bullet_damage, scale=self.weapon.bullet_scale)
-
-                # Set bullet location
-                bullet.center_x = self.center_x + \
-                    (self.width / 2 *
-                        math.cos(math.radians(self.weapon_angle + C.WEAPON_INIT_ANGLE)))
-                bullet.center_y = self.center_y + \
-                    (self.height / 2 *
-                        math.sin(math.radians(self.weapon_angle + C.WEAPON_INIT_ANGLE)))
-
-                # Add to bullet sprite list
-                Bullet.friendly_bullet_list.append(bullet)
-
-                # Play weapon shoot sfx
-                arcade.play_sound(bullet.audio_gunshot,
-                                  volume=self.audio_volume)
-
-                # Start reload if ammo depleted
-                if self.weapon.cur_ammo <= 0:
-                    self.weapon.is_reloading = True
-            else:
-                pass
-                # Play empty weapon sfx
-        else:
-            # Reload weapon
-            if self.weapon.is_reloading:
-                self.weapon.reload_timer += delta_time
-                if self.weapon.reload_timer >= self.weapon.reload_time:
-                    self.weapon.reload_weapon()
-            # Wait until weapon can shoot
-            else:
-                self.weapon.shoot_timer += delta_time
-                if self.weapon.shoot_timer >= self.weapon.shoot_time:
-                    self.weapon.can_shoot = True
-                    self.weapon.shoot_timer = 0
+        self.weapon.shoot(delta_time, shoot_pressed,
+                          self)
 
     def take_damage(self, damage_source):
         """Handles damage taken by player"""
-        # Play damage taken sound
-        # TODO: Change sound effect
-        arcade.play_sound(self.audio_destroyed, volume=self.audio_volume)
         # Decrease player hp
         self.cur_health -= damage_source.damage_value
         # Cause death of player if hp low
         if self.cur_health <= self.death_health:
             self.death()
 
+        # Play random player hit sfx
+        Audio.play_rand_sound(self.sfx_hit_list)
+
     def death(self):
         """Handles death of player"""
+
         # TODO: Implement better player death
         self.cur_health = self.max_health
+
+        # Play random death sfx
+        Audio.play_rand_sound(self.sfx_death_list)
+
         print("You died.")
-
-    def follow_mouse(self, mouse_x: float, mouse_y: float):
-        """Handles bullet angle rotation to follow mouse"""
-        new_angle = calculate_angle(
-            self.center_x, self.center_y, mouse_x, mouse_y)
-        if mouse_x < self.center_x:
-            new_angle = new_angle + C.WEAPON_INIT_ANGLE
-        else:
-            new_angle = new_angle - C.WEAPON_INIT_ANGLE
-        self.weapon_angle = new_angle
-
-    def on_mouse_motion(self, x, y, dx, dy):
-        """Called whenever mouse is moved."""
-        self.player.follow_mouse(x, y)
 
     def update(self, delta_time, movement_key_pressed, shoot_pressed):
         self.move(movement_key_pressed)
@@ -248,3 +191,9 @@ class Player(arcade.Sprite):
             self.center_y = C.SCREEN_HEIGHT * .85
         if self.center_y < C.SCREEN_HEIGHT * .15:
             self.center_y = C.SCREEN_HEIGHT * .15
+
+    def update_animation(self, delta_time: float = 1 / 60):
+        self.cur_texture += 0.02
+        if self.cur_texture > len(self.texture_list) - 1:
+            self.cur_texture = 0
+        self.texture = self.texture_list[int(self.cur_texture)]
