@@ -1,6 +1,9 @@
 import const.constants as C
 import arcade
+import math
+from bullet import Bullet
 from audio import Audio
+from lib import calculate_angle
 
 
 bullet_texture_lists_list = {}
@@ -41,10 +44,14 @@ class Weapon(arcade.Sprite):
         Keep the ammo count tracked
     reload_weapon()
         Reloads the current weapon
+    shoot(self, delta_time: float, shoot_pressed: bool, player: arcade.Sprite)
+        Handles shooting and reloading
     swap_weapon(weapon_name: str)
         Swap the current weapon
     set_weapon(weapon_name: str)
         Set the current weapon
+    on_mouse_motion(self, x, y, _dx, _dy)
+        Called whenever mouse is moved
     """
 
     def __init__(self):
@@ -61,6 +68,9 @@ class Weapon(arcade.Sprite):
 
         # Set default weapon
         self.set_weapon("Rifle")
+
+        self.last_mouse_x = 0
+        self.last_mouse_y = 0
 
     def update_tracked_ammo(self, weapon_name: str, ammo_count: int):
         """ Keep the ammo count tracked """
@@ -88,6 +98,90 @@ class Weapon(arcade.Sprite):
             self.cur_ammo = self.max_ammo
 
             self.is_reloading = False
+
+    def shoot(self, delta_time: float, shoot_pressed: bool, player: arcade.Sprite):
+        """ Handles shooting and reloading """
+
+        # Reload weapon
+        if self.is_reloading and not shoot_pressed:
+            self.reload_timer += delta_time
+            if self.reload_timer >= self.reload_time:
+                self.reload_weapon()
+        if self.can_shoot and shoot_pressed:
+            # Shoot if ammo available
+            # TODO: Implement fire_type
+            if self.cur_ammo > 0:
+                self.can_shoot = False
+                self.is_reloading = False
+                # Decrease ammo count
+                self.cur_ammo -= 1
+                self.update_tracked_ammo(
+                    self.weapon_name, self.cur_ammo)
+
+                # Calculate angle from player to mouse location
+                calc_angle = calculate_angle(
+                    player.center_x, player.center_y, self.last_mouse_x + C.GUI["Crosshair"]["offset_x"], self.last_mouse_y + C.GUI["Crosshair"]["offset_y"])
+                if self.last_mouse_x + C.GUI["Crosshair"]["offset_x"] < player.center_x:
+                    calc_angle = calc_angle + C.WEAPON_INIT_ANGLE
+                else:
+                    calc_angle = calc_angle - C.WEAPON_INIT_ANGLE
+                self.weapon_angle = calc_angle
+
+                # Calculate bullet location
+                bullet_center_x = player.center_x + \
+                    (player.width / 2 *
+                        math.cos(math.radians(self.weapon_angle + C.WEAPON_INIT_ANGLE)))
+                bullet_center_y = player.center_y + \
+                    (player.height / 2 *
+                        math.sin(math.radians(self.weapon_angle + C.WEAPON_INIT_ANGLE)))
+
+                # Calculate angle from bullet to mouse location
+                calc_angle = calculate_angle(
+                    bullet_center_x, bullet_center_y, self.last_mouse_x + C.GUI["Crosshair"]["offset_x"], self.last_mouse_y + C.GUI["Crosshair"]["offset_y"])
+                if self.last_mouse_x + C.GUI["Crosshair"]["offset_x"] < bullet_center_x:
+                    calc_angle = calc_angle + C.WEAPON_INIT_ANGLE
+                else:
+                    calc_angle = calc_angle - C.WEAPON_INIT_ANGLE
+                self.bullet_angle = calc_angle
+
+                # Calculate bullet speed
+                speed_x = self.bullet_speed * \
+                    math.cos(math.radians(self.bullet_angle +
+                                          C.WEAPON_INIT_ANGLE))
+                speed_y = self.bullet_speed * \
+                    math.sin(math.radians(self.bullet_angle +
+                                          C.WEAPON_INIT_ANGLE))
+
+                # Instantiate bullet
+                bullet = Bullet("Detailed", speed_x, speed_y, self.bullet_texture_list,
+                                self.bullet_angle + C.WEAPON_INIT_ANGLE, self.bullet_damage, scale=self.bullet_scale)
+
+                # Set bullet location
+                bullet.center_x = bullet_center_x
+                bullet.center_y = bullet_center_y
+
+                # Add to bullet sprite list
+                Bullet.friendly_bullet_list.append(bullet)
+
+                # Play random weapon shoot sfx
+                Audio.play_rand_sound(self.sfx_single_shot_list)
+
+                # Start reload if ammo depleted
+                if self.cur_ammo <= 0:
+                    self.is_reloading = True
+
+                self.shoot_timer = 0
+            else:
+                # Reload weapon
+                self.reload_timer += delta_time
+                if self.reload_timer >= self.reload_time:
+                    self.reload_weapon()
+                # TODO: Play empty weapon sfx
+        else:
+            self.shoot_timer += delta_time
+            if self.shoot_timer >= self.shoot_time:
+                self.can_shoot = True
+                self.shoot_timer = 0
 
     def swap_weapon(self, weapon_name: str):
         self.set_weapon(weapon_name)
@@ -148,3 +242,8 @@ class Weapon(arcade.Sprite):
                 break
         if not found_weapon:
             print("Error: Weapon not found.")
+
+    def on_mouse_motion(self, x, y, _dx, _dy):
+        """ Called whenever mouse is moved """
+        self.last_mouse_x = x
+        self.last_mouse_y = y
