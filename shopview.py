@@ -1,5 +1,6 @@
 import arcade
 import const.constants as C
+from lib import global_scale
 
 # Base ShopView
 
@@ -20,10 +21,10 @@ class ShopView(arcade.View):
 
         arcade.draw_text(
             "Congrats you have passed Level - Let's go for Shop",
-            C.SCREEN_WIDTH / 2,
-            C.SCREEN_HEIGHT / 2,
+            (C.SCREEN_WIDTH / 2) * global_scale(),
+            (C.SCREEN_HEIGHT / 2 * global_scale()),
             arcade.color.BLACK,
-            font_size=C.MENU_FONT_SIZE,
+            font_size=C.MENU_FONT_SIZE * global_scale(),
             anchor_x="center",
         )
 

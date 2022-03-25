@@ -1,6 +1,7 @@
 import arcade
 import mapview
 import const.constants as C
+from lib import global_scale
 from audio import Audio
 from gamedata import GameData
 
@@ -37,10 +38,10 @@ class MainMenu(arcade.View):
         self.clear()
         arcade.draw_text(
             "Main Menu - Click to play",
-            C.SCREEN_WIDTH / 2,
-            C.SCREEN_HEIGHT / 2,
+            (C.SCREEN_WIDTH / 2) * global_scale(),
+            (C.SCREEN_HEIGHT / 2) * global_scale(),
             arcade.color.BLACK,
-            font_size=C.MENU_FONT_SIZE,
+            font_size=C.MENU_FONT_SIZE * global_scale(),
             anchor_x="center",
         )
 

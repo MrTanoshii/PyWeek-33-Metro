@@ -1,5 +1,6 @@
 import arcade
 import const.constants as C
+from lib import global_scale
 
 
 class Bullet(arcade.Sprite):
@@ -35,7 +36,7 @@ class Bullet(arcade.Sprite):
     # Volume class attribute
     audio_volume = C.AUDIO.MASTER_VOLUME
 
-    def __init__(self, hit_box_algorithm, speed_x, speed_y, texture_list=None, angle=0, damage_value=1, scale=1):
+    def __init__(self, hit_box_algorithm, speed_x, speed_y, texture_list=None, angle=0, damage_value=1, scale=C.BULLET_SCALE):
         # Inherit parent class
         super().__init__()
 
@@ -50,7 +51,7 @@ class Bullet(arcade.Sprite):
         self.angle = angle
 
         # Set our scale
-        self.scale = C.BULLET_SCALING * scale
+        self.scale = scale * global_scale()
 
         base_path = "resources/"
 
@@ -73,15 +74,15 @@ class Bullet(arcade.Sprite):
         # Cycle through player bullets
         for bullet in cls.friendly_bullet_list:
             # Delete bullets that are off-screen
-            if abs(bullet.center_x - bullet.width / 2) - C.SCREEN_WIDTH / 2 > C.SCREEN_WIDTH / 2 or abs(
-                    bullet.center_y - bullet.height / 2) > C.SCREEN_HEIGHT:
+            if abs(bullet.center_x - (bullet.width * global_scale() / 2)) - (C.SCREEN_WIDTH / 2 * global_scale()) > C.SCREEN_WIDTH / 2 * global_scale() or abs(
+                    bullet.center_y - (bullet.height * global_scale() / 2)) > C.SCREEN_HEIGHT * global_scale():
                 cls.friendly_bullet_list.remove(bullet)
 
         # Cycle through enemy bullets
         for bullet in cls.enemy_bullet_list:
             # Delete bullets that are off-screen
-            if abs(bullet.center_x - bullet.width / 2) > C.SCREEN_WIDTH * 1.5 or abs(
-                    bullet.center_y - bullet.height / 2) > C.SCREEN_HEIGHT:
+            if abs(bullet.center_x - (bullet.width * global_scale() / 2)) > C.SCREEN_WIDTH * 1.5 * global_scale() or abs(
+                    bullet.center_y - (bullet.height * global_scale() / 2)) > C.SCREEN_HEIGHT * global_scale():
                 cls.enemy_bullet_list.remove(bullet)
 
     def update_animation(self, delta_time: float = 1 / 60):

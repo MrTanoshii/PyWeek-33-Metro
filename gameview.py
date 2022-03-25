@@ -3,6 +3,7 @@ import random
 
 import const.constants as C
 from bg import BackGround
+from lib import global_scale
 from player import Player
 from bullet import Bullet
 from enemy import Enemy
@@ -91,8 +92,8 @@ class GameView(arcade.View):
 
         # Create BG sprite
         self.bg = BackGround(mapview.MapView.current_level)
-        self.bg.center_x = self.bg.width/2
-        self.bg.center_y = C.SCREEN_HEIGHT/2
+        self.bg.center_x = -self.bg.width * global_scale()
+        self.bg.center_y = (C.SCREEN_HEIGHT/2) * global_scale()
         BackGround.bg_list.append(self.bg)
         self.setup_complete = True
 
@@ -140,40 +141,40 @@ class GameView(arcade.View):
         # GUI - Score
         arcade.draw_text(
             f"Score : {Tracker.score}",
-            C.SCREEN_WIDTH / 5,
-            C.SCREEN_HEIGHT - 50,
+            (C.SCREEN_WIDTH / 5) * global_scale(),
+            (C.SCREEN_HEIGHT - 50) * global_scale(),
             arcade.color.BLACK,
-            font_size=30,
+            font_size=30 * global_scale(),
             anchor_x="center",
         )
 
         # GUI - Gold
         arcade.draw_text(
             f"Gold : {Tracker.gold}",
-            C.SCREEN_WIDTH / 5,
-            C.SCREEN_HEIGHT - 150,
+            (C.SCREEN_WIDTH / 5) * global_scale(),
+            (C.SCREEN_HEIGHT - 150) * global_scale(),
             arcade.color.BLACK,
-            font_size=30,
+            font_size=30 * global_scale(),
             anchor_x="center",
         )
 
         # GUI - Player HP
         arcade.draw_text(
             f"HP : {self.player.cur_health}",
-            (C.SCREEN_WIDTH / 5) + 200,
-            C.SCREEN_HEIGHT - 50,
+            ((C.SCREEN_WIDTH / 5) + 200) * global_scale(),
+            (C.SCREEN_HEIGHT - 50) * global_scale(),
             arcade.color.BLACK,
-            font_size=30,
+            font_size=30 * global_scale(),
             anchor_x="center",
         )
 
         # GUI - Player Ammo
         arcade.draw_text(
             f"Ammo : {self.player.weapon.cur_ammo} \ {self.player.weapon.max_ammo}",
-            (C.SCREEN_WIDTH / 5) + 500,
-            C.SCREEN_HEIGHT - 50,
+            ((C.SCREEN_WIDTH / 5) + 500) * global_scale(),
+            (C.SCREEN_HEIGHT - 50) * global_scale(),
             arcade.color.BLACK,
-            font_size=30,
+            font_size=30 * global_scale(),
             anchor_x="center",
         )
 
@@ -328,8 +329,8 @@ class GameView(arcade.View):
         # Check enemy bullet collisions
         for bullet in Bullet.enemy_bullet_list:
             # Move all Bullets Forwards
-            bullet.center_x += bullet.speed_x
-            bullet.center_y += bullet.speed_y
+            bullet.center_x += bullet.speed_x * global_scale()
+            bullet.center_y += bullet.speed_y * global_scale()
 
             # Loop through each coin we hit (if any) and remove it
             if arcade.check_for_collision(self.player, bullet):

@@ -1,4 +1,6 @@
 import math
+import arcade
+import const.constants as C
 
 
 def calculate_angle(origin_x, origin_y, target_x, target_y):
@@ -9,3 +11,7 @@ def calculate_angle(origin_x, origin_y, target_x, target_y):
     angle = math.degrees(math.atan((origin_y - target_y) /
                                    (denom)))
     return angle
+
+
+def global_scale() -> float:
+    return arcade.get_window().width / C.SCREEN_WIDTH

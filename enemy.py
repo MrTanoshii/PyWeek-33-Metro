@@ -8,6 +8,7 @@ from gold import Gold
 from player import Player
 from audio import Audio
 import weapon
+from lib import global_scale
 
 
 class Enemy(arcade.Sprite):
@@ -43,7 +44,7 @@ class Enemy(arcade.Sprite):
     # SpriteList class attribute
     enemy_list = arcade.SpriteList()
 
-    def __init__(self, hit_box_algorithm, level):
+    def __init__(self, hit_box_algorithm, level, scale=0.8):
         # Inherit parent class
 
         super().__init__()
@@ -70,11 +71,12 @@ class Enemy(arcade.Sprite):
                 self.damage_value = weapon["damage_value"]
                 self.shooting_speed = weapon["shoot_time"]
                 self.bullet_damage = weapon["bullet_damage"]
-                self.bullet_scale = weapon["bullet_scale"]
+                self.bullet_scale = weapon["bullet_scale"] * global_scale()
                 self.bullet_amount = weapon["bullet_amount"]
-                self.bullet_spread = weapon["bullet_spread"]
-                self.bullet_speed = weapon["bullet_speed"]
-                self.bullet_speed_spread = weapon["bullet_speed_spread"]
+                self.bullet_spread = weapon["bullet_spread"] * global_scale()
+                self.bullet_speed = weapon["bullet_speed"] * global_scale()
+                self.bullet_speed_spread = weapon["bullet_speed_spread"] * \
+                    global_scale()
                 break
 
         """ Load Assets """
@@ -94,7 +96,7 @@ class Enemy(arcade.Sprite):
         self.animation_speed = self.config["animation_speed"]
 
         # Set our scale
-        self.scale = C.ENEMY_SCALING
+        self.scale = scale * global_scale()
 
         # Find & set hit sfx
         for i in range(0, len(Audio.sfx_enemy_hit_list)):
@@ -127,9 +129,9 @@ class Enemy(arcade.Sprite):
         enemy = Enemy(hit_box_algorithm="Simple", level=level)
 
         # Set enemy location
-        enemy.center_x = C.SCREEN_WIDTH + enemy.width
-        enemy.center_y = C.SCREEN_HEIGHT // 2 + \
-            random.uniform(-C.SCREEN_HEIGHT/3.25, C.SCREEN_HEIGHT/3.25)
+        enemy.center_x = (C.SCREEN_WIDTH + enemy.width) * global_scale()
+        enemy.center_y = (C.SCREEN_HEIGHT // 2 +
+                          random.uniform(-C.SCREEN_HEIGHT/3.25, C.SCREEN_HEIGHT/3.25)) * global_scale()
 
         # Turn the enemy 90 degree
         enemy.angle = 0
@@ -151,7 +153,7 @@ class Enemy(arcade.Sprite):
         for enemy in cls.enemy_list:
 
             # Move all Enemies Forwards
-            enemy.center_x += enemy.speed
+            enemy.center_x += enemy.speed * global_scale()
 
             # Check if enemy is in view, if not delete it
             if enemy.center_x + enemy.width < 0:
@@ -185,8 +187,8 @@ class Enemy(arcade.Sprite):
             scale=self.bullet_scale)
 
         # Set bullet location
-        bullet.position = ((self.center_x - (self.width / 2) +
-                           self.barrel_location[0]), (self.center_y - (self.height / 2) + self.barrel_location[1]))
+        bullet.position = ((self.center_x - (self.width * global_scale() / 2) +
+                           self.barrel_location[0] * global_scale()), (self.center_y - (self.height * global_scale() / 2) + self.barrel_location[1] * global_scale()))
 
         # Turn the bullet -90 degree
         # bullet.angle = 0

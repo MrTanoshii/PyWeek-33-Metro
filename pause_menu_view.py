@@ -4,6 +4,7 @@ from audio import Audio
 from gamedata import GameData
 from tracker import Tracker
 import shopview
+from lib import global_scale
 
 
 class PauseMenuView(arcade.View):
@@ -55,10 +56,10 @@ class PauseMenuView(arcade.View):
 
         arcade.draw_text(
             "Paused | Q: quit game | M: leave level | SPACE: back to game | S: Go to Shop",
-            C.SCREEN_WIDTH / 2,
-            C.SCREEN_HEIGHT / 2,
+            (C.SCREEN_WIDTH / 2) * global_scale(),
+            (C.SCREEN_HEIGHT / 2) * global_scale(),
             arcade.color.BLACK,
-            font_size=C.MENU_FONT_SIZE,
+            font_size=C.PAUSE_FONT_SIZE * global_scale(),
             anchor_x="center"
         )
 

@@ -5,6 +5,7 @@ from player import Player
 import shopview
 from audio import Audio
 from gamedata import GameData
+from lib import global_scale
 
 
 class MapView(arcade.View):
@@ -52,8 +53,8 @@ class MapView(arcade.View):
         self.background = None
 
         self.level = 0
-        self.normal_scale = .2
-        self.highlight_scale = .5
+        self.normal_scale = .2 * global_scale()
+        self.highlight_scale = .5 * global_scale()
         self.highlight = False
 
         """ Map sprites """
@@ -90,15 +91,16 @@ class MapView(arcade.View):
         # setup map sprites
         # Initializing a global Shop Sprite URL - https://www.iconsdb.com/white-icons/shop-icon.html
         self.shop_sprite = arcade.Sprite(
-            "resources/images/map/temp_shop.png", 0.2)
+            "resources/images/map/temp_shop.png", 0.2 * global_scale())
         # Initializing a global Shop Sprite URL - https://www.iconsdb.com/white-icons/shop-icon.html
         self.gold_sprite = arcade.Sprite(
-            "resources/images/map/gold-bar.png", 0.6)
+            "resources/images/map/gold-bar.png", 0.6 * global_scale())
 
         # Sprite Locations
-        self.gold_sprite.position = (1200, 680)
+        self.gold_sprite.position = (
+            1200 * global_scale(), 680 * global_scale())
         self.shop_sprite.position = (
-            int(C.SCREEN_WIDTH*.96), int(C.SCREEN_HEIGHT*.87))
+            int(C.SCREEN_WIDTH * .96 * global_scale()), int(C.SCREEN_HEIGHT * .87 * global_scale()))
 
         self.cursor_list.append(self.cursor_sprite)
         self.load_monuments()
@@ -108,11 +110,11 @@ class MapView(arcade.View):
         for mon_dict in C.MAP_MONUMENTS_LIST:
             monument = arcade.Sprite(
                 "resources/images/map/" + mon_dict["img_name"],
-                self.normal_scale)
+                self.normal_scale * global_scale())
             monument.level = mon_dict["level"]
             monument.name = mon_dict["name"]
-            monument.center_x = mon_dict["center_x"]
-            monument.center_y = mon_dict["center_y"]
+            monument.center_x = mon_dict["center_x"] * global_scale()
+            monument.center_y = mon_dict["center_y"] * global_scale()
 
             if GameData.level_data[str(monument.level)]["passed"] == 0 and GameData.level_data[str(monument.level)]["locked"] == 0:
                 monument.color = (255, 255, 64)
@@ -139,7 +141,7 @@ class MapView(arcade.View):
         self.clear()
 
         arcade.draw_lrwh_rectangle_textured(0, 0,
-                                            C.SCREEN_WIDTH, C.SCREEN_HEIGHT,
+                                            C.SCREEN_WIDTH * global_scale(), C.SCREEN_HEIGHT * global_scale(),
                                             self.background)
         self.gold_sprite.draw()
         # GUI - Gold
@@ -150,7 +152,7 @@ class MapView(arcade.View):
             arcade.color.BLACK,
             font_name="Kenney High",
             bold=True,
-            font_size=30,
+            font_size=30 * global_scale(),
             anchor_x="left",
             anchor_y="center",
         )
@@ -169,16 +171,18 @@ class MapView(arcade.View):
         self.cursor_list.draw()
 
     def on_mouse_motion(self, x, y, dx, dy):
-        self.cursor_sprite.center_x = x+20
-        self.cursor_sprite.center_y = y-20
+        self.cursor_sprite.center_x = x + \
+            C.MAP["Cursor"]["offset_x"] * global_scale()
+        self.cursor_sprite.center_y = y + \
+            C.MAP["Cursor"]["offset_y"] * global_scale()
 
         # Check if shops hit cursor (Simply because less number of checking)
         if self.shop_sprite.collides_with_sprite(self.cursor_sprite):
             self.shop_sprite.color = (0, 255, 0)
-            self.shop_sprite.scale = .24
+            self.shop_sprite.scale = .24 * global_scale()
         else:
             self.shop_sprite.color = (255, 255, 255)
-            self.shop_sprite.scale = .2
+            self.shop_sprite.scale = .2 * global_scale()
 
     def on_update(self, delta_time):
 

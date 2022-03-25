@@ -6,7 +6,7 @@ ENEMY_LIST = {
         "name": "tank",
         "weapon": "tank",
         "animation_speed": 1.5,
-        "scale": 1*GLOBAL_SCALE,
+        "scale": 1,
         "speed": -2,
         "spawn_rate": 1,
         "health": 10,

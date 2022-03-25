@@ -11,6 +11,7 @@ from const.gold import *
 from const.player import *
 from const.view_game import *
 from const.view_menu import *
+from const.view_pause import *
 from const.death import *
 
 # weapon_fire import not required

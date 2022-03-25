@@ -11,13 +11,20 @@ class LEVEL1:
 # TODO: Refactor SPEED_SCROLLING into MAP_MONUMENTS_LIST
 SPEED_SCROLLING = -10
 
+MAP = {
+    "Cursor": {
+        "offset_x": 20,
+        "offset_y": -20
+    }
+}
+
 MAP_MONUMENTS_LIST = [
     {
         "name": "EGYPT",
         "level": 1,
         "img_name": "icon1.png",
-        "center_x": 650 * GLOBAL_SCALE,
-        "center_y": 325 * GLOBAL_SCALE,
+        "center_x": 650,
+        "center_y": 325,
         "assets": ["pyramids.png", "cactus.png"],
         "enemy": ENEMY_LIST["tank"],
         "player": "donky",
@@ -31,8 +38,8 @@ MAP_MONUMENTS_LIST = [
         "name": "MOSCOW",
         "level": 2,
         "img_name": "icon2.png",
-        "center_x": 700 / 1280 * SCREEN_WIDTH,
-        "center_y": 480 * GLOBAL_SCALE,
+        "center_x": 700,
+        "center_y": 480,
         "assets": ["tree.png", "tree2.png"],
         "enemy": ENEMY_LIST["tank"],
         "player": "donky",
@@ -45,8 +52,8 @@ MAP_MONUMENTS_LIST = [
         "name": "CHINA",
         "level": 3,
         "img_name": "icon3.png",
-        "center_x": 870 / 1280 * SCREEN_WIDTH,
-        "center_y": 420 * GLOBAL_SCALE,
+        "center_x": 870,
+        "center_y": 420,
         "assets": ["cactus256.png", "tree.png"],
         "enemy": ENEMY_LIST["tank"],
         "player": "donky",
@@ -59,8 +66,8 @@ MAP_MONUMENTS_LIST = [
         "name": "OCEAN",
         "level": 4,
         "img_name": "icon4.png",
-        "center_x": 1206 / 1280 * SCREEN_WIDTH,
-        "center_y": 169 * GLOBAL_SCALE,
+        "center_x": 1206,
+        "center_y": 169,
         "assets": ["cactus256.png", "tree.png"],
         "enemy": ENEMY_LIST["tank"],
         "player": "donky",
@@ -73,8 +80,8 @@ MAP_MONUMENTS_LIST = [
         "name": "BRAZIL",
         "level": 5,
         "img_name": "icon5.png",
-        "center_x": 370 / 1280 * SCREEN_WIDTH,
-        "center_y": 180 * GLOBAL_SCALE,
+        "center_x": 370,
+        "center_y": 180,
         "assets": ["cactus256.png", "tree.png"],
         "enemy": ENEMY_LIST["tank"],
         "player": "donky",
@@ -87,8 +94,8 @@ MAP_MONUMENTS_LIST = [
         "name": "USA",
         "level": 6,
         "img_name": "icon6.png",
-        "center_x": 140 / 1280 * SCREEN_WIDTH,
-        "center_y": 340 * GLOBAL_SCALE,
+        "center_x": 140,
+        "center_y": 340,
         "assets": ["cactus256.png", "tree.png"],
         "enemy": ENEMY_LIST["tank"],
         "player": "donky",

@@ -4,7 +4,7 @@ import math
 import random
 from bullet import Bullet
 from audio import Audio
-from lib import calculate_angle
+from lib import calculate_angle, global_scale
 
 
 bullet_texture_lists_list = {}
@@ -209,7 +209,7 @@ class Weapon(arcade.Sprite):
                 # Load weapon texture
                 self.texture = arcade.load_texture(
                     f"resources/images/weapon/" + self.img_name + "/" + self.img_name + ".png", weapon["center_x"], weapon["center_y"], weapon["width"], weapon["height"])
-                self.scale = weapon["scale"]
+                self.scale = weapon["scale"] * C.WEAPON_SCALE * global_scale()
 
                 # Load animated bullet textures
                 self.bullet_texture_list = []
@@ -218,8 +218,8 @@ class Weapon(arcade.Sprite):
                         f"resources/images/weapon/" + self.img_name + "/bullet/" + str(i) + ".png", hit_box_algorithm="Detailed"))
 
                 # Set GUI location
-                self.center_x = C.GUI["Weapon"]["center_x"]
-                self.center_y = C.GUI["Weapon"]["center_y"]
+                self.center_x = C.GUI["Weapon"]["center_x"] * global_scale()
+                self.center_y = C.GUI["Weapon"]["center_y"] * global_scale()
 
                 # Set Gun attributes
                 self.init_angle = weapon["init_angle"]

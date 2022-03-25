@@ -2,6 +2,7 @@ import arcade
 import const.constants as C
 from tracker import Tracker
 from audio import Audio
+from lib import global_scale
 
 
 class Gold(arcade.Sprite):
@@ -36,7 +37,7 @@ class Gold(arcade.Sprite):
     # Volume class attribute
     audio_volume = C.AUDIO.MASTER_VOLUME
 
-    def __init__(self, hit_box_algorithm="Simple"):
+    def __init__(self, hit_box_algorithm="Simple", scale=C.GOLD_SCALE):
         # Inherit parent class
         super().__init__()
 
@@ -46,7 +47,7 @@ class Gold(arcade.Sprite):
             f"{base_path}images/items/gold_1.png", hit_box_algorithm=hit_box_algorithm)
 
         # Scale
-        self.scale = C.GOLD_SCALING
+        self.scale = scale * global_scale()
 
         # TODO: Change hardcoded gold
         self.name = C.GOLD_LIST[0]["name"]
@@ -80,6 +81,6 @@ class Gold(arcade.Sprite):
     @classmethod
     def update(cls, delta_time: float = 1 / 60):
         for gold in cls.gold_list:
-            gold.center_x += gold.speed
+            gold.center_x += gold.speed * global_scale()
             if gold.center_x + gold.width <= 0:
                 cls.despawn(gold, C.DEATH.OOB)
