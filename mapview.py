@@ -3,7 +3,6 @@ import gameview
 import arcade
 from player import Player
 import shopview
-from audio import Audio
 from gamedata import GameData
 
 
@@ -86,15 +85,12 @@ class MapView(arcade.View):
             "resources/images/map/pixel_map.png")
         self.cursor_sprite = arcade.Sprite(
             "resources/images/goat_cursor.png", 1)
-
-        # setup map sprites
-        self.shop_sprite = arcade.Sprite("resources/images/map/temp_shop.png", 0.2)  # Initializing a global Shop Sprite URL - https://www.iconsdb.com/white-icons/shop-icon.html
-        self.gold_sprite = arcade.Sprite("resources/images/map/gold-bar.png", 0.6)  # Initializing a global Shop Sprite URL - https://www.iconsdb.com/white-icons/shop-icon.html
-
-        # Sprite Locations
-        self.gold_sprite.position = (1200, 680)
-        self.shop_sprite.position = (int(C.SCREEN_WIDTH*.96), int(C.SCREEN_HEIGHT*.87))
-
+        
+        #Keeping it as Class Variable as it may save the state
+        MapView.shop_sprite = arcade.Sprite("resources/images/map/temp_shop.png",0.2) #Initializing a global Shop Sprite URL - https://www.iconsdb.com/white-icons/shop-icon.html
+        #Sprite Locations
+        MapView.shop_sprite.center_x = 1200
+        MapView.shop_sprite.center_y = 680
         self.cursor_list.append(self.cursor_sprite)
         self.load_monuments()
 
@@ -150,14 +146,14 @@ class MapView(arcade.View):
             anchor_y="center",
         )
         
-        # arcade.draw_text(
-        #     f"SHOP",
-        #     self.shop_sprite.position[0],
-        #     self.shop_sprite.position[1]*.9,
-        #     arcade.color.BLACK,
-        #     font_size=20,
-        #     anchor_x="center",
-        # )
+        arcade.draw_text(
+            f"SHOP",
+            1200,
+            620,
+            arcade.color.BLACK,
+            font_size=20,
+            anchor_x="center",
+        )
 
         MapView.monument_list.draw()
         self.shop_sprite.draw(pixelated=True)
@@ -221,11 +217,7 @@ class MapView(arcade.View):
                 game.setup()
                 self.window.show_view(game)
 #Check if shops hit cursor (Simply because less number of checking)
-        if self.shop_sprite.collides_with_sprite(self.cursor_sprite):
-            self.window.show_view(shopview.ShopView())
-
-        # Check if shops hit cursor (Simply because less number of checking)
-        if self.shop_sprite.collides_with_sprite(self.cursor_sprite):
+        if MapView.shop_sprite.collides_with_sprite(self.cursor_sprite):
             self.window.show_view(shopview.ShopView())
 
 # Make center points as dictionary and call out other views mostly

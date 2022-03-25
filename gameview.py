@@ -318,10 +318,9 @@ class GameView(arcade.View):
                 # if HP 0, destroy enemy
                 if enemy.HP <= 0:
                     Enemy.despawn(enemy, C.DEATH.KILLED)
-
-                    # Play enemy death sfx
-                    Audio.play_rand_sound(enemy.sfx_death_list)
-
+                    # Play a sound
+                    arcade.play_sound(enemy.audio_destroyed,
+                                      volume=enemy.audio_volume)
                     Tracker.increment_score(10)
                 else:
                     # Play enemy hit sfx
