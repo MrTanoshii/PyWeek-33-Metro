@@ -360,3 +360,4 @@ class GameView(arcade.View):
 
     def on_show(self):
         pass
+

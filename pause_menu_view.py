@@ -1,10 +1,11 @@
 import arcade
 import const.constants as C
 from audio import Audio
+from bullet import Bullet
+from enemy import Enemy
 from gamedata import GameData
-from tracker import Tracker
-import shopview
 from lib import global_scale
+from tracker import Tracker
 
 
 class PauseMenuView(arcade.View):
@@ -193,8 +194,6 @@ class PauseMenuView(arcade.View):
             self.to_map()
         elif key == arcade.key.SPACE:
             self.resume()
-        elif key == arcade.key.S:  # Added binding
-            self.window.show_view(shopview.ShopView())
 
     def resume(self):
         Audio.stop_sound(self.bgm_stream)
@@ -217,3 +216,11 @@ class PauseMenuView(arcade.View):
         GameData.update_highscore(self.current_level)
         GameData.deposit_gold()
         Tracker.reset_trackers()
+
+        # Reset bullets
+        Bullet.friendly_bullet_list = arcade.SpriteList()
+        Bullet.enemy_bullet_list = arcade.SpriteList()
+
+        # Reset enemies
+        Enemy.enemy_list = arcade.SpriteList()
+

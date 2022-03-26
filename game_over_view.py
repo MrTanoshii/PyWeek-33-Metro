@@ -1,9 +1,11 @@
 import arcade
 import const.constants as C
 from audio import Audio
+from bullet import Bullet
+from enemy import Enemy
 from gamedata import GameData
-from tracker import Tracker
 from lib import global_scale
+from tracker import Tracker
 
 
 class GameOverView(arcade.View):
@@ -218,3 +220,10 @@ class GameOverView(arcade.View):
         GameData.update_highscore(self.current_level)
         GameData.deposit_gold()
         Tracker.reset_trackers()
+
+        # Reset bullets
+        Bullet.friendly_bullet_list = arcade.SpriteList()
+        Bullet.enemy_bullet_list = arcade.SpriteList()
+
+        # Reset enemies
+        Enemy.enemy_list = arcade.SpriteList()
