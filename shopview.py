@@ -120,3 +120,8 @@ class PreviewSprite(arcade.Sprite):
                     self.cur_texture = 0
                     break
         self.texture = self.texture_list[int(self.cur_texture)]
+
+    def on_key_press(self, key, _modifiers):
+        """Handle keyboard key press"""
+        if key == arcade.key.ESCAPE:
+            arcade.exit()
