@@ -56,6 +56,9 @@ PLAYER_TEXTURES = [
 ]
 PLAYER_WEAPONS = [
     {
+        "name": "Revolver"
+    },
+    {
         "name": "AK"
     },
     {
