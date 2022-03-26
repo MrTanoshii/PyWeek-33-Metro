@@ -221,9 +221,9 @@ class GameView(arcade.View):
         arcade.draw_text(
             f"{Tracker.gold}",
             ((C.SCREEN_WIDTH / 5)+870) * global_scale(),
-            (C.SCREEN_HEIGHT - 74) * global_scale(),
+            (C.SCREEN_HEIGHT - 72) * global_scale(),
             arcade.color.BLACK,
-            font_size=23 * global_scale(),
+            font_size=20 * global_scale(),
             font_name=  "Kenny High Square",
             anchor_x="center",
             bold=True
