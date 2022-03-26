@@ -7,6 +7,7 @@ from gamedata import GameData
 from lib import global_scale
 from story_view import StoryView
 from audio import Audio
+from story_view import StoryView
 
 
 class MapView(arcade.View):
@@ -323,7 +324,7 @@ class MapView(arcade.View):
                 self.window.show_view(game)
         # Check if shops hit cursor (Simply because less number of checking)
         if self.shop_sprite.collides_with_sprite(self.cursor_sprite):
-            self.window.show_view(shopview.ShopView())
+            self.window.show_view(StoryView(self, MapView.current_level))
 
         elif hit_step and (hit_step[0].level is not None):
             if hit_step[0].unlocked:
