@@ -70,6 +70,8 @@ class Player(arcade.Sprite):
         Player.weapon = self.weapon
         self.weapon_angle = 0
 
+        self.is_dead = None
+
         # Set our scale
         self.scale = C.PLAYER.SCALE * global_scale()
 
@@ -150,7 +152,7 @@ class Player(arcade.Sprite):
         # Play random death sfx
         Audio.play_rand_sound(self.sfx_death_list)
 
-        print("You died.")
+        self.is_dead = True
 
     def update(self, delta_time, movement_key_pressed, shoot_pressed):
         self.move(movement_key_pressed)

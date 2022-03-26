@@ -44,25 +44,20 @@ class GameOverView(arcade.View):
         self.current_level = current_level
 
         self.btn_dict_ = [
-            {"img_name": "btn_resume.png",
-             "name": "resume",
-             "center_x": C.SCREEN_WIDTH * .75 // 1,
-             "center_y": C.SCREEN_HEIGHT * .65 // 1,
-             },
             {"img_name": "btn_back_to_map.png",
              "name": "back_to_map",
-             "center_x": C.SCREEN_WIDTH * .75 // 1,
-             "center_y": C.SCREEN_HEIGHT * .5 // 1,
+             "center_x": C.SCREEN_WIDTH * .5 // 1,
+             "center_y": C.SCREEN_HEIGHT * .65 // 1,
              },
             {"img_name": "btn_main_menu.png",
              "name": "main_menu",
-             "center_x": C.SCREEN_WIDTH * .75 // 1,
-             "center_y": C.SCREEN_HEIGHT * .35 // 1,
+             "center_x": C.SCREEN_WIDTH * .5 // 1,
+             "center_y": C.SCREEN_HEIGHT * .50 // 1,
              },
             {"img_name": "btn_quit_game.png",
              "name": "quit_game",
-             "center_x": C.SCREEN_WIDTH * .75 // 1,
-             "center_y": C.SCREEN_HEIGHT * .20 // 1,
+             "center_x": C.SCREEN_WIDTH * .5 // 1,
+             "center_y": C.SCREEN_HEIGHT * .35 // 1,
              },
         ]
         # Find & set pause menu bgm
