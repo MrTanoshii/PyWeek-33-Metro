@@ -12,4 +12,28 @@ STORY = [
       ["MAN: no what no lol why me"],
       ["FSM: is decidawdded that u do thdawis and "],
     ],
+    # Story 3
+    [
+      [""],
+    ],
+    # Story 2
+    [
+        [""],
+    ],
+    # Story 4
+    [
+        [""],
+    ],
+    # Story 5
+    [
+        [""],
+    ],
+    # Story 6
+    [
+        [""],
+    ],
+    # Story 7
+    [
+        [""],
+    ],
 ]

@@ -171,6 +171,11 @@ class MapView(arcade.View):
         self.shop_sprite.draw(pixelated=True)
         self.cursor_list.draw()
 
+    def on_key_press(self, key, modifiers):
+        if key == arcade.key.S:
+            # Story opening
+            self.open_story()
+
     def on_mouse_motion(self, x, y, dx, dy):
         self.cursor_sprite.center_x = x + \
             C.MAP["Cursor"]["offset_x"] * global_scale()
@@ -231,9 +236,12 @@ class MapView(arcade.View):
 
         # Check if shops hit cursor (Simply because less number of checking)
         if self.shop_sprite.collides_with_sprite(self.cursor_sprite):
-            self.window.show_view(StoryView(self, MapView.current_level))
+            self.window.show_view(shopview.ShopView())
 
 # Make center points as dictionary and call out other views mostly
+
+    def open_story(self):
+        self.window.show_view(StoryView(self, MapView.current_level))
 
     def on_show(self):
         self.setup()
