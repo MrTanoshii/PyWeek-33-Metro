@@ -38,6 +38,7 @@ class PauseMenuView(arcade.View):
 
         self.bgm_stream = None
         self.sfx_click = None
+        self.sfx_meow = None
 
         self.game_view = game_view
         self.map_view = map_view
@@ -80,6 +81,12 @@ class PauseMenuView(arcade.View):
                 self.sfx_click = Audio.sfx_list[i]["sound"]
                 break
 
+        # Find & set meow sfx
+        for i in range(0, len(Audio.sfx_list)):
+            if Audio.sfx_list[i]["file_name"] == "ui/" + C.AUDIO.SOUND["ui_meow"]["name"]:
+                self.sfx_meow = Audio.sfx_list[i]["sound"]
+                break
+
         # Start bgm
         self.bgm_stream = Audio.play_sound(self.bgm, True)
 
@@ -112,7 +119,8 @@ class PauseMenuView(arcade.View):
         self.clear()
 
         # Draw the bg image
-        arcade.draw_lrwh_rectangle_textured(0, 0, C.SCREEN_WIDTH * global_scale(), C.SCREEN_HEIGHT * global_scale(), self.background)
+        arcade.draw_lrwh_rectangle_textured(
+            0, 0, C.SCREEN_WIDTH * global_scale(), C.SCREEN_HEIGHT * global_scale(), self.background)
 
         # Draw buttons
         self.btn_list.draw()
@@ -173,7 +181,8 @@ class PauseMenuView(arcade.View):
         # If hit the cat
         _scale = global_scale()
         if 20 * _scale < _x < 120 * _scale and 270 * _scale < _y < 370 * _scale:
-            Audio.play_sound(self.sfx_click)
+            Audio.play_sound(self.sfx_meow)
+            Tracker.trigger_easter_egg()
             # TODO: Add something special
 
     def on_key_press(self, key, _modifiers):
