@@ -272,6 +272,7 @@ class GameView(arcade.View):
             self.up_key_down = True
         elif key == arcade.key.DOWN or key == arcade.key.S:
             self.down_key_down = True
+        
 
         # Shoot | Spacebar
         elif key == arcade.key.SPACE:
@@ -317,6 +318,10 @@ class GameView(arcade.View):
             # Swap weapon
             if Player.weapon.weapon_name != requested_weapon:
                 Player.weapon.swap_weapon(requested_weapon)
+            
+        if key == arcade.key.R:
+            Player.weapon.is_reloading = True
+            
 
         # Enemy spawn | E
         elif key == arcade.key.E:
