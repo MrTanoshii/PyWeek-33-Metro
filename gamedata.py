@@ -86,7 +86,20 @@ class GameData:
             }
 
         if loadout:
-            cls.loadout = {"rifle": 0, "Shotgun": 1, "RGB": 0}
+            cls.loadout = {
+                "Revolver": {
+                    "lvl": 1
+                },
+                "Rifle":  {
+                    "lvl": 0
+                },
+                "Shotgun":  {
+                    "lvl": 0
+                },
+                "RPG":  {
+                    "lvl": 0
+                }
+            }
 
         # Write changes
         cls.write_data()
@@ -134,12 +147,11 @@ class GameData:
             cls.write_data()
 
     @classmethod
-    def update_loadout(cls, weapon, gun_level):
+    def update_loadout(cls, name, lvl):
+        for saved_weapon in cls.loadout:
+            if saved_weapon == name:
+                cls.loadout[saved_weapon]["lvl"] = lvl
+                break
 
-        current_gun_level = cls.level_data[weapon]
-
-        if current_gun_level != gun_level:
-            cls.level_data[weapon] = gun_level
-
-            # Write changes
-            cls.write_data()
+        # Write changes
+        cls.write_data()
