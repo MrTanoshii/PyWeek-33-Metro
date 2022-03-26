@@ -60,6 +60,9 @@ class Enemy(arcade.Sprite):
         self.shoot_offset = self.config["shoot_offset"]
         self.shoot_offset = (
             self.shoot_offset[0] * self.scale, self.shoot_offset[1] * self.scale)
+        self.prob_aim_player = self.config["prob_aim_player"]
+        self.prob_aim_straight = self.config["prob_aim_straight"]
+        self.prob_aim_random = self.config["prob_aim_random"]
 
         # Speed
         self.speed = self.config["speed"] * global_scale()
@@ -143,8 +146,12 @@ class Enemy(arcade.Sprite):
     @ classmethod
     def spawn_enemy(cls, enemy_list):
         random_enemy_index = 0
+        random_enemy_prob = random.random()
         if len(enemy_list) > 1:
             random_enemy_index = random.randrange(0, len(enemy_list))
+            while random_enemy_prob > enemy_list[random_enemy_index]["spawn_rate"]:
+                random_enemy_index = random.randrange(0, len(enemy_list))
+                random_enemy_prob = random.random()
         enemy = Enemy("Simple", enemy_list[random_enemy_index])
 
         # Set enemy location
@@ -263,7 +270,7 @@ class Enemy(arcade.Sprite):
                 speed_y = 0
                 angle = 0
                 # Ballistics at player
-                if probability <= C.ENEMY_LOGIC["prob_aim_player"]:
+                if probability <= self.prob_aim_player:
                     if C.DEBUG.ENEMY_SHOOT:
                         print("Enemy aiming at player")
                     ballistic_dict = self.calculate_bullet_ballistic(
@@ -273,7 +280,7 @@ class Enemy(arcade.Sprite):
                     angle = ballistic_dict["angle"]
 
                 # Ballistics straight
-                elif probability <= C.ENEMY_LOGIC["prob_aim_player"] + C.ENEMY_LOGIC["prob_aim_straight"]:
+                elif probability <= self.prob_aim_player + self.prob_aim_straight:
                     if C.DEBUG.ENEMY_SHOOT:
                         print("Enemy aiming straight")
                     ballistic_dict = self.calculate_bullet_ballistic(
@@ -283,7 +290,7 @@ class Enemy(arcade.Sprite):
                     angle = ballistic_dict["angle"]
 
                 # Ballistics random
-                elif probability <= C.ENEMY_LOGIC["prob_aim_player"] + C.ENEMY_LOGIC["prob_aim_straight"] + C.ENEMY_LOGIC["prob_aim_random"]:
+                elif probability <= self.prob_aim_player + self.prob_aim_straight + self.prob_aim_random:
                     if C.DEBUG.ENEMY_SHOOT:
                         print("Enemy aiming at random")
                     ballistic_dict = self.calculate_bullet_ballistic(

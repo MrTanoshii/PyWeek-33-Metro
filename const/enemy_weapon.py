@@ -6,9 +6,6 @@ ENEMY_LOGIC = {
     "aim_player": 0,
     "aim_straight": 1,
     "aim_random": 2,
-    "prob_aim_player": 0,
-    "prob_aim_straight": 0,
-    "prob_aim_random": 1
 }
 
 ENEMY_WEAPON_LIST = [
@@ -77,6 +74,29 @@ ENEMY_WEAPON_LIST = [
         "shoot_time": 1,
         "shoot_constant": False,
         "shoot_probability": 0.3,
+        "shoot_max_angle": 140,
+        "sfx_single_shot_list": [AUDIO.SOUND["weapon_ak_1"]["name"], AUDIO.SOUND["weapon_ak_2"]["name"], AUDIO.SOUND["weapon_ak_3"]["name"]],
+        "sfx_single_shot_vol_gain_list": [AUDIO.SOUND["weapon_ak_1"]["gain"], AUDIO.SOUND["weapon_ak_2"]["gain"], AUDIO.SOUND["weapon_ak_3"]["gain"]]
+    },
+    {
+        "name": "bear ak",
+        "folder_name": "weapon_ak",
+        "init_angle": 180,
+        "fire_mode": FIRE_MODE.FULL_AUTO,
+        "max_ammo": 3,
+        "damage_value": 1,
+        "bullet_texture_amount": 39,
+        "bullet_amount": 1,
+        "bullet_spread": 2,
+        "bullet_speed": 15,
+        "bullet_speed_spread": 0.1,
+        "bullet_damage": 2,
+        "bullet_texture_dir_name": "weapon_ak",
+        "bullet_texture_amount": 24,
+        "bullet_scale": 0.3,
+        "shoot_time": 0.8,
+        "shoot_constant": True,
+        "shoot_probability": 0.4,
         "shoot_max_angle": 140,
         "sfx_single_shot_list": [AUDIO.SOUND["weapon_ak_1"]["name"], AUDIO.SOUND["weapon_ak_2"]["name"], AUDIO.SOUND["weapon_ak_3"]["name"]],
         "sfx_single_shot_vol_gain_list": [AUDIO.SOUND["weapon_ak_1"]["gain"], AUDIO.SOUND["weapon_ak_2"]["gain"], AUDIO.SOUND["weapon_ak_3"]["gain"]]
