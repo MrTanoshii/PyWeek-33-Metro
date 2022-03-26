@@ -72,6 +72,10 @@ class GameView(arcade.View):
         self.cursor_sprite = None
 
         self.level = mapview.MapView.current_level
+        for monument in C.MAP_MONUMENTS_LIST:
+            if monument["level"] == self.level:
+                self.enemy_list = monument["enemy"]
+                break
 
         self.map_view = map_view
 
@@ -97,7 +101,7 @@ class GameView(arcade.View):
         self.setup_complete = True
 
         # Preload enemy
-        Enemy.preload(self.level)
+        Enemy.preload(self.enemy_list)
 
         # Cursor
         self.cursor_sprite = arcade.Sprite(
@@ -184,8 +188,8 @@ class GameView(arcade.View):
             self.bgm_stream = Audio.play_sound(self.bgm, True)
 
     def on_update(self, delta_time):
-        if random.randint(0, 200) == 1:
-            Enemy.spawn_enemy(self.level)
+        if random.randint(0, 200) <= 1:
+            Enemy.spawn_enemy(self.enemy_list)
 
         BackGround.update(delta_time)
         Gold.update(delta_time)
@@ -260,7 +264,7 @@ class GameView(arcade.View):
 
         # Enemy spawn | E
         elif key == arcade.key.E:
-            Enemy.spawn_enemy(self.level)
+            Enemy.spawn_enemy(self.enemy_list)
 
         # Volume Toggle | M
         elif key == arcade.key.M:
