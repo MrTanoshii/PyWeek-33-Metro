@@ -93,6 +93,10 @@ _UI_SFX = {
         "name": "388713__totalcult__finger-click-02.wav",
         "gain": 0
     },
+    "ui_meow": {
+        "name": "415209__inspectorj__cat-screaming-a.wav",
+        "gain": 0
+    }
 }
 
 _GOLD_SFX = {
