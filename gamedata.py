@@ -1,5 +1,6 @@
 import json
 from tracker import Tracker
+from const.map import MAP_MONUMENTS_LIST
 
 
 class GameData:
@@ -123,8 +124,8 @@ class GameData:
             if cls.level_data[str(level)]["score"] > 100:
                 # player passed the level
                 cls.level_data[str(level)]["passed"] = 1
-
-                cls.level_data[str(level+1)]["locked"] = 0
+                if level < len(MAP_MONUMENTS_LIST):
+                    cls.level_data[str(level+1)]["locked"] = 0
 
                 # Update map icons
                 from mapview import MapView
