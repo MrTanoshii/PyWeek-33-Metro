@@ -33,8 +33,8 @@ class PauseMenuView(arcade.View):
         self.background = None
         self.btn_list = None
         self.highlight = False
-        self.normal_scale = 0.4
-        self.highlight_scale = 0.5
+        self.normal_scale = 0.8
+        self.highlight_scale = 1
 
         self.bgm_stream = None
         self.sfx_click = None
@@ -46,25 +46,21 @@ class PauseMenuView(arcade.View):
         self.btn_dict_ = [
             {"img_name": "btn_resume.png",
              "name": "resume",
-             # "on_click": self.resume(),
              "center_x": C.SCREEN_WIDTH * .75 // 1,
              "center_y": C.SCREEN_HEIGHT * .65 // 1,
              },
-            {"img_name": "btn_resume.png",
-             "name": "resume",
-             # "on_click": self.resume(),
+            {"img_name": "btn_back_to_map.png",
+             "name": "back_to_map",
              "center_x": C.SCREEN_WIDTH * .75 // 1,
              "center_y": C.SCREEN_HEIGHT * .5 // 1,
              },
-            {"img_name": "btn_resume.png",
-             "name": "resume",
-             # "on_click": self.resume(),
+            {"img_name": "btn_main_menu.png",
+             "name": "main_menu",
              "center_x": C.SCREEN_WIDTH * .75 // 1,
              "center_y": C.SCREEN_HEIGHT * .35 // 1,
              },
-            {"img_name": "btn_resume.png",
-             "name": "resume",
-             # "on_click": self.resume(),
+            {"img_name": "btn_quit_game.png",
+             "name": "quit_game",
              "center_x": C.SCREEN_WIDTH * .75 // 1,
              "center_y": C.SCREEN_HEIGHT * .20 // 1,
              },
@@ -164,21 +160,21 @@ class PauseMenuView(arcade.View):
             # Play monument click sfx
             Audio.play_sound(self.sfx_click)
 
-            # if hit_btn[0]["name"] == "resume":
-            #     self.resume()
+            if hit_btn[0].name == "resume":
+                self.resume()
+            elif hit_btn[0].name == "quit_game":
+                self.quit_game()
+            elif hit_btn[0].name == "back_to_map":
+                self.to_map()
+            elif hit_btn[0].name == "main_menu":
+                self.to_map()
 
     def on_key_press(self, key, _modifiers):
         """Handle keyboard key press"""
         if key == arcade.key.Q:
-            # Stop bgm
-            Audio.stop_sound(self.bgm_stream)
-            self.bgm_stream = None
-            arcade.exit()
+            self.quit_game()
         elif key == arcade.key.M:
-            Audio.stop_sound(self.bgm_stream)
-            self.bgm_stream = None
-            self.window.show_view(self.map_view)
-            self.exit_level()
+            self.to_map()
         elif key == arcade.key.SPACE:
             self.resume()
         elif key == arcade.key.S:  # Added binding
@@ -188,6 +184,18 @@ class PauseMenuView(arcade.View):
         Audio.stop_sound(self.bgm_stream)
         self.bgm_stream = None
         self.window.show_view(self.game_view)
+
+    def quit_game(self):
+        # Stop bgm
+        Audio.stop_sound(self.bgm_stream)
+        self.bgm_stream = None
+        arcade.exit()
+
+    def to_map(self):
+        Audio.stop_sound(self.bgm_stream)
+        self.bgm_stream = None
+        self.window.show_view(self.map_view)
+        self.exit_level()
 
     def exit_level(self):
         GameData.update_highscore(self.current_level)
