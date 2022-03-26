@@ -103,7 +103,8 @@ class GameData:
             cls.loadout = {"rifle": 0, "Shotgun": 1, "RGB": 0}
 
         if story:
-            cls.story = {"0": 1, "1": 0, "2": 0, "3": 0, "4": 0, "5": 0, "6": 0}
+            cls.story = {"0": 1, "1": 0, "2": 0,
+                         "3": 0, "4": 0, "5": 0, "6": 0}
 
         # Write changes
         cls.write_data()
@@ -137,7 +138,7 @@ class GameData:
         if Tracker.score > current_highscore:
             cls.level_data[str(level)]["score"] = Tracker.score
 
-            if cls.level_data[str(level)]["score"] > 100:
+            if cls.level_data[str(level)]["score"] > 100 * level:
                 cls.level_data[str(level)]["passed"] = 1
                 cls.story[str(level)] = 1
                 if level < len(MAP_MONUMENTS_LIST):
