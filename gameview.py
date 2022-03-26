@@ -186,6 +186,9 @@ class GameView(arcade.View):
 
     def on_update(self, delta_time):
         if self.player.is_dead:
+            # Stop bgm
+            Audio.stop_sound(self.bgm_stream)
+            # Game Over Screen
             self.window.show_view(GameOverView(self, self.map_view, self.level))
         else:
             if random.randint(0, 200) == 1:

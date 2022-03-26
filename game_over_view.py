@@ -116,6 +116,40 @@ class GameOverView(arcade.View):
         arcade.draw_lrwh_rectangle_textured(
             0, 0, C.SCREEN_WIDTH * global_scale(), C.SCREEN_HEIGHT * global_scale(), self.background)
 
+        # Draw the score
+        arcade.draw_text(
+            text=f"Score : {Tracker.score}",
+            start_x=C.SCREEN_WIDTH * .05,
+            start_y=C.SCREEN_HEIGHT * .95,
+            color=arcade.color.BLACK,
+            font_name="Kenney High",
+            font_size=50 * global_scale(),
+            anchor_x="left",
+            anchor_y="top",
+        )
+        # Draw gold
+        arcade.draw_text(
+            text=f"Gold : {Tracker.gold}",
+            start_x=C.SCREEN_WIDTH * .05,
+            start_y=C.SCREEN_HEIGHT * .86,
+            color=arcade.color.BLACK,
+            font_name="Kenney High",
+            font_size=50 * global_scale(),
+            anchor_x="left",
+            anchor_y="top",
+        )
+        # Draw kills
+        arcade.draw_text(
+            text=f"Kills : {Tracker.kills}",
+            start_x=C.SCREEN_WIDTH * .05,
+            start_y=C.SCREEN_HEIGHT * .78,
+            color=arcade.color.BLACK,
+            font_name="Kenney High",
+            font_size=50 * global_scale(),
+            anchor_x="left",
+            anchor_y="top",
+        )
+
         # Draw buttons
         self.btn_list.draw()
 
