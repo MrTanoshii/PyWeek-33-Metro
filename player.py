@@ -116,14 +116,16 @@ class Player(arcade.Sprite):
             self.textures_dict[f"{self._player_style}{weapon['name']}"] = texture_list
 
         # Set default skin for ak and level style player
-        self.set_skin(weapon="AK")
+        self.set_skin(weapon="Revolver")
 
     def set_skin(self, weapon: str, player_style=None):
-        if not player_style: player_style = self._player_style
+        if not player_style:
+            player_style = self._player_style
         """Takes asset/texture name as input and update current texture/skin"""
         self.texture_list = self.textures_dict[f"{player_style}{weapon}"]
 
-        self.texture = self.textures_dict[f"{player_style}{weapon}"][int(self.cur_texture)]
+        self.texture = self.textures_dict[f"{player_style}{weapon}"][int(
+            self.cur_texture)]
 
     def shoot(self, delta_time, shoot_pressed):
         """Handles shooting & reloading"""
