@@ -91,8 +91,8 @@ class GameView(arcade.View):
 
         # Create BG sprite
         self.bg = BackGround(mapview.MapView.current_level)
-        self.bg.center_x = -self.bg.width * global_scale()
-        self.bg.center_y = (C.SCREEN_HEIGHT/2) * global_scale()
+        self.bg.center_x = -self.bg.width
+        self.bg.center_y = (C.SCREEN_HEIGHT/2)
         BackGround.bg_list.append(self.bg)
         self.setup_complete = True
 
@@ -140,8 +140,8 @@ class GameView(arcade.View):
         # GUI - Score
         arcade.draw_text(
             f"Score : {Tracker.score}",
-            (C.SCREEN_WIDTH / 5) * global_scale(),
-            (C.SCREEN_HEIGHT - 50) * global_scale(),
+            (C.SCREEN_WIDTH / (5 * global_scale())),
+            (C.SCREEN_HEIGHT - 50 * global_scale()),
             arcade.color.BLACK,
             font_size=30 * global_scale(),
             anchor_x="center",
@@ -150,8 +150,8 @@ class GameView(arcade.View):
         # GUI - Gold
         arcade.draw_text(
             f"Gold : {Tracker.gold}",
-            (C.SCREEN_WIDTH / 5) * global_scale(),
-            (C.SCREEN_HEIGHT - 150) * global_scale(),
+            (C.SCREEN_WIDTH / (5 * global_scale())),
+            (C.SCREEN_HEIGHT - 150 * global_scale()),
             arcade.color.BLACK,
             font_size=30 * global_scale(),
             anchor_x="center",
@@ -160,8 +160,8 @@ class GameView(arcade.View):
         # GUI - Player HP
         arcade.draw_text(
             f"HP : {self.player.cur_health}",
-            ((C.SCREEN_WIDTH / 5) + 200) * global_scale(),
-            (C.SCREEN_HEIGHT - 50) * global_scale(),
+            ((C.SCREEN_WIDTH / (5 * global_scale())) + 200 * global_scale()),
+            (C.SCREEN_HEIGHT - 50 * global_scale()),
             arcade.color.BLACK,
             font_size=30 * global_scale(),
             anchor_x="center",
@@ -170,10 +170,10 @@ class GameView(arcade.View):
         # GUI - Player Ammo
         arcade.draw_text(
             f"Ammo : {self.player.weapon.cur_ammo} \ {self.player.weapon.max_ammo}",
-            ((C.SCREEN_WIDTH / 5) + 500) * global_scale(),
-            (C.SCREEN_HEIGHT - 50) * global_scale(),
+            ((C.SCREEN_WIDTH / (5 * global_scale())) + 500 * global_scale()),
+            (C.SCREEN_HEIGHT - 50 * global_scale()),
             arcade.color.BLACK,
-            font_size=30 * global_scale(),
+            font_size= 30 * global_scale(),
             anchor_x="center",
         )
 

@@ -141,9 +141,9 @@ class Enemy(arcade.Sprite):
         enemy = Enemy(hit_box_algorithm="Simple", level=level)
 
         # Set enemy location
-        enemy.center_x = (C.SCREEN_WIDTH + enemy.width) * global_scale()
+        enemy.center_x = (C.SCREEN_WIDTH + enemy.width)
         enemy.center_y = (C.SCREEN_HEIGHT // 2 +
-                          random.uniform(-C.SCREEN_HEIGHT/3.25, C.SCREEN_HEIGHT/3.25)) * global_scale()
+                          random.uniform(-C.SCREEN_HEIGHT/3.25, C.SCREEN_HEIGHT/3.25))
 
         # Turn the enemy 90 degree
         enemy.angle = 0
@@ -209,7 +209,7 @@ class Enemy(arcade.Sprite):
                 random_point_x = random.randint(
                     0, int(self.bullet_center_x))
             random_point_y = random.randint(
-                int((C.SCREEN_HEIGHT * .15 * global_scale())), int(C.SCREEN_HEIGHT * .85 * global_scale()))
+                int((C.SCREEN_HEIGHT * .15)), int(C.SCREEN_HEIGHT * .85))
 
             calc_angle = calculate_angle(
                 self.bullet_center_x, self.bullet_center_y, random_point_x, random_point_y)

@@ -80,7 +80,7 @@ class Player(arcade.Sprite):
 
         # Load texture
         self.texture_list = []
-        for filename in os.listdir(f"{dir_name}animation/"):
+        for filename in sorted(os.listdir(f"{dir_name}animation/")):
             self.texture_list.append(
                 arcade.load_texture(f"{dir_name}animation/{filename}", hit_box_algorithm=hit_box_algorithm))
 
@@ -104,7 +104,7 @@ class Player(arcade.Sprite):
         self.textures_dict = {}
         for weapon in C.PLAYER_WEAPONS:
             texture_list = []
-            for filename in os.listdir(f"assets/{self._player_style}{weapon['name']}/"):
+            for filename in sorted(os.listdir(f"assets/{self._player_style}{weapon['name']}/")):
                 texture_list.append(
                     arcade.load_texture(f"assets/{self._player_style}{weapon['name']}/{filename}", hit_box_algorithm=hit_box_algorithm))
             self.textures_dict[f"{self._player_style}{weapon['name']}"] = texture_list
@@ -213,14 +213,14 @@ class Player(arcade.Sprite):
         # Move player
         self.center_x += self.speed_x * global_scale()
         self.center_y += self.speed_y * global_scale()
-        if self.center_x > C.SCREEN_WIDTH / 2 * global_scale():
-            self.center_x = C.SCREEN_WIDTH / 2 * global_scale()
-        if self.center_x < 0 * global_scale():
-            self.center_x = 0 * global_scale()
-        if self.center_y > C.SCREEN_HEIGHT * .85 * global_scale():
-            self.center_y = C.SCREEN_HEIGHT * .85 * global_scale()
-        if self.center_y < C.SCREEN_HEIGHT * .15 * global_scale():
-            self.center_y = C.SCREEN_HEIGHT * .15 * global_scale()
+        if self.center_x > C.SCREEN_WIDTH / 2:
+            self.center_x = C.SCREEN_WIDTH / 2
+        if self.center_x < 0:
+            self.center_x = 0
+        if self.center_y > C.SCREEN_HEIGHT * .85:
+            self.center_y = C.SCREEN_HEIGHT * .85
+        if self.center_y < C.SCREEN_HEIGHT * .15:
+            self.center_y = C.SCREEN_HEIGHT * .15
 
     def update_animation(self, delta_time: float = 1 / 60):
         # TODO: Change animation speed from hardcoded to constant
