@@ -300,12 +300,12 @@ class GameView(arcade.View):
                     Bullet.friendly_bullet_list.color = (300, 128, 128)
                 else:
                     Bullet.friendly_bullet_list.color = (255, 255, 255)
-            # 2 - Shotgun
+            # 3 - Shotgun
             elif key == arcade.key.KEY_3:
                 requested_weapon = "Shotgun"
                 self.player.set_skin('Shotgun')
                 if self.level == 1:
-                    Bullet.friendly_bullet_list.color = (128, 64, 64)
+                    Bullet.friendly_bullet_list.color = (300, 128, 128)
                 else:
                     Bullet.friendly_bullet_list.color = (255, 255, 255)
             # 4 - RPG
@@ -313,7 +313,7 @@ class GameView(arcade.View):
                 requested_weapon = "RPG"
                 self.player.set_skin('RPG')
                 if self.level == 1:
-                    Bullet.friendly_bullet_list.color = (610, 255, 255)
+                    Bullet.friendly_bullet_list.color = (128, 64, 64)
                 else:
                     Bullet.friendly_bullet_list.color = (255, 255, 255)
 
