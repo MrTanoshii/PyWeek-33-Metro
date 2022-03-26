@@ -334,7 +334,7 @@ class GameView(arcade.View):
                     if Player.weapon.weapon_name != requested_weapon:
                         Player.weapon.swap_weapon(requested_weapon)
 
-        if key == arcade.key.R:
+        elif key == arcade.key.R:
             Player.weapon.is_reloading = True
 
         # Enemy spawn | E
