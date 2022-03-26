@@ -293,7 +293,6 @@ class GameView(arcade.View):
         elif key == arcade.key.DOWN or key == arcade.key.S:
             self.down_key_down = True
         
-
         # Shoot | Spacebar
         elif key == arcade.key.SPACE:
             self.space_down = True
