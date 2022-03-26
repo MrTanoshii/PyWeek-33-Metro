@@ -279,7 +279,8 @@ class MapView(arcade.View):
                         self.highlight_step = True
         elif self.highlight_step:
             for step in MapView.step_list:
-                step.scale = self.normal_scale
+                if step.level is not None:
+                    step.scale = self.normal_scale
             self.highlight_step = False
 
         # Restart bgm
