@@ -46,7 +46,7 @@ class Player(arcade.Sprite):
     player_list = arcade.SpriteList()
     weapon = arcade.Sprite()
 
-    def __init__(self, hit_box_algorithm):
+    def __init__(self, hit_box_algorithm, current_level):
         # Inherit parent class
         super().__init__()
 
@@ -98,23 +98,26 @@ class Player(arcade.Sprite):
 
         Player.player_list.append(self)
 
-        # List of folder names from assets
-        texture_name_list = ["GuyGoatAK", "GuyGoatRevolver", "GuyGoatRPG", "GuyJeepAK", "GuyJeepRevolver",
-                             "GuyJeepRPG", "GuySurfAK", "GuySurfRevolver", "GuySurfRPG"]
-
+        self.level = current_level
+        self._player_style = C.PLAYER_TEXTURES[self.level-1]["name"]
         # Create dictionary of all textures
         self.textures_dict = {}
-        for dir_name in texture_name_list:
+        for weapon in C.PLAYER_WEAPONS:
             texture_list = []
-            for filename in os.listdir(f"assets/{dir_name}/"):
+            for filename in os.listdir(f"assets/{self._player_style}{weapon['name']}/"):
                 texture_list.append(
-                    arcade.load_texture(f"assets/{dir_name}/{filename}", hit_box_algorithm=hit_box_algorithm))
-            self.textures_dict[dir_name] = texture_list
+                    arcade.load_texture(f"assets/{self._player_style}{weapon['name']}/{filename}", hit_box_algorithm=hit_box_algorithm))
+            self.textures_dict[f"{self._player_style}{weapon['name']}"] = texture_list
 
-    def set_skin(self, name: str):
+        # Set default skin for ak and level style player
+        self.set_skin(weapon="AK")
+
+    def set_skin(self, weapon: str, player_style=None):
+        if not player_style: player_style = self._player_style
         """Takes asset/texture name as input and update current texture/skin"""
-        self.texture_list = self.textures_dict[name]
-        self.texture = self.textures_dict[name][0]
+        self.texture_list = self.textures_dict[f"{player_style}{weapon}"]
+
+        self.texture = self.textures_dict[f"{player_style}{weapon}"][int(self.cur_texture)]
 
     def shoot(self, delta_time, shoot_pressed):
         """Handles shooting & reloading"""
