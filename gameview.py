@@ -243,16 +243,19 @@ class GameView(arcade.View):
             self.shoot_pressed = True
 
         # Weapon swap | 1-3
-        elif key == arcade.key.KEY_1 or key == arcade.key.KEY_2 or key == arcade.key.KEY_3:
+        elif key == arcade.key.KEY_1 or key == arcade.key.KEY_2 or key == arcade.key.KEY_3 or key == arcade.key.KEY_4:
             requested_weapon = ""
-            # 1 - Rifle
+            # 1 - Revolver
             if key == arcade.key.KEY_1:
-                requested_weapon = "Rifle"
-            # 2 - Shotgun
+                requested_weapon = "Revolver"
+            # 2 - Rifle
             elif key == arcade.key.KEY_2:
-                requested_weapon = "Shotgun"
-            # 3 - RPG
+                requested_weapon = "Rifle"
+            # 3 - Shotgun
             elif key == arcade.key.KEY_3:
+                requested_weapon = "Shotgun"
+            # 4 - RPG
+            elif key == arcade.key.KEY_4:
                 requested_weapon = "RPG"
 
             # Swap weapon
