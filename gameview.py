@@ -73,6 +73,10 @@ class GameView(arcade.View):
         self.cursor_sprite = None
 
         self.level = mapview.MapView.current_level
+        for monument in C.MAP_MONUMENTS_LIST:
+            if monument["level"] == self.level:
+                self.enemy_list = monument["enemy"]
+                break
 
         self.map_view = map_view
 
@@ -84,7 +88,8 @@ class GameView(arcade.View):
         # self.gui_camera = arcade.Camera(self.window.width, self.window.height)
 
         # Create player sprite
-        self.player = Player(hit_box_algorithm="Simple", current_level=self.level)
+        self.player = Player(hit_box_algorithm="Simple",
+                             current_level=self.level)
 
         # Rotate player to face to the right
 
@@ -92,13 +97,13 @@ class GameView(arcade.View):
 
         # Create BG sprite
         self.bg = BackGround(mapview.MapView.current_level)
-        self.bg.center_x = -self.bg.width * global_scale()
-        self.bg.center_y = (C.SCREEN_HEIGHT/2) * global_scale()
+        self.bg.center_x = -self.bg.width
+        self.bg.center_y = (C.SCREEN_HEIGHT/2)
         BackGround.bg_list.append(self.bg)
         self.setup_complete = True
 
         # Preload enemy
-        Enemy.preload(self.level)
+        Enemy.preload(self.enemy_list)
 
         # Cursor
         self.cursor_sprite = arcade.Sprite(
@@ -141,8 +146,8 @@ class GameView(arcade.View):
         # GUI - Score
         arcade.draw_text(
             f"Score : {Tracker.score}",
-            (C.SCREEN_WIDTH / 5) * global_scale(),
-            (C.SCREEN_HEIGHT - 50) * global_scale(),
+            (C.SCREEN_WIDTH / (5 * global_scale())),
+            (C.SCREEN_HEIGHT - 50 * global_scale()),
             arcade.color.BLACK,
             font_size=30 * global_scale(),
             anchor_x="center",
@@ -151,8 +156,8 @@ class GameView(arcade.View):
         # GUI - Gold
         arcade.draw_text(
             f"Gold : {Tracker.gold}",
-            (C.SCREEN_WIDTH / 5) * global_scale(),
-            (C.SCREEN_HEIGHT - 150) * global_scale(),
+            (C.SCREEN_WIDTH / (5 * global_scale())),
+            (C.SCREEN_HEIGHT - 150 * global_scale()),
             arcade.color.BLACK,
             font_size=30 * global_scale(),
             anchor_x="center",
@@ -161,8 +166,8 @@ class GameView(arcade.View):
         # GUI - Player HP
         arcade.draw_text(
             f"HP : {self.player.cur_health}",
-            ((C.SCREEN_WIDTH / 5) + 200) * global_scale(),
-            (C.SCREEN_HEIGHT - 50) * global_scale(),
+            ((C.SCREEN_WIDTH / (5 * global_scale())) + 200 * global_scale()),
+            (C.SCREEN_HEIGHT - 50 * global_scale()),
             arcade.color.BLACK,
             font_size=30 * global_scale(),
             anchor_x="center",
@@ -171,8 +176,8 @@ class GameView(arcade.View):
         # GUI - Player Ammo
         arcade.draw_text(
             f"Ammo : {self.player.weapon.cur_ammo} \ {self.player.weapon.max_ammo}",
-            ((C.SCREEN_WIDTH / 5) + 500) * global_scale(),
-            (C.SCREEN_HEIGHT - 50) * global_scale(),
+            ((C.SCREEN_WIDTH / (5 * global_scale())) + 500 * global_scale()),
+            (C.SCREEN_HEIGHT - 50 * global_scale()),
             arcade.color.BLACK,
             font_size=30 * global_scale(),
             anchor_x="center",
@@ -246,18 +251,22 @@ class GameView(arcade.View):
             self.shoot_pressed = True
 
         # Weapon swap | 1-3
-        elif key == arcade.key.KEY_1 or key == arcade.key.KEY_2 or key == arcade.key.KEY_3:
+        elif key == arcade.key.KEY_1 or key == arcade.key.KEY_2 or key == arcade.key.KEY_3 or key == arcade.key.KEY_4:
             requested_weapon = ""
-            # 1 - Rifle
+            # 1 - Revolver
             if key == arcade.key.KEY_1:
+                requested_weapon = "Revolver"
+                self.player.set_skin('Revolver')
+            # 2 - Rifle
+            elif key == arcade.key.KEY_2:
                 requested_weapon = "Rifle"
                 self.player.set_skin('AK')
             # 2 - Shotgun
-            elif key == arcade.key.KEY_2:
+            elif key == arcade.key.KEY_3:
                 requested_weapon = "Shotgun"
                 self.player.set_skin('Shotgun')
-            # 3 - RPG
-            elif key == arcade.key.KEY_3:
+            # 4 - RPG
+            elif key == arcade.key.KEY_4:
                 requested_weapon = "RPG"
                 self.player.set_skin('RPG')
 
@@ -267,7 +276,7 @@ class GameView(arcade.View):
 
         # Enemy spawn | E
         elif key == arcade.key.E:
-            Enemy.spawn_enemy(self.level)
+            Enemy.spawn_enemy(self.enemy_list)
 
         # Volume Toggle | M
         elif key == arcade.key.M:

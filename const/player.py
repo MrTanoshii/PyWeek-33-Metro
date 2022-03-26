@@ -2,10 +2,11 @@ from const.audio import *
 
 
 class PLAYER:
-    MAX_HP = 3
-    START_HP = 3
+    MAX_HP = 69
+    START_HP = 69
     DEATH_HP = 0
     SPEED = 8
+    NAME = "player"
     SFX_DEATH = {
         "name": AUDIO.SOUND["player_death"]["name"],
         "gain": AUDIO.SOUND["player_death"]["gain"]
@@ -54,6 +55,9 @@ PLAYER_TEXTURES = [
     },
 ]
 PLAYER_WEAPONS = [
+    {
+        "name": "Revolver"
+    },
     {
         "name": "AK"
     },
