@@ -272,6 +272,10 @@ class GameView(arcade.View):
             if key == arcade.key.KEY_1:
                 requested_weapon = "Revolver"
                 self.player.set_skin('Revolver')
+                if self.level == 1:
+                    Bullet.friendly_bullet_list.color = (300, 128, 128)
+                else:
+                    Bullet.friendly_bullet_list.color = (255, 255, 255)
             # 2 - Rifle
             elif key == arcade.key.KEY_2:
                 requested_weapon = "Rifle"
