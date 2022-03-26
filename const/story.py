@@ -97,4 +97,28 @@ STORY = [
         ["MAN: Excellent, that is good to hear! We have some gold coin left to spend,"],
         ["MAN: I saw an all you can eat buffet and G.O.A.T wants to mingle with the high rollers!"],
     ],
+    # Story 3
+    [
+      [""],
+    ],
+    # Story 2
+    [
+        [""],
+    ],
+    # Story 4
+    [
+        [""],
+    ],
+    # Story 5
+    [
+        [""],
+    ],
+    # Story 6
+    [
+        [""],
+    ],
+    # Story 7
+    [
+        [""],
+    ],
 ]
