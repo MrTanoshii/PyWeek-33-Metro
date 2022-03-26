@@ -185,6 +185,7 @@ class Enemy(arcade.Sprite):
         speed_x = 0
         speed_y = 0
 
+        # Aim at player
         if aim_type == "aim_player":
             # NOTE: Only last player in list will be used
             for player in Player.player_list:
@@ -195,11 +196,13 @@ class Enemy(arcade.Sprite):
                 speed_x = self.random_speed * math.cos(math.radians(angle))
                 speed_y = self.random_speed * math.sin(math.radians(angle))
 
+        # Aim straight
         elif aim_type == "aim_straight":
             angle = self.weapon_init_angle + self.random_angle
             speed_x = self.random_speed * math.cos(math.radians(angle))
             speed_y = self.random_speed * math.sin(math.radians(angle))
 
+        # Aim at random
         elif aim_type == "aim_random":
             random_point_x = 0
             if self.bullet_center_x > 0:
@@ -345,9 +348,6 @@ class Enemy(arcade.Sprite):
         # Set bullet location
         bullet.position = ((self.center_x - (self.width * global_scale() / 2) +
                            self.barrel_location[0] * global_scale()), (self.center_y - (self.height * global_scale() / 2) + self.barrel_location[1] * global_scale()))
-
-        # Turn the bullet -90 degree
-        # bullet.angle = 0
 
         # Add to bullet sprite list
         Bullet.enemy_bullet_list.append(bullet)
