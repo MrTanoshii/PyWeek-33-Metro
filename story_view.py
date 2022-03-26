@@ -1,10 +1,8 @@
 import arcade
 import const.constants as C
 from audio import Audio
-from gamedata import GameData
-from tracker import Tracker
-import shopview
 from lib import global_scale
+from gamedata import GameData
 
 
 class StoryView(arcade.View):
@@ -157,4 +155,6 @@ class StoryView(arcade.View):
             return "".join(text)
 
         else:
+            # save story to passed
+            GameData.update_steps(str(self.current_level), 2)
             self.to_map()
