@@ -203,6 +203,7 @@ class GameView(arcade.View):
 
         Enemy.update()
         Bullet.update()
+        self.player.update_animation(delta_time)
 
     def on_mouse_motion(self, x, y, dx, dy):
         """Called whenever mouse is moved."""
@@ -272,6 +273,10 @@ class GameView(arcade.View):
 
             self.window.show_view(PauseMenuView(
                 self, self.map_view, self.level))
+
+        # test atc demo, when press num pad 0 change skin
+        elif key == arcade.key.NUM_0:
+            self.player.set_skin('GuySurfRevolver')
 
     def on_key_release(self, key, modifiers):
         """Called when the user releases a key."""

@@ -38,6 +38,8 @@ class Player(arcade.Sprite):
         Update the player
     move(movement_key_pressed: dict[str, bool])
         Move the player
+    set_skin(name: str):
+        change the player texture
     """
 
     # SpriteList class attribute
@@ -74,13 +76,13 @@ class Player(arcade.Sprite):
         player_style = C.MAP_MONUMENTS_LIST[0]["player"]
 
         """ Load Assets """
-        base_path = f"resources/images/assets/players/{player_style}/"
+        dir_name = f"resources/images/assets/players/{player_style}/"
 
         # Load texture
         self.texture_list = []
-        for filename in os.listdir(f"{base_path}animation/"):
+        for filename in os.listdir(f"{dir_name}animation/"):
             self.texture_list.append(
-                arcade.load_texture(f"{base_path}animation/{filename}", hit_box_algorithm=hit_box_algorithm))
+                arcade.load_texture(f"{dir_name}animation/{filename}", hit_box_algorithm=hit_box_algorithm))
 
         self.cur_texture = 0
 
@@ -95,6 +97,24 @@ class Player(arcade.Sprite):
         self.sfx_hit_list = Audio.sfx_player_hit_list
 
         Player.player_list.append(self)
+
+        # List of folder names from assets
+        texture_name_list = ["GuyGoatAK", "GuyGoatRevolver", "GuyGoatRPG", "GuyJeepAK", "GuyJeepRevolver",
+                             "GuyJeepRPG", "GuySurfAK", "GuySurfRevolver", "GuySurfRPG"]
+
+        # Create dictionary of all textures
+        self.textures_dict = {}
+        for dir_name in texture_name_list:
+            texture_list = []
+            for filename in os.listdir(f"assets/{dir_name}/"):
+                texture_list.append(
+                    arcade.load_texture(f"assets/{dir_name}/{filename}", hit_box_algorithm=hit_box_algorithm))
+            self.textures_dict[dir_name] = texture_list
+
+    def set_skin(self, name: str):
+        """Takes asset/texture name as input and update current texture/skin"""
+        self.texture_list = self.textures_dict[name]
+        self.texture = self.textures_dict[name][0]
 
     def shoot(self, delta_time, shoot_pressed):
         """Handles shooting & reloading"""
@@ -194,7 +214,11 @@ class Player(arcade.Sprite):
             self.center_y = C.SCREEN_HEIGHT * .15 * global_scale()
 
     def update_animation(self, delta_time: float = 1 / 60):
-        self.cur_texture += 0.02
+        self.cur_texture += 0.20
         if self.cur_texture > len(self.texture_list) - 1:
             self.cur_texture = 0
+
         self.texture = self.texture_list[int(self.cur_texture)]
+
+
+
