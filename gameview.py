@@ -79,6 +79,8 @@ class GameView(arcade.View):
 
         self.map_view = map_view
 
+        self.gold_sprite = None
+
         arcade.set_background_color(arcade.csscolor.GREEN)
 
         self.text_color = None
@@ -115,6 +117,7 @@ class GameView(arcade.View):
                 arcade.load_texture(f"assets/CursorCrosshair/{filename}"))
         self.cursor.texture = self.cursor.texture_list[0]
         self.cursor.color = (128, 0, 0)
+        
 
         # Find & set map bgm
         view = None
@@ -133,6 +136,11 @@ class GameView(arcade.View):
         else:
             Bullet.friendly_bullet_list.color = (255, 255, 255)
             self.text_color = arcade.color.BLACK
+
+        self.gold_sprite = arcade.Sprite(
+            "resources/images/map/gold-bar.png", 0.7 * global_scale())
+        self.gold_sprite.position = (
+            1100 * global_scale(), 660 * global_scale())
 
         # Start bgm
         self.bgm_stream = Audio.play_sound(self.bgm, True)
@@ -169,44 +177,56 @@ class GameView(arcade.View):
         Bullet.enemy_bullet_list.update_animation()
         Enemy.enemy_list.update_animation()
 
-        # GUI - Score
-        arcade.draw_text(
-            f"Score : {Tracker.score}",
-            (C.SCREEN_WIDTH / 5) * global_scale(),
-            (C.SCREEN_HEIGHT - 50) * global_scale(),
-            self.text_color,
-            font_size=30 * global_scale(),
-            anchor_x="center",
-        )
-
-        # GUI - Gold
-        arcade.draw_text(
-            f"Gold : {Tracker.gold}",
-            (C.SCREEN_WIDTH / 5) * global_scale(),
-            (C.SCREEN_HEIGHT - 150) * global_scale(),
-            self.text_color,
-            font_size=30 * global_scale(),
-            anchor_x="center",
-        )
 
         # GUI - Player HP
         arcade.draw_text(
             f"HP : {self.player.cur_health}",
-            ((C.SCREEN_WIDTH / 5) + 200) * global_scale(),
-            (C.SCREEN_HEIGHT - 50) * global_scale(),
+            ((C.SCREEN_WIDTH / 5) - 100) * global_scale(), 
+            (C.SCREEN_HEIGHT - 70) * global_scale(),
             self.text_color,
-            font_size=30 * global_scale(),
-            anchor_x="center",
+            font_size=20 * global_scale(),
+            font_name="Kenny High Square",
+            bold=True,
+            anchor_x="center"
         )
 
         # GUI - Player Ammo
         arcade.draw_text(
-            f"Ammo : {self.player.weapon.cur_ammo} \ {self.player.weapon.max_ammo}",
-            ((C.SCREEN_WIDTH / 5) + 500) * global_scale(),
-            (C.SCREEN_HEIGHT - 50) * global_scale(),
+            f"{self.player.weapon.cur_ammo} \ {self.player.weapon.max_ammo}",
+            ((C.SCREEN_WIDTH / 5) + 230) * global_scale(),
+            (C.SCREEN_HEIGHT - 70) * global_scale(),
             self.text_color,
-            font_size=30 * global_scale(),
+            font_size=20 * global_scale(),
+            font_name="Kenny High Square",
             anchor_x="center",
+            bold = True
+        )
+
+        #GUI - Score
+        arcade.draw_text(
+            f"Score : {Tracker.score}",
+            ((C.SCREEN_WIDTH / 5)+600) * global_scale(),
+            (C.SCREEN_HEIGHT - 70) * global_scale(),
+            #(200,240,100),
+            self.text_color,
+            font_size=20 * global_scale(),
+            font_name="Kenny High Square",
+            bold=True,
+            anchor_x="center",
+        )
+
+        self.gold_sprite.draw()
+
+        # GUI - Gold
+        arcade.draw_text(
+            f"{Tracker.gold}",
+            ((C.SCREEN_WIDTH / 5)+870) * global_scale(),
+            (C.SCREEN_HEIGHT - 74) * global_scale(),
+            arcade.color.BLACK,
+            font_size=23 * global_scale(),
+            font_name=  "Kenny High Square",
+            anchor_x="center",
+            bold=True
         )
 
         self.cursor.draw()
