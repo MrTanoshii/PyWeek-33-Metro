@@ -110,7 +110,7 @@ class GameView(arcade.View):
         self.cursor = arcade.Sprite(scale=0.7)
         self.cursor.cur_texture = 0
         self.cursor.texture_list = []
-        for filename in os.listdir(f"assets/CursorCrosshair/"):
+        for filename in sorted(os.listdir(f"assets/CursorCrosshair/")):
             self.cursor.texture_list.append(
                 arcade.load_texture(f"assets/CursorCrosshair/{filename}"))
         self.cursor.texture = self.cursor.texture_list[0]
