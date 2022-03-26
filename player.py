@@ -223,11 +223,14 @@ class Player(arcade.Sprite):
             self.center_y = C.SCREEN_HEIGHT * .15 * global_scale()
 
     def update_animation(self, delta_time: float = 1 / 60):
-        self.cur_texture += 0.20
-        if self.cur_texture > len(self.texture_list) - 1:
-            self.cur_texture = 0
+        # TODO: Change animation speed from hardcoded to constant
+        animation_speed = 0.20
 
+        if len(self.texture_list) > 1:
+            self.cur_texture += animation_speed * delta_time
+            while self.cur_texture >= len(self.texture_list) - 1:
+                self.cur_texture -= len(self.texture_list) - 1
+                if (self.cur_texture <= 0):
+                    self.cur_texture = 0
+                    break
         self.texture = self.texture_list[int(self.cur_texture)]
-
-
-
