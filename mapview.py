@@ -232,15 +232,6 @@ class MapView(arcade.View):
             anchor_x="center",
         )
 
-        # arcade.draw_text(
-        #     f"SHOP",
-        #     self.shop_sprite.position[0],
-        #     self.shop_sprite.position[1]*.9,
-        #     arcade.color.BLACK,
-        #     font_size=20,
-        #     anchor_x="center",
-        # )
-
         MapView.step_list.draw()
         MapView.monument_list.draw()
         self.shop_sprite.draw(pixelated=True)
@@ -322,6 +313,22 @@ class MapView(arcade.View):
                 game = gameview.GameView(self)
                 game.setup()
                 self.window.show_view(game)
+
+        hit_step = arcade.check_for_collision_with_list(
+            self.cursor_sprite, MapView.step_list)
+        if hit_step and (hit_step[0].level is not None):
+            if hit_step[0].unlocked:
+                story_level = hit_step[0].level
+                # Play monument click sfx
+                Audio.play_sound(hit_step[0].sfx_click)
+
+                # Stop bgm
+                Audio.stop_sound(self.bgm_stream)
+                self.bgm_stream = None
+
+                # Story opening
+                self.window.show_view(StoryView(self, story_level))
+
         # Check if shops hit cursor (Simply because less number of checking)
         if self.shop_sprite.collides_with_sprite(self.cursor_sprite):
             self.window.show_view(shopview.ShopView(self))

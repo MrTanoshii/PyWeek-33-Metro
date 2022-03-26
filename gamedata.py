@@ -156,6 +156,7 @@ class GameData:
                 cls.story[str(level)] = 1
                 if level < len(MAP_MONUMENTS_LIST):
                     cls.level_data[str(level+1)]["locked"] = 0
+                cls.story[str(level)] = 1
 
                 # Update map icons
                 from mapview import MapView

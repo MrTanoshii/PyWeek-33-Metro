@@ -112,12 +112,12 @@ MAP_STEP_LIST = [
         "story": 1,
         "center_x": 551,
         "center_y": 279,
-     },
+    },
     {
         "type": "step",
         "center_x": 591,
         "center_y": 287,
-     },
+    },
     # 2
     {
         "type": "step",
@@ -154,7 +154,7 @@ MAP_STEP_LIST = [
         "type": "step",
         "center_x": 772,
         "center_y": 449,
-     },
+    },
     {
         "type": "step",
         "center_x": 761,
