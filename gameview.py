@@ -13,7 +13,6 @@ from settings import Settings
 from audio import Audio
 
 from pause_menu_view import PauseMenuView
-import shopview
 import mapview
 
 
@@ -84,7 +83,7 @@ class GameView(arcade.View):
         # self.gui_camera = arcade.Camera(self.window.width, self.window.height)
 
         # Create player sprite
-        self.player = Player(hit_box_algorithm="Simple")
+        self.player = Player(hit_box_algorithm="Simple", current_level=self.level)
 
         # Rotate player to face to the right
 
@@ -203,6 +202,7 @@ class GameView(arcade.View):
 
         Enemy.update(delta_time)
         Bullet.update()
+        self.player.update_animation(delta_time)
 
     def on_mouse_motion(self, x, y, dx, dy):
         """Called whenever mouse is moved."""
@@ -244,12 +244,15 @@ class GameView(arcade.View):
             # 1 - Rifle
             if key == arcade.key.KEY_1:
                 requested_weapon = "Rifle"
+                self.player.set_skin('AK')
             # 2 - Shotgun
             elif key == arcade.key.KEY_2:
                 requested_weapon = "Shotgun"
+                self.player.set_skin('Shotgun')
             # 3 - RPG
             elif key == arcade.key.KEY_3:
                 requested_weapon = "RPG"
+                self.player.set_skin('RPG')
 
             # Swap weapon
             if Player.weapon.weapon_name != requested_weapon:
