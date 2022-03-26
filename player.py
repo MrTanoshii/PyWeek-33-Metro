@@ -224,13 +224,13 @@ class Player(arcade.Sprite):
 
     def update_animation(self, delta_time: float = 1 / 60):
         # TODO: Change animation speed from hardcoded to constant
-        animation_speed = 0.20
+        animation_speed = 12
 
         if len(self.texture_list) > 1:
             self.cur_texture += animation_speed * delta_time
             while self.cur_texture >= len(self.texture_list) - 1:
                 self.cur_texture -= len(self.texture_list) - 1
-                if (self.cur_texture <= 0):
+                if self.cur_texture <= 0:
                     self.cur_texture = 0
                     break
         self.texture = self.texture_list[int(self.cur_texture)]
