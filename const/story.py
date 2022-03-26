@@ -5,9 +5,9 @@ STORY = [
         ["** GOAT MUNCHING NOISE **"],
         ["MAN: I trust we will have another busy day ahead of us."],
         ["** GOAT MUNCHING NOISE **"],
-        ["MAN: Sometimes I wish there was more to life but alas I follow in the family business."],
+        ["MAN: Sometimes I wish there was more to life, but alas I follow in the family business."],
         ["** GOAT ALARMED NOISE **"],
-        ["MAN: What is it my friend? Is that a flying object?! Is it a new tezla satellite?!"],
+        ["MAN: What is it my friend? Is that a flying object?! Is it a new Tezla satellite?!"],
         ["FSM: Greetings chosen one, I am the Flying Spaghetti Monster!"],
         ["MAN: WTF?!"],
         ["FSM: I come from a far away place and sense all is not well with your world."],
@@ -27,15 +27,15 @@ STORY = [
         ["MAN: OK, I will ask my friend; 'G.O.A.T what do you think? Shall we mix things up a little?'"],
         ["** GOAT AGREEING NOISE **"],
         ["MAN: The answer is yes, let's do this!"],
-        ["FSM: OK, the first city is Ayyjeep. Take this gun, defeat the bad guys and kill the evil twin!"],
+        ["FSM: OK, the first city is Ayyjeep. Take this gun, defeat the bad guys and kill the evil Soddom's Army!"],
         ["FSM: It will help if you collect some gold coin along the way and score over 100 points, good luck!"],
     ],
     # Story 2 (after completing level 1, before level 2)
     [
         ["FSM: Well done, you conquered the first city! You did well and now it is time to move north,"],
-        ["FSM: there is an evil twin operating out of Rushaa, head over there now and take care of business!"],
-        ["MAN: OK! We will get there ASAP, it is long way for us to travel and I think G.O.A.T's feet need a rest,"],
-        ["MAN: can you do anything to assist with our mode of transport?"],
+        ["FSM: there is an evil twin operating out of Rushaa, head over there now and take care of Putler!"],
+        ["MAN: OK! We will get there ASAP, it is a long way for us to travel and I think G.O.A.T's feet need a rest,"],
+        ["MAN: can you do anything to assist with our weary legs?"],
         ["FSM: Yes of course, you both deserve an upgrade! Take this jeep and take down the evil twin!"],
         ["FSM: They are a tough bunch but I am confident in your abilities,"],
         ["FSM: remember to pick up as much gold as you can and get over 100 points!"],
@@ -46,39 +46,33 @@ STORY = [
         ["** GOAT AGREEING NOISE **"],
         ["MAN: We picked up some gold and conquered another city, shall we now have a break?"],
         ["FSM: There is no time for a break Mr Herder, another evil twin has a strong hold in Shyna!"],
-        ["FSM: Be quick and move east!"],
+        ["FSM: Be quick and move east!  Xinnie the Puh must be stopped"],
     ],
     # Story 4 (after completing level 3, before level 4)
     [
         ["FSM: Impressive work! You are proving to be a formidable tag team, well done!"],
-        ["MAN: Thank you, now we can take our rest and put our feet up,"],
-        ["MAN: I hear that they do a lovely Kung Po chicken down the road! Are you hungry G.O.A.T?"],
+        ["MAN: Thank you, now we can put up our feet and rest."],
+        ["MAN: I hear that they do a lovely Kung Pao chicken down the road! Are you hungry G.O.A.T?"],
         ["** GOAT AGREEING NOISE **"],
-        ["FSM: Your rest will come later. There is no time to lose, another evil twin has set up on the ocean,"],
-        ["FSM: get back in the motor and drive to the end of road and get out to sea!"],
+        ["FSM: Your rest will come later. There is no time to lose, another evil twin has set up in the ocean,"],
+        ["FSM: get back in the truck and drive to the end of road and get out to sea!"],
         ["MAN: What?! In the water, G.O.A.T can't swim and I didn't pack my trunks! Can you help us out?"],
-        ["FSM: Indeed, I will get this sorted. Go now to the next area and I will get something ready for you,"],
-        ["FSM: I will have to be creative as I can't have you using all your energy on a rowing boat..."],
+        ["FSM: Indeed, I will get this sorted. Go now to the beach and I will get something ready for you,"],
+        ["FSM: I will have to be creative as I can't have you using all your energy rowing a boat..."],
     ],
 
     # Story 5 (after completing level 4, before level 5)
+
     [
         ["MAN: That was awesome! We caught some big waves and defeated the bad guy!"],
         ["** GOAT AGREEING NOISE **"],
-        ["FSM: I have to agree, that was totally cool!"],
+        ["FSM: I have to agree, that was totally rad!"],
         ["FSM: Now I need you back on the road and over to South Hamerica, there is no time to lose!"],
         ["MAN: OK ok, we know the drill by now. Can we at least take the surfboard until we reach the mainland?!"],
+        ["FSM: Yes but when you reach the city, it will be back on all fours, G.O.A.T get ready for more action! "]
+        ["FSM: The Jamazon isn't going to save itself, stop Bolsomito"],
     ],
     # Story 6 (after completing level 5, before level 6)
-    [
-        ["MAN: That was awesome! We caught some big waves and defeated the bad guy!"],
-        ["** GOAT AGREEING NOISE **"],
-        ["FSM: I have to agree, that was totally cool!"],
-        ["FSM: Now I need you back on the road and over to South Hamerica, there is no time to lose!"],
-        ["MAN: OK ok, we know the drill by now. Can we at least take the surfboard until we reach the mainland?!"],
-        ["FSM: Yes but when you reach the city, it will be back on all fours, G.O.A.T get ready for more action! "],
-    ],
-    # Story 7 (after completing level 6, before level 7)
     [
         ["FSM: Fantastic work! I knew you were the right choice. You are doing very well!"],
         ["FSM: There is now just one evil twin remaining, he has is setting up on the West Coast of Hamerica,"],
@@ -86,6 +80,7 @@ STORY = [
         ["MAN: OK, we will get right on it won't we G.O.A.T?"],
         ["** GOAT AGREEING NOISE **"],
         ["MAN: We will put a stop to these evil twins once and for all!"],
+        ["FSM: Once you are in the city you must defeat Suckerborg's army and humanity will finally be free."]
         ["MAN: Plus it will be a great place for us to chill out in and spend any gold coin we have left!"],
         ["FSM: Good luck Mr Herder and G.O.A.T, I have a feeling you might need it on this one..."],
 
