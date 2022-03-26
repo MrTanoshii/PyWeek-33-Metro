@@ -157,7 +157,7 @@ class PauseMenuView(arcade.View):
             self.cursor_sprite, self.btn_list)
         if hit_btn:
 
-            # Play monument click sfx
+            # Play click sfx
             Audio.play_sound(self.sfx_click)
 
             if hit_btn[0].name == "resume":
@@ -167,7 +167,14 @@ class PauseMenuView(arcade.View):
             elif hit_btn[0].name == "back_to_map":
                 self.to_map()
             elif hit_btn[0].name == "main_menu":
+                # TODO: Add main menu
                 self.to_map()
+
+        # If hit the cat
+        _scale = global_scale()
+        if 20 * _scale < _x < 120 * _scale and 270 * _scale < _y < 370 * _scale:
+            Audio.play_sound(self.sfx_click)
+            # TODO: Add something special
 
     def on_key_press(self, key, _modifiers):
         """Handle keyboard key press"""
