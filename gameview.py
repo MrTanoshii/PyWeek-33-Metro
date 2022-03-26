@@ -70,10 +70,6 @@ class GameView(arcade.View):
         # Player shoot
         self.shoot_pressed = False
 
-        self.cursor_sprite = None
-        self.cur_texture = 0
-        self.cursor_sprite_list = []
-
         self.level = mapview.MapView.current_level
 
         self.map_view = map_view
@@ -86,7 +82,8 @@ class GameView(arcade.View):
         # self.gui_camera = arcade.Camera(self.window.width, self.window.height)
 
         # Create player sprite
-        self.player = Player(hit_box_algorithm="Simple", current_level=self.level)
+        self.player = Player(hit_box_algorithm="Simple",
+                             current_level=self.level)
 
         # Rotate player to face to the right
 
@@ -103,11 +100,14 @@ class GameView(arcade.View):
         Enemy.preload(self.level)
 
         # Cursor
+        self.cursor = arcade.Sprite(scale=0.7)
+        self.cursor.cur_texture = 0
+        self.cursor.texture_list = []
         for filename in os.listdir(f"assets/CursorCrosshair/"):
-            self.cursor_sprite_list.append(arcade.load_texture(f"assets/CursorCrosshair/{filename}"))
-        self.cursor_sprite = arcade.Sprite()
-        self.cursor_sprite.texture = self.cursor_sprite_list[0]
-        self.cursor_sprite.color = (128, 0, 0)
+            self.cursor.texture_list.append(
+                arcade.load_texture(f"assets/CursorCrosshair/{filename}"))
+        self.cursor.texture = self.cursor.texture_list[0]
+        self.cursor.color = (128, 0, 0)
 
         # Find & set map bgm
         view = None
@@ -182,7 +182,7 @@ class GameView(arcade.View):
             anchor_x="center",
         )
 
-        self.cursor_sprite.draw()
+        self.cursor.draw()
 
         # Restart bgm
         if self.bgm_stream == None:
@@ -213,8 +213,8 @@ class GameView(arcade.View):
     def on_mouse_motion(self, x, y, dx, dy):
         """Called whenever mouse is moved."""
         self.player.weapon.on_mouse_motion(x, y, dx, dy)
-        self.cursor_sprite.center_x = x + C.GUI["Crosshair"]["offset_x"]
-        self.cursor_sprite.center_y = y + C.GUI["Crosshair"]["offset_y"]
+        self.cursor.center_x = x + C.GUI["Crosshair"]["offset_x"]
+        self.cursor.center_y = y + C.GUI["Crosshair"]["offset_y"]
 
     def on_mouse_press(self, x, y, button, modifiers):
         """Called whenever a mouse key is pressed."""
@@ -365,11 +365,12 @@ class GameView(arcade.View):
         # TODO: Change animation speed from hardcoded to constant
         animation_speed = 12
 
-        if len(self.cursor_sprite_list) > 1:
-            self.cur_texture += animation_speed * delta_time
-            while self.cur_texture >= len(self.cursor_sprite_list) - 1:
-                self.cur_texture -= len(self.cursor_sprite_list) - 1
-                if self.cur_texture <= 0:
-                    self.cur_texture = 0
+        if len(self.cursor.texture_list) > 1:
+            self.cursor.cur_texture += animation_speed * delta_time
+            while self.cursor.cur_texture >= len(self.cursor.texture_list) - 1:
+                self.cursor.cur_texture -= len(self.cursor.texture_list) - 1
+                if self.cursor.cur_texture <= 0:
+                    self.cursor.cur_texture = 0
                     break
-        self.cursor_sprite = self.cursor_sprite_list[int(self.cur_texture)]
+        self.cursor.texture = self.cursor.texture_list[int(
+            self.cursor.cur_texture)]
