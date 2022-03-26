@@ -38,13 +38,15 @@ class Player(arcade.Sprite):
         Update the player
     move(movement_key_pressed: dict[str, bool])
         Move the player
+    set_skin(name: str):
+        change the player texture
     """
 
     # SpriteList class attribute
     player_list = arcade.SpriteList()
     weapon = arcade.Sprite()
 
-    def __init__(self, hit_box_algorithm):
+    def __init__(self, hit_box_algorithm, current_level):
         # Inherit parent class
         super().__init__()
 
@@ -74,13 +76,13 @@ class Player(arcade.Sprite):
         player_style = C.MAP_MONUMENTS_LIST[0]["player"]
 
         """ Load Assets """
-        base_path = f"resources/images/assets/players/{player_style}/"
+        dir_name = f"resources/images/assets/players/{player_style}/"
 
         # Load texture
         self.texture_list = []
-        for filename in os.listdir(f"{base_path}animation/"):
+        for filename in os.listdir(f"{dir_name}animation/"):
             self.texture_list.append(
-                arcade.load_texture(f"{base_path}animation/{filename}", hit_box_algorithm=hit_box_algorithm))
+                arcade.load_texture(f"{dir_name}animation/{filename}", hit_box_algorithm=hit_box_algorithm))
 
         self.cur_texture = 0
 
@@ -96,10 +98,37 @@ class Player(arcade.Sprite):
 
         Player.player_list.append(self)
 
+        self.level = current_level
+        self._player_style = C.PLAYER_TEXTURES[self.level-1]["name"]
+        # Create dictionary of all textures
+        self.textures_dict = {}
+        for weapon in C.PLAYER_WEAPONS:
+            texture_list = []
+            for filename in os.listdir(f"assets/{self._player_style}{weapon['name']}/"):
+                texture_list.append(
+                    arcade.load_texture(f"assets/{self._player_style}{weapon['name']}/{filename}", hit_box_algorithm=hit_box_algorithm))
+            self.textures_dict[f"{self._player_style}{weapon['name']}"] = texture_list
+
+        # Set default skin for ak and level style player
+        self.set_skin(weapon="AK")
+
+    def set_skin(self, weapon: str, player_style=None):
+        if not player_style: player_style = self._player_style
+        """Takes asset/texture name as input and update current texture/skin"""
+        self.texture_list = self.textures_dict[f"{player_style}{weapon}"]
+
+        self.texture = self.textures_dict[f"{player_style}{weapon}"][int(self.cur_texture)]
+
     def shoot(self, delta_time, shoot_pressed):
         """Handles shooting & reloading"""
-        self.weapon.shoot(delta_time, shoot_pressed,
-                          self)
+        self.weapon.shoot(delta_time, shoot_pressed, self)
+
+        # if player shoots RPG, change skin
+        if self.weapon.weapon_name == "RPG":
+            if self.weapon.cur_ammo <= 0:
+                self.set_skin(weapon="RPGempty")
+            elif self.weapon.cur_ammo > 0:
+                self.set_skin(weapon="RPG")
 
     def take_damage(self, damage_source):
         """Handles damage taken by player"""
@@ -194,7 +223,14 @@ class Player(arcade.Sprite):
             self.center_y = C.SCREEN_HEIGHT * .15 * global_scale()
 
     def update_animation(self, delta_time: float = 1 / 60):
-        self.cur_texture += 0.02
-        if self.cur_texture > len(self.texture_list) - 1:
-            self.cur_texture = 0
+        # TODO: Change animation speed from hardcoded to constant
+        animation_speed = 12
+
+        if len(self.texture_list) > 1:
+            self.cur_texture += animation_speed * delta_time
+            while self.cur_texture >= len(self.texture_list) - 1:
+                self.cur_texture -= len(self.texture_list) - 1
+                if self.cur_texture <= 0:
+                    self.cur_texture = 0
+                    break
         self.texture = self.texture_list[int(self.cur_texture)]

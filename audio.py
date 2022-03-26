@@ -131,6 +131,38 @@ class Audio():
                 "sound": sound
             }
             cls.sfx_ui_list.append(sound_dict)
+
+        # Load very important meow sfx
+        sound = None
+        file_name = "ui/" + C.AUDIO.SOUND["ui_meow"]["name"]
+        for sfx_dict in cls.sfx_list:
+            if sfx_dict["file_name"] == file_name:
+                sound = sfx_dict["sound"]
+                break
+        if sound is None:
+            sound = arcade.load_sound(
+                C.AUDIO.FOLDER + file_name)
+
+        sfx_dict = {
+            "sound": sound,
+            "file_name": file_name
+        }
+        cls.sfx_list.append(sfx_dict)
+
+        # Append sound and gain to master list
+        master_sound_dict = {
+            "sound": sound,
+            "gain": C.AUDIO.SOUND["ui_meow"]["gain"]
+        }
+        cls.master_list.append(master_sound_dict)
+
+        # Append meow name and sound to ui list
+        sound_dict = {
+            "ui_name": C.AUDIO.SOUND["ui_meow"]["name"],
+            "sound": sound
+        }
+        cls.sfx_ui_list.append(sound_dict)
+
         if C.DEBUG.ALL or C.DEBUG.AUDIO:
             print("Master sound list: ", cls.master_list)
             print("SFX list: ", cls.sfx_list)

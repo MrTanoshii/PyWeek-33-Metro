@@ -92,4 +92,8 @@ class Bullet(arcade.Sprite):
         self.texture = self.texture_list[self.cur_texture]
 
     def despawn(self):
+        if self in Bullet.friendly_bullet_list:
+            Bullet.friendly_bullet_list.remove(self)
+        elif self in Bullet.enemy_bullet_list:
+            Bullet.enemy_bullet_list.remove(self)
         self.remove_from_sprite_lists()

@@ -31,3 +31,39 @@ class MOVE_DIRECTION:
     TOP = 6
     TOP_LEFT = 7
     IDLE = 8
+
+
+PLAYER_TEXTURES = [
+    {
+        "name": "GuyGoat"
+    },
+    {
+        "name": "GuyJeep"
+    },
+    {
+        "name": "GuyJeep"
+    },
+    {
+        "name": "GuySurf"
+    },
+    {
+        "name": "GuyGoat"
+    },
+    {
+        "name": "GuyJeep"
+    },
+]
+PLAYER_WEAPONS = [
+    {
+        "name": "AK"
+    },
+    {
+        "name": "Shotgun"
+    },
+    {
+        "name": "RPG"
+    },
+    {
+        "name": "RPGempty"
+    },
+]
