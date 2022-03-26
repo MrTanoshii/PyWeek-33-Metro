@@ -1,5 +1,6 @@
 import arcade
 import random
+import os.path
 
 import const.constants as C
 from bg import BackGround
@@ -69,8 +70,6 @@ class GameView(arcade.View):
         # Player shoot
         self.shoot_pressed = False
 
-        self.cursor_sprite = None
-
         self.level = mapview.MapView.current_level
         for monument in C.MAP_MONUMENTS_LIST:
             if monument["level"] == self.level:
@@ -105,9 +104,14 @@ class GameView(arcade.View):
         Enemy.preload(self.enemy_list)
 
         # Cursor
-        self.cursor_sprite = arcade.Sprite(
-            "resources/images/crosshair.png", 0.7)
-        self.cursor_sprite.color = (128, 0, 0)
+        self.cursor = arcade.Sprite(scale=0.7)
+        self.cursor.cur_texture = 0
+        self.cursor.texture_list = []
+        for filename in os.listdir(f"assets/CursorCrosshair/"):
+            self.cursor.texture_list.append(
+                arcade.load_texture(f"assets/CursorCrosshair/{filename}"))
+        self.cursor.texture = self.cursor.texture_list[0]
+        self.cursor.color = (128, 0, 0)
 
         # Find & set map bgm
         view = None
@@ -182,7 +186,7 @@ class GameView(arcade.View):
             anchor_x="center",
         )
 
-        self.cursor_sprite.draw()
+        self.cursor.draw()
 
         # Restart bgm
         if self.bgm_stream == None:
@@ -208,12 +212,13 @@ class GameView(arcade.View):
         Enemy.update(delta_time)
         Bullet.update()
         self.player.update_animation(delta_time)
+        self.update_cursor_animation(delta_time)
 
     def on_mouse_motion(self, x, y, dx, dy):
         """Called whenever mouse is moved."""
         self.player.weapon.on_mouse_motion(x, y, dx, dy)
-        self.cursor_sprite.center_x = x + C.GUI["Crosshair"]["offset_x"]
-        self.cursor_sprite.center_y = y + C.GUI["Crosshair"]["offset_y"]
+        self.cursor.center_x = x + C.GUI["Crosshair"]["offset_x"]
+        self.cursor.center_y = y + C.GUI["Crosshair"]["offset_y"]
 
     def on_mouse_press(self, x, y, button, modifiers):
         """Called whenever a mouse key is pressed."""
@@ -363,3 +368,17 @@ class GameView(arcade.View):
 
     def on_show(self):
         pass
+
+    def update_cursor_animation(self, delta_time: float = 1 / 60):
+        # TODO: Change animation speed from hardcoded to constant
+        animation_speed = 12
+
+        if len(self.cursor.texture_list) > 1:
+            self.cursor.cur_texture += animation_speed * delta_time
+            while self.cursor.cur_texture >= len(self.cursor.texture_list) - 1:
+                self.cursor.cur_texture -= len(self.cursor.texture_list) - 1
+                if self.cursor.cur_texture <= 0:
+                    self.cursor.cur_texture = 0
+                    break
+        self.cursor.texture = self.cursor.texture_list[int(
+            self.cursor.cur_texture)]
