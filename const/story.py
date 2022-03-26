@@ -69,7 +69,7 @@ STORY = [
         ["FSM: I have to agree, that was totally rad!"],
         ["FSM: Now I need you back on the road and over to South Hamerica, there is no time to lose!"],
         ["MAN: OK ok, we know the drill by now. Can we at least take the surfboard until we reach the mainland?!"],
-        ["FSM: Yes but when you reach the city, it will be back on all fours, G.O.A.T get ready for more action! "]
+        ["FSM: Yes but when you reach the city, it will be back on all fours, G.O.A.T get ready for more action! "],
         ["FSM: The Jamazon isn't going to save itself, stop Bolsomito"],
     ],
     # Story 6 (after completing level 5, before level 6)
@@ -80,7 +80,7 @@ STORY = [
         ["MAN: OK, we will get right on it won't we G.O.A.T?"],
         ["** GOAT AGREEING NOISE **"],
         ["MAN: We will put a stop to these evil twins once and for all!"],
-        ["FSM: Once you are in the city you must defeat Suckerborg's army and humanity will finally be free."]
+        ["FSM: Once you are in the city you must defeat Suckerborg's army and humanity will finally be free."],
         ["MAN: Plus it will be a great place for us to chill out in and spend any gold coin we have left!"],
         ["FSM: Good luck Mr Herder and G.O.A.T, I have a feeling you might need it on this one..."],
 
