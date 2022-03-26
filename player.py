@@ -40,8 +40,8 @@ class Player(arcade.Sprite):
         Update the player
     move(movement_key_pressed: dict[str, bool])
         Move the player
-    change_texture()
-        change the sprite texture
+    set_skin(name: str):
+        change the player texture
     """
 
     # SpriteList class attribute
