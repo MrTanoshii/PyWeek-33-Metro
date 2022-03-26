@@ -2,6 +2,15 @@ from const.audio import *
 from const.weapon_fire import *
 from const.scale import *
 
+ENEMY_LOGIC = {
+    "aim_player": 0,
+    "aim_straight": 1,
+    "aim_random": 2,
+    "prob_aim_player": 0.2,
+    "prob_aim_straight": 0.4,
+    "prob_aim_random": 0.4
+}
+
 ENEMY_WEAPON_LIST = [
     {
         "name": "tank",
@@ -19,9 +28,10 @@ ENEMY_WEAPON_LIST = [
         "bullet_texture_dir_name": "weapon_rpg",
         "bullet_texture_amount": 24,
         "bullet_scale": .8,
-        "shoot_time": 2,
-        "reload_time": 5,
-        "reload_rate": 1,
+        "shoot_time": 1.8,
+        "shoot_constant": False,
+        "shoot_probability": 0.15,
+        "shoot_max_angle": 100,
         "sfx_single_shot_list": [AUDIO.SOUND["weapon_tank_1"]["name"]],
         "sfx_single_shot_vol_gain_list": [AUDIO.SOUND["weapon_tank_1"]["gain"]]
     },
@@ -42,8 +52,9 @@ ENEMY_WEAPON_LIST = [
         "bullet_texture_amount": 24,
         "bullet_scale": .2,
         "shoot_time": .05,
-        "reload_time": 5,
-        "reload_rate": 1,
+        "shoot_constant": True,
+        "shoot_probability": 0.2,
+        "shoot_max_angle": 140,
         "sfx_single_shot_list": [AUDIO.SOUND["weapon_heli_1"]["name"]],
         "sfx_single_shot_vol_gain_list": [AUDIO.SOUND["weapon_heli_1"]["gain"]]
     }
