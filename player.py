@@ -121,8 +121,14 @@ class Player(arcade.Sprite):
 
     def shoot(self, delta_time, shoot_pressed):
         """Handles shooting & reloading"""
-        self.weapon.shoot(delta_time, shoot_pressed,
-                          self)
+        self.weapon.shoot(delta_time, shoot_pressed, self)
+
+        # if player shoots RPG, change skin
+        if self.weapon.weapon_name == "RPG":
+            if self.weapon.cur_ammo <= 0:
+                self.set_skin(weapon="RPGempty")
+            elif self.weapon.cur_ammo > 0:
+                self.set_skin(weapon="RPG")
 
     def take_damage(self, damage_source):
         """Handles damage taken by player"""

@@ -248,7 +248,7 @@ class GameView(arcade.View):
             # 2 - Shotgun
             elif key == arcade.key.KEY_2:
                 requested_weapon = "Shotgun"
-                self.player.set_skin('Revolver')
+                self.player.set_skin('Shotgun')
             # 3 - RPG
             elif key == arcade.key.KEY_3:
                 requested_weapon = "RPG"

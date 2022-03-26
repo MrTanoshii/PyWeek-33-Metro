@@ -58,7 +58,7 @@ PLAYER_WEAPONS = [
         "name": "AK"
     },
     {
-        "name": "Revolver"
+        "name": "Shotgun"
     },
     {
         "name": "RPG"
