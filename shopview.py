@@ -12,22 +12,30 @@ class ShopView(arcade.View):
         super().__init__()
 
         self.cursor_sprite = None
-        self.Player1 = None
-        self.list1 = os.listdir("assets/")
+        self.preview = None
+        self.preview_dir_name_list = os.listdir("assets/")
 
-        # Create the sprite lists
-        self.move_spritel = arcade.Sprite(
+        # Left button
+        self.btn_left = arcade.Sprite(
             "resources/images/shop/shop_left.png", 0.2)
-        self.move_spriter = arcade.Sprite(
+        self.btn_left.center_x = 100 * global_scale()
+        self.btn_left.center_y = 350 * global_scale()
+
+        # Right button
+        self.btn_right = arcade.Sprite(
             "resources/images/shop/shop_right.png", 0.2)
-        self.move_spritel.center_x = 100
-        self.move_spritel.center_y = 350
-        self.move_spriter.center_x = 1200
-        self.move_spriter.center_y = 350
+        self.btn_right.center_x = 1200 * global_scale()
+        self.btn_right.center_y = 350 * global_scale()
+
+        # Cursor
         self.cursor_sprite = arcade.Sprite(
             "resources/images/goat_cursor.png", 1)
-        self.c_p = 0
-        self.Player1 = PreviewSprite(self.list1[self.c_p])
+        self.cursor_sprite.center_x = C.SCREEN_WIDTH * global_scale()
+        self.cursor_sprite.center_y = C.SCREEN_HEIGHT * global_scale()
+
+        self.current_preview_index = 0
+        self.preview = PreviewSprite(
+            self.preview_dir_name_list[self.current_preview_index])
 
     def on_draw(self):
         """Render the screen."""
@@ -39,10 +47,14 @@ class ShopView(arcade.View):
         #                                     C.SCREEN_WIDTH, C.SCREEN_HEIGHT,
         #                                     self.background)
 
-        self.move_spritel.draw(pixelated=True)
-        self.move_spriter.draw(pixelated=True)
+        self.preview.draw()
+
+        # TODO: Asset should not be pixelated ingame
+        self.btn_left.draw(pixelated=True)
+        self.btn_right.draw(pixelated=True)
+
+        # Cursor should always be top most
         self.cursor_sprite.draw()
-        self.Player1.draw()
 
     def on_show(self):
         """Called when switching to this view."""
@@ -50,24 +62,27 @@ class ShopView(arcade.View):
 
     def on_mouse_press(self, x, y, button, modifiers):
 
-        if self.move_spritel.collides_with_sprite(self.cursor_sprite):
-            self.c_p = (self.c_p + 1)
-            if self.c_p > len(self.list1):
-                self.c_p = 0
-            self.Player1 = PreviewSprite(self.list1[self.c_p])
+        # Go to previous or next preview index
+        if self.btn_left.collides_with_sprite(self.cursor_sprite):
+            self.current_preview_index -= 1
+            if self.current_preview_index < 0:
+                self.current_preview_index = len(
+                    self.preview_dir_name_list) - 1
+        elif self.btn_right.collides_with_sprite(self.cursor_sprite):
+            self.current_preview_index += 1
+            if self.current_preview_index >= len(self.preview_dir_name_list):
+                self.current_preview_index = 0
 
-        if self.move_spriter.collides_with_sprite(self.cursor_sprite):
-            self.c_p = (self.c_p - 1)
-            if self.c_p < 0:
-                self.c_p = len(self.list1)-1
-            self.Player1 = PreviewSprite(self.list1[self.c_p])
+        # Display preview
+        self.preview = PreviewSprite(
+            self.preview_dir_name_list[self.current_preview_index])
 
-    def on_mouse_motion(self, x, y, dx, dy):
-        self.cursor_sprite.center_x = x+20
-        self.cursor_sprite.center_y = y-20
+    def on_mouse_motion(self, x, y, _dx, _dy):
+        self.cursor_sprite.center_x = x + C.GUI["Crosshair"]["offset_x"]
+        self.cursor_sprite.center_y = y + C.GUI["Crosshair"]["offset_y"]
 
-    def on_update(self, delta_time=1/60):
-        self.Player1.update_animation(delta_time)
+    def on_update(self, delta_time=1 / 60):
+        self.preview.update_animation(delta_time)
 
 
 class PreviewSprite(arcade.Sprite):
@@ -75,9 +90,9 @@ class PreviewSprite(arcade.Sprite):
     def __init__(self, dir):
         super().__init__()
 
-        self.center_x = 650
-        self.center_y = 400
-        self.scale = 1
+        self.center_x = 650 * global_scale()
+        self.center_y = 400 * global_scale()
+        self.scale = 1 * global_scale()
         self.cur_texture = 0
 
         base_path = f"assets/{dir}/"
@@ -89,8 +104,14 @@ class PreviewSprite(arcade.Sprite):
 
         self.texture = self.texture_list[int(self.cur_texture)]
 
-    def update_animation(self, delta_time=1/60):
-        self.cur_texture += 0.1
-        if self.cur_texture > len(self.texture_list) - 1:
-            self.cur_texture = 0
+    def update_animation(self, delta_time=1 / 60):
+        texture_speed = 30
+
+        if len(self.texture_list) > 1:
+            self.cur_texture += texture_speed * delta_time
+            while self.cur_texture >= len(self.texture_list) - 1:
+                self.cur_texture -= len(self.texture_list) - 1
+                if (self.cur_texture <= 0):
+                    self.cur_texture = 0
+                    break
         self.texture = self.texture_list[int(self.cur_texture)]
