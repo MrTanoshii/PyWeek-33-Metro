@@ -4,7 +4,7 @@ import random
 import math
 import const.constants as C
 from bullet import Bullet
-from const.enemy_weapon import ENEMY_LOGIC
+from tracker import Tracker
 from gold import Gold
 from player import Player
 from audio import Audio
@@ -153,6 +153,7 @@ class Enemy(arcade.Sprite):
                 random_enemy_index = random.randrange(0, len(enemy_list))
                 random_enemy_prob = random.random()
         enemy = Enemy("Simple", enemy_list[random_enemy_index])
+        enemy.scale = enemy_list[random_enemy_index]["scale"]
 
         # Set enemy location
         enemy.center_x = (C.SCREEN_WIDTH *
@@ -173,6 +174,7 @@ class Enemy(arcade.Sprite):
             Audio.play_rand_sound(self.sfx_death_list)
 
         if death == C.DEATH.KILLED:
+            Tracker.add_kill()
             Gold.spawn(self.center_x, self.center_y)
         self.remove_from_sprite_lists()
 

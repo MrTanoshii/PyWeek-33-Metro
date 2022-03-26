@@ -1,5 +1,6 @@
 import arcade
 import random
+import os.path
 
 import const.constants as C
 from bg import BackGround
@@ -13,6 +14,7 @@ from settings import Settings
 from audio import Audio
 
 from pause_menu_view import PauseMenuView
+from game_over_view import GameOverView
 import mapview
 
 
@@ -69,8 +71,6 @@ class GameView(arcade.View):
         # Player shoot
         self.shoot_pressed = False
 
-        self.cursor_sprite = None
-
         self.level = mapview.MapView.current_level
         for monument in C.MAP_MONUMENTS_LIST:
             if monument["level"] == self.level:
@@ -80,6 +80,8 @@ class GameView(arcade.View):
         self.map_view = map_view
 
         arcade.set_background_color(arcade.csscolor.GREEN)
+
+        self.text_color = None
 
     def setup(self):
         """ Set up everything with the game """
@@ -105,9 +107,14 @@ class GameView(arcade.View):
         Enemy.preload(self.enemy_list)
 
         # Cursor
-        self.cursor_sprite = arcade.Sprite(
-            "resources/images/crosshair.png", 0.7)
-        self.cursor_sprite.color = (128, 0, 0)
+        self.cursor = arcade.Sprite(scale=0.7)
+        self.cursor.cur_texture = 0
+        self.cursor.texture_list = []
+        for filename in os.listdir(f"assets/CursorCrosshair/"):
+            self.cursor.texture_list.append(
+                arcade.load_texture(f"assets/CursorCrosshair/{filename}"))
+        self.cursor.texture = self.cursor.texture_list[0]
+        self.cursor.color = (128, 0, 0)
 
         # Find & set map bgm
         view = None
@@ -119,6 +126,14 @@ class GameView(arcade.View):
                 self.bgm = Audio.bgm_list[i]["sound"]
                 break
 
+        # change bullets for ak for night level
+        if self.level == 1:
+            self.text_color = arcade.color.WHITE
+            Bullet.friendly_bullet_list.color = (300, 128, 128)
+        else:
+            Bullet.friendly_bullet_list.color = (255, 255, 255)
+            self.text_color = arcade.color.BLACK
+
         # Start bgm
         self.bgm_stream = Audio.play_sound(self.bgm, True)
 
@@ -127,6 +142,18 @@ class GameView(arcade.View):
 
         # Clear the screen to the background color
         self.clear()
+
+        #  Night Colors for level one
+        if self.level == 1:
+            self.bg.color = (32, 32, 64)
+            Bullet.enemy_bullet_list.color = (610, 255, 255)
+            Enemy.enemy_list.color = (64, 64, 64)
+            self.player.color = (64, 64, 64)
+        else:
+            self.bg.color = (255, 255, 255)
+            Bullet.enemy_bullet_list.color = (255, 255, 255)
+            Enemy.enemy_list.color = (255, 255, 255)
+            self.player.color = (255, 255, 255)
 
         # Draw our sprites
         BackGround.bg_list.draw()
@@ -145,9 +172,9 @@ class GameView(arcade.View):
         # GUI - Score
         arcade.draw_text(
             f"Score : {Tracker.score}",
-            (C.SCREEN_WIDTH / (5 * global_scale())),
-            (C.SCREEN_HEIGHT - 50 * global_scale()),
-            arcade.color.BLACK,
+            (C.SCREEN_WIDTH / 5) * global_scale(),
+            (C.SCREEN_HEIGHT - 50) * global_scale(),
+            self.text_color,
             font_size=30 * global_scale(),
             anchor_x="center",
         )
@@ -155,9 +182,9 @@ class GameView(arcade.View):
         # GUI - Gold
         arcade.draw_text(
             f"Gold : {Tracker.gold}",
-            (C.SCREEN_WIDTH / (5 * global_scale())),
-            (C.SCREEN_HEIGHT - 150 * global_scale()),
-            arcade.color.BLACK,
+            (C.SCREEN_WIDTH / 5) * global_scale(),
+            (C.SCREEN_HEIGHT - 150) * global_scale(),
+            self.text_color,
             font_size=30 * global_scale(),
             anchor_x="center",
         )
@@ -165,9 +192,9 @@ class GameView(arcade.View):
         # GUI - Player HP
         arcade.draw_text(
             f"HP : {self.player.cur_health}",
-            ((C.SCREEN_WIDTH / (5 * global_scale())) + 200 * global_scale()),
-            (C.SCREEN_HEIGHT - 50 * global_scale()),
-            arcade.color.BLACK,
+            ((C.SCREEN_WIDTH / 5) + 200) * global_scale(),
+            (C.SCREEN_HEIGHT - 50) * global_scale(),
+            self.text_color,
             font_size=30 * global_scale(),
             anchor_x="center",
         )
@@ -175,45 +202,53 @@ class GameView(arcade.View):
         # GUI - Player Ammo
         arcade.draw_text(
             f"Ammo : {self.player.weapon.cur_ammo} \ {self.player.weapon.max_ammo}",
-            ((C.SCREEN_WIDTH / (5 * global_scale())) + 500 * global_scale()),
-            (C.SCREEN_HEIGHT - 50 * global_scale()),
-            arcade.color.BLACK,
+            ((C.SCREEN_WIDTH / 5) + 500) * global_scale(),
+            (C.SCREEN_HEIGHT - 50) * global_scale(),
+            self.text_color,
             font_size=30 * global_scale(),
             anchor_x="center",
         )
 
-        self.cursor_sprite.draw()
+        self.cursor.draw()
 
         # Restart bgm
         if self.bgm_stream == None:
             self.bgm_stream = Audio.play_sound(self.bgm, True)
 
     def on_update(self, delta_time):
-        if random.randint(0, 200) <= 1:
-            Enemy.spawn_enemy(self.enemy_list)
+        if self.player.is_dead:
+            # Stop bgm
+            Audio.stop_sound(self.bgm_stream)
+            # Game Over Screen
+            self.window.show_view(GameOverView(
+                self, self.map_view, self.level))
+        else:
+            if random.randint(0, 200) == 1:
+                Enemy.spawn_enemy(self.enemy_list)
 
-        BackGround.update(delta_time)
-        Gold.update(delta_time)
+            BackGround.update(delta_time)
+            Gold.update(delta_time)
 
-        movement_key_pressed = {
-            "left": self.left_key_down,
-            "up": self.up_key_down,
-            "down": self.down_key_down,
-            "right": self.right_key_down
-        }
-        self.player.update(delta_time, movement_key_pressed,
-                           self.shoot_pressed)
-        self.check_collisions()
+            movement_key_pressed = {
+                "left": self.left_key_down,
+                "up": self.up_key_down,
+                "down": self.down_key_down,
+                "right": self.right_key_down
+            }
+            self.player.update(delta_time, movement_key_pressed,
+                               self.shoot_pressed)
+            self.check_collisions()
 
-        Enemy.update(delta_time)
-        Bullet.update()
-        self.player.update_animation(delta_time)
+            Enemy.update(delta_time)
+            Bullet.update()
+            self.player.update_animation(delta_time)
+            self.update_cursor_animation(delta_time)
 
     def on_mouse_motion(self, x, y, dx, dy):
         """Called whenever mouse is moved."""
         self.player.weapon.on_mouse_motion(x, y, dx, dy)
-        self.cursor_sprite.center_x = x + C.GUI["Crosshair"]["offset_x"]
-        self.cursor_sprite.center_y = y + C.GUI["Crosshair"]["offset_y"]
+        self.cursor.center_x = x + C.GUI["Crosshair"]["offset_x"]
+        self.cursor.center_y = y + C.GUI["Crosshair"]["offset_y"]
 
     def on_mouse_press(self, x, y, button, modifiers):
         """Called whenever a mouse key is pressed."""
@@ -250,18 +285,34 @@ class GameView(arcade.View):
             if key == arcade.key.KEY_1:
                 requested_weapon = "Revolver"
                 self.player.set_skin('Revolver')
+                if self.level == 1:
+                    Bullet.friendly_bullet_list.color = (300, 128, 128)
+                else:
+                    Bullet.friendly_bullet_list.color = (255, 255, 255)
             # 2 - Rifle
             elif key == arcade.key.KEY_2:
                 requested_weapon = "Rifle"
                 self.player.set_skin('AK')
+                if self.level == 1:
+                    Bullet.friendly_bullet_list.color = (300, 128, 128)
+                else:
+                    Bullet.friendly_bullet_list.color = (255, 255, 255)
             # 2 - Shotgun
             elif key == arcade.key.KEY_3:
                 requested_weapon = "Shotgun"
                 self.player.set_skin('Shotgun')
+                if self.level == 1:
+                    Bullet.friendly_bullet_list.color = (128, 64, 64)
+                else:
+                    Bullet.friendly_bullet_list.color = (255, 255, 255)
             # 4 - RPG
             elif key == arcade.key.KEY_4:
                 requested_weapon = "RPG"
                 self.player.set_skin('RPG')
+                if self.level == 1:
+                    Bullet.friendly_bullet_list.color = (610, 255, 255)
+                else:
+                    Bullet.friendly_bullet_list.color = (255, 255, 255)
 
             # Swap weapon
             if Player.weapon.weapon_name != requested_weapon:
@@ -281,7 +332,6 @@ class GameView(arcade.View):
             # Stop bgm
             Audio.stop_sound(self.bgm_stream)
             self.bgm_stream = None
-
             self.window.show_view(PauseMenuView(
                 self, self.map_view, self.level))
 
@@ -363,3 +413,17 @@ class GameView(arcade.View):
 
     def on_show(self):
         pass
+
+    def update_cursor_animation(self, delta_time: float = 1 / 60):
+        # TODO: Change animation speed from hardcoded to constant
+        animation_speed = 12
+
+        if len(self.cursor.texture_list) > 1:
+            self.cursor.cur_texture += animation_speed * delta_time
+            while self.cursor.cur_texture >= len(self.cursor.texture_list) - 1:
+                self.cursor.cur_texture -= len(self.cursor.texture_list) - 1
+                if self.cursor.cur_texture <= 0:
+                    self.cursor.cur_texture = 0
+                    break
+        self.cursor.texture = self.cursor.texture_list[int(
+            self.cursor.cur_texture)]
