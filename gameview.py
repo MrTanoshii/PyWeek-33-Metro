@@ -77,6 +77,8 @@ class GameView(arcade.View):
 
         arcade.set_background_color(arcade.csscolor.GREEN)
 
+        self.text_color = None
+
     def setup(self):
         """ Set up everything with the game """
 
@@ -114,6 +116,14 @@ class GameView(arcade.View):
                 self.bgm = Audio.bgm_list[i]["sound"]
                 break
 
+        # change bullets for ak for night level
+        if self.level == 1:
+            self.text_color = arcade.color.WHITE
+            Bullet.friendly_bullet_list.color = (300, 128, 128)
+        else:
+            Bullet.friendly_bullet_list.color = (255, 255, 255)
+            self.text_color = arcade.color.BLACK
+
         # Start bgm
         self.bgm_stream = Audio.play_sound(self.bgm, True)
 
@@ -122,6 +132,18 @@ class GameView(arcade.View):
 
         # Clear the screen to the background color
         self.clear()
+
+        #  Night Colors for level one
+        if self.level == 1:
+            self.bg.color = (32, 32, 64)
+            Bullet.enemy_bullet_list.color = (610, 255, 255)
+            Enemy.enemy_list.color = (64, 64, 64)
+            self.player.color = (64, 64, 64)
+        else:
+            self.bg.color = (255, 255, 255)
+            Bullet.enemy_bullet_list.color = (255, 255, 255)
+            Enemy.enemy_list.color = (255, 255, 255)
+            self.player.color = (255, 255, 255)
 
         # Draw our sprites
         BackGround.bg_list.draw()
@@ -142,7 +164,7 @@ class GameView(arcade.View):
             f"Score : {Tracker.score}",
             (C.SCREEN_WIDTH / 5) * global_scale(),
             (C.SCREEN_HEIGHT - 50) * global_scale(),
-            arcade.color.BLACK,
+            self.text_color,
             font_size=30 * global_scale(),
             anchor_x="center",
         )
@@ -152,7 +174,7 @@ class GameView(arcade.View):
             f"Gold : {Tracker.gold}",
             (C.SCREEN_WIDTH / 5) * global_scale(),
             (C.SCREEN_HEIGHT - 150) * global_scale(),
-            arcade.color.BLACK,
+            self.text_color,
             font_size=30 * global_scale(),
             anchor_x="center",
         )
@@ -162,7 +184,7 @@ class GameView(arcade.View):
             f"HP : {self.player.cur_health}",
             ((C.SCREEN_WIDTH / 5) + 200) * global_scale(),
             (C.SCREEN_HEIGHT - 50) * global_scale(),
-            arcade.color.BLACK,
+            self.text_color,
             font_size=30 * global_scale(),
             anchor_x="center",
         )
@@ -172,7 +194,7 @@ class GameView(arcade.View):
             f"Ammo : {self.player.weapon.cur_ammo} \ {self.player.weapon.max_ammo}",
             ((C.SCREEN_WIDTH / 5) + 500) * global_scale(),
             (C.SCREEN_HEIGHT - 50) * global_scale(),
-            arcade.color.BLACK,
+            self.text_color,
             font_size=30 * global_scale(),
             anchor_x="center",
         )
@@ -245,14 +267,26 @@ class GameView(arcade.View):
             if key == arcade.key.KEY_1:
                 requested_weapon = "Rifle"
                 self.player.set_skin('AK')
+                if self.level == 1:
+                    Bullet.friendly_bullet_list.color = (300, 128, 128)
+                else:
+                    Bullet.friendly_bullet_list.color = (255, 255, 255)
             # 2 - Shotgun
             elif key == arcade.key.KEY_2:
                 requested_weapon = "Shotgun"
                 self.player.set_skin('Shotgun')
+                if self.level == 1:
+                    Bullet.friendly_bullet_list.color = (128, 64, 64)
+                else:
+                    Bullet.friendly_bullet_list.color = (255, 255, 255)
             # 3 - RPG
             elif key == arcade.key.KEY_3:
                 requested_weapon = "RPG"
                 self.player.set_skin('RPG')
+                if self.level == 1:
+                    Bullet.friendly_bullet_list.color = (610, 255, 255)
+                else:
+                    Bullet.friendly_bullet_list.color = (255, 255, 255)
 
             # Swap weapon
             if Player.weapon.weapon_name != requested_weapon:
