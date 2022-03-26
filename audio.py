@@ -156,7 +156,7 @@ class Audio():
         }
         cls.master_list.append(master_sound_dict)
 
-        # Append monument name and sound to ui list
+        # Append meow name and sound to ui list
         sound_dict = {
             "ui_name": C.AUDIO.SOUND["ui_meow"]["name"],
             "sound": sound
