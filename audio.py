@@ -152,13 +152,13 @@ class Audio():
         # Append sound and gain to master list
         master_sound_dict = {
             "sound": sound,
-            "gain": monument["sfx_gain"]
+            "gain": C.AUDIO.SOUND["ui_meow"]["gain"]
         }
         cls.master_list.append(master_sound_dict)
 
         # Append monument name and sound to ui list
         sound_dict = {
-            "ui_name": monument["name"],
+            "ui_name": C.AUDIO.SOUND["ui_meow"]["name"],
             "sound": sound
         }
         cls.sfx_ui_list.append(sound_dict)

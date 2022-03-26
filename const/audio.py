@@ -95,7 +95,7 @@ _UI_SFX = {
     },
     "ui_meow": {
         "name": "415209__inspectorj__cat-screaming-a.wav",
-        "gain": 1
+        "gain": -.5
     }
 }
 
