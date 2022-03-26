@@ -201,7 +201,7 @@ class GameView(arcade.View):
                            self.shoot_pressed)
         self.check_collisions()
 
-        Enemy.update()
+        Enemy.update(delta_time)
         Bullet.update()
 
     def on_mouse_motion(self, x, y, dx, dy):
@@ -215,7 +215,7 @@ class GameView(arcade.View):
         # Mouse Left Click
         if button == arcade.MOUSE_BUTTON_LEFT:
             for enemy in Enemy.enemy_list:
-                enemy.shoot(Bullet.enemy_bullet_list)
+                enemy.shoot()
 
         if C.DEBUG.MAP:
             print(x, y)
