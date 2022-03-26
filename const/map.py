@@ -314,6 +314,7 @@ MAP_STEP_LIST = [
 STEP_CONFS = {
     "step_scale": 0.3,
     "story_scale": 0.5,
+    "story_scale_big": 0.7,
     "locked": (255, 64, 64),
     "unlocked": (64, 255, 64),
     "passed": (255, 255, 64),

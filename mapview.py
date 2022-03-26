@@ -58,8 +58,8 @@ class MapView(arcade.View):
         self.normal_scale = .2 * global_scale()
         self.highlight_scale = .5 * global_scale()
         self.highlight = False
-        self.normal_scale_step = 0.5 * global_scale()
-        self.highlight_scale_step = 0.7 * global_scale()
+        self.normal_scale_step = C.STEP_CONFS["story_scale"] * global_scale()
+        self.highlight_scale_step = C.STEP_CONFS["story_scale_big"] * global_scale()
         self.highlight_step = False
 
         """ Map sprites """

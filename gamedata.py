@@ -180,7 +180,9 @@ class GameData:
     def update_levels(cls, level: int):
         # player passed the level
 
-        cls.level_data[str(level)]["locked"] = 0
+        if level <= 6:
+
+            cls.level_data[str(level)]["locked"] = 0
 
         # Write changes
         cls.write_data()
