@@ -6,6 +6,7 @@ class PLAYER:
     START_HP = 3
     DEATH_HP = 0
     SPEED = 8
+    NAME = "player"
     SFX_DEATH = {
         "name": AUDIO.SOUND["player_death"]["name"],
         "gain": AUDIO.SOUND["player_death"]["gain"]

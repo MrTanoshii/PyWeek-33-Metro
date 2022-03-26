@@ -30,10 +30,8 @@ class Audio():
         Load all player death sfx
     load_sfx_enemy_death()
         Load all enemy death sfx
-    load_sfx_player_hit()
-        Load all player hit sfx
-    load_sfx_enemy_hit()
-        Load all enemy hit sfx
+    load_sfx_hit()
+        Load all hit sfx
     play_sound(cls, requested_sound: arcade.Sound, looping: bool = False) -> Player | None
         Play sound
     play_rand_sound(cls, requested_sound_list: list) -> Player | None
@@ -67,14 +65,14 @@ class Audio():
     # Gold sound list class attribute
     sfx_gold_pickup_list = []
 
+    sfx_hit_list = []
+
     # Player sound list class attribute
     sfx_player_weapon_shoot_list = []
-    sfx_player_hit_list = []
     sfx_player_death_list = []
 
     # Enemy sound list class attribute
     sfx_enemy_weapon_shoot_list = []
-    sfx_enemy_hit_list = []
     sfx_enemy_death_list = []
 
     @classmethod
@@ -92,8 +90,7 @@ class Audio():
         cls.load_sfx_player_death()
         cls.load_sfx_enemy_death()
 
-        cls.load_sfx_player_hit()
-        cls.load_sfx_enemy_hit()
+        cls.load_sfx_hit()
 
     @classmethod
     def load_sfx_ui(cls):
@@ -152,13 +149,13 @@ class Audio():
         # Append sound and gain to master list
         master_sound_dict = {
             "sound": sound,
-            "gain": monument["sfx_gain"]
+            "gain": C.AUDIO.SOUND["ui_meow"]["gain"]
         }
         cls.master_list.append(master_sound_dict)
 
-        # Append monument name and sound to ui list
+        # Append meow name and sound to ui list
         sound_dict = {
-            "ui_name": monument["name"],
+            "ui_name": C.AUDIO.SOUND["ui_meow"]["name"],
             "sound": sound
         }
         cls.sfx_ui_list.append(sound_dict)
@@ -435,13 +432,15 @@ class Audio():
             print("Complete: Enemy death sfx")
 
     @classmethod
-    def load_sfx_player_hit(cls):
-        """ Load all player hit sfx """
+    def load_sfx_hit(cls):
+        """ Load all hit sfx """
 
         if C.DEBUG.ALL or C.DEBUG.AUDIO:
-            print("Loading: Player hit sfx")
+            print("Loading: Hit sfx")
+
+        # Player hit sfx
         sound = None
-        file_name = "hit/player/" + C.PLAYER.SFX_HIT["name"]
+        file_name = "hit/" + C.PLAYER.SFX_HIT["name"]
         for sfx_dict in cls.sfx_list:
             if sfx_dict["file_name"] == file_name:
                 sound = sfx_dict["sound"]
@@ -454,7 +453,6 @@ class Audio():
             "sound": sound,
             "file_name": file_name
         }
-        cls.sfx_player_hit_list.append(sound)
         cls.sfx_list.append(sfx_dict)
 
         # Append sound and gain to master list
@@ -463,24 +461,19 @@ class Audio():
             "gain": C.PLAYER.SFX_HIT["gain"]
         }
         cls.master_list.append(master_sound_dict)
-        if C.DEBUG.ALL or C.DEBUG.AUDIO:
-            print("Master sound list: ", cls.master_list)
-            print("SFX list: ", cls.sfx_list)
-            print("SFX Player hit list: ",
-                  cls.sfx_player_hit_list)
-            print("Complete: Player hit sfx")
+        # Append enemy name and sound to hit list
+        sound_dict = {
+            "name": C.PLAYER.NAME,
+            "sound_list": [sound]
+        }
+        cls.sfx_hit_list.append(sound_dict)
 
-    @classmethod
-    def load_sfx_enemy_hit(cls):
-        """ Load all enemy hit sfx """
-
-        if C.DEBUG.ALL or C.DEBUG.AUDIO:
-            print("Loading: Enemy hit sfx")
+        # Enemy hit sfx
         for enemy in C.ENEMY_LIST.values():
             sound_list = []
             for i in range(0, len(enemy["sfx_hit"])):
                 sound = None
-                file_name = "hit/enemy/" + enemy["sfx_hit"][i]
+                file_name = "hit/" + enemy["sfx_hit"][i]
                 for sfx_dict in cls.sfx_list:
                     if sfx_dict["file_name"] == file_name:
                         sound = sfx_dict["sound"]
@@ -503,12 +496,12 @@ class Audio():
                 }
                 cls.master_list.append(master_sound_dict)
 
-            # Append enemy name and sound to enemy hit list
+            # Append enemy name and sound to hit list
             sound_dict = {
-                "enemy_name": enemy["name"],
-                "sound": sound_list
+                "name": enemy["name"],
+                "sound_list": sound_list
             }
-            cls.sfx_enemy_hit_list.append(sound_dict)
+            cls.sfx_hit_list.append(sound_dict)
         if C.DEBUG.ALL or C.DEBUG.AUDIO:
             print("Master sound list: ", cls.master_list)
             print("SFX list: ", cls.sfx_list)
