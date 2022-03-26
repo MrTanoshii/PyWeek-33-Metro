@@ -314,9 +314,7 @@ class MapView(arcade.View):
                 game.setup()
                 self.window.show_view(game)
 
-        hit_step = arcade.check_for_collision_with_list(
-            self.cursor_sprite, MapView.step_list)
-        if hit_step and (hit_step[0].level is not None):
+        elif hit_step and (hit_step[0].level is not None):
             if hit_step[0].unlocked:
                 story_level = hit_step[0].level
                 # Play monument click sfx
