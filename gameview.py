@@ -14,6 +14,7 @@ from settings import Settings
 from audio import Audio
 
 from pause_menu_view import PauseMenuView
+from game_over_view import GameOverView
 import mapview
 
 
@@ -193,26 +194,33 @@ class GameView(arcade.View):
             self.bgm_stream = Audio.play_sound(self.bgm, True)
 
     def on_update(self, delta_time):
-        if random.randint(0, 200) <= 1:
-            Enemy.spawn_enemy(self.enemy_list)
+        if self.player.is_dead:
+            # Stop bgm
+            Audio.stop_sound(self.bgm_stream)
+            # Game Over Screen
+            self.window.show_view(GameOverView(
+                self, self.map_view, self.level))
+        else:
+            if random.randint(0, 200) == 1:
+                Enemy.spawn_enemy(self.enemy_list)
 
-        BackGround.update(delta_time)
-        Gold.update(delta_time)
+            BackGround.update(delta_time)
+            Gold.update(delta_time)
 
-        movement_key_pressed = {
-            "left": self.left_key_down,
-            "up": self.up_key_down,
-            "down": self.down_key_down,
-            "right": self.right_key_down
-        }
-        self.player.update(delta_time, movement_key_pressed,
-                           self.shoot_pressed)
-        self.check_collisions()
+            movement_key_pressed = {
+                "left": self.left_key_down,
+                "up": self.up_key_down,
+                "down": self.down_key_down,
+                "right": self.right_key_down
+            }
+            self.player.update(delta_time, movement_key_pressed,
+                               self.shoot_pressed)
+            self.check_collisions()
 
-        Enemy.update(delta_time)
-        Bullet.update()
-        self.player.update_animation(delta_time)
-        self.update_cursor_animation(delta_time)
+            Enemy.update(delta_time)
+            Bullet.update()
+            self.player.update_animation(delta_time)
+            self.update_cursor_animation(delta_time)
 
     def on_mouse_motion(self, x, y, dx, dy):
         """Called whenever mouse is moved."""
@@ -286,7 +294,6 @@ class GameView(arcade.View):
             # Stop bgm
             Audio.stop_sound(self.bgm_stream)
             self.bgm_stream = None
-
             self.window.show_view(PauseMenuView(
                 self, self.map_view, self.level))
 

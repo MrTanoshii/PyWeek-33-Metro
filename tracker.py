@@ -33,6 +33,9 @@ class Tracker():
     # Score class attribute
     score = 0
 
+    # Score class attribute
+    kills = 0
+
     # Easter egg class attribute
     easter_egg_found = False
 
@@ -53,9 +56,14 @@ class Tracker():
         cls.score -= value
 
     @classmethod
+    def add_kill(cls):
+        cls.kills += 1
+
+    @classmethod
     def reset_trackers(cls):
         cls.score = 0
         cls.gold = 0
+        cls.kills = 0
 
     @classmethod
     def trigger_easter_egg(cls):
@@ -67,4 +75,5 @@ class Tracker():
     def reset(cls):
         cls.gold = 0
         cls.score = 0
+        cls.kills = 0
         cls.easter_egg_found = False
