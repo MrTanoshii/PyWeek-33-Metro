@@ -5,7 +5,7 @@ ENEMY_LIST = {
     "tank green": {
         "name": "tank green",
         "weapon": "tank",
-        "animation_speed": 1.5,
+        "animation_speed": 15,
         "scale": 1.3,
         "speed": -3,
         "spawn_rate": 1,
@@ -22,7 +22,7 @@ ENEMY_LIST = {
     "tank grey": {
         "name": "tank grey",
         "weapon": "tank",
-        "animation_speed": 1.5,
+        "animation_speed": 15,
         "scale": 1.3,
         "speed": -3,
         "spawn_rate": 1,
@@ -39,7 +39,7 @@ ENEMY_LIST = {
     "tank grey burning": {
         "name": "tank grey burning",
         "weapon": "tank",
-        "animation_speed": 1.2,
+        "animation_speed": 6,
         "scale": 1.3,
         "speed": -3,
         "spawn_rate": 1,
@@ -56,7 +56,7 @@ ENEMY_LIST = {
     "soldier desert": {
         "name": "soldier desert",
         "weapon": "soldier",
-        "animation_speed": 1.5,
+        "animation_speed": 15,
         "scale": 1,
         "speed": -2,
         "spawn_rate": 1,
@@ -73,7 +73,7 @@ ENEMY_LIST = {
     "soldier forest": {
         "name": "soldier forest",
         "weapon": "soldier",
-        "animation_speed": 1.5,
+        "animation_speed": 15,
         "scale": 1,
         "speed": -2,
         "spawn_rate": 1,
@@ -90,7 +90,7 @@ ENEMY_LIST = {
     "soldier ocean": {
         "name": "soldier ocean",
         "weapon": "soldier",
-        "animation_speed": 1.5,
+        "animation_speed": 15,
         "scale": 1,
         "speed": -2,
         "spawn_rate": 1,
@@ -107,7 +107,7 @@ ENEMY_LIST = {
     "soldier polar": {
         "name": "soldier polar",
         "weapon": "soldier",
-        "animation_speed": 1.5,
+        "animation_speed": 15,
         "scale": 1,
         "speed": -1.8,
         "spawn_rate": 1,
@@ -124,9 +124,9 @@ ENEMY_LIST = {
     "bear ak": {
         "name": "bear ak",
         "weapon": "bear ak",
-        "animation_speed": 1.5,
-        "scale": 1,
-        "speed": -1.5,
+        "animation_speed": 15,
+        "scale": 1.4,
+        "speed": -1,
         "spawn_rate": 0.3,
         "health": 24,
         "shoot_offset": (5, 145),
@@ -141,7 +141,7 @@ ENEMY_LIST = {
     "bear polar": {
         "name": "bear polar",
         "weapon": "bear ak",
-        "animation_speed": 1.5,
+        "animation_speed": 15,
         "scale": 1,
         "speed": -1.5,
         "spawn_rate": 0.3,
@@ -158,7 +158,7 @@ ENEMY_LIST = {
     "orca": {
         "name": "orca",
         "weapon": "orca",
-        "animation_speed": 1.5,
+        "animation_speed": 7.5,
         "scale": 1,
         "speed": -6,
         "spawn_rate": 0.4,
@@ -175,9 +175,9 @@ ENEMY_LIST = {
     "martial artist": {
         "name": "martial artist",
         "weapon": "martial artist",
-        "animation_speed": 1.5,
+        "animation_speed": 55,
         "scale": 1,
-        "speed": -6,
+        "speed": -10,
         "spawn_rate": 0.4,
         "health": 30,
         "shoot_offset": (0, 0),
