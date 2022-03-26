@@ -87,7 +87,8 @@ class GameView(arcade.View):
         # self.gui_camera = arcade.Camera(self.window.width, self.window.height)
 
         # Create player sprite
-        self.player = Player(hit_box_algorithm="Simple", current_level=self.level)
+        self.player = Player(hit_box_algorithm="Simple",
+                             current_level=self.level)
 
         # Rotate player to face to the right
 
@@ -177,7 +178,7 @@ class GameView(arcade.View):
             ((C.SCREEN_WIDTH / (5 * global_scale())) + 500 * global_scale()),
             (C.SCREEN_HEIGHT - 50 * global_scale()),
             arcade.color.BLACK,
-            font_size= 30 * global_scale(),
+            font_size=30 * global_scale(),
             anchor_x="center",
         )
 
@@ -243,18 +244,22 @@ class GameView(arcade.View):
             self.shoot_pressed = True
 
         # Weapon swap | 1-3
-        elif key == arcade.key.KEY_1 or key == arcade.key.KEY_2 or key == arcade.key.KEY_3:
+        elif key == arcade.key.KEY_1 or key == arcade.key.KEY_2 or key == arcade.key.KEY_3 or key == arcade.key.KEY_4:
             requested_weapon = ""
-            # 1 - Rifle
+            # 1 - Revolver
             if key == arcade.key.KEY_1:
+                requested_weapon = "Revolver"
+                self.player.set_skin('Revolver')
+            # 2 - Rifle
+            elif key == arcade.key.KEY_2:
                 requested_weapon = "Rifle"
                 self.player.set_skin('AK')
             # 2 - Shotgun
-            elif key == arcade.key.KEY_2:
+            elif key == arcade.key.KEY_3:
                 requested_weapon = "Shotgun"
                 self.player.set_skin('Shotgun')
-            # 3 - RPG
-            elif key == arcade.key.KEY_3:
+            # 4 - RPG
+            elif key == arcade.key.KEY_4:
                 requested_weapon = "RPG"
                 self.player.set_skin('RPG')
 

@@ -69,7 +69,7 @@ MAP_MONUMENTS_LIST = [
         "center_x": 1206,
         "center_y": 169,
         "assets": ["cactus256.png", "tree.png"],
-        "enemy": [ENEMY_LIST["tank"], ENEMY_LIST["soldier ocean"]],
+        "enemy": [ENEMY_LIST["tank"], ENEMY_LIST["soldier ocean"], ENEMY_LIST["orca"]],
         "player": "donky",
         "sfx_click": AUDIO.SOUND["ui_click"]["name"],
         "sfx_gain": AUDIO.SOUND["ui_click"]["gain"],
