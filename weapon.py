@@ -68,7 +68,7 @@ class Weapon(arcade.Sprite):
                               ] = weapon["max_ammo"]
 
         # Set default weapon
-        self.set_weapon("Rifle")
+        self.set_weapon("Revolver")
 
         self.last_mouse_x = 0
         self.last_mouse_y = 0

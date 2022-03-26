@@ -33,8 +33,8 @@ class PauseMenuView(arcade.View):
         self.background = None
         self.btn_list = None
         self.highlight = False
-        self.normal_scale = 0.8
-        self.highlight_scale = 1
+        self.normal_scale = 0.8 * global_scale()
+        self.highlight_scale = 1 * global_scale()
 
         self.bgm_stream = None
         self.sfx_click = None
@@ -106,8 +106,8 @@ class PauseMenuView(arcade.View):
                 filename="resources/images/pause_view/" + btn_dict["img_name"],
                 scale=self.normal_scale * global_scale())
             button.name = btn_dict["name"]
-            button.center_x = btn_dict["center_x"] * global_scale()
-            button.center_y = btn_dict["center_y"] * global_scale()
+            button.center_x = btn_dict["center_x"]
+            button.center_y = btn_dict["center_y"]
             self.btn_list.append(button)
 
     def on_show(self):
@@ -120,7 +120,7 @@ class PauseMenuView(arcade.View):
 
         # Draw the bg image
         arcade.draw_lrwh_rectangle_textured(
-            0, 0, C.SCREEN_WIDTH * global_scale(), C.SCREEN_HEIGHT * global_scale(), self.background)
+            0, 0, C.SCREEN_WIDTH, C.SCREEN_HEIGHT, self.background)
 
         # Draw buttons
         self.btn_list.draw()

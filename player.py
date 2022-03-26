@@ -80,7 +80,7 @@ class Player(arcade.Sprite):
 
         # Load texture
         self.texture_list = []
-        for filename in os.listdir(f"{dir_name}animation/"):
+        for filename in sorted(os.listdir(f"{dir_name}animation/")):
             self.texture_list.append(
                 arcade.load_texture(f"{dir_name}animation/{filename}", hit_box_algorithm=hit_box_algorithm))
 
@@ -94,7 +94,13 @@ class Player(arcade.Sprite):
 
         # Set player sounds
         self.sfx_death_list = Audio.sfx_player_death_list
-        self.sfx_hit_list = Audio.sfx_player_hit_list
+
+        # Find & set hit sfx
+        self.sfx_hit_list = []
+        for i in range(0, len(Audio.sfx_hit_list)):
+            if Audio.sfx_hit_list[i]["name"] == C.PLAYER.NAME:
+                self.sfx_hit_list.append(Audio.sfx_hit_list[i]["sound_list"])
+                break
 
         Player.player_list.append(self)
 
@@ -104,20 +110,22 @@ class Player(arcade.Sprite):
         self.textures_dict = {}
         for weapon in C.PLAYER_WEAPONS:
             texture_list = []
-            for filename in os.listdir(f"assets/{self._player_style}{weapon['name']}/"):
+            for filename in sorted(os.listdir(f"assets/{self._player_style}{weapon['name']}/")):
                 texture_list.append(
                     arcade.load_texture(f"assets/{self._player_style}{weapon['name']}/{filename}", hit_box_algorithm=hit_box_algorithm))
             self.textures_dict[f"{self._player_style}{weapon['name']}"] = texture_list
 
         # Set default skin for ak and level style player
-        self.set_skin(weapon="AK")
+        self.set_skin(weapon="Revolver")
 
     def set_skin(self, weapon: str, player_style=None):
-        if not player_style: player_style = self._player_style
+        if not player_style:
+            player_style = self._player_style
         """Takes asset/texture name as input and update current texture/skin"""
         self.texture_list = self.textures_dict[f"{player_style}{weapon}"]
 
-        self.texture = self.textures_dict[f"{player_style}{weapon}"][int(self.cur_texture)]
+        self.texture = self.textures_dict[f"{player_style}{weapon}"][int(
+            self.cur_texture)]
 
     def shoot(self, delta_time, shoot_pressed):
         """Handles shooting & reloading"""
@@ -213,14 +221,14 @@ class Player(arcade.Sprite):
         # Move player
         self.center_x += self.speed_x * global_scale()
         self.center_y += self.speed_y * global_scale()
-        if self.center_x > C.SCREEN_WIDTH / 2 * global_scale():
-            self.center_x = C.SCREEN_WIDTH / 2 * global_scale()
-        if self.center_x < 0 * global_scale():
-            self.center_x = 0 * global_scale()
-        if self.center_y > C.SCREEN_HEIGHT * .85 * global_scale():
-            self.center_y = C.SCREEN_HEIGHT * .85 * global_scale()
-        if self.center_y < C.SCREEN_HEIGHT * .15 * global_scale():
-            self.center_y = C.SCREEN_HEIGHT * .15 * global_scale()
+        if self.center_x > C.SCREEN_WIDTH / 2:
+            self.center_x = C.SCREEN_WIDTH / 2
+        if self.center_x < 0:
+            self.center_x = 0
+        if self.center_y > C.SCREEN_HEIGHT * .85:
+            self.center_y = C.SCREEN_HEIGHT * .85
+        if self.center_y < C.SCREEN_HEIGHT * .15:
+            self.center_y = C.SCREEN_HEIGHT * .15
 
     def update_animation(self, delta_time: float = 1 / 60):
         # TODO: Change animation speed from hardcoded to constant

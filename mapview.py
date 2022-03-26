@@ -101,7 +101,7 @@ class MapView(arcade.View):
         self.gold_sprite.position = (
             1200 * global_scale(), 680 * global_scale())
         self.shop_sprite.position = (
-            int(C.SCREEN_WIDTH * .96 * global_scale()), int(C.SCREEN_HEIGHT * .87 * global_scale()))
+            int(C.SCREEN_WIDTH * .96), int(C.SCREEN_HEIGHT * .87))
 
         self.cursor_list.append(self.cursor_sprite)
         self.load_monuments()
@@ -142,7 +142,7 @@ class MapView(arcade.View):
         self.clear()
 
         arcade.draw_lrwh_rectangle_textured(0, 0,
-                                            C.SCREEN_WIDTH * global_scale(), C.SCREEN_HEIGHT * global_scale(),
+                                            C.SCREEN_WIDTH, C.SCREEN_HEIGHT,
                                             self.background)
         self.gold_sprite.draw()
         # GUI - Gold

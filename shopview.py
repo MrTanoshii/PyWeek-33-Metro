@@ -21,8 +21,8 @@ class ShopView(arcade.View):
 
         arcade.draw_text(
             "Congrats you have passed Level - Let's go for Shop",
-            (C.SCREEN_WIDTH / 2) * global_scale(),
-            (C.SCREEN_HEIGHT / 2 * global_scale()),
+            (C.SCREEN_WIDTH / 2),
+            (C.SCREEN_HEIGHT / 2),
             arcade.color.BLACK,
             font_size=C.MENU_FONT_SIZE * global_scale(),
             anchor_x="center",

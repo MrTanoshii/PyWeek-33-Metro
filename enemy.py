@@ -27,7 +27,7 @@ class Enemy(arcade.Sprite):
 
     Class Methods
     -------------
-    spawn_enemy()
+    spawn_enemy(enemy_list: list)
         Create the enemy
     update(delta_time: float)
         Update the enemy
@@ -45,20 +45,27 @@ class Enemy(arcade.Sprite):
     # SpriteList class attribute
     enemy_list = arcade.SpriteList()
 
-    def __init__(self, hit_box_algorithm, level, scale=0.8):
+    def __init__(self, hit_box_algorithm, type, scale=0.8):
         # Inherit parent class
 
         super().__init__()
 
-        enemy_style = C.MAP_MONUMENTS_LIST[level-1]["enemy"]
+        # Set our scale
+        self.scale = scale * global_scale()
 
         # load enemy configs
-        self.config = enemy_style
+        self.config = type
         self.name = self.config["name"]
-        self.barrel_location = self.config["barrel"]
+        self.weapon = self.config["weapon"]
+        self.shoot_offset = self.config["shoot_offset"]
+        self.shoot_offset = (
+            self.shoot_offset[0] * self.scale, self.shoot_offset[1] * self.scale)
+        self.prob_aim_player = self.config["prob_aim_player"]
+        self.prob_aim_straight = self.config["prob_aim_straight"]
+        self.prob_aim_random = self.config["prob_aim_random"]
 
         # Speed
-        self.speed = self.config["speed"]
+        self.speed = self.config["speed"] * global_scale()
         self.current_speed = 0
 
         # Health
@@ -66,8 +73,7 @@ class Enemy(arcade.Sprite):
 
         # Set Weapon
         for weapon in C.ENEMY_WEAPON_LIST:
-            if weapon["name"] == self.name:
-                self.weapon = weapon["name"]
+            if weapon["name"] == self.weapon:
                 self.weapon_init_angle = weapon["init_angle"]
                 self.damage_value = weapon["damage_value"]
                 self.shooting_speed = weapon["shoot_time"]
@@ -75,12 +81,15 @@ class Enemy(arcade.Sprite):
                 self.shoot_probability = weapon["shoot_probability"]
                 self.shoot_max_angle = weapon["shoot_max_angle"]
                 self.bullet_damage = weapon["bullet_damage"]
-                self.bullet_scale = weapon["bullet_scale"] * global_scale()
+                self.bullet_scale = weapon["bullet_scale"] * \
+                    global_scale() * self.scale
                 self.bullet_amount = weapon["bullet_amount"]
-                self.bullet_spread = weapon["bullet_spread"] * global_scale()
-                self.bullet_speed = weapon["bullet_speed"] * global_scale()
+                self.bullet_spread = weapon["bullet_spread"] * \
+                    global_scale() * self.scale
+                self.bullet_speed = weapon["bullet_speed"] * \
+                    global_scale() * self.scale
                 self.bullet_speed_spread = weapon["bullet_speed_spread"] * \
-                    global_scale()
+                    global_scale() * self.scale
                 break
         self.can_shoot = True
         self.shooting_timer = 0
@@ -92,28 +101,26 @@ class Enemy(arcade.Sprite):
         self.random_speed = 0
 
         """ Load Assets """
-        base_path = f"resources/images/assets/enemies/{self.name}/"
+        base_path = f"resources/images/enemies/{self.name}/"
 
         # Load texture
         self.texture_list = []
-        file_name_list = os.listdir(f"{base_path}animation/")
+        file_name_list = os.listdir(f"{base_path}")
         file_name_list = sorted(
             file_name_list, key=lambda x: int(x.split('.')[0]))
         for filename in file_name_list:
             self.texture_list.append(
-                arcade.load_texture(f"{base_path}animation/{filename}", hit_box_algorithm=hit_box_algorithm))
+                arcade.load_texture(f"{base_path}{filename}", hit_box_algorithm=hit_box_algorithm))
 
         self.cur_texture = 0
 
         self.animation_speed = self.config["animation_speed"]
 
-        # Set our scale
-        self.scale = scale * global_scale()
-
         # Find & set hit sfx
-        for i in range(0, len(Audio.sfx_enemy_hit_list)):
-            if Audio.sfx_enemy_hit_list[i]["enemy_name"] == self.name:
-                self.sfx_hit_list = Audio.sfx_enemy_hit_list[i]["sound"]
+        self.sfx_hit_list = []
+        for i in range(0, len(Audio.sfx_hit_list)):
+            if Audio.sfx_hit_list[i]["name"] == self.name:
+                self.sfx_hit_list.append(Audio.sfx_hit_list[i]["sound_list"])
                 break
 
         # Find & set death sfx
@@ -136,14 +143,22 @@ class Enemy(arcade.Sprite):
 
         """ Atributes """
 
-    @classmethod
-    def spawn_enemy(cls, level):
-        enemy = Enemy(hit_box_algorithm="Simple", level=level)
+    @ classmethod
+    def spawn_enemy(cls, enemy_list):
+        random_enemy_index = 0
+        random_enemy_prob = random.random()
+        if len(enemy_list) > 1:
+            random_enemy_index = random.randrange(0, len(enemy_list))
+            while random_enemy_prob > enemy_list[random_enemy_index]["spawn_rate"]:
+                random_enemy_index = random.randrange(0, len(enemy_list))
+                random_enemy_prob = random.random()
+        enemy = Enemy("Simple", enemy_list[random_enemy_index])
 
         # Set enemy location
-        enemy.center_x = (C.SCREEN_WIDTH + enemy.width) * global_scale()
+        enemy.center_x = (C.SCREEN_WIDTH *
+                          global_scale()) + enemy.width
         enemy.center_y = (C.SCREEN_HEIGHT // 2 +
-                          random.uniform(-C.SCREEN_HEIGHT/3.25, C.SCREEN_HEIGHT/3.25)) * global_scale()
+                          random.uniform(-C.SCREEN_HEIGHT/3.25, C.SCREEN_HEIGHT/3.25))
 
         # Turn the enemy 90 degree
         enemy.angle = 0
@@ -161,12 +176,12 @@ class Enemy(arcade.Sprite):
             Gold.spawn(self.center_x, self.center_y)
         self.remove_from_sprite_lists()
 
-    @classmethod
+    @ classmethod
     def update(cls, delta_time: float):
         # Cycle trough all enemies
         for enemy in cls.enemy_list:
             # Move all Enemies Forwards
-            enemy.center_x += enemy.speed * global_scale()
+            enemy.center_x += enemy.speed
 
             # Check if enemy is in view, if not delete it
             if enemy.center_x + enemy.width < 0:
@@ -174,9 +189,11 @@ class Enemy(arcade.Sprite):
             else:
                 enemy.maybe_shoot(delta_time)
 
-    @classmethod
-    def preload(cls, level):
-        Enemy.spawn_enemy(level)
+    @ classmethod
+    def preload(cls, enemy_list: list):
+        for index in range(0, len(enemy_list)):
+            enemy = Enemy("Simple", enemy_list[index])
+            enemy.remove_from_sprite_lists()
 
     def calculate_bullet_ballistic(self, aim_type) -> dict:
         """ Calculate the weapon ballistics and return as a dict """
@@ -209,7 +226,7 @@ class Enemy(arcade.Sprite):
                 random_point_x = random.randint(
                     0, int(self.bullet_center_x))
             random_point_y = random.randint(
-                int((C.SCREEN_HEIGHT * .15 * global_scale())), int(C.SCREEN_HEIGHT * .85 * global_scale()))
+                int((C.SCREEN_HEIGHT * .15)), int(C.SCREEN_HEIGHT * .85))
 
             calc_angle = calculate_angle(
                 self.bullet_center_x, self.bullet_center_y, random_point_x, random_point_y)
@@ -230,12 +247,10 @@ class Enemy(arcade.Sprite):
         """ Handle probable enemy shooting """
 
         # Calculate bullet position
-        self.bullet_center_x = self.center_x - \
-            (self.width * global_scale() / 2) + \
-            self.barrel_location[0] * global_scale()
-        self.bullet_center_y = self.center_y - \
-            (self.height * global_scale() / 2) + \
-            self.barrel_location[1] * global_scale()
+        self.bullet_center_x = self.center_x - (self.width /
+                                                2) + self.shoot_offset[0]
+        self.bullet_center_y = self.center_y - (self.height /
+                                                2) + self.shoot_offset[1]
 
         # NOTE: Only last player in list will be used
         if self.bullet_center_x <= Player.player_list[0].center_x:
@@ -255,7 +270,7 @@ class Enemy(arcade.Sprite):
                 speed_y = 0
                 angle = 0
                 # Ballistics at player
-                if probability <= C.ENEMY_LOGIC["prob_aim_player"]:
+                if probability <= self.prob_aim_player:
                     if C.DEBUG.ENEMY_SHOOT:
                         print("Enemy aiming at player")
                     ballistic_dict = self.calculate_bullet_ballistic(
@@ -265,7 +280,7 @@ class Enemy(arcade.Sprite):
                     angle = ballistic_dict["angle"]
 
                 # Ballistics straight
-                elif probability <= C.ENEMY_LOGIC["prob_aim_player"] + C.ENEMY_LOGIC["prob_aim_straight"]:
+                elif probability <= self.prob_aim_player + self.prob_aim_straight:
                     if C.DEBUG.ENEMY_SHOOT:
                         print("Enemy aiming straight")
                     ballistic_dict = self.calculate_bullet_ballistic(
@@ -275,7 +290,7 @@ class Enemy(arcade.Sprite):
                     angle = ballistic_dict["angle"]
 
                 # Ballistics random
-                elif probability <= C.ENEMY_LOGIC["prob_aim_player"] + C.ENEMY_LOGIC["prob_aim_straight"] + C.ENEMY_LOGIC["prob_aim_random"]:
+                elif probability <= self.prob_aim_player + self.prob_aim_straight + self.prob_aim_random:
                     if C.DEBUG.ENEMY_SHOOT:
                         print("Enemy aiming at random")
                     ballistic_dict = self.calculate_bullet_ballistic(
@@ -307,7 +322,8 @@ class Enemy(arcade.Sprite):
                     scale=self.bullet_scale)
 
                 # Set bullet location
-                bullet.position = (self.bullet_center_x, self.bullet_center_y)
+                bullet.position = (self.bullet_center_x,
+                                   self.bullet_center_y)
 
                 # Turn the bullet -90 degree
                 # bullet.angle = 0
@@ -346,8 +362,11 @@ class Enemy(arcade.Sprite):
             scale=self.bullet_scale)
 
         # Set bullet location
-        bullet.position = ((self.center_x - (self.width * global_scale() / 2) +
-                           self.barrel_location[0] * global_scale()), (self.center_y - (self.height * global_scale() / 2) + self.barrel_location[1] * global_scale()))
+        bullet_x = self.center_x - (self.width /
+                                    2) + self.shoot_offset[0]
+        bullet_y = self.center_y - (self.height /
+                                    2) + self.shoot_offset[1]
+        bullet.position = (bullet_x, bullet_y)
 
         # Add to bullet sprite list
         Bullet.enemy_bullet_list.append(bullet)

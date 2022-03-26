@@ -21,7 +21,7 @@
 
 </div>
 
-# PyWeek 33 | Team Metroids | Metro
+# PyWeek 33 | Team Metroids | The Epic of Goat
 
 Featuring
 
