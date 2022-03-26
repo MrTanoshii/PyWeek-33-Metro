@@ -6,6 +6,7 @@ import shopview
 from audio import Audio
 from gamedata import GameData
 from lib import global_scale
+from story_view import StoryView
 
 
 class MapView(arcade.View):
@@ -170,6 +171,11 @@ class MapView(arcade.View):
         self.shop_sprite.draw(pixelated=True)
         self.cursor_list.draw()
 
+    def on_key_press(self, key, modifiers):
+        if key == arcade.key.S:
+            # Story opening
+            self.open_story()
+
     def on_mouse_motion(self, x, y, dx, dy):
         self.cursor_sprite.center_x = x + \
             C.MAP["Cursor"]["offset_x"] * global_scale()
@@ -233,6 +239,9 @@ class MapView(arcade.View):
             self.window.show_view(shopview.ShopView())
 
 # Make center points as dictionary and call out other views mostly
+
+    def open_story(self):
+        self.window.show_view(StoryView(self, MapView.current_level))
 
     def on_show(self):
         self.setup()
