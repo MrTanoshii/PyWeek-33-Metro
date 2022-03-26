@@ -13,6 +13,7 @@ from const.view_game import *
 from const.view_menu import *
 from const.view_pause import *
 from const.death import *
+from const.story import *
 
 # weapon_fire import not required
 # death import not required
