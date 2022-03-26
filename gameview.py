@@ -4,6 +4,7 @@ import os.path
 
 import const.constants as C
 from bg import BackGround
+from gamedata import GameData
 from lib import global_scale
 from player import Player
 from bullet import Bullet
@@ -287,39 +288,51 @@ class GameView(arcade.View):
             # 1 - Revolver
             if key == arcade.key.KEY_1:
                 requested_weapon = "Revolver"
-                self.player.set_skin('Revolver')
-                if self.level == 1:
-                    Bullet.friendly_bullet_list.color = (300, 128, 128)
-                else:
-                    Bullet.friendly_bullet_list.color = (255, 255, 255)
+                if GameData.loadout[requested_weapon]["lvl"] >= 1:
+                    self.player.set_skin('Revolver')
+                    if self.level == 1:
+                        Bullet.friendly_bullet_list.color = (300, 128, 128)
+                    else:
+                        Bullet.friendly_bullet_list.color = (255, 255, 255)
+                    # Swap weapon
+                    if Player.weapon.weapon_name != requested_weapon:
+                        Player.weapon.swap_weapon(requested_weapon)
             # 2 - Rifle
             elif key == arcade.key.KEY_2:
                 requested_weapon = "Rifle"
-                self.player.set_skin('AK')
-                if self.level == 1:
-                    Bullet.friendly_bullet_list.color = (300, 128, 128)
-                else:
-                    Bullet.friendly_bullet_list.color = (255, 255, 255)
+                if GameData.loadout[requested_weapon]["lvl"] >= 1:
+                    self.player.set_skin('AK')
+                    if self.level == 1:
+                        Bullet.friendly_bullet_list.color = (300, 128, 128)
+                    else:
+                        Bullet.friendly_bullet_list.color = (255, 255, 255)
+                    # Swap weapon
+                    if Player.weapon.weapon_name != requested_weapon:
+                        Player.weapon.swap_weapon(requested_weapon)
             # 3 - Shotgun
             elif key == arcade.key.KEY_3:
                 requested_weapon = "Shotgun"
-                self.player.set_skin('Shotgun')
-                if self.level == 1:
-                    Bullet.friendly_bullet_list.color = (300, 128, 128)
-                else:
-                    Bullet.friendly_bullet_list.color = (255, 255, 255)
+                if GameData.loadout[requested_weapon]["lvl"] >= 1:
+                    self.player.set_skin('Shotgun')
+                    if self.level == 1:
+                        Bullet.friendly_bullet_list.color = (300, 128, 128)
+                    else:
+                        Bullet.friendly_bullet_list.color = (255, 255, 255)
+                    # Swap weapon
+                    if Player.weapon.weapon_name != requested_weapon:
+                        Player.weapon.swap_weapon(requested_weapon)
             # 4 - RPG
             elif key == arcade.key.KEY_4:
                 requested_weapon = "RPG"
-                self.player.set_skin('RPG')
-                if self.level == 1:
-                    Bullet.friendly_bullet_list.color = (128, 64, 64)
-                else:
-                    Bullet.friendly_bullet_list.color = (255, 255, 255)
-
-            # Swap weapon
-            if Player.weapon.weapon_name != requested_weapon:
-                Player.weapon.swap_weapon(requested_weapon)
+                if GameData.loadout[requested_weapon]["lvl"] >= 1:
+                    self.player.set_skin('RPG')
+                    if self.level == 1:
+                        Bullet.friendly_bullet_list.color = (128, 64, 64)
+                    else:
+                        Bullet.friendly_bullet_list.color = (255, 255, 255)
+                    # Swap weapon
+                    if Player.weapon.weapon_name != requested_weapon:
+                        Player.weapon.swap_weapon(requested_weapon)
 
         if key == arcade.key.R:
             Player.weapon.is_reloading = True
