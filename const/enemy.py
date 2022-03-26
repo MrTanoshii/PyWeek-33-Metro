@@ -5,6 +5,7 @@ ENEMY_LIST = {
     "tank green": {
         "name": "tank green",
         "weapon": "tank",
+        "score": 40,
         "animation_speed": 15,
         "scale": 1.3,
         "speed": -3,
@@ -22,6 +23,7 @@ ENEMY_LIST = {
     "tank grey": {
         "name": "tank grey",
         "weapon": "tank",
+        "score": 40,
         "animation_speed": 15,
         "scale": 1.3,
         "speed": -3,
@@ -39,6 +41,7 @@ ENEMY_LIST = {
     "tank grey burning": {
         "name": "tank grey burning",
         "weapon": "tank",
+        "score": 40,
         "animation_speed": 6,
         "scale": 1.3,
         "speed": -3,
@@ -56,6 +59,7 @@ ENEMY_LIST = {
     "soldier desert": {
         "name": "soldier desert",
         "weapon": "soldier",
+        "score": 12,
         "animation_speed": 15,
         "scale": 1,
         "speed": -2,
@@ -73,6 +77,7 @@ ENEMY_LIST = {
     "soldier forest": {
         "name": "soldier forest",
         "weapon": "soldier",
+        "score": 12,
         "animation_speed": 15,
         "scale": 1,
         "speed": -2,
@@ -90,6 +95,7 @@ ENEMY_LIST = {
     "soldier ocean": {
         "name": "soldier ocean",
         "weapon": "soldier",
+        "score": 12,
         "animation_speed": 15,
         "scale": 1,
         "speed": -2,
@@ -107,6 +113,7 @@ ENEMY_LIST = {
     "soldier polar": {
         "name": "soldier polar",
         "weapon": "soldier",
+        "score": 12,
         "animation_speed": 15,
         "scale": 1,
         "speed": -1.8,
@@ -124,6 +131,7 @@ ENEMY_LIST = {
     "bear ak": {
         "name": "bear ak",
         "weapon": "bear ak",
+        "score": 24,
         "animation_speed": 15,
         "scale": 1.4,
         "speed": -1,
@@ -141,6 +149,7 @@ ENEMY_LIST = {
     "bear polar": {
         "name": "bear polar",
         "weapon": "bear ak",
+        "score": 24,
         "animation_speed": 15,
         "scale": 1,
         "speed": -1.5,
@@ -158,6 +167,7 @@ ENEMY_LIST = {
     "orca": {
         "name": "orca",
         "weapon": "orca",
+        "score": 30,
         "animation_speed": 7.5,
         "scale": 1,
         "speed": -6,
@@ -175,6 +185,7 @@ ENEMY_LIST = {
     "martial artist": {
         "name": "martial artist",
         "weapon": "martial artist",
+        "score": 30,
         "animation_speed": 55,
         "scale": 1,
         "speed": -10,

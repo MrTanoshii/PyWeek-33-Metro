@@ -57,6 +57,7 @@ class Enemy(arcade.Sprite):
         self.config = type
         self.name = self.config["name"]
         self.weapon = self.config["weapon"]
+        self.score = self.config["score"]
         self.shoot_offset = self.config["shoot_offset"]
         self.shoot_offset = (
             self.shoot_offset[0] * self.scale, self.shoot_offset[1] * self.scale)

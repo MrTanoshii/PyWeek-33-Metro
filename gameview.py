@@ -272,7 +272,7 @@ class GameView(arcade.View):
             self.up_key_down = True
         elif key == arcade.key.DOWN or key == arcade.key.S:
             self.down_key_down = True
-        
+
         # Shoot | Spacebar
         elif key == arcade.key.SPACE:
             self.space_down = True
@@ -317,10 +317,9 @@ class GameView(arcade.View):
             # Swap weapon
             if Player.weapon.weapon_name != requested_weapon:
                 Player.weapon.swap_weapon(requested_weapon)
-            
+
         if key == arcade.key.R:
             Player.weapon.is_reloading = True
-            
 
         # Enemy spawn | E
         elif key == arcade.key.E:
@@ -382,12 +381,12 @@ class GameView(arcade.View):
 
                 # if HP 0, destroy enemy
                 if enemy.HP <= 0:
-                    Enemy.despawn(enemy, C.DEATH.KILLED)
-
                     # Play enemy death sfx
                     Audio.play_rand_sound(enemy.sfx_death_list)
 
-                    Tracker.increment_score(10)
+                    Tracker.increment_score(enemy.score)
+
+                    Enemy.despawn(enemy, C.DEATH.KILLED)
                 else:
                     # Play enemy hit sfx
                     Audio.play_rand_sound(enemy.sfx_hit_list)
