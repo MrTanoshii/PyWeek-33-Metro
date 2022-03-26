@@ -105,3 +105,216 @@ MAP_MONUMENTS_LIST = [
         "bgm_gain": AUDIO.SOUND["bgm_3"]["gain"]
     },
 ]
+
+MAP_STEP_LIST = [
+    {
+        "type": "story",
+        "story": 1,
+        "center_x": 551,
+        "center_y": 279,
+     },
+    {
+        "type": "step",
+        "center_x": 591,
+        "center_y": 287,
+     },
+    # 2
+    {
+        "type": "step",
+        "center_x": 694,
+        "center_y": 360,
+    },
+    {
+        "type": "step",
+        "center_x": 650,
+        "center_y": 381,
+    },
+    {
+        "type": "story",
+        "story": 2,
+        "center_x": 608,
+        "center_y": 400,
+    },
+    {
+        "type": "step",
+        "center_x": 631,
+        "center_y": 424,
+    },
+    {
+        "type": "step",
+        "center_x": 655,
+        "center_y": 436,
+    },
+    # 3
+    {
+        "type": "step",
+        "center_x": 755,
+        "center_y": 485,
+    },    {
+        "type": "step",
+        "center_x": 772,
+        "center_y": 449,
+     },
+    {
+        "type": "step",
+        "center_x": 761,
+        "center_y": 418,
+    },
+    {
+        "type": "story",
+        "story": 3,
+        "center_x": 784,
+        "center_y": 390,
+    },
+    {
+        "type": "step",
+        "center_x": 820,
+        "center_y": 392,
+    },
+    # 4
+    {
+        "type": "step",
+        "center_x": 918,
+        "center_y": 402,
+    },
+    {
+        "type": "step",
+        "center_x": 953,
+        "center_y": 378,
+    },
+    {
+        "type": "step",
+        "center_x": 961,
+        "center_y": 349,
+    },
+    {
+        "type": "step",
+        "center_x": 920,
+        "center_y": 330,
+    },
+    {
+        "type": "step",
+        "center_x": 913,
+        "center_y": 305,
+    },
+    {
+        "type": "story",
+        "story": 4,
+        "center_x": 928,
+        "center_y": 262,
+    },
+    {
+        "type": "step",
+        "center_x": 976,
+        "center_y": 259,
+    },
+    {
+        "type": "step",
+        "center_x": 1022,
+        "center_y": 270,
+    },
+    {
+        "type": "step",
+        "center_x": 1072,
+        "center_y": 270,
+    },
+    {
+        "type": "step",
+        "center_x": 1119,
+        "center_y": 246,
+    },
+    {
+        "type": "step",
+        "center_x": 1153,
+        "center_y": 219,
+    },
+    # 5
+    {
+        "type": "step",
+        "center_x": 1267,
+        "center_y": 121,
+    },
+    {
+        "type": "step",
+        "center_x": 10,
+        "center_y": 107,
+    },
+    {
+        "type": "step",
+        "center_x": 78,
+        "center_y": 93,
+    },
+    {
+        "type": "step",
+        "center_x": 141,
+        "center_y": 78,
+    },
+    {
+        "type": "step",
+        "center_x": 217,
+        "center_y": 74,
+    },
+    {
+        "type": "story",
+        "story": 5,
+        "center_x": 284,
+        "center_y": 78,
+    },
+    {
+        "type": "step",
+        "center_x": 328,
+        "center_y": 93,
+    },
+    {
+        "type": "step",
+        "center_x": 358,
+        "center_y": 121,
+    },
+    # 6
+    {
+        "type": "step",
+        "center_x": 313,
+        "center_y": 227,
+    },
+    {
+        "type": "step",
+        "center_x": 267,
+        "center_y": 244,
+    },
+    {
+        "type": "story",
+        "story": 6,
+        "center_x": 235,
+        "center_y": 260,
+    },
+    {
+        "type": "step",
+        "center_x": 179,
+        "center_y": 286,
+    },
+    # 7
+    {
+        "type": "step",
+        "center_x": 177,
+        "center_y": 387,
+    },
+    {
+        "type": "step",
+        "center_x": 215,
+        "center_y": 407,
+    },
+    {
+        "type": "story",
+        "story": 7,
+        "center_x": 231,
+        "center_y": 445,
+    },
+]
+
+STEP_CONFS = {
+    "step_scale": 0.3,
+    "story_scale": 0.5,
+    "locked": (255, 64, 64),
+    "unlocked": (64, 255, 64),
+    "passed": (255, 255, 64),
+}

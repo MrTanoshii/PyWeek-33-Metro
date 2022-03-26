@@ -6,6 +6,7 @@ class GameData:
     gold = None
     level_data = None
     loadout = None
+    story = None
 
     def __init__(self):
         pass
@@ -18,7 +19,7 @@ class GameData:
                 _data = json.load(file)
         except FileNotFoundError:
             print("ERROR 0: Regenerating game data")
-            cls.reset_data()
+            cls.reset_data(gold=True, level=True, loadout=True, story=True)
             _data = False
 
         if _data:
@@ -27,33 +28,44 @@ class GameData:
                 cls.gold = _data["coins"]
                 if cls.gold is None:
                     print("ERROR 2: Regenerating level data")
-                    cls.reset_data(gold=True, level=False, loadout=False)
+                    cls.reset_data(gold=True)
                     cls.read_data()
             except KeyError:
                 print("ERROR 1: Regenerating level data")
-                cls.reset_data(gold=True, level=False, loadout=False)
+                cls.reset_data(gold=True)
                 cls.read_data()
 
             try:
                 cls.level_data = _data["leveldata"]
                 if cls.level_data is None:
                     print("ERROR 2: Regenerating level data")
-                    cls.reset_data(gold=False, level=True, loadout=False)
+                    cls.reset_data(level=True)
                     cls.read_data()
             except KeyError:
                 print("ERROR 1: Regenerating level data")
-                cls.reset_data(gold=False, level=True, loadout=False)
+                cls.reset_data(level=True)
                 cls.read_data()
 
             try:
                 cls.loadout = _data["loadout"]
                 if cls.loadout is None:
                     print("ERROR 2: Regenerating loadout")
-                    cls.reset_data(gold=False, level=False, loadout=True)
+                    cls.reset_data(loadout=True)
                     cls.read_data()
             except KeyError:
                 print("ERROR 1: Regenerating loadout")
-                cls.reset_data(gold=False, level=False, loadout=True)
+                cls.reset_data(loadout=True)
+                cls.read_data()
+
+            try:
+                cls.story = _data["story"]
+                if cls.story is None:
+                    print("ERROR 2: Regenerating story")
+                    cls.reset_data(story=True)
+                    cls.read_data()
+            except KeyError:
+                print("ERROR 1: Regenerating story")
+                cls.reset_data(story=True)
                 cls.read_data()
 
         else:
@@ -66,18 +78,19 @@ class GameData:
             _data = json.dumps({
                 "coins": cls.gold,
                 "leveldata": cls.level_data,
-                "loadout": cls.loadout})
+                "loadout": cls.loadout,
+                "story": cls.story})
             file.write(_data)
 
     @classmethod
-    def reset_data(cls, gold=True, level=True, loadout=True):
+    def reset_data(cls, gold=False, level=False, loadout=False, story=False):
         # Reset all data
         if gold:
             cls.gold = 100
 
         if level:
             cls.level_data = {
-                1: {"score": 0, "passed": 0, "locked": 0},
+                1: {"score": 0, "passed": 0, "locked": 1},
                 2: {"score": 0, "passed": 0, "locked": 1},
                 3: {"score": 0, "passed": 0, "locked": 1},
                 4: {"score": 0, "passed": 0, "locked": 1},
@@ -87,6 +100,9 @@ class GameData:
 
         if loadout:
             cls.loadout = {"rifle": 0, "Shotgun": 1, "RGB": 0}
+
+        if story:
+            cls.story = {"0": 1, "1": 0, "2": 0, "3": 0, "4": 0, "5": 0, "6": 0}
 
         # Write changes
         cls.write_data()
@@ -121,14 +137,13 @@ class GameData:
             cls.level_data[str(level)]["score"] = Tracker.score
 
             if cls.level_data[str(level)]["score"] > 100:
-                # player passed the level
                 cls.level_data[str(level)]["passed"] = 1
-
-                cls.level_data[str(level+1)]["locked"] = 0
+                cls.story[str(level)] = 1
 
                 # Update map icons
                 from mapview import MapView
                 MapView.update_monument_list()
+                MapView.update_step_list()
 
             # Write changes
             cls.write_data()
@@ -143,3 +158,26 @@ class GameData:
 
             # Write changes
             cls.write_data()
+
+    @classmethod
+    def update_steps(cls, story_id: str, status: int):
+
+        current_story_status = cls.story[story_id]
+
+        if current_story_status != status:
+            cls.story[story_id] = status
+
+            # update levels
+            cls.update_levels(int(story_id)+1)
+
+            # Write changes
+            cls.write_data()
+
+    @classmethod
+    def update_levels(cls, level: int):
+        # player passed the level
+
+        cls.level_data[str(level)]["locked"] = 0
+
+        # Write changes
+        cls.write_data()

@@ -41,6 +41,7 @@ class MapView(arcade.View):
     # Level class attribute
     current_level = 0
     monument_list = None
+    step_list = None
 
     def __init__(self):
         # Inherit parent class
@@ -57,6 +58,9 @@ class MapView(arcade.View):
         self.normal_scale = .2 * global_scale()
         self.highlight_scale = .5 * global_scale()
         self.highlight = False
+        self.normal_scale_step = 0.3 * global_scale()
+        self.highlight_scale_step = 0.5 * global_scale()
+        self.highlight_step = False
 
         """ Map sprites """
         self.shop_sprite = None
@@ -81,6 +85,7 @@ class MapView(arcade.View):
 
         # self.gui_camera = arcade.Camera(self.window.width, self.window.height)
         MapView.monument_list = arcade.SpriteList(is_static=True)
+        MapView.step_list = arcade.SpriteList(is_static=True)
 
         self.cursor_list = arcade.SpriteList()
         # Create the sprite lists
@@ -105,6 +110,7 @@ class MapView(arcade.View):
 
         self.cursor_list.append(self.cursor_sprite)
         self.load_monuments()
+        self.load_steps()
 
     def load_monuments(self):
         """Loads map monuments onto map"""
@@ -117,10 +123,12 @@ class MapView(arcade.View):
             monument.center_x = mon_dict["center_x"] * global_scale()
             monument.center_y = mon_dict["center_y"] * global_scale()
 
-            if GameData.level_data[str(monument.level)]["passed"] == 0 and GameData.level_data[str(monument.level)]["locked"] == 0:
+            if GameData.level_data[str(monument.level)]["passed"] == 0 and GameData.level_data[str(monument.level)][
+                "locked"] == 0:
                 monument.color = (255, 255, 64)
                 monument.unlocked = True
-            elif GameData.level_data[str(monument.level)]["passed"] == 0 and GameData.level_data[str(monument.level)]["locked"] == 1:
+            elif GameData.level_data[str(monument.level)]["passed"] == 0 and GameData.level_data[str(monument.level)][
+                "locked"] == 1:
                 monument.color = (255, 64, 64)
                 monument.unlocked = False
             else:
@@ -135,6 +143,61 @@ class MapView(arcade.View):
 
             MapView.monument_list.append(monument)
 
+    @classmethod
+    def load_steps(cls):
+        """Loads map monuments onto map"""
+        confs = C.STEP_CONFS
+        level = 0
+        passed = True
+        for step_dict in C.MAP_STEP_LIST:
+            if step_dict["type"] == "step":
+                step = arcade.Sprite(
+                    "resources/images/map/step.png",
+                    confs["step_scale"] * global_scale())
+                step.type = step_dict["type"]
+                step.level = None
+                step.center_x = step_dict["center_x"] * global_scale()
+                step.center_y = step_dict["center_y"] * global_scale()
+                if passed:
+                    step.color = (64, 200, 64)
+                else:
+                    step.color = (200, 64, 64)
+            else:
+                step = arcade.Sprite(
+                    "resources/images/map/step.png",
+                    confs["story_scale"] * global_scale())
+                step.level = level
+                level += 1
+                step.type = step_dict["type"]
+                step.center_x = step_dict["center_x"] * global_scale()
+                step.center_y = step_dict["center_y"] * global_scale()
+
+                # locked
+                if GameData.story[str(step.level)] == 0:
+                    step.color = (255, 64, 64)
+                    step.unlocked = False
+                    step.passed = False
+                    passed = False
+                # un-locked
+                elif GameData.story[str(step.level)] == 1:
+                    step.color = (255, 255, 64)
+                    step.unlocked = True
+                    passed = False
+                # passed
+                elif GameData.story[str(step.level)] == 2:
+                    step.color = (64, 255, 64)
+                    step.unlocked = True
+                    step.passed = True
+                    passed = True
+                    unlocked = True
+                # Find & set click sfx
+                for i in range(0, len(Audio.sfx_ui_list)):
+                    if Audio.sfx_ui_list[i]["ui_name"] == "EGYPT":
+                        step.sfx_click = Audio.sfx_ui_list[i]["sound"]
+                        break
+
+            MapView.step_list.append(step)
+
     def on_draw(self):
         """Render the screen."""
 
@@ -148,8 +211,8 @@ class MapView(arcade.View):
         # GUI - Gold
         arcade.draw_text(
             GameData.gold,
-            self.gold_sprite.position[0]*.99,
-            self.gold_sprite.position[1]*1.005,
+            self.gold_sprite.position[0] * .99,
+            self.gold_sprite.position[1] * 1.005,
             arcade.color.BLACK,
             font_name="Kenney High",
             bold=True,
@@ -167,20 +230,16 @@ class MapView(arcade.View):
         #     anchor_x="center",
         # )
 
+        MapView.step_list.draw()
         MapView.monument_list.draw()
         self.shop_sprite.draw(pixelated=True)
         self.cursor_list.draw()
 
-    def on_key_press(self, key, modifiers):
-        if key == arcade.key.S:
-            # Story opening
-            self.open_story()
-
     def on_mouse_motion(self, x, y, dx, dy):
         self.cursor_sprite.center_x = x + \
-            C.MAP["Cursor"]["offset_x"] * global_scale()
+                                      C.MAP["Cursor"]["offset_x"] * global_scale()
         self.cursor_sprite.center_y = y + \
-            C.MAP["Cursor"]["offset_y"] * global_scale()
+                                      C.MAP["Cursor"]["offset_y"] * global_scale()
 
         # Check if shops hit cursor (Simply because less number of checking)
         if self.shop_sprite.collides_with_sprite(self.cursor_sprite):
@@ -192,12 +251,12 @@ class MapView(arcade.View):
 
     def on_update(self, delta_time):
 
-        hit_list = arcade.check_for_collision_with_list(
+        hit_list_monument = arcade.check_for_collision_with_list(
             self.cursor_sprite, MapView.monument_list)
 
-        if len(hit_list):
+        if len(hit_list_monument):
             for i, monument in enumerate(MapView.monument_list):
-                if i != MapView.monument_list.index(hit_list[0]):
+                if i != MapView.monument_list.index(hit_list_monument[0]):
                     monument.scale = self.normal_scale
                 else:
                     monument.scale = self.highlight_scale
@@ -207,18 +266,33 @@ class MapView(arcade.View):
                 monument.scale = self.normal_scale
             self.highlight = False
 
+        hit_list_step = arcade.check_for_collision_with_list(
+            self.cursor_sprite, MapView.step_list)
+
+        if len(hit_list_step):
+            for i, step in enumerate(MapView.step_list):
+                if step.level is not None:
+                    if i != MapView.step_list.index(hit_list_step[0]):
+                        step.scale = self.normal_scale_step
+                    else:
+                        step.scale = self.highlight_scale_step
+                        self.highlight_step = True
+        elif self.highlight_step:
+            for step in MapView.step_list:
+                step.scale = self.normal_scale
+            self.highlight_step = False
+
         # Restart bgm
-        if self.bgm_stream == None:
+        if self.bgm_stream is None:
             self.bgm_stream = Audio.play_sound(self.bgm, True)
 
-        # MapView.update_monument_list()
+        MapView.update_monument_list()
 
     def on_mouse_press(self, x, y, button, modifiers):
 
         if C.DEBUG.ALL or C.DEBUG.MAP:
             print(x, y)
-        hit_monument = arcade.check_for_collision_with_list(
-            self.cursor_sprite, MapView.monument_list)
+        hit_monument = arcade.check_for_collision_with_list(self.cursor_sprite, MapView.monument_list)
         if hit_monument:
             if hit_monument[0].unlocked:
                 MapView.current_level = hit_monument[0].level
@@ -234,14 +308,25 @@ class MapView(arcade.View):
                 game.setup()
                 self.window.show_view(game)
 
+        hit_step = arcade.check_for_collision_with_list(self.cursor_sprite, MapView.step_list)
+        if hit_step and (hit_step[0].level is not None):
+            if hit_step[0].unlocked:
+                story_level = hit_step[0].level
+                # Play monument click sfx
+                Audio.play_sound(hit_step[0].sfx_click)
+
+                # Stop bgm
+                Audio.stop_sound(self.bgm_stream)
+                self.bgm_stream = None
+
+                # Story opening
+                self.window.show_view(StoryView(self, story_level))
+
         # Check if shops hit cursor (Simply because less number of checking)
         if self.shop_sprite.collides_with_sprite(self.cursor_sprite):
             self.window.show_view(shopview.ShopView())
 
-# Make center points as dictionary and call out other views mostly
-
-    def open_story(self):
-        self.window.show_view(StoryView(self, MapView.current_level))
+    # Make center points as dictionary and call out other views mostly
 
     def on_show(self):
         self.setup()
@@ -249,12 +334,17 @@ class MapView(arcade.View):
     @classmethod
     def update_monument_list(cls):
         for i, monument in enumerate(cls.monument_list):
-            if GameData.level_data[str(i+1)]["passed"] == 0 and GameData.level_data[str(i+1)]["locked"] == 0:
+            if GameData.level_data[str(i + 1)]["passed"] == 0 and GameData.level_data[str(i + 1)]["locked"] == 0:
                 monument.color = (255, 255, 64)
                 monument.unlocked = True
-            elif GameData.level_data[str(i+1)]["passed"] == 0 and GameData.level_data[str(i+1)]["locked"] == 1:
+            elif GameData.level_data[str(i + 1)]["passed"] == 0 and GameData.level_data[str(i + 1)]["locked"] == 1:
                 monument.color = (255, 64, 64)
                 monument.unlocked = False
             else:
                 monument.color = (255, 255, 255)
                 monument.unlocked = True
+
+    @classmethod
+    def update_step_list(cls):
+        cls.step_list = arcade.SpriteList(is_static=True)
+        cls.load_steps()
