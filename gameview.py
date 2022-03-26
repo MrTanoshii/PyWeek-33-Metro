@@ -194,10 +194,11 @@ class GameView(arcade.View):
             # Stop bgm
             Audio.stop_sound(self.bgm_stream)
             # Game Over Screen
-            self.window.show_view(GameOverView(self, self.map_view, self.level))
+            self.window.show_view(GameOverView(
+                self, self.map_view, self.level))
         else:
             if random.randint(0, 200) == 1:
-                Enemy.spawn_enemy(self.level)
+                Enemy.spawn_enemy(self.enemy_list)
 
             BackGround.update(delta_time)
             Gold.update(delta_time)
@@ -369,4 +370,3 @@ class GameView(arcade.View):
 
     def on_show(self):
         pass
-
