@@ -1,5 +1,6 @@
 import arcade
 import random
+import os.path
 
 import const.constants as C
 from bg import BackGround
@@ -70,6 +71,8 @@ class GameView(arcade.View):
         self.shoot_pressed = False
 
         self.cursor_sprite = None
+        self.cur_texture = 0
+        self.cursor_sprite_list = []
 
         self.level = mapview.MapView.current_level
 
@@ -100,8 +103,10 @@ class GameView(arcade.View):
         Enemy.preload(self.level)
 
         # Cursor
-        self.cursor_sprite = arcade.Sprite(
-            "resources/images/crosshair.png", 0.7)
+        for filename in os.listdir(f"assets/CursorCrosshair/"):
+            self.cursor_sprite_list.append(arcade.load_texture(f"assets/CursorCrosshair/{filename}"))
+        self.cursor_sprite = arcade.Sprite()
+        self.cursor_sprite.texture = self.cursor_sprite_list[0]
         self.cursor_sprite.color = (128, 0, 0)
 
         # Find & set map bgm
@@ -203,6 +208,7 @@ class GameView(arcade.View):
         Enemy.update(delta_time)
         Bullet.update()
         self.player.update_animation(delta_time)
+        self.update_cursor_animation(delta_time)
 
     def on_mouse_motion(self, x, y, dx, dy):
         """Called whenever mouse is moved."""
@@ -354,3 +360,16 @@ class GameView(arcade.View):
 
     def on_show(self):
         pass
+
+    def update_cursor_animation(self, delta_time: float = 1 / 60):
+        # TODO: Change animation speed from hardcoded to constant
+        animation_speed = 12
+
+        if len(self.cursor_sprite_list) > 1:
+            self.cur_texture += animation_speed * delta_time
+            while self.cur_texture >= len(self.cursor_sprite_list) - 1:
+                self.cur_texture -= len(self.cursor_sprite_list) - 1
+                if self.cur_texture <= 0:
+                    self.cur_texture = 0
+                    break
+        self.cursor_sprite = self.cursor_sprite_list[int(self.cur_texture)]
