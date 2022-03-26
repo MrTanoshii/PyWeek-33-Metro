@@ -67,7 +67,11 @@ _ENEMY_WEAPON = {
     },
     "weapon_orca_1": {
         "name": "411852__devilfish101__monotron-whalesong.wav",
-        "gain": .4
+        "gain": .8
+    },
+    "weapon_martial_artist_1": {
+        "name": "323376__lalazzylee1__fighting-game-hiya-game-sound.mp3",
+        "gain": -0.3
     }
 }
 

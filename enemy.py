@@ -153,6 +153,7 @@ class Enemy(arcade.Sprite):
                 random_enemy_index = random.randrange(0, len(enemy_list))
                 random_enemy_prob = random.random()
         enemy = Enemy("Simple", enemy_list[random_enemy_index])
+        enemy.scale = enemy_list[random_enemy_index]["scale"]
 
         # Set enemy location
         enemy.center_x = (C.SCREEN_WIDTH *
