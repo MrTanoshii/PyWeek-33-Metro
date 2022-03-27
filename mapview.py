@@ -223,14 +223,14 @@ class MapView(arcade.View):
             anchor_y="center",
         )
 
-        arcade.draw_text(
-            f"SHOP",
-            1200,
-            620,
-            arcade.color.BLACK,
-            font_size=20,
-            anchor_x="center",
-        )
+        # arcade.draw_text(
+        #     f"SHOP",
+        #     1200,
+        #     620,
+        #     arcade.color.BLACK,
+        #     font_size=20,
+        #     anchor_x="center",
+        # )
 
         MapView.step_list.draw()
         MapView.monument_list.draw()
