@@ -1,12 +1,8 @@
 import arcade
-import sys
-import os
+
 
 import const.constants as C
 from mainmenu import MainMenu
-
-if getattr(sys, 'frozen', False) and hasattr(sys, '_MEIPASS'):
-    os.chdir(sys._MEIPASS)
 
 
 def main():
