@@ -14,4 +14,6 @@ def calculate_angle(origin_x, origin_y, target_x, target_y):
 
 
 def global_scale() -> float:
-    return arcade.get_window().width / C.SCREEN_WIDTH
+    C.SCREEN_WIDTH = arcade.get_window().width
+    C.SCREEN_HEIGHT = arcade.get_window().height
+    return arcade.get_window().width / 1280
