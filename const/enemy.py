@@ -7,7 +7,7 @@ ENEMY_LIST = {
         "weapon": "tank",
         "score": 40,
         "animation_speed": 15,
-        "scale": 1.3,
+        "scale": 2,
         "speed": -3,
         "spawn_rate": 1,
         "health": 40,

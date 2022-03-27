@@ -220,7 +220,6 @@ class Weapon(arcade.Sprite):
                 # Set GUI location
                 self.center_x = C.GUI["Weapon"]["center_x"] * global_scale()
                 self.center_y = C.GUI["Weapon"]["center_y"] * global_scale()
-
                 # Set Gun attributes
                 self.init_angle = weapon["init_angle"]
                 self.fire_mode = weapon["fire_mode"]
