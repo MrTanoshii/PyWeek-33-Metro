@@ -11,7 +11,7 @@ SCREEN_HEIGHT = 720
 FULLSCREEN = False
 
 # Title
-SCREEN_TITLE = "The Epic of Goat - Team Pastafobia"
+SCREEN_TITLE = "The Epic of Goat by Team Pastafobia"
 
 # Config
 CENTER_WINDOW = True
