@@ -6,7 +6,6 @@ from bullet import Bullet
 from audio import Audio
 from lib import calculate_angle, global_scale
 
-
 bullet_texture_lists_list = {}
 
 
