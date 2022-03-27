@@ -140,8 +140,8 @@ body {
 }
 .header-text h2 {
  color:#FFF;
- font-size:15pt;
- line-height:25pt;
+ font-size:1em;
+ line-height:1.2em;
 }
 
 /* skip to content */
