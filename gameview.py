@@ -277,12 +277,18 @@ class GameView(arcade.View):
     def on_mouse_press(self, x, y, button, modifiers):
         """Called whenever a mouse key is pressed."""
         # Mouse Left Click
+        # if button == arcade.MOUSE_BUTTON_LEFT:
+        #     for enemy in Enemy.enemy_list:
+        #         enemy.shoot()
         if button == arcade.MOUSE_BUTTON_LEFT:
-            for enemy in Enemy.enemy_list:
-                enemy.shoot()
+            self.shoot_pressed = True
 
         if C.DEBUG.MAP:
             print(x, y)
+
+    def on_mouse_release(self, x: float, y: float, button: int, modifiers: int):
+        if button == arcade.MOUSE_BUTTON_LEFT:
+            self.shoot_pressed = False
 
     def on_key_press(self, key, modifiers):
         """Called whenever a key is pressed."""
@@ -357,8 +363,8 @@ class GameView(arcade.View):
             Player.weapon.is_reloading = True
 
         # Enemy spawn | E
-        elif key == arcade.key.E:
-            Enemy.spawn_enemy(self.enemy_list)
+        # elif key == arcade.key.E:
+        #     Enemy.spawn_enemy(self.enemy_list)
 
         # Volume Toggle | M
         elif key == arcade.key.M:
@@ -372,10 +378,6 @@ class GameView(arcade.View):
             self.bgm_stream = None
             self.window.show_view(PauseMenuView(
                 self, self.map_view, self.level))
-
-        # test atc demo, when press num pad 0 change skin
-        elif key == arcade.key.NUM_0:
-            self.player.set_skin('GuyGoatRPG')
 
     def on_key_release(self, key, modifiers):
         """Called when the user releases a key."""
