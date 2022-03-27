@@ -8,7 +8,7 @@
 SCREEN_WIDTH = 1280
 SCREEN_HEIGHT = 720
 
-FULLSCREEN = False
+FULLSCREEN = True
 
 # Title
 SCREEN_TITLE = "The Epic of Goat"
