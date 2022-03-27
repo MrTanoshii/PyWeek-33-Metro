@@ -338,8 +338,9 @@ class MapView(arcade.View):
                 Audio.play_sound(hit_step[0].sfx_click)
 
                 # Stop bgm
-                Audio.stop_sound(self.bgm_stream)
-                self.bgm_stream = None
+                if self.bgm_stream:
+                    Audio.stop_sound(self.bgm_stream)
+                    self.bgm_stream = None
 
                 # Story opening
                 self.window.show_view(StoryView(self, story_level))
