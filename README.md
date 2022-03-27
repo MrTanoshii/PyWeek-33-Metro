@@ -21,7 +21,7 @@
 
 </div>
 
-# PyWeek 33 | Team Metroids | The Epic of Goat
+# PyWeek 33 | Team Pastafobia | The Epic of Goat
 
 Featuring
 
