@@ -88,8 +88,12 @@ class StoryView(arcade.View):
         self.clear()
 
         # Draw the bg image
-        arcade.draw_lrwh_rectangle_textured(0, 0, C.SCREEN_WIDTH * global_scale(),
-                                            C.SCREEN_HEIGHT * global_scale(), self.background)
+        arcade.draw_lrwh_rectangle_textured(
+            bottom_left_x=0,
+            bottom_left_y=0,
+            width=arcade.get_window().width,
+            height=arcade.get_window().height,
+            texture=self.background)
 
         # Draw the text
         self.text_box = arcade.Text(
