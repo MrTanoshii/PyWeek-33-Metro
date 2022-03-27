@@ -328,24 +328,7 @@ class MapView(arcade.View):
                 self.window.show_view(StoryView(self, story_level))
 
         # Check if shops hit cursor (Simply because less number of checking)
-        if self.shop_sprite.collides_with_sprite(self.cursor_sprite):
-            self.window.show_view(shopview.ShopView(self))
-
-        elif hit_step and (hit_step[0].level is not None):
-            if hit_step[0].unlocked:
-                story_level = hit_step[0].level
-                # Play monument click sfx
-                Audio.play_sound(hit_step[0].sfx_click)
-
-                # Stop bgm
-                Audio.stop_sound(self.bgm_stream)
-                self.bgm_stream = None
-
-                # Story opening
-                self.window.show_view(StoryView(self, story_level))
-
-        # Check if shops hit cursor (Simply because less number of checking)
-        if self.shop_sprite.collides_with_sprite(self.cursor_sprite):
+        elif self.shop_sprite.collides_with_sprite(self.cursor_sprite):
             self.window.show_view(shopview.ShopView(self))
 
     # Make center points as dictionary and call out other views mostly
