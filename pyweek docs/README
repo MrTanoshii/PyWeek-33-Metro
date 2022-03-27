@@ -1,0 +1,214 @@
+# PyWeek 33 | Team Pastafobia | The Epic of Goat
+
+## Featuring
+
+- Jeb | https://github.com/JesperKauppinen
+- MrTanoshii | https://github.com/MrTanoshii
+- Memehunter | https://github.com/mohith01
+- Cat | https://github.com/Catto-YFCN
+- Krzysztof | https://github.com/IrrationalBoolean
+- ATC_Tower | https://github.com/BriscoRP
+
+---
+
+# Dependencies & Controls
+
+| Dependencies | Version | Function                              |
+| -----------: | :-----: | :------------------------------------ |
+|       Python |  V3.9   | https://www.python.org/               |
+|       Arcade | V2.6.11 | https://api.arcade.academy/en/latest/ |
+
+---
+
+# Running the Game
+
+`python run_game.py`
+
+---
+
+# Controls
+
+|         Controls | Function     |
+| ---------------: | :----------- |
+|             WASD | Move         |
+|       Arrow Keys | Move         |
+|         Spacebar | Shoot        |
+| Left Mouse Click | Shoot        |
+|                R | Reload       |
+|              1-4 | Swap Weapons |
+|           Escape | Pause        |
+
+---
+
+# Copyright Attributions - Audio
+
+### [427441\_\_kiluaboy\_\_clouds.wav](https://freesound.org/people/KiluaBoy/sounds/427441/)
+
+License: https://creativecommons.org/publicdomain/zero/1.0/
+
+### [428857\_\_supervanz\_\_arpegio01-loop.wav](https://freesound.org/people/supervanz/sounds/428857/)
+
+License: https://creativecommons.org/publicdomain/zero/1.0/
+
+### [428858\_\_supervanz\_\_duskwalkin-loop.wav](https://freesound.org/people/supervanz/sounds/428858/)
+
+License: https://creativecommons.org/publicdomain/zero/1.0/
+
+### [49464\_\_enochrooted\_\_toni-deepgrowl.wav](https://freesound.org/people/enochrooted/sounds/49464/)
+
+License: https://creativecommons.org/licenses/by/3.0/
+
+### [88449\_\_davidou\_\_baleines.wav](https://freesound.org/people/davidou/sounds/88449/)
+
+License: https://creativecommons.org/publicdomain/zero/1.0/
+
+### [369004\_\_flying-deer-fx\_\_death-02-mouth-fx-man-voice.wav](https://freesound.org/people/Flying_Deer_Fx/sounds/369004/)
+
+License: https://creativecommons.org/publicdomain/zero/1.0/
+
+### [396798\_\_scorpion67890\_\_male-death-1.ogg](https://freesound.org/people/scorpion67890/sounds/396798/)
+
+License: https://creativecommons.org/publicdomain/zero/1.0/
+
+### [396799\_\_scorpion67890\_\_male-death-2.ogg](https://freesound.org/people/scorpion67890/sounds/396799/)
+
+License: https://creativecommons.org/publicdomain/zero/1.0/
+
+### [396801\_\_scorpion67890\_\_male-death-4.ogg](https://freesound.org/people/scorpion67890/sounds/396801/)
+
+License: https://creativecommons.org/publicdomain/zero/1.0/
+
+### [398007\_\_rickplayer\_\_death-sound.wav](https://freesound.org/people/Rickplayer/sounds/398007/)
+
+License: https://creativecommons.org/publicdomain/zero/1.0/
+
+### [587183\_\_derplayer\_\_explosion-03.wav](https://freesound.org/people/derplayer/sounds/587183/)
+
+License: https://creativecommons.org/publicdomain/zero/1.0/
+
+### [587184\_\_derplayer\_\_explosion-02.wav](https://freesound.org/people/derplayer/sounds/587184/)
+
+License: https://creativecommons.org/publicdomain/zero/1.0/
+
+### [402767\_\_matrixxx\_\_retro-coin-03.wav](https://freesound.org/people/MATRIXXX_/sounds/402767/)
+
+License: https://creativecommons.org/publicdomain/zero/1.0/
+
+### [253471\_\_groadr\_\_growl.mp3](https://freesound.org/people/Groadr/sounds/253471/)
+
+License: https://creativecommons.org/licenses/by/3.0/
+
+### [260435\_\_roganmcdougald\_\_metal-impact-ceramic-piece-in-sink.wav](https://freesound.org/people/RoganMcDougald/sounds/260435/)
+
+License: https://creativecommons.org/licenses/by/3.0/
+
+### [553285\_\_nettoi\_\_hurt4.ogg](https://freesound.org/people/nettoi/sounds/553285/)
+
+License: https://creativecommons.org/publicdomain/zero/1.0/
+
+### [388713\_\_totalcult\_\_finger-click-02.wav](https://freesound.org/people/totalcult/sounds/388713/)
+
+License: https://creativecommons.org/publicdomain/zero/1.0/
+
+### [415209\_\_inspectorj\_\_cat-screaming-a.wav](https://freesound.org/people/InspectorJ/sounds/415209/)
+
+License: https://creativecommons.org/licenses/by/3.0/
+
+### [156073\_\_duesto\_\_ak-47.wav](https://freesound.org/people/duesto/sounds/156073/)
+
+License: https://creativecommons.org/publicdomain/zero/1.0/
+
+### [509430\_\_seanmorrissey96\_\_ak-47.wav](https://freesound.org/people/seanmorrissey96/sounds/509430/)
+
+License: https://creativecommons.org/licenses/by-nc/3.0/
+
+### [616091\_\_drummerdude525\_\_ak-74-fire.wav](https://freesound.org/people/DrummerDude525/sounds/616091/)
+
+License: https://creativecommons.org/licenses/by/3.0/
+
+### [522470\_\_filmmakersmanual\_\_heavy-machine-gun.wav](https://freesound.org/people/FilmmakersManual/sounds/522470/)
+
+License: https://creativecommons.org/publicdomain/zero/1.0/
+
+### [323376\_\_lalazzylee1\_\_fighting-game-hiya-game-sound.mp3](https://freesound.org/people/lalazzylee1/sounds/323376/)
+
+License: https://creativecommons.org/licenses/by/3.0/
+
+### [411852\_\_devilfish101\_\_monotron-whalesong.wav](https://freesound.org/people/devilfish101/sounds/411852/)
+
+License: https://creativecommons.org/licenses/by/3.0/
+
+### [522270\_\_filmmakersmanual\_\_gun-firing-from-a-distance-15.wav](https://freesound.org/people/FilmmakersManual/sounds/522270/)
+
+License: https://creativecommons.org/publicdomain/zero/1.0/
+
+### [522495\_\_filmmakersmanual\_\_gun-shots-from-a-distance-14.wav](https://freesound.org/people/FilmmakersManual/sounds/522495/)
+
+License: https://creativecommons.org/publicdomain/zero/1.0/
+
+### [522541\_\_filmmakersmanual\_\_gun-shots-from-a-distance-20.wav](https://freesound.org/people/FilmmakersManual/sounds/522541/)
+
+License: https://creativecommons.org/publicdomain/zero/1.0/
+
+### [441499\_\_matrixxx\_\_rocket-01](https://freesound.org/people/MATRIXXX_/sounds/441499/)
+
+License: https://creativecommons.org/publicdomain/zero/1.0/
+
+### [441500\_\_matrixxx\_\_rocket-02](https://freesound.org/people/MATRIXXX_/sounds/441500/)
+
+License: https://creativecommons.org/publicdomain/zero/1.0/
+
+### [522282\_\_filmmakersmanual\_\_shotgun-firing-1.wav](https://freesound.org/people/FilmmakersManual/sounds/522282/)
+
+License: https://creativecommons.org/publicdomain/zero/1.0/
+
+### [522284\_\_filmmakersmanual\_\_shotgun-firing-3.wav](https://freesound.org/people/FilmmakersManual/sounds/522284/)
+
+License: https://creativecommons.org/publicdomain/zero/1.0/
+
+### [522285\_\_filmmakersmanual\_\_shotgun-firing-4.wav](https://freesound.org/people/FilmmakersManual/sounds/522285/)
+
+License: https://creativecommons.org/publicdomain/zero/1.0/
+
+### [127845\_\_garyq\_\_tank-fire-mixed.wav](https://freesound.org/people/GaryQ/sounds/127845/)
+
+License: https://creativecommons.org/publicdomain/zero/1.0/
+
+---
+
+# Copyright Attributions - Images
+
+### https://unsplash.com/
+
+License: https://unsplash.com/license
+
+### Team image assets
+
+- Jeb | https://github.com/JesperKauppinen
+- Krzysztof | https://github.com/IrrationalBoolean
+
+License: https://mit-license.org/
+
+MIT License
+
+Copyright (c) 2022 MrTanoshii
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+
+---
