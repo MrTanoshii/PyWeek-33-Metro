@@ -346,7 +346,7 @@ class MapView(arcade.View):
 
         # Check if shops hit cursor (Simply because less number of checking)
         if self.shop_sprite.collides_with_sprite(self.cursor_sprite):
-            self.window.show_view(shopview.ShopView())
+            self.window.show_view(shopview.ShopView(self))
 
     # Make center points as dictionary and call out other views mostly
 # Make center points as dictionary and call out other views mostly
