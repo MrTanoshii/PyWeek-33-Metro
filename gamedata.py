@@ -173,9 +173,6 @@ class GameData:
                 cls.loadout[saved_weapon]["lvl"] = lvl
                 break
 
-        if current_gun_level != gun_level:
-            cls.level_data[weapon] = gun_level
-
             # Write changes
             cls.write_data()
 
