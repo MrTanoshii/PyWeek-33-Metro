@@ -324,54 +324,54 @@ class ShopView(arcade.View):
 
     def on_mouse_press(self, x, y, button, modifiers):
         if self.revolver_lvl_1.collides_with_sprite(self.cursor_sprite):
-            if GameData.loadout["Revolver"]["lvl"] == 0 and GameData.gold:
+            if GameData.loadout["Revolver"]["lvl"] == 0 and GameData.gold >= self.revolver_lvl_1.cost:
                 GameData.update_gold(GameData.gold - self.revolver_lvl_1.cost)
                 GameData.update_loadout("Revolver", 1)
         elif self.revolver_lvl_2.collides_with_sprite(self.cursor_sprite):
-            if GameData.loadout["Revolver"]["lvl"] == 1 and GameData.gold:
+            if GameData.loadout["Revolver"]["lvl"] == 1 and GameData.gold >= self.revolver_lvl_2.cost:
                 GameData.update_gold(GameData.gold - self.revolver_lvl_2.cost)
                 GameData.update_loadout("Revolver", 2)
         elif self.revolver_lvl_3.collides_with_sprite(self.cursor_sprite):
-            if GameData.loadout["Revolver"]["lvl"] == 2 and GameData.gold:
+            if GameData.loadout["Revolver"]["lvl"] == 2 and GameData.gold >= self.revolver_lvl_3.cost:
                 GameData.update_gold(GameData.gold - self.revolver_lvl_3.cost)
                 GameData.update_loadout("Revolver", 3)
 
         elif self.rifle_lvl_1.collides_with_sprite(self.cursor_sprite):
-            if GameData.loadout["Rifle"]["lvl"] == 0 and GameData.gold:
+            if GameData.loadout["Rifle"]["lvl"] == 0 and GameData.gold >= self.rifle_lvl_1.cost:
                 GameData.update_gold(GameData.gold - self.rifle_lvl_1.cost)
                 GameData.update_loadout("Rifle", 1)
         elif self.rifle_lvl_2.collides_with_sprite(self.cursor_sprite):
-            if GameData.loadout["Rifle"]["lvl"] == 1 and GameData.gold:
+            if GameData.loadout["Rifle"]["lvl"] == 1 and GameData.gold >= self.rifle_lvl_2.cost:
                 GameData.update_gold(GameData.gold - self.rifle_lvl_2.cost)
                 GameData.update_loadout("Rifle", 2)
         elif self.rifle_lvl_3.collides_with_sprite(self.cursor_sprite):
-            if GameData.loadout["Rifle"]["lvl"] == 2 and GameData.gold:
+            if GameData.loadout["Rifle"]["lvl"] == 2 and GameData.gold >= self.rifle_lvl_3.cost:
                 GameData.update_gold(GameData.gold - self.rifle_lvl_3.cost)
                 GameData.update_loadout("Rifle", 3)
 
         elif self.shotgun_lvl_1.collides_with_sprite(self.cursor_sprite):
-            if GameData.loadout["Shotgun"]["lvl"] == 0 and GameData.gold:
+            if GameData.loadout["Shotgun"]["lvl"] == 0 and GameData.gold >= self.shotgun_lvl_1.cost:
                 GameData.update_gold(GameData.gold - self.shotgun_lvl_1.cost)
                 GameData.update_loadout("Shotgun", 1)
         elif self.shotgun_lvl_2.collides_with_sprite(self.cursor_sprite):
-            if GameData.loadout["Shotgun"]["lvl"] == 1 and GameData.gold:
+            if GameData.loadout["Shotgun"]["lvl"] == 1 and GameData.gold >= self.shotgun_lvl_2.cost:
                 GameData.update_gold(GameData.gold - self.shotgun_lvl_2.cost)
                 GameData.update_loadout("Shotgun", 2)
         elif self.shotgun_lvl_3.collides_with_sprite(self.cursor_sprite):
-            if GameData.loadout["Shotgun"]["lvl"] == 2 and GameData.gold:
+            if GameData.loadout["Shotgun"]["lvl"] == 2 and GameData.gold >= self.shotgun_lvl_3.cost:
                 GameData.update_gold(GameData.gold - self.shotgun_lvl_3.cost)
                 GameData.update_loadout("Shotgun", 3)
 
         elif self.rpg_lvl_1.collides_with_sprite(self.cursor_sprite):
-            if GameData.loadout["RPG"]["lvl"] == 0 and GameData.gold:
+            if GameData.loadout["RPG"]["lvl"] == 0 and GameData.gold >= self.rpg_lvl_1.cost:
                 GameData.update_gold(GameData.gold - self.rpg_lvl_1.cost)
                 GameData.update_loadout("RPG", 1)
         elif self.rpg_lvl_2.collides_with_sprite(self.cursor_sprite):
-            if GameData.loadout["RPG"]["lvl"] == 1 and GameData.gold:
+            if GameData.loadout["RPG"]["lvl"] == 1 and GameData.gold >= self.rpg_lvl_2.cost:
                 GameData.update_gold(GameData.gold - self.rpg_lvl_2.cost)
                 GameData.update_loadout("RPG", 2)
         elif self.rpg_lvl_3.collides_with_sprite(self.cursor_sprite):
-            if GameData.loadout["RPG"]["lvl"] == 2 and GameData.gold:
+            if GameData.loadout["RPG"]["lvl"] == 2 and GameData.gold >= self.rpg_lvl_3.cost:
                 GameData.update_gold(GameData.gold - self.rpg_lvl_3.cost)
                 GameData.update_loadout("RPG", 3)
 
