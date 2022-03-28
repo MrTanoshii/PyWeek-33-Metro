@@ -23,7 +23,11 @@
 
 # PyWeek 33 | Team Pastafobia | The Epic of Goat
 
-Featuring
+## PyWeek 33 Submission
+
+https://github.com/MrTanoshii/PyWeek-33-Metro/releases/tag/v1.1.0
+
+## Featuring
 
 - Jeb | https://github.com/JesperKauppinen
 - MrTanoshii | https://github.com/MrTanoshii

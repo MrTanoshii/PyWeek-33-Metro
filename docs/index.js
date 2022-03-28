@@ -1,4 +1,4 @@
-// todo dark mode toggle
+
 function ToggleDarkMode () {
     var maincontent = document.getElementById("maincontent");
     var icon = document.getElementById("style-toggle");
@@ -17,4 +17,16 @@ function ToggleDarkMode () {
         icon.classList.add('fa-sun-o');
         document.body.style.backgroundColor= "#FFF"
     }
+}
+
+/* When the user scrolls down, hide the navbar. When the user scrolls up, show the navbar */
+var prevScrollpos = window.pageYOffset;
+window.onscroll = function() {
+  var currentScrollPos = window.pageYOffset;
+  if (prevScrollpos > currentScrollPos) {
+    document.getElementById("navbar").style.display = "block";
+  } else {
+    document.getElementById("navbar").style.display = "none";
+  }
+  prevScrollpos = currentScrollPos;
 }

@@ -328,8 +328,6 @@ class MapView(arcade.View):
         elif self.shop_sprite.collides_with_sprite(self.cursor_sprite):
             self.window.show_view(shopview.ShopView(self))
 
-# Make center points as dictionary and call out other views mostly
-
     def open_story(self):
         self.window.show_view(StoryView(self, MapView.current_level))
 
