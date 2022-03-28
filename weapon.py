@@ -5,9 +5,13 @@ import random
 from bullet import Bullet
 from audio import Audio
 from lib import calculate_angle, global_scale
-
+import sys
+import os
 
 bullet_texture_lists_list = {}
+
+if getattr(sys, 'frozen', False) and hasattr(sys, '_MEIPASS'):
+    os.chdir(sys._MEIPASS)
 
 
 # Create example bullet texture lists
@@ -220,7 +224,6 @@ class Weapon(arcade.Sprite):
                 # Set GUI location
                 self.center_x = C.GUI["Weapon"]["center_x"] * global_scale()
                 self.center_y = C.GUI["Weapon"]["center_y"] * global_scale()
-
                 # Set Gun attributes
                 self.init_angle = weapon["init_angle"]
                 self.fire_mode = weapon["fire_mode"]

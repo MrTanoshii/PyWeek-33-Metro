@@ -56,12 +56,15 @@ class MapView(arcade.View):
         self.background = None
 
         self.level = 0
+
+        # Monuments
         self.normal_scale = .2 * global_scale()
         self.highlight_scale = .3 * global_scale()
         self.highlight = False
+
+        # Steps
         self.normal_scale_step = C.STEP_CONFS["story_scale"] * global_scale()
-        self.highlight_scale_step = C.STEP_CONFS["story_scale_big"] * \
-            global_scale()
+        self.highlight_scale_step = C.STEP_CONFS["story_scale_big"] * global_scale()
         self.highlight_step = False
 
         """ Map sprites """
@@ -100,7 +103,6 @@ class MapView(arcade.View):
         # Initializing a global Shop Sprite URL - https://www.iconsdb.com/white-icons/shop-icon.html
         self.shop_sprite = arcade.Sprite(
             "resources/images/map/temp_shop.png", 0.2 * global_scale())
-        # Initializing a global Shop Sprite URL - https://www.iconsdb.com/white-icons/shop-icon.html
         self.gold_sprite = arcade.Sprite(
             "resources/images/map/gold-bar.png", 0.6 * global_scale())
 
@@ -119,7 +121,7 @@ class MapView(arcade.View):
         for mon_dict in C.MAP_MONUMENTS_LIST:
             monument = arcade.Sprite(
                 "resources/images/map/" + mon_dict["img_name"],
-                self.normal_scale * global_scale())
+                self.normal_scale)
             monument.level = mon_dict["level"]
             monument.name = mon_dict["name"]
             monument.center_x = mon_dict["center_x"] * global_scale()
@@ -206,9 +208,13 @@ class MapView(arcade.View):
         # Clear the screen to the background color
         self.clear()
 
-        arcade.draw_lrwh_rectangle_textured(0, 0,
-                                            C.SCREEN_WIDTH, C.SCREEN_HEIGHT,
-                                            self.background)
+        arcade.draw_lrwh_rectangle_textured(
+            bottom_left_x=0,
+            bottom_left_y=0,
+            width=arcade.get_window().width,
+            height=arcade.get_window().height,
+            texture=self.background)
+
         self.gold_sprite.draw()
         # GUI - Gold
         arcade.draw_text(
@@ -221,15 +227,6 @@ class MapView(arcade.View):
             font_size=30 * global_scale(),
             anchor_x="left",
             anchor_y="center",
-        )
-
-        arcade.draw_text(
-            f"SHOP",
-            1200,
-            620,
-            arcade.color.BLACK,
-            font_size=20,
-            anchor_x="center",
         )
 
         MapView.step_list.draw()
@@ -328,29 +325,8 @@ class MapView(arcade.View):
                 self.window.show_view(StoryView(self, story_level))
 
         # Check if shops hit cursor (Simply because less number of checking)
-        if self.shop_sprite.collides_with_sprite(self.cursor_sprite):
+        elif self.shop_sprite.collides_with_sprite(self.cursor_sprite):
             self.window.show_view(shopview.ShopView(self))
-
-        elif hit_step and (hit_step[0].level is not None):
-            if hit_step[0].unlocked:
-                story_level = hit_step[0].level
-                # Play monument click sfx
-                Audio.play_sound(hit_step[0].sfx_click)
-
-                # Stop bgm
-                if self.bgm_stream:
-                    Audio.stop_sound(self.bgm_stream)
-                    self.bgm_stream = None
-
-                # Story opening
-                self.window.show_view(StoryView(self, story_level))
-
-        # Check if shops hit cursor (Simply because less number of checking)
-        if self.shop_sprite.collides_with_sprite(self.cursor_sprite):
-            self.window.show_view(shopview.ShopView())
-
-    # Make center points as dictionary and call out other views mostly
-# Make center points as dictionary and call out other views mostly
 
     def open_story(self):
         self.window.show_view(StoryView(self, MapView.current_level))

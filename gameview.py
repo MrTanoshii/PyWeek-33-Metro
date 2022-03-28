@@ -83,9 +83,15 @@ class GameView(arcade.View):
 
         self.map_view = map_view
 
+        self.gold_sprite = None
+
         arcade.set_background_color(arcade.csscolor.GREEN)
 
         self.text_color = None
+
+        self.cursor = None
+        self.bgm = None
+        self.bgm_stream = None
 
     def setup(self):
         """ Set up everything with the game """
@@ -111,7 +117,7 @@ class GameView(arcade.View):
         Enemy.preload(self.enemy_list)
 
         # Cursor
-        self.cursor = arcade.Sprite(scale=0.7)
+        self.cursor = arcade.Sprite(scale=0.7 * global_scale())
         self.cursor.cur_texture = 0
         self.cursor.texture_list = []
         for filename in sorted(os.listdir(f"assets/CursorCrosshair/")):
@@ -137,6 +143,11 @@ class GameView(arcade.View):
         else:
             Bullet.friendly_bullet_list.color = (255, 255, 255)
             self.text_color = arcade.color.BLACK
+
+        self.gold_sprite = arcade.Sprite(
+            "resources/images/map/gold-bar.png", 0.7 * global_scale())
+        self.gold_sprite.position = (
+            1100 * global_scale(), 660 * global_scale())
 
         # Start bgm
         self.bgm_stream = Audio.play_sound(self.bgm, True)
@@ -173,44 +184,53 @@ class GameView(arcade.View):
         Bullet.enemy_bullet_list.update_animation()
         Enemy.enemy_list.update_animation()
 
-        # GUI - Score
-        arcade.draw_text(
-            f"Score : {Tracker.score}",
-            (C.SCREEN_WIDTH / 5) * global_scale(),
-            (C.SCREEN_HEIGHT - 50) * global_scale(),
-            self.text_color,
-            font_size=30 * global_scale(),
-            anchor_x="center",
-        )
-
-        # GUI - Gold
-        arcade.draw_text(
-            f"Gold : {Tracker.gold}",
-            (C.SCREEN_WIDTH / 5) * global_scale(),
-            (C.SCREEN_HEIGHT - 150) * global_scale(),
-            self.text_color,
-            font_size=30 * global_scale(),
-            anchor_x="center",
-        )
-
         # GUI - Player HP
         arcade.draw_text(
             f"HP : {self.player.cur_health}",
-            ((C.SCREEN_WIDTH / 5) + 200) * global_scale(),
-            (C.SCREEN_HEIGHT - 50) * global_scale(),
+            C.SCREEN_WIDTH / 5 - 100 * global_scale(),
+            C.SCREEN_HEIGHT - 70 * global_scale(),
             self.text_color,
-            font_size=30 * global_scale(),
-            anchor_x="center",
+            font_size=20 * global_scale(),
+            font_name="Kenny High Square",
+            bold=True,
+            anchor_x="center"
         )
 
         # GUI - Player Ammo
         arcade.draw_text(
-            f"Ammo : {self.player.weapon.cur_ammo} \ {self.player.weapon.max_ammo}",
-            ((C.SCREEN_WIDTH / 5) + 500) * global_scale(),
-            (C.SCREEN_HEIGHT - 50) * global_scale(),
+            f"{self.player.weapon.cur_ammo} \ {self.player.weapon.max_ammo}",
+            C.SCREEN_WIDTH / 5 + 230 * global_scale(),
+            C.SCREEN_HEIGHT - 70 * global_scale(),
             self.text_color,
-            font_size=30 * global_scale(),
+            font_size=20 * global_scale(),
+            font_name="Kenny High Square",
             anchor_x="center",
+            bold=True
+        )
+
+        # GUI - Score
+        arcade.draw_text(
+            f"Score : {Tracker.score}",
+            C.SCREEN_WIDTH / 5 + 600 * global_scale(),
+            C.SCREEN_HEIGHT - 70 * global_scale(),
+            # (200,240,100),
+            self.text_color,
+            font_size=20 * global_scale(),
+            font_name="Kenny High Square",
+            bold=True,
+            anchor_x="center",
+        )
+        self.gold_sprite.draw()
+        # GUI - Gold
+        arcade.draw_text(
+            f"{Tracker.gold}",
+            C.SCREEN_WIDTH / 5 + 870 * global_scale(),
+            C.SCREEN_HEIGHT - 72 * global_scale(),
+            arcade.color.BLACK,
+            font_size=20 * global_scale(),
+            font_name="Kenny High Square",
+            anchor_x="center",
+            bold=True
         )
 
         self.cursor.draw()
@@ -257,12 +277,18 @@ class GameView(arcade.View):
     def on_mouse_press(self, x, y, button, modifiers):
         """Called whenever a mouse key is pressed."""
         # Mouse Left Click
+        # if button == arcade.MOUSE_BUTTON_LEFT:
+        #     for enemy in Enemy.enemy_list:
+        #         enemy.shoot()
         if button == arcade.MOUSE_BUTTON_LEFT:
-            for enemy in Enemy.enemy_list:
-                enemy.shoot()
+            self.shoot_pressed = True
 
         if C.DEBUG.MAP:
             print(x, y)
+
+    def on_mouse_release(self, x: float, y: float, button: int, modifiers: int):
+        if button == arcade.MOUSE_BUTTON_LEFT:
+            self.shoot_pressed = False
 
     def on_key_press(self, key, modifiers):
         """Called whenever a key is pressed."""
@@ -337,8 +363,8 @@ class GameView(arcade.View):
             Player.weapon.is_reloading = True
 
         # Enemy spawn | E
-        elif key == arcade.key.E:
-            Enemy.spawn_enemy(self.enemy_list)
+        # elif key == arcade.key.E:
+        #     Enemy.spawn_enemy(self.enemy_list)
 
         # Volume Toggle | M
         elif key == arcade.key.M:
@@ -352,10 +378,6 @@ class GameView(arcade.View):
             self.bgm_stream = None
             self.window.show_view(PauseMenuView(
                 self, self.map_view, self.level))
-
-        # test atc demo, when press num pad 0 change skin
-        elif key == arcade.key.NUM_0:
-            self.player.set_skin('GuyGoatRPG')
 
     def on_key_release(self, key, modifiers):
         """Called when the user releases a key."""

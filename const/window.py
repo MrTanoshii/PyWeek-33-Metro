@@ -1,18 +1,12 @@
-# Size
-# SCREEN_WIDTH = 3840
-# SCREEN_HEIGHT = 2160
-
-# SCREEN_WIDTH = 1920
-# SCREEN_HEIGHT = 1080
-
+# Default Window Size
 SCREEN_WIDTH = 1280
 SCREEN_HEIGHT = 720
 
-FULLSCREEN = False # or True
-
 # Title
-SCREEN_TITLE = "REVƎЯ"
+SCREEN_TITLE = "The Epic of Goat by Team Pastafobia"
+FULLSCREEN = False
+FULLSCREEN_WINDOWED = True
 
 # Config
-CENTER_WINDOW = True
+CENTER_WINDOW = False
 CURSOR_VISIBLE = False
