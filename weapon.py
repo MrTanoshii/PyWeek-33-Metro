@@ -5,8 +5,13 @@ import random
 from bullet import Bullet
 from audio import Audio
 from lib import calculate_angle, global_scale
+import sys
+import os
 
 bullet_texture_lists_list = {}
+
+if getattr(sys, 'frozen', False) and hasattr(sys, '_MEIPASS'):
+    os.chdir(sys._MEIPASS)
 
 
 # Create example bullet texture lists

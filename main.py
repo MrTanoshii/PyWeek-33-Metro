@@ -1,5 +1,4 @@
 import arcade
-import pyglet
 import sys
 import os
 
@@ -35,7 +34,7 @@ def main():
         )
 
     window.set_mouse_visible(C.CURSOR_VISIBLE)
-    icon = pyglet.image.load('resources/images/goat_cursor.png')
+    icon = .image.load('resources/images/goat_cursor.png')
     window.set_icon(icon)
     menu_view = MainMenu()
     window.show_view(menu_view)
