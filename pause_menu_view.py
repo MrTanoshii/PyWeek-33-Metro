@@ -190,13 +190,13 @@ class PauseMenuView(arcade.View):
             Tracker.trigger_easter_egg()
             # TODO: Add something special
 
-    def on_key_press(self, key, _modifiers):
+    def on_key_press(self, symbol, _modifiers):
         """Handle keyboard key press"""
-        if key == arcade.key.Q:
+        if symbol == arcade.key.Q:
             self.quit_game()
-        elif key == arcade.key.M:
+        elif symbol == arcade.key.M:
             self.to_map()
-        elif key == arcade.key.SPACE:
+        elif symbol == arcade.key.SPACE:
             self.resume()
 
     def resume(self):
@@ -215,11 +215,6 @@ class PauseMenuView(arcade.View):
         self.bgm_stream = None
         self.window.show_view(self.map_view)
         self.exit_level()
-
-    def resume(self):
-        Audio.stop_sound(self.bgm_stream)
-        self.bgm_stream = None
-        self.window.show_view(self.game_view)
 
     def exit_level(self):
         GameData.update_highscore(self.current_level)

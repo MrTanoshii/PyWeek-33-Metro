@@ -45,7 +45,7 @@ class Enemy(arcade.Sprite):
     # SpriteList class attribute
     enemy_list = arcade.SpriteList()
 
-    def __init__(self, hit_box_algorithm, type, scale=0.8):
+    def __init__(self, hit_box_algorithm, __type, scale=0.8):
         # Inherit parent class
 
         super().__init__()
@@ -54,7 +54,7 @@ class Enemy(arcade.Sprite):
         self.scale = scale * global_scale()
 
         # load enemy configs
-        self.config = type
+        self.config = __type
         self.name = self.config["name"]
         self.weapon = self.config["weapon"]
         self.score = self.config["score"]
@@ -73,20 +73,20 @@ class Enemy(arcade.Sprite):
         self.HP = self.config["health"]
 
         # Set Weapon
-        for weapon in C.ENEMY_WEAPON_LIST:
-            if weapon["name"] == self.weapon:
-                self.weapon_init_angle = weapon["init_angle"]
-                self.damage_value = weapon["damage_value"]
-                self.shooting_speed = weapon["shoot_time"]
-                self.shoot_constant = weapon["shoot_constant"]
-                self.shoot_probability = weapon["shoot_probability"]
-                self.shoot_max_angle = weapon["shoot_max_angle"]
-                self.bullet_damage = weapon["bullet_damage"]
-                self.bullet_scale = weapon["bullet_scale"] * self.scale
-                self.bullet_amount = weapon["bullet_amount"]
-                self.bullet_spread = weapon["bullet_spread"] * self.scale
-                self.bullet_speed = weapon["bullet_speed"] * self.scale
-                self.bullet_speed_spread = weapon["bullet_speed_spread"] * self.scale
+        for __weapon in C.ENEMY_WEAPON_LIST:
+            if __weapon["name"] == self.weapon:
+                self.weapon_init_angle = __weapon["init_angle"]
+                self.damage_value = __weapon["damage_value"]
+                self.shooting_speed = __weapon["shoot_time"]
+                self.shoot_constant = __weapon["shoot_constant"]
+                self.shoot_probability = __weapon["shoot_probability"]
+                self.shoot_max_angle = __weapon["shoot_max_angle"]
+                self.bullet_damage = __weapon["bullet_damage"]
+                self.bullet_scale = __weapon["bullet_scale"] * self.scale
+                self.bullet_amount = __weapon["bullet_amount"]
+                self.bullet_spread = __weapon["bullet_spread"] * self.scale
+                self.bullet_speed = __weapon["bullet_speed"] * self.scale
+                self.bullet_speed_spread = __weapon["bullet_speed_spread"] * self.scale
                 break
 
         self.can_shoot = True
@@ -257,7 +257,7 @@ class Enemy(arcade.Sprite):
         elif self.can_shoot:
             self.can_shoot = False
 
-            if self.shoot_constant == True or random.random() <= self.shoot_probability:
+            if self.shoot_constant or random.random() <= self.shoot_probability:
                 # Generate random pattern
                 self.random_angle = random.uniform(-(self.bullet_spread/2),
                                                    (self.bullet_spread/2))
@@ -378,7 +378,7 @@ class Enemy(arcade.Sprite):
             self.cur_texture += self.animation_speed * delta_time
             while self.cur_texture >= len(self.texture_list) - 1:
                 self.cur_texture -= len(self.texture_list) - 1
-                if (self.cur_texture <= 0):
+                if self.cur_texture <= 0:
                     self.cur_texture = 0
                     break
         self.texture = self.texture_list[int(self.cur_texture)]

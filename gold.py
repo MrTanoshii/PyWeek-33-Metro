@@ -14,7 +14,7 @@ class Gold(arcade.Sprite):
     Attributes
     ----------
     gold_list : arcade.SpriteList()
-        List of gold sprites 
+        List of gold sprites
     audio_volume : float
         The volume of sfx
 

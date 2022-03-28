@@ -1,13 +1,14 @@
+
+import arcade
+
 import const.constants as C
 import gameview
-import arcade
 from player import Player
 import shopview
 from gamedata import GameData
 from lib import global_scale
 from story_view import StoryView
 from audio import Audio
-from story_view import StoryView
 
 
 class MapView(arcade.View):
@@ -41,8 +42,8 @@ class MapView(arcade.View):
 
     # Level class attribute
     current_level = 0
-    monument_list = None
-    step_list = None
+    monument_list = []
+    step_list = []
 
     def __init__(self):
         # Inherit parent class
@@ -64,7 +65,8 @@ class MapView(arcade.View):
 
         # Steps
         self.normal_scale_step = C.STEP_CONFS["story_scale"] * global_scale()
-        self.highlight_scale_step = C.STEP_CONFS["story_scale_big"] * global_scale()
+        self.highlight_scale_step = C.STEP_CONFS["story_scale_big"] * \
+            global_scale()
         self.highlight_step = False
 
         """ Map sprites """
@@ -193,7 +195,7 @@ class MapView(arcade.View):
                     step.unlocked = True
                     step.passed = True
                     passed = True
-                    unlocked = True
+                    _unlocked = True
                 # Find & set click sfx
                 for i in range(0, len(Audio.sfx_ui_list)):
                     if Audio.sfx_ui_list[i]["ui_name"] == "EGYPT":
@@ -229,8 +231,10 @@ class MapView(arcade.View):
             anchor_y="center",
         )
 
-        MapView.step_list.draw()
-        MapView.monument_list.draw()
+        for step in MapView.step_list:
+            step.draw()
+        for monument in MapView.monument_list:
+            monument.draw()
         self.shop_sprite.draw(pixelated=True)
         self.cursor_list.draw()
 

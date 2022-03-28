@@ -1,6 +1,4 @@
-import arcade
 import const.constants as C
-from player import Player
 from bullet import Bullet
 from enemy import Enemy
 from gold import Gold
@@ -31,9 +29,9 @@ class Settings:
     master_volume = C.AUDIO.MASTER_VOLUME
     mute = False
 
-    def __init__(self):
-        # Inherit parent class
-        super().__init__()
+    # def __init__(self):
+    #     # Inherit parent class
+    #     super().__init__()
 
     @classmethod
     def master_volume_toggle(cls):

@@ -518,7 +518,7 @@ class Audio():
             print("Master sound list: ", cls.master_list)
         # Find & play sound
         for check_item in cls.check_list:
-            sound_gain = cls.find_gain(
+            sound_gain = find_gain(
                 requested_sound, check_item[0], cls.master_list)
             if not sound_gain is None:
                 return arcade.play_sound(requested_sound, min(sound_gain + check_item[1], 1) * cls.master_volume, looping=looping)
@@ -545,12 +545,13 @@ class Audio():
         arcade.stop_sound(requested_stream)
         requested_stream = None
 
-    def find_gain(requested_sound: arcade.Sound, sound_list: list, master_list: list):
-        """ Find the sound from the list and return gain """
 
-        for sfx_dict in sound_list:
-            if requested_sound == sfx_dict["sound"]:
-                for dict_item in master_list:
-                    if dict_item["sound"] == requested_sound:
-                        return dict_item["gain"]
-        return None
+def find_gain(requested_sound: arcade.Sound, sound_list: list, master_list: list):
+    """ Find the sound from the list and return gain """
+
+    for sfx_dict in sound_list:
+        if requested_sound == sfx_dict["sound"]:
+            for dict_item in master_list:
+                if dict_item["sound"] == requested_sound:
+                    return dict_item["gain"]
+    return None

@@ -12,9 +12,9 @@ class Bullet(arcade.Sprite):
     Attributes
     ----------
     friendly_bullet_list : arcade.SpriteList
-        List of friendly bullet sprites 
+        List of friendly bullet sprites
     enemy_bullet_list: arcade.SpriteList
-        List of enemy bullet sprites 
+        List of enemy bullet sprites
 
     Class Methods
     -------------

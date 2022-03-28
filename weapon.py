@@ -1,12 +1,16 @@
-import const.constants as C
-import arcade
+
+
+import sys
+import os
 import math
 import random
+
+import arcade
+
+import const.constants as C
 from bullet import Bullet
 from audio import Audio
 from lib import calculate_angle, global_scale
-import sys
-import os
 
 bullet_texture_lists_list = {}
 
@@ -22,7 +26,7 @@ def init_bullet_texture_lists():
         bullet_texture_list = []
         for i in range(1, enemy_weapon["bullet_texture_amount"] + 1):
             bullet_texture_list.append(arcade.load_texture(
-                f"resources/images/weapon/" +
+                "resources/images/weapon/" +
                 enemy_weapon["bullet_texture_dir_name"] +
                 "/bullet/" + str(i) + ".png",
                 hit_box_algorithm="Simple"))
@@ -70,6 +74,14 @@ class Weapon(arcade.Sprite):
         for weapon in C.WEAPON_LIST:
             self.tracked_ammo[weapon["name"]
                               ] = weapon["max_ammo"]
+
+        self.cur_ammo = 0
+        self.can_shoot = True
+        self.is_reloading = False
+        self.reload_timer = 0
+        self.weapon_angle = 0
+        self.bullet_angle = 0
+        self.shoot_timer = 0
 
         # Set default weapon
         self.set_weapon("Revolver")
@@ -212,14 +224,14 @@ class Weapon(arcade.Sprite):
 
                 # Load weapon texture
                 self.texture = arcade.load_texture(
-                    f"resources/images/weapon/" + self.img_name + "/" + self.img_name + ".png", weapon["center_x"], weapon["center_y"], weapon["width"], weapon["height"])
+                    "resources/images/weapon/" + self.img_name + "/" + self.img_name + ".png", weapon["center_x"], weapon["center_y"], weapon["width"], weapon["height"])
                 self.scale = weapon["scale"] * C.WEAPON_SCALE * global_scale()
 
                 # Load animated bullet textures
                 self.bullet_texture_list = []
                 for i in range(1, weapon["bullet_texture_amount"] + 1):
                     self.bullet_texture_list.append(arcade.load_texture(
-                        f"resources/images/weapon/" + self.img_name + "/bullet/" + str(i) + ".png", hit_box_algorithm="Detailed"))
+                        "resources/images/weapon/" + self.img_name + "/bullet/" + str(i) + ".png", hit_box_algorithm="Detailed"))
 
                 # Set GUI location
                 self.center_x = C.GUI["Weapon"]["center_x"] * global_scale()
