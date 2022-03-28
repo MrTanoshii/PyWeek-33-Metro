@@ -82,16 +82,13 @@ class Enemy(arcade.Sprite):
                 self.shoot_probability = weapon["shoot_probability"]
                 self.shoot_max_angle = weapon["shoot_max_angle"]
                 self.bullet_damage = weapon["bullet_damage"]
-                self.bullet_scale = weapon["bullet_scale"] * \
-                    global_scale() * self.scale
+                self.bullet_scale = weapon["bullet_scale"] * self.scale
                 self.bullet_amount = weapon["bullet_amount"]
-                self.bullet_spread = weapon["bullet_spread"] * \
-                    global_scale() * self.scale
-                self.bullet_speed = weapon["bullet_speed"] * \
-                    global_scale() * self.scale
-                self.bullet_speed_spread = weapon["bullet_speed_spread"] * \
-                    global_scale() * self.scale
+                self.bullet_spread = weapon["bullet_spread"] * self.scale
+                self.bullet_speed = weapon["bullet_speed"] * self.scale
+                self.bullet_speed_spread = weapon["bullet_speed_spread"] * self.scale
                 break
+
         self.can_shoot = True
         self.shooting_timer = 0
 
@@ -113,7 +110,7 @@ class Enemy(arcade.Sprite):
             self.texture_list.append(
                 arcade.load_texture(f"{base_path}{filename}", hit_box_algorithm=hit_box_algorithm))
 
-        self.cur_texture = 0
+        self.cur_texture = random.randint(0, len(self.texture_list) - 1)
 
         self.animation_speed = self.config["animation_speed"]
 
@@ -154,11 +151,10 @@ class Enemy(arcade.Sprite):
                 random_enemy_index = random.randrange(0, len(enemy_list))
                 random_enemy_prob = random.random()
         enemy = Enemy("Simple", enemy_list[random_enemy_index])
-        enemy.scale = enemy_list[random_enemy_index]["scale"]
+        enemy.scale = enemy_list[random_enemy_index]["scale"] * global_scale()
 
         # Set enemy location
-        enemy.center_x = (C.SCREEN_WIDTH *
-                          global_scale()) + enemy.width
+        enemy.center_x = C.SCREEN_WIDTH + enemy.width
         enemy.center_y = (C.SCREEN_HEIGHT // 2 +
                           random.uniform(-C.SCREEN_HEIGHT/3.25, C.SCREEN_HEIGHT/3.25))
 

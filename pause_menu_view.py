@@ -105,7 +105,7 @@ class PauseMenuView(arcade.View):
         for btn_dict in self.btn_dict_:
             button = arcade.Sprite(
                 filename="resources/images/pause_view/" + btn_dict["img_name"],
-                scale=self.normal_scale * global_scale())
+                scale=self.normal_scale)
             button.name = btn_dict["name"]
             button.center_x = btn_dict["center_x"]
             button.center_y = btn_dict["center_y"]
@@ -121,7 +121,11 @@ class PauseMenuView(arcade.View):
 
         # Draw the bg image
         arcade.draw_lrwh_rectangle_textured(
-            0, 0, C.SCREEN_WIDTH, C.SCREEN_HEIGHT, self.background)
+            bottom_left_x=0,
+            bottom_left_y=0,
+            width=arcade.get_window().width,
+            height=arcade.get_window().height,
+            texture=self.background)
 
         # Draw buttons
         self.btn_list.draw()

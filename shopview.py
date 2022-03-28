@@ -22,7 +22,9 @@ class ShopView(arcade.View):
         self.gold_sprite = arcade.Sprite(
             "resources/images/map/gold-bar.png", 0.6 * global_scale())
         self.gold_sprite.position = (
-            1200 * global_scale(), 680 * global_scale())
+            1200 * global_scale(),
+            680 * global_scale()
+        )
 
         # Cursor
         self.cursor_sprite = arcade.Sprite(
@@ -32,20 +34,20 @@ class ShopView(arcade.View):
 
         self.revolver_sprite = arcade.Sprite(
             "resources/images/weapon/weapon_revolver/weapon_revolver.png", C.WEAPON_LIST[0]["scale"] * C.WEAPON_SCALE * global_scale())
-        self.revolver_sprite.center_x = 200
-        self.revolver_sprite.center_y = 200
+        self.revolver_sprite.center_x = 200 * global_scale()
+        self.revolver_sprite.center_y = 200 * global_scale()
         self.rifle_sprite = arcade.Sprite(
             "resources/images/weapon/weapon_ak/weapon_ak.png", C.WEAPON_LIST[1]["scale"] * C.WEAPON_SCALE * global_scale())
-        self.rifle_sprite.center_x = 200
-        self.rifle_sprite.center_y = 300
+        self.rifle_sprite.center_x = 200 * global_scale()
+        self.rifle_sprite.center_y = 300 * global_scale()
         self.shotgun_sprite = arcade.Sprite(
             "resources/images/weapon/weapon_shotgun/weapon_shotgun.png", C.WEAPON_LIST[2]["scale"] * C.WEAPON_SCALE * global_scale())
-        self.shotgun_sprite.center_x = 200
-        self.shotgun_sprite.center_y = 400
+        self.shotgun_sprite.center_x = 200 * global_scale()
+        self.shotgun_sprite.center_y = 400 * global_scale()
         self.rpg_sprite = arcade.Sprite(
             "resources/images/weapon/weapon_rpg/weapon_rpg.png", C.WEAPON_LIST[3]["scale"] * C.WEAPON_SCALE * global_scale())
-        self.rpg_sprite.center_x = 200
-        self.rpg_sprite.center_y = 500
+        self.rpg_sprite.center_x = 200 * global_scale()
+        self.rpg_sprite.center_y = 500 * global_scale()
 
         self.revolver_lvl_1 = arcade.Sprite()
         self.revolver_lvl_2 = arcade.Sprite()
@@ -68,9 +70,9 @@ class ShopView(arcade.View):
 
         self.button = arcade.Sprite(
             filename="resources/images/pause_view/btn_back_to_map.png",
-            scale=self.normal_scale * global_scale())
+            scale=self.normal_scale)
         self.button.center_x = C.SCREEN_WIDTH // 2
-        self.button.center_y = C.SCREEN_HEIGHT - 50
+        self.button.center_y = C.SCREEN_HEIGHT - (50 * global_scale())
 
     def on_draw(self):
         """Render the screen."""
@@ -78,9 +80,13 @@ class ShopView(arcade.View):
         # Clear the screen to the background color
         self.clear()
 
-        # arcade.draw_lrwh_rectangle_textured(0, 0,
-        #                                     C.SCREEN_WIDTH, C.SCREEN_HEIGHT,
-        #                                     self.background)
+        # Draw bg when we have one
+        # arcade.draw_lrwh_rectangle_textured(
+        #     bottom_left_x=0,
+        #     bottom_left_y=0,
+        #     width=arcade.get_window().width,
+        #     height=arcade.get_window().height,
+        #     texture=self.background)
 
         # self.preview.draw()
 
@@ -89,6 +95,7 @@ class ShopView(arcade.View):
         # self.btn_right.draw(pixelated=True)
 
         self.gold_sprite.draw()
+
         arcade.draw_text(
             GameData.gold,
             self.gold_sprite.position[0]*.99,
@@ -109,8 +116,9 @@ class ShopView(arcade.View):
         else:
             self.revolver_lvl_1 = arcade.Sprite(
                 "resources/images/shop/lvl_bought.png")
-        self.revolver_lvl_1.center_x = 400
-        self.revolver_lvl_1.center_y = 200
+        self.revolver_lvl_1.center_x = 400 * global_scale()
+        self.revolver_lvl_1.center_y = 200 * global_scale()
+        self.revolver_lvl_1.scale = global_scale()
 
         self.revolver_lvl_2 = None
         if GameData.loadout["Revolver"]["lvl"] < 2:
@@ -119,8 +127,9 @@ class ShopView(arcade.View):
         else:
             self.revolver_lvl_2 = arcade.Sprite(
                 "resources/images/shop/lvl_bought.png")
-        self.revolver_lvl_2.center_x = 600
-        self.revolver_lvl_2.center_y = 200
+        self.revolver_lvl_2.center_x = 600 * global_scale()
+        self.revolver_lvl_2.center_y = 200 * global_scale()
+        self.revolver_lvl_2.scale = global_scale()
 
         self.revolver_lvl_3 = None
         if GameData.loadout["Revolver"]["lvl"] < 3:
@@ -129,8 +138,9 @@ class ShopView(arcade.View):
         else:
             self.revolver_lvl_3 = arcade.Sprite(
                 "resources/images/shop/lvl_bought.png")
-        self.revolver_lvl_3.center_x = 800
-        self.revolver_lvl_3.center_y = 200
+        self.revolver_lvl_3.center_x = 800 * global_scale()
+        self.revolver_lvl_3.center_y = 200 * global_scale()
+        self.revolver_lvl_3.scale = global_scale()
 
         # Rifle
         self.rifle_lvl_1 = None
@@ -140,8 +150,9 @@ class ShopView(arcade.View):
         else:
             self.rifle_lvl_1 = arcade.Sprite(
                 "resources/images/shop/lvl_bought.png")
-        self.rifle_lvl_1.center_x = 400
-        self.rifle_lvl_1.center_y = 300
+        self.rifle_lvl_1.center_x = 400 * global_scale()
+        self.rifle_lvl_1.center_y = 300 * global_scale()
+        self.rifle_lvl_1.scale = global_scale()
 
         self.rifle_lvl_2 = None
         if GameData.loadout["Rifle"]["lvl"] < 2:
@@ -150,8 +161,9 @@ class ShopView(arcade.View):
         else:
             self.rifle_lvl_2 = arcade.Sprite(
                 "resources/images/shop/lvl_bought.png")
-        self.rifle_lvl_2.center_x = 600
-        self.rifle_lvl_2.center_y = 300
+        self.rifle_lvl_2.center_x = 600 * global_scale()
+        self.rifle_lvl_2.center_y = 300 * global_scale()
+        self.rifle_lvl_2.scale = global_scale()
 
         self.rifle_lvl_3 = None
         if GameData.loadout["Rifle"]["lvl"] < 3:
@@ -160,8 +172,9 @@ class ShopView(arcade.View):
         else:
             self.rifle_lvl_3 = arcade.Sprite(
                 "resources/images/shop/lvl_bought.png")
-        self.rifle_lvl_3.center_x = 800
-        self.rifle_lvl_3.center_y = 300
+        self.rifle_lvl_3.center_x = 800 * global_scale()
+        self.rifle_lvl_3.center_y = 300 * global_scale()
+        self.rifle_lvl_3.scale = global_scale()
 
         # Shotgun
         self.shotgun_lvl_1 = None
@@ -171,8 +184,9 @@ class ShopView(arcade.View):
         else:
             self.shotgun_lvl_1 = arcade.Sprite(
                 "resources/images/shop/lvl_bought.png")
-        self.shotgun_lvl_1.center_x = 400
-        self.shotgun_lvl_1.center_y = 400
+        self.shotgun_lvl_1.center_x = 400 * global_scale()
+        self.shotgun_lvl_1.center_y = 400 * global_scale()
+        self.shotgun_lvl_1.scale = global_scale()
 
         self.shotgun_lvl_2 = None
         if GameData.loadout["Shotgun"]["lvl"] < 2:
@@ -181,8 +195,9 @@ class ShopView(arcade.View):
         else:
             self.shotgun_lvl_2 = arcade.Sprite(
                 "resources/images/shop/lvl_bought.png")
-        self.shotgun_lvl_2.center_x = 600
-        self.shotgun_lvl_2.center_y = 400
+        self.shotgun_lvl_2.center_x = 600 * global_scale()
+        self.shotgun_lvl_2.center_y = 400 * global_scale()
+        self.shotgun_lvl_2.scale = global_scale()
 
         self.shotgun_lvl_3 = None
         if GameData.loadout["Shotgun"]["lvl"] < 3:
@@ -191,8 +206,9 @@ class ShopView(arcade.View):
         else:
             self.shotgun_lvl_3 = arcade.Sprite(
                 "resources/images/shop/lvl_bought.png")
-        self.shotgun_lvl_3.center_x = 800
-        self.shotgun_lvl_3.center_y = 400
+        self.shotgun_lvl_3.center_x = 800 * global_scale()
+        self.shotgun_lvl_3.center_y = 400 * global_scale()
+        self.shotgun_lvl_3.scale = global_scale()
 
         # RPG
         self.rpg_lvl_1 = None
@@ -202,8 +218,9 @@ class ShopView(arcade.View):
         else:
             self.rpg_lvl_1 = arcade.Sprite(
                 "resources/images/shop/lvl_bought.png")
-        self.rpg_lvl_1.center_x = 400
-        self.rpg_lvl_1.center_y = 500
+        self.rpg_lvl_1.center_x = 400 * global_scale()
+        self.rpg_lvl_1.center_y = 500 * global_scale()
+        self.rpg_lvl_1.scale = global_scale()
 
         self.rpg_lvl_2 = None
         if GameData.loadout["RPG"]["lvl"] < 2:
@@ -212,8 +229,9 @@ class ShopView(arcade.View):
         else:
             self.rpg_lvl_2 = arcade.Sprite(
                 "resources/images/shop/lvl_bought.png")
-        self.rpg_lvl_2.center_x = 600
-        self.rpg_lvl_2.center_y = 500
+        self.rpg_lvl_2.center_x = 600 * global_scale()
+        self.rpg_lvl_2.center_y = 500 * global_scale()
+        self.rpg_lvl_2.scale = global_scale()
 
         self.rpg_lvl_3 = None
         if GameData.loadout["RPG"]["lvl"] < 3:
@@ -222,9 +240,9 @@ class ShopView(arcade.View):
         else:
             self.rpg_lvl_3 = arcade.Sprite(
                 "resources/images/shop/lvl_bought.png")
-        self.rpg_lvl_3.center_x = 800
-        self.rpg_lvl_3.center_y = 500
-
+        self.rpg_lvl_3.center_x = 800 * global_scale()
+        self.rpg_lvl_3.center_y = 500 * global_scale()
+        self.rpg_lvl_3.scale = global_scale()
         self.revolver_lvl_1.cost = 0
         self.revolver_lvl_2.cost = 50
         self.revolver_lvl_3.cost = 100
@@ -290,8 +308,8 @@ class ShopView(arcade.View):
     def draw_text(self, text, x, y):
         arcade.draw_text(
             text,
-            x,
-            y,
+            x * global_scale(),
+            y * global_scale(),
             arcade.color.BLACK,
             font_name="Kenney High",
             bold=True,
@@ -306,54 +324,54 @@ class ShopView(arcade.View):
 
     def on_mouse_press(self, x, y, button, modifiers):
         if self.revolver_lvl_1.collides_with_sprite(self.cursor_sprite):
-            if GameData.loadout["Revolver"]["lvl"] == 0 and GameData.gold:
+            if GameData.loadout["Revolver"]["lvl"] == 0 and GameData.gold >= self.revolver_lvl_1.cost:
                 GameData.update_gold(GameData.gold - self.revolver_lvl_1.cost)
                 GameData.update_loadout("Revolver", 1)
         elif self.revolver_lvl_2.collides_with_sprite(self.cursor_sprite):
-            if GameData.loadout["Revolver"]["lvl"] == 1 and GameData.gold:
+            if GameData.loadout["Revolver"]["lvl"] == 1 and GameData.gold >= self.revolver_lvl_2.cost:
                 GameData.update_gold(GameData.gold - self.revolver_lvl_2.cost)
                 GameData.update_loadout("Revolver", 2)
         elif self.revolver_lvl_3.collides_with_sprite(self.cursor_sprite):
-            if GameData.loadout["Revolver"]["lvl"] == 2 and GameData.gold:
+            if GameData.loadout["Revolver"]["lvl"] == 2 and GameData.gold >= self.revolver_lvl_3.cost:
                 GameData.update_gold(GameData.gold - self.revolver_lvl_3.cost)
                 GameData.update_loadout("Revolver", 3)
 
         elif self.rifle_lvl_1.collides_with_sprite(self.cursor_sprite):
-            if GameData.loadout["Rifle"]["lvl"] == 0 and GameData.gold:
+            if GameData.loadout["Rifle"]["lvl"] == 0 and GameData.gold >= self.rifle_lvl_1.cost:
                 GameData.update_gold(GameData.gold - self.rifle_lvl_1.cost)
                 GameData.update_loadout("Rifle", 1)
         elif self.rifle_lvl_2.collides_with_sprite(self.cursor_sprite):
-            if GameData.loadout["Rifle"]["lvl"] == 1 and GameData.gold:
+            if GameData.loadout["Rifle"]["lvl"] == 1 and GameData.gold >= self.rifle_lvl_2.cost:
                 GameData.update_gold(GameData.gold - self.rifle_lvl_2.cost)
                 GameData.update_loadout("Rifle", 2)
         elif self.rifle_lvl_3.collides_with_sprite(self.cursor_sprite):
-            if GameData.loadout["Rifle"]["lvl"] == 2 and GameData.gold:
+            if GameData.loadout["Rifle"]["lvl"] == 2 and GameData.gold >= self.rifle_lvl_3.cost:
                 GameData.update_gold(GameData.gold - self.rifle_lvl_3.cost)
                 GameData.update_loadout("Rifle", 3)
 
         elif self.shotgun_lvl_1.collides_with_sprite(self.cursor_sprite):
-            if GameData.loadout["Shotgun"]["lvl"] == 0 and GameData.gold:
+            if GameData.loadout["Shotgun"]["lvl"] == 0 and GameData.gold >= self.shotgun_lvl_1.cost:
                 GameData.update_gold(GameData.gold - self.shotgun_lvl_1.cost)
                 GameData.update_loadout("Shotgun", 1)
         elif self.shotgun_lvl_2.collides_with_sprite(self.cursor_sprite):
-            if GameData.loadout["Shotgun"]["lvl"] == 1 and GameData.gold:
+            if GameData.loadout["Shotgun"]["lvl"] == 1 and GameData.gold >= self.shotgun_lvl_2.cost:
                 GameData.update_gold(GameData.gold - self.shotgun_lvl_2.cost)
                 GameData.update_loadout("Shotgun", 2)
         elif self.shotgun_lvl_3.collides_with_sprite(self.cursor_sprite):
-            if GameData.loadout["Shotgun"]["lvl"] == 2 and GameData.gold:
+            if GameData.loadout["Shotgun"]["lvl"] == 2 and GameData.gold >= self.shotgun_lvl_3.cost:
                 GameData.update_gold(GameData.gold - self.shotgun_lvl_3.cost)
                 GameData.update_loadout("Shotgun", 3)
 
         elif self.rpg_lvl_1.collides_with_sprite(self.cursor_sprite):
-            if GameData.loadout["RPG"]["lvl"] == 0 and GameData.gold:
+            if GameData.loadout["RPG"]["lvl"] == 0 and GameData.gold >= self.rpg_lvl_1.cost:
                 GameData.update_gold(GameData.gold - self.rpg_lvl_1.cost)
                 GameData.update_loadout("RPG", 1)
         elif self.rpg_lvl_2.collides_with_sprite(self.cursor_sprite):
-            if GameData.loadout["RPG"]["lvl"] == 1 and GameData.gold:
+            if GameData.loadout["RPG"]["lvl"] == 1 and GameData.gold >= self.rpg_lvl_2.cost:
                 GameData.update_gold(GameData.gold - self.rpg_lvl_2.cost)
                 GameData.update_loadout("RPG", 2)
         elif self.rpg_lvl_3.collides_with_sprite(self.cursor_sprite):
-            if GameData.loadout["RPG"]["lvl"] == 2 and GameData.gold:
+            if GameData.loadout["RPG"]["lvl"] == 2 and GameData.gold >= self.rpg_lvl_3.cost:
                 GameData.update_gold(GameData.gold - self.rpg_lvl_3.cost)
                 GameData.update_loadout("RPG", 3)
 
