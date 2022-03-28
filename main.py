@@ -1,6 +1,8 @@
-import arcade
+
 import sys
 import os
+
+import arcade
 import pyglet
 
 import const.constants as C

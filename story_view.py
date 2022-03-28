@@ -110,7 +110,8 @@ class StoryView(arcade.View):
 
         arcade.draw_rectangle_filled(
             self.text_box.position[0],
-            self.text_box.position[1] + self.text_box.y // 2 - self.text_box.content_height // 2,
+            self.text_box.position[1] + self.text_box.y // 2 -
+            self.text_box.content_height // 2,
             self.text_box.content_width * 1.1,
             self.text_box.content_height * 1.1,
             (255, 255, 255, 64)
@@ -126,7 +127,7 @@ class StoryView(arcade.View):
             self.mouse_pressed, self.space_pressed = False, False
             self.current_text = self.next_text()
 
-    def on_mouse_motion(self, x, y, dx, dy):
+    def on_mouse_motion(self, x, y, _dx, _dy):
         """ Move the cursor image when mouse moved """
         self.cursor_sprite.center_x = x + \
             C.MAP["Cursor"]["offset_x"] * global_scale()
@@ -137,9 +138,9 @@ class StoryView(arcade.View):
         """Use a mouse press to advance to the 'game' view."""
         self.mouse_pressed = True
 
-    def on_key_press(self, key, _modifiers):
+    def on_key_press(self, symbol, _modifiers):
         """Handle keyboard key press"""
-        if key == arcade.key.SPACE:
+        if symbol == arcade.key.SPACE:
             self.space_pressed = True
 
     def to_map(self):

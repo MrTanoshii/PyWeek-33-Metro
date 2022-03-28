@@ -5,9 +5,9 @@ from const.map import MAP_MONUMENTS_LIST
 
 class GameData:
     gold = None
-    level_data = None
-    loadout = None
-    story = None
+    level_data = {}
+    loadout = {}
+    story = {}
 
     def __init__(self):
         pass
@@ -16,7 +16,7 @@ class GameData:
     @classmethod
     def read_data(cls):
         try:
-            with open("resources/gamedata.json", "r") as file:
+            with open("resources/gamedata.json", "r", encoding="utf-8") as file:
                 _data = json.load(file)
         except FileNotFoundError:
             print("ERROR 0: Regenerating game data")
@@ -75,7 +75,7 @@ class GameData:
     # Save game data
     @classmethod
     def write_data(cls):
-        with open("resources/gamedata.json", "w") as file:
+        with open("resources/gamedata.json", "w", encoding="utf-8") as file:
             _data = json.dumps({
                 "coins": cls.gold,
                 "leveldata": cls.level_data,

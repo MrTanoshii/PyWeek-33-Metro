@@ -1,7 +1,9 @@
-import arcade
 import os.path
-import const.constants as C
 import math
+
+import arcade
+
+import const.constants as C
 from weapon import Weapon
 from audio import Audio
 from lib import global_scale
@@ -16,7 +18,7 @@ class Player(arcade.Sprite):
     Attributes
     ----------
     player_list : arcade.SpriteList()
-        List of player sprites 
+        List of player sprites
     weapon : arcade.Sprite()
         The weapon sprite
     audio_volume : float

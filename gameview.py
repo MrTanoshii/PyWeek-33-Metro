@@ -120,7 +120,7 @@ class GameView(arcade.View):
         self.cursor = arcade.Sprite(scale=0.7 * global_scale())
         self.cursor.cur_texture = 0
         self.cursor.texture_list = []
-        for filename in sorted(os.listdir(f"assets/CursorCrosshair/")):
+        for filename in sorted(os.listdir("assets/CursorCrosshair/")):
             self.cursor.texture_list.append(
                 arcade.load_texture(f"assets/CursorCrosshair/{filename}"))
         self.cursor.texture = self.cursor.texture_list[0]
@@ -198,7 +198,7 @@ class GameView(arcade.View):
 
         # GUI - Player Ammo
         arcade.draw_text(
-            f"{self.player.weapon.cur_ammo} \ {self.player.weapon.max_ammo}",
+            f"{self.player.weapon.cur_ammo} \\ {self.player.weapon.max_ammo}",
             C.SCREEN_WIDTH / 5 + 230 * global_scale(),
             C.SCREEN_HEIGHT - 70 * global_scale(),
             self.text_color,
@@ -290,28 +290,28 @@ class GameView(arcade.View):
         if button == arcade.MOUSE_BUTTON_LEFT:
             self.shoot_pressed = False
 
-    def on_key_press(self, key, modifiers):
+    def on_key_press(self, symbol, modifiers):
         """Called whenever a key is pressed."""
 
         # Movement | WASD + Arrow keys
-        if key == arcade.key.LEFT or key == arcade.key.A:
+        if symbol == arcade.key.LEFT or symbol == arcade.key.A:
             self.left_key_down = True
-        elif key == arcade.key.RIGHT or key == arcade.key.D:
+        elif symbol == arcade.key.RIGHT or symbol == arcade.key.D:
             self.right_key_down = True
-        elif key == arcade.key.UP or key == arcade.key.W:
+        elif symbol == arcade.key.UP or symbol == arcade.key.W:
             self.up_key_down = True
-        elif key == arcade.key.DOWN or key == arcade.key.S:
+        elif symbol == arcade.key.DOWN or symbol == arcade.key.S:
             self.down_key_down = True
         # Shoot | Spacebar
-        elif key == arcade.key.SPACE:
+        elif symbol == arcade.key.SPACE:
             self.space_down = True
             self.shoot_pressed = True
 
         # Weapon swap | 1-3
-        elif key == arcade.key.KEY_1 or key == arcade.key.KEY_2 or key == arcade.key.KEY_3 or key == arcade.key.KEY_4:
+        elif symbol == arcade.key.KEY_1 or symbol == arcade.key.KEY_2 or symbol == arcade.key.KEY_3 or symbol == arcade.key.KEY_4:
             requested_weapon = ""
             # 1 - Revolver
-            if key == arcade.key.KEY_1:
+            if symbol == arcade.key.KEY_1:
                 requested_weapon = "Revolver"
                 if GameData.loadout[requested_weapon]["lvl"] >= 1:
                     self.player.set_skin('Revolver')
@@ -323,7 +323,7 @@ class GameView(arcade.View):
                     if Player.weapon.weapon_name != requested_weapon:
                         Player.weapon.swap_weapon(requested_weapon)
             # 2 - Rifle
-            elif key == arcade.key.KEY_2:
+            elif symbol == arcade.key.KEY_2:
                 requested_weapon = "Rifle"
                 if GameData.loadout[requested_weapon]["lvl"] >= 1:
                     self.player.set_skin('AK')
@@ -335,7 +335,7 @@ class GameView(arcade.View):
                     if Player.weapon.weapon_name != requested_weapon:
                         Player.weapon.swap_weapon(requested_weapon)
             # 3 - Shotgun
-            elif key == arcade.key.KEY_3:
+            elif symbol == arcade.key.KEY_3:
                 requested_weapon = "Shotgun"
                 if GameData.loadout[requested_weapon]["lvl"] >= 1:
                     self.player.set_skin('Shotgun')
@@ -347,7 +347,7 @@ class GameView(arcade.View):
                     if Player.weapon.weapon_name != requested_weapon:
                         Player.weapon.swap_weapon(requested_weapon)
             # 4 - RPG
-            elif key == arcade.key.KEY_4:
+            elif symbol == arcade.key.KEY_4:
                 requested_weapon = "RPG"
                 if GameData.loadout[requested_weapon]["lvl"] >= 1:
                     self.player.set_skin('RPG')
@@ -359,7 +359,7 @@ class GameView(arcade.View):
                     if Player.weapon.weapon_name != requested_weapon:
                         Player.weapon.swap_weapon(requested_weapon)
 
-        elif key == arcade.key.R:
+        elif symbol == arcade.key.R:
             Player.weapon.is_reloading = True
 
         # Enemy spawn | E
@@ -367,11 +367,11 @@ class GameView(arcade.View):
         #     Enemy.spawn_enemy(self.enemy_list)
 
         # Volume Toggle | M
-        elif key == arcade.key.M:
+        elif symbol == arcade.key.M:
             Settings.master_volume_toggle()
 
         # Pause menu | Escape
-        elif key == arcade.key.ESCAPE:
+        elif symbol == arcade.key.ESCAPE:
 
             # Stop bgm
             Audio.stop_sound(self.bgm_stream)
@@ -379,7 +379,7 @@ class GameView(arcade.View):
             self.window.show_view(PauseMenuView(
                 self, self.map_view, self.level))
 
-    def on_key_release(self, key, modifiers):
+    def on_key_release(self, key, _modifiers):
         """Called when the user releases a key."""
 
         # Movement | WASD + Arrow keys
@@ -405,7 +405,6 @@ class GameView(arcade.View):
             bullet.center_x += bullet.speed_x
             bullet.center_y += bullet.speed_y
 
-            """ Collision """
             # Add enemy to list, if collided with bullet
             enemy_hit_list = arcade.check_for_collision_with_list(
                 bullet, Enemy.enemy_list
