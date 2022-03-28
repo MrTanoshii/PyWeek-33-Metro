@@ -1,6 +1,7 @@
 import arcade
 import sys
 import os
+import pyglet
 
 import const.constants as C
 from mainmenu import MainMenu
@@ -34,7 +35,7 @@ def main():
         )
 
     window.set_mouse_visible(C.CURSOR_VISIBLE)
-    icon = .image.load('resources/images/goat_cursor.png')
+    icon = pyglet.image.load('resources/images/goat_cursor.png')
     window.set_icon(icon)
     menu_view = MainMenu()
     window.show_view(menu_view)
