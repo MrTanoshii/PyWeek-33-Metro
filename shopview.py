@@ -1,7 +1,10 @@
-import arcade
-import const.constants as C
 import os
-from lib import global_scale
+
+import arcade
+
+import const.constants as C
+import lib
+
 from gamedata import GameData
 
 # Base ShopView
@@ -20,383 +23,148 @@ class ShopView(arcade.View):
 
         # GUI - Gold
         self.gold_sprite = arcade.Sprite(
-            "resources/images/map/gold-bar.png", 0.6 * global_scale())
-        self.gold_sprite.position = (
-            1200 * global_scale(),
-            680 * global_scale()
-        )
+            "resources/images/map/gold-bar.png", 0.6 * lib.global_scale())
 
         # Cursor
         self.cursor_sprite = arcade.Sprite(
             "resources/images/goat_cursor.png", 1)
-        self.cursor_sprite.center_x = C.SCREEN_WIDTH * global_scale()
-        self.cursor_sprite.center_y = C.SCREEN_HEIGHT * global_scale()
+        self.cursor_sprite.center_x = C.SCREEN_WIDTH * lib.global_scale()
+        self.cursor_sprite.center_y = C.SCREEN_HEIGHT * lib.global_scale()
 
-        self.revolver_sprite = arcade.Sprite(
-            "resources/images/weapon/weapon_revolver/weapon_revolver.png", C.WEAPON_LIST[0]["scale"] * C.WEAPON_SCALE * global_scale())
-        self.revolver_sprite.center_x = 200 * global_scale()
-        self.revolver_sprite.center_y = 200 * global_scale()
-        self.rifle_sprite = arcade.Sprite(
-            "resources/images/weapon/weapon_ak/weapon_ak.png", C.WEAPON_LIST[1]["scale"] * C.WEAPON_SCALE * global_scale())
-        self.rifle_sprite.center_x = 200 * global_scale()
-        self.rifle_sprite.center_y = 300 * global_scale()
-        self.shotgun_sprite = arcade.Sprite(
-            "resources/images/weapon/weapon_shotgun/weapon_shotgun.png", C.WEAPON_LIST[2]["scale"] * C.WEAPON_SCALE * global_scale())
-        self.shotgun_sprite.center_x = 200 * global_scale()
-        self.shotgun_sprite.center_y = 400 * global_scale()
-        self.rpg_sprite = arcade.Sprite(
-            "resources/images/weapon/weapon_rpg/weapon_rpg.png", C.WEAPON_LIST[3]["scale"] * C.WEAPON_SCALE * global_scale())
-        self.rpg_sprite.center_x = 200 * global_scale()
-        self.rpg_sprite.center_y = 500 * global_scale()
+        self.max_lvl = 0
 
-        self.revolver_lvl_1 = arcade.Sprite()
-        self.revolver_lvl_2 = arcade.Sprite()
-        self.revolver_lvl_3 = arcade.Sprite()
+        # Weapon sprites
+        pos_x = 200
+        pos_y = 200
+        self.weapon_sprite_list = []
+        self.weapon_upgrade_sprite_list = []
+        for weapon in C.WEAPON_LIST:
+            path = f"resources/images/weapon/{weapon['img_name']}/{weapon['img_name']}.png"
+            scale = weapon["scale"] * C.WEAPON_SCALE * lib.global_scale()
+            position = (pos_x * lib.global_scale(), pos_y * lib.global_scale())
+            self.weapon_sprite_list.append(arcade.Sprite(
+                path, scale, center_x=position[0], center_y=position[1]))
+            self.weapon_sprite_list[-1].base_scale = weapon["scale"]
+            pos_y += 100
 
-        self.rifle_lvl_1 = arcade.Sprite()
-        self.rifle_lvl_2 = arcade.Sprite()
-        self.rifle_lvl_3 = arcade.Sprite()
-
-        self.shotgun_lvl_1 = arcade.Sprite()
-        self.shotgun_lvl_2 = arcade.Sprite()
-        self.shotgun_lvl_3 = arcade.Sprite()
-
-        self.rpg_lvl_1 = arcade.Sprite()
-        self.rpg_lvl_2 = arcade.Sprite()
-        self.rpg_lvl_3 = arcade.Sprite()
-
-        self.normal_scale = 0.8 * global_scale()
-        self.highlight_scale = 1 * global_scale()
+        self.normal_scale = 0.8 * lib.global_scale()
+        self.highlight_scale = 1 * lib.global_scale()
 
         self.button = arcade.Sprite(
             filename="resources/images/pause_view/btn_back_to_map.png",
             scale=self.normal_scale)
-        self.button.center_x = C.SCREEN_WIDTH // 2
-        self.button.center_y = C.SCREEN_HEIGHT - (50 * global_scale())
 
-    def on_draw(self):
-        """Render the screen."""
-
-        # Clear the screen to the background color
-        self.clear()
-
-        # Draw bg when we have one
-        # arcade.draw_lrwh_rectangle_textured(
-        #     bottom_left_x=0,
-        #     bottom_left_y=0,
-        #     width=arcade.get_window().width,
-        #     height=arcade.get_window().height,
-        #     texture=self.background)
-
-        # self.preview.draw()
-
-        # TODO: Asset should not be pixelated ingame
-        # self.btn_left.draw(pixelated=True)
-        # self.btn_right.draw(pixelated=True)
-
-        self.gold_sprite.draw()
-
-        arcade.draw_text(
-            GameData.gold,
-            self.gold_sprite.position[0]*.99,
-            self.gold_sprite.position[1]*1.005,
-            arcade.color.BLACK,
-            font_name="Kenney High",
-            bold=True,
-            font_size=30 * global_scale(),
-            anchor_x="left",
-            anchor_y="center",
-        )
-
-        # Revolver
-        self.revolver_lvl_1 = None
-        if GameData.loadout["Revolver"]["lvl"] < 1:
-            self.revolver_lvl_1 = arcade.Sprite(
-                "resources/images/shop/lvl_blank.png")
-        else:
-            self.revolver_lvl_1 = arcade.Sprite(
-                "resources/images/shop/lvl_bought.png")
-        self.revolver_lvl_1.center_x = 400 * global_scale()
-        self.revolver_lvl_1.center_y = 200 * global_scale()
-        self.revolver_lvl_1.scale = global_scale()
-
-        self.revolver_lvl_2 = None
-        if GameData.loadout["Revolver"]["lvl"] < 2:
-            self.revolver_lvl_2 = arcade.Sprite(
-                "resources/images/shop/lvl_blank.png")
-        else:
-            self.revolver_lvl_2 = arcade.Sprite(
-                "resources/images/shop/lvl_bought.png")
-        self.revolver_lvl_2.center_x = 600 * global_scale()
-        self.revolver_lvl_2.center_y = 200 * global_scale()
-        self.revolver_lvl_2.scale = global_scale()
-
-        self.revolver_lvl_3 = None
-        if GameData.loadout["Revolver"]["lvl"] < 3:
-            self.revolver_lvl_3 = arcade.Sprite(
-                "resources/images/shop/lvl_blank.png")
-        else:
-            self.revolver_lvl_3 = arcade.Sprite(
-                "resources/images/shop/lvl_bought.png")
-        self.revolver_lvl_3.center_x = 800 * global_scale()
-        self.revolver_lvl_3.center_y = 200 * global_scale()
-        self.revolver_lvl_3.scale = global_scale()
-
-        # Rifle
-        self.rifle_lvl_1 = None
-        if GameData.loadout["Rifle"]["lvl"] < 1:
-            self.rifle_lvl_1 = arcade.Sprite(
-                "resources/images/shop/lvl_blank.png")
-        else:
-            self.rifle_lvl_1 = arcade.Sprite(
-                "resources/images/shop/lvl_bought.png")
-        self.rifle_lvl_1.center_x = 400 * global_scale()
-        self.rifle_lvl_1.center_y = 300 * global_scale()
-        self.rifle_lvl_1.scale = global_scale()
-
-        self.rifle_lvl_2 = None
-        if GameData.loadout["Rifle"]["lvl"] < 2:
-            self.rifle_lvl_2 = arcade.Sprite(
-                "resources/images/shop/lvl_blank.png")
-        else:
-            self.rifle_lvl_2 = arcade.Sprite(
-                "resources/images/shop/lvl_bought.png")
-        self.rifle_lvl_2.center_x = 600 * global_scale()
-        self.rifle_lvl_2.center_y = 300 * global_scale()
-        self.rifle_lvl_2.scale = global_scale()
-
-        self.rifle_lvl_3 = None
-        if GameData.loadout["Rifle"]["lvl"] < 3:
-            self.rifle_lvl_3 = arcade.Sprite(
-                "resources/images/shop/lvl_blank.png")
-        else:
-            self.rifle_lvl_3 = arcade.Sprite(
-                "resources/images/shop/lvl_bought.png")
-        self.rifle_lvl_3.center_x = 800 * global_scale()
-        self.rifle_lvl_3.center_y = 300 * global_scale()
-        self.rifle_lvl_3.scale = global_scale()
-
-        # Shotgun
-        self.shotgun_lvl_1 = None
-        if GameData.loadout["Shotgun"]["lvl"] < 1:
-            self.shotgun_lvl_1 = arcade.Sprite(
-                "resources/images/shop/lvl_blank.png")
-        else:
-            self.shotgun_lvl_1 = arcade.Sprite(
-                "resources/images/shop/lvl_bought.png")
-        self.shotgun_lvl_1.center_x = 400 * global_scale()
-        self.shotgun_lvl_1.center_y = 400 * global_scale()
-        self.shotgun_lvl_1.scale = global_scale()
-
-        self.shotgun_lvl_2 = None
-        if GameData.loadout["Shotgun"]["lvl"] < 2:
-            self.shotgun_lvl_2 = arcade.Sprite(
-                "resources/images/shop/lvl_blank.png")
-        else:
-            self.shotgun_lvl_2 = arcade.Sprite(
-                "resources/images/shop/lvl_bought.png")
-        self.shotgun_lvl_2.center_x = 600 * global_scale()
-        self.shotgun_lvl_2.center_y = 400 * global_scale()
-        self.shotgun_lvl_2.scale = global_scale()
-
-        self.shotgun_lvl_3 = None
-        if GameData.loadout["Shotgun"]["lvl"] < 3:
-            self.shotgun_lvl_3 = arcade.Sprite(
-                "resources/images/shop/lvl_blank.png")
-        else:
-            self.shotgun_lvl_3 = arcade.Sprite(
-                "resources/images/shop/lvl_bought.png")
-        self.shotgun_lvl_3.center_x = 800 * global_scale()
-        self.shotgun_lvl_3.center_y = 400 * global_scale()
-        self.shotgun_lvl_3.scale = global_scale()
-
-        # RPG
-        self.rpg_lvl_1 = None
-        if GameData.loadout["RPG"]["lvl"] < 1:
-            self.rpg_lvl_1 = arcade.Sprite(
-                "resources/images/shop/lvl_blank.png")
-        else:
-            self.rpg_lvl_1 = arcade.Sprite(
-                "resources/images/shop/lvl_bought.png")
-        self.rpg_lvl_1.center_x = 400 * global_scale()
-        self.rpg_lvl_1.center_y = 500 * global_scale()
-        self.rpg_lvl_1.scale = global_scale()
-
-        self.rpg_lvl_2 = None
-        if GameData.loadout["RPG"]["lvl"] < 2:
-            self.rpg_lvl_2 = arcade.Sprite(
-                "resources/images/shop/lvl_blank.png")
-        else:
-            self.rpg_lvl_2 = arcade.Sprite(
-                "resources/images/shop/lvl_bought.png")
-        self.rpg_lvl_2.center_x = 600 * global_scale()
-        self.rpg_lvl_2.center_y = 500 * global_scale()
-        self.rpg_lvl_2.scale = global_scale()
-
-        self.rpg_lvl_3 = None
-        if GameData.loadout["RPG"]["lvl"] < 3:
-            self.rpg_lvl_3 = arcade.Sprite(
-                "resources/images/shop/lvl_blank.png")
-        else:
-            self.rpg_lvl_3 = arcade.Sprite(
-                "resources/images/shop/lvl_bought.png")
-        self.rpg_lvl_3.center_x = 800 * global_scale()
-        self.rpg_lvl_3.center_y = 500 * global_scale()
-        self.rpg_lvl_3.scale = global_scale()
-        self.revolver_lvl_1.cost = 0
-        self.revolver_lvl_2.cost = 50
-        self.revolver_lvl_3.cost = 100
-
-        self.rifle_lvl_1.cost = 75
-        self.rifle_lvl_2.cost = 125
-        self.rifle_lvl_3.cost = 200
-
-        self.shotgun_lvl_1.cost = 100
-        self.shotgun_lvl_2.cost = 150
-        self.shotgun_lvl_3.cost = 225
-
-        self.rpg_lvl_1.cost = 125
-        self.rpg_lvl_2.cost = 175
-        self.rpg_lvl_3.cost = 250
-
-        self.revolver_sprite.draw()
-        self.revolver_lvl_1.draw()
-        self.revolver_lvl_2.draw()
-        self.revolver_lvl_3.draw()
-        self.rifle_sprite.draw()
-        self.rifle_lvl_1.draw()
-        self.rifle_lvl_2.draw()
-        self.rifle_lvl_3.draw()
-        self.shotgun_sprite.draw()
-        self.shotgun_lvl_1.draw()
-        self.shotgun_lvl_2.draw()
-        self.shotgun_lvl_3.draw()
-        self.rpg_sprite.draw()
-        self.rpg_lvl_1.draw()
-        self.rpg_lvl_2.draw()
-        self.rpg_lvl_3.draw()
-
-        self.draw_text("Level 1", 400, 600)
-        self.draw_text("Level 2", 600, 600)
-        self.draw_text("Level 3", 800, 600)
-
-        self.draw_text(self.revolver_lvl_1.cost, 400, 200)
-        self.draw_text(self.revolver_lvl_2.cost, 600, 200)
-        self.draw_text(self.revolver_lvl_3.cost, 800, 200)
-
-        self.draw_text(self.rifle_lvl_1.cost, 400, 300)
-        self.draw_text(self.rifle_lvl_2.cost, 600, 300)
-        self.draw_text(self.rifle_lvl_3.cost, 800, 300)
-
-        self.draw_text(self.shotgun_lvl_1.cost, 400, 400)
-        self.draw_text(self.shotgun_lvl_2.cost, 600, 400)
-        self.draw_text(self.shotgun_lvl_3.cost, 800, 400)
-
-        self.draw_text(self.rpg_lvl_1.cost, 400, 500)
-        self.draw_text(self.rpg_lvl_2.cost, 600, 500)
-        self.draw_text(self.rpg_lvl_3.cost, 800, 500)
-
-        self.draw_text("WORKS", 400, 150)
-        self.draw_text("NOT WORKING", 600, 150)
-        self.draw_text("NOT WORKING", 800, 150)
-
-        self.button.draw()
-
-        # Cursor should always be top most
-        self.cursor_sprite.draw()
-
-    def draw_text(self, text, x, y):
-        arcade.draw_text(
-            text,
-            x * global_scale(),
-            y * global_scale(),
-            arcade.color.BLACK,
-            font_name="Kenney High",
-            bold=True,
-            font_size=30 * global_scale(),
-            anchor_x="center",
-            anchor_y="center",
-        )
-
-    def on_show(self):
-        """Called when switching to this view."""
         arcade.set_background_color(C.MENU_BACKGROUND_COLOR)
 
-    def on_mouse_press(self, x, y, button, modifiers):
-        if self.revolver_lvl_1.collides_with_sprite(self.cursor_sprite):
-            if GameData.loadout["Revolver"]["lvl"] == 0 and GameData.gold >= self.revolver_lvl_1.cost:
-                GameData.update_gold(GameData.gold - self.revolver_lvl_1.cost)
-                GameData.update_loadout("Revolver", 1)
-        elif self.revolver_lvl_2.collides_with_sprite(self.cursor_sprite):
-            if GameData.loadout["Revolver"]["lvl"] == 1 and GameData.gold >= self.revolver_lvl_2.cost:
-                GameData.update_gold(GameData.gold - self.revolver_lvl_2.cost)
-                GameData.update_loadout("Revolver", 2)
-        elif self.revolver_lvl_3.collides_with_sprite(self.cursor_sprite):
-            if GameData.loadout["Revolver"]["lvl"] == 2 and GameData.gold >= self.revolver_lvl_3.cost:
-                GameData.update_gold(GameData.gold - self.revolver_lvl_3.cost)
-                GameData.update_loadout("Revolver", 3)
+    def on_draw(self):
 
-        elif self.rifle_lvl_1.collides_with_sprite(self.cursor_sprite):
-            if GameData.loadout["Rifle"]["lvl"] == 0 and GameData.gold >= self.rifle_lvl_1.cost:
-                GameData.update_gold(GameData.gold - self.rifle_lvl_1.cost)
-                GameData.update_loadout("Rifle", 1)
-        elif self.rifle_lvl_2.collides_with_sprite(self.cursor_sprite):
-            if GameData.loadout["Rifle"]["lvl"] == 1 and GameData.gold >= self.rifle_lvl_2.cost:
-                GameData.update_gold(GameData.gold - self.rifle_lvl_2.cost)
-                GameData.update_loadout("Rifle", 2)
-        elif self.rifle_lvl_3.collides_with_sprite(self.cursor_sprite):
-            if GameData.loadout["Rifle"]["lvl"] == 2 and GameData.gold >= self.rifle_lvl_3.cost:
-                GameData.update_gold(GameData.gold - self.rifle_lvl_3.cost)
-                GameData.update_loadout("Rifle", 3)
+        # Clear the view with the background color
+        self.clear()
 
-        elif self.shotgun_lvl_1.collides_with_sprite(self.cursor_sprite):
-            if GameData.loadout["Shotgun"]["lvl"] == 0 and GameData.gold >= self.shotgun_lvl_1.cost:
-                GameData.update_gold(GameData.gold - self.shotgun_lvl_1.cost)
-                GameData.update_loadout("Shotgun", 1)
-        elif self.shotgun_lvl_2.collides_with_sprite(self.cursor_sprite):
-            if GameData.loadout["Shotgun"]["lvl"] == 1 and GameData.gold >= self.shotgun_lvl_2.cost:
-                GameData.update_gold(GameData.gold - self.shotgun_lvl_2.cost)
-                GameData.update_loadout("Shotgun", 2)
-        elif self.shotgun_lvl_3.collides_with_sprite(self.cursor_sprite):
-            if GameData.loadout["Shotgun"]["lvl"] == 2 and GameData.gold >= self.shotgun_lvl_3.cost:
-                GameData.update_gold(GameData.gold - self.shotgun_lvl_3.cost)
-                GameData.update_loadout("Shotgun", 3)
+        self.gold_sprite.position = (
+            1200 * lib.global_scale(),
+            680 * lib.global_scale()
+        )
+        self.gold_sprite.draw()
 
-        elif self.rpg_lvl_1.collides_with_sprite(self.cursor_sprite):
-            if GameData.loadout["RPG"]["lvl"] == 0 and GameData.gold >= self.rpg_lvl_1.cost:
-                GameData.update_gold(GameData.gold - self.rpg_lvl_1.cost)
-                GameData.update_loadout("RPG", 1)
-        elif self.rpg_lvl_2.collides_with_sprite(self.cursor_sprite):
-            if GameData.loadout["RPG"]["lvl"] == 1 and GameData.gold >= self.rpg_lvl_2.cost:
-                GameData.update_gold(GameData.gold - self.rpg_lvl_2.cost)
-                GameData.update_loadout("RPG", 2)
-        elif self.rpg_lvl_3.collides_with_sprite(self.cursor_sprite):
-            if GameData.loadout["RPG"]["lvl"] == 2 and GameData.gold >= self.rpg_lvl_3.cost:
-                GameData.update_gold(GameData.gold - self.rpg_lvl_3.cost)
-                GameData.update_loadout("RPG", 3)
+        lib.draw_text(
+            GameData.gold, self.gold_sprite.position[0]*.99, self.gold_sprite.position[1]*1.005, 30, anchor_x="left")
 
+        # Set weapon upgrade sprites
+        pos_x = 400
+        pos_y = 200
+        self.weapon_upgrade_sprite_list = []
+        for index, weapon in enumerate(C.WEAPON_LIST, 0):
+            self.weapon_upgrade_sprite_list.append([])
+            for level in range(0, weapon["lvl_max"]):
+                # Set max level
+                if self.max_lvl < weapon["lvl_max"]:
+                    self.max_lvl = weapon["lvl_max"]
+                if GameData.loadout[weapon["name"]]["lvl"] - 1 < level:
+                    path = "resources/images/shop/lvl_blank.png"
+                else:
+                    path = "resources/images/shop/lvl_bought.png"
+                position = (pos_x * lib.global_scale(), pos_y * lib.global_scale())
+                self.weapon_upgrade_sprite_list[index].append(arcade.Sprite(
+                    path, lib.global_scale(), center_x=position[0], center_y=position[1]))
+                self.weapon_upgrade_sprite_list[index][-1].name = weapon["name"]
+                self.weapon_upgrade_sprite_list[index][-1].cost = weapon["lvl_cost"][level]
+                self.weapon_upgrade_sprite_list[index][-1].lvl = level
+                pos_x += 200
+            pos_x = 400
+            pos_y += 100
+
+        # Draw level headers
+        for i in range(1, self.max_lvl + 1):
+            lib.draw_text(f"Level {i}", pos_x * lib.global_scale(), pos_y * lib.global_scale())
+            pos_x += 200
+
+        # Draw weapon sprites
+        pos_x = 200
+        pos_y = 200
+        for sprite in self.weapon_sprite_list:
+            sprite.scale = sprite.base_scale * C.WEAPON_SCALE * lib.global_scale()
+            sprite.position = (pos_x * lib.global_scale(),
+                               pos_y * lib.global_scale())
+            sprite.draw()
+            pos_y += 100
+
+        # Draw weapon upgrade sprites
+        for weapon in self.weapon_upgrade_sprite_list:
+            for sprite in weapon:
+                sprite.draw()
+                lib.draw_text(sprite.cost, sprite.center_x, sprite.center_y)
+
+        # Back to menu button
+        self.button.center_x = C.SCREEN_WIDTH / 2 * lib.global_scale()
+        self.button.center_y = C.SCREEN_HEIGHT - (50 * lib.global_scale())
+        self.button.draw()
+
+        # Cursor should always be top most/drawn last
+        self.cursor_sprite.draw()
+
+    def on_key_press(self, symbol: int, _modifiers: int):
+
+        # ESCAPE | Back to map
+        if symbol == arcade.key.ESCAPE:
+            self.to_map()
+
+    def on_mouse_press(self, _x, _y, _button, _modifiers):
+
+        # Upgrade weapon
+        for weapon in self.weapon_upgrade_sprite_list:
+            for sprite in weapon:
+                if sprite.collides_with_sprite(self.cursor_sprite):
+                    print(sprite.name, sprite.lvl, sprite.cost,
+                          GameData.loadout[sprite.name]["lvl"])
+                    if sprite.lvl == GameData.loadout[sprite.name]["lvl"] and sprite.cost <= GameData.gold:
+                        GameData.update_gold(GameData.gold - sprite.cost)
+                        GameData.update_loadout(sprite.name, sprite.lvl + 1)
+                        break
+
+        # Back to map
         hit_list = arcade.check_for_collision(
             self.cursor_sprite, self.button)
-
         if hit_list:
             self.to_map()
 
     def to_map(self):
+        """ Select map view """
+
         # Audio.stop_sound(self.bgm_stream)
         # self.bgm_stream = None
         self.window.show_view(self.map_view)
 
     def on_mouse_motion(self, x, y, _dx, _dy):
+
+        # Cursor follows mouse
         self.cursor_sprite.center_x = x + C.GUI["Crosshair"]["offset_x"]
         self.cursor_sprite.center_y = y + C.GUI["Crosshair"]["offset_y"]
 
+        # Animate back to map button
         hit_list = arcade.check_for_collision(
             self.cursor_sprite, self.button)
-
         if hit_list:
             self.button.scale = self.highlight_scale
         else:
             self.button.scale = self.normal_scale
-
-    def on_update(self, delta_time=1 / 60):
-        pass
