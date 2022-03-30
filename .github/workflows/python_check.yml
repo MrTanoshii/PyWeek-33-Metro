@@ -8,6 +8,7 @@ on:
     paths: "**.py"
   pull_request:
     paths: "**.py"
+  workflow_dispatch:
 
 jobs:
   build:
