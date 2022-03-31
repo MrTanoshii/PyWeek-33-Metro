@@ -34,6 +34,7 @@ def main():
             height=C.SCREEN_HEIGHT,
             title=C.SCREEN_TITLE,
             center_window=not C.CENTER_WINDOW,
+            resizable=True
         )
 
     window.set_mouse_visible(C.CURSOR_VISIBLE)

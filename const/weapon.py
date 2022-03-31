@@ -25,6 +25,9 @@ WEAPON_LIST = [
         "shoot_time": 0.4,
         "reload_time": 2,
         "reload_rate": 6,
+        "lvl_start": 1,
+        "lvl_cost": [0, 50, 100],
+        "lvl_max": 3,
         "sfx_single_shot_list": [AUDIO.SOUND["weapon_revolver_1"]["name"], AUDIO.SOUND["weapon_revolver_2"]["name"], AUDIO.SOUND["weapon_revolver_3"]["name"]],
         "sfx_single_shot_vol_gain_list": [AUDIO.SOUND["weapon_revolver_1"]["gain"], AUDIO.SOUND["weapon_revolver_2"]["gain"], AUDIO.SOUND["weapon_revolver_3"]["gain"]]
     },
@@ -49,6 +52,9 @@ WEAPON_LIST = [
         "shoot_time": 0.08,
         "reload_time": 1.5,
         "reload_rate": 30,
+        "lvl_start": 0,
+        "lvl_cost": [75, 125, 200],
+        "lvl_max": 3,
         "sfx_single_shot_list": [AUDIO.SOUND["weapon_ak_1"]["name"], AUDIO.SOUND["weapon_ak_2"]["name"], AUDIO.SOUND["weapon_ak_3"]["name"]],
         "sfx_single_shot_vol_gain_list": [AUDIO.SOUND["weapon_ak_1"]["gain"], AUDIO.SOUND["weapon_ak_2"]["gain"], AUDIO.SOUND["weapon_ak_3"]["gain"]]
     },
@@ -73,6 +79,9 @@ WEAPON_LIST = [
         "shoot_time": 0.6,
         "reload_time": 0.8,
         "reload_rate": 1,
+        "lvl_start": 0,
+        "lvl_cost": [100, 150, 225],
+        "lvl_max": 3,
         "sfx_single_shot_list": [AUDIO.SOUND["weapon_shotgun_1"]["name"], AUDIO.SOUND["weapon_shotgun_2"]["name"], AUDIO.SOUND["weapon_shotgun_3"]["name"]],
         "sfx_single_shot_vol_gain_list": [AUDIO.SOUND["weapon_shotgun_1"]["gain"], AUDIO.SOUND["weapon_shotgun_2"]["gain"], AUDIO.SOUND["weapon_shotgun_3"]["gain"]]
     },
@@ -97,6 +106,9 @@ WEAPON_LIST = [
         "shoot_time": 1,
         "reload_time": 2.5,
         "reload_rate": 1,
+        "lvl_start": 0,
+        "lvl_cost": [125, 175, 250],
+        "lvl_max": 3,
         "sfx_single_shot_list": [AUDIO.SOUND["weapon_rpg_1"]["name"], AUDIO.SOUND["weapon_rpg_2"]["name"]],
         "sfx_single_shot_vol_gain_list": [AUDIO.SOUND["weapon_rpg_1"]["gain"], AUDIO.SOUND["weapon_rpg_2"]["gain"]]
     }
