@@ -223,12 +223,12 @@ class Player(arcade.Sprite):
         elif player_move_dir == C.MOVE_DIRECTION.TOP_LEFT:
             self.speed_x = -self.max_speed * math.cos(math.radians(45))
             self.speed_y = self.max_speed * math.sin(math.radians(45))
+            
+        # Automatically move back towards left side
+        if self.speed_x <= 0 and self.center_x > 50 * global_scale():
+                self.speed_x -= 1 * global_scale()
 
         # Move player
-        # automatically fall back towards left side
-        if not C.MOVE_DIRECTION.LEFT or C.MOVE_DIRECTION.RIGHT:
-            if self.center_x > 50 * global_scale():
-                self.center_x -= 1 * global_scale()
         self.center_x += self.speed_x * global_scale()
         self.center_y += self.speed_y * global_scale()
         if self.center_x > C.SCREEN_WIDTH / 2:
