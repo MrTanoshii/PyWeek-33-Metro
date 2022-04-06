@@ -33,7 +33,7 @@ jobs:
       - name: Run Tests
         run: |
           pip install nose2
-          python -m nose2
+          python -m nose2 --with-coverage
       - name: Generate XML Report
         run: |
           pip install coverage
