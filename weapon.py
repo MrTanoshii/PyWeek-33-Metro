@@ -124,7 +124,6 @@ class Weapon(arcade.Sprite):
                 self.reload_weapon()
         if self.can_shoot and shoot_pressed:
             # Shoot if ammo available
-            # TODO: Implement fire_type
             if self.cur_ammo > 0:
                 self.is_reloading = False
                 self.can_shoot = False
