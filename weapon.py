@@ -102,19 +102,17 @@ class Weapon(arcade.Sprite):
         self.cur_ammo += self.reload_rate
         self.update_tracked_ammo(self.weapon_name, self.cur_ammo)
 
+        # Do not allow over-reload
+        if self.cur_ammo >= self.max_ammo:
+            self.cur_ammo = self.max_ammo
+            self.is_reloading = False
+
         # Allow shooting if ammo present
         self.can_shoot = True
 
         self.reload_timer = 0
 
         # TODO: Play weapon reload sfx
-
-        # Finish reloading
-        if self.cur_ammo >= self.max_ammo:
-            # Do not allow over-reload
-            self.cur_ammo = self.max_ammo
-
-            self.is_reloading = False
 
     def shoot(self, delta_time: float, shoot_pressed: bool, player: arcade.Sprite):
         """ Handles shooting and reloading """
