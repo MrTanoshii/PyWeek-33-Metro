@@ -506,7 +506,7 @@ class Audio():
             print("Master sound list: ", cls.master_list)
             print("SFX list: ", cls.sfx_list)
             print("SFX Enemy hit list: ",
-                  cls.sfx_enemy_hit_list)
+                  cls.sfx_hit_list)
             print("Complete: Enemy hit sfx")
 
     @classmethod
@@ -533,7 +533,7 @@ class Audio():
         rand_index = random.randint(
             0, len(requested_sound_list) - 1)
         if C.DEBUG.ALL or C.DEBUG.AUDIO:
-            print("Selected music: ", cls.requested_sound_list[rand_index])
+            print("Selected music: ", requested_sound_list[rand_index])
         return Audio.play_sound(requested_sound_list[rand_index])
 
     @classmethod
