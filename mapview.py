@@ -77,7 +77,7 @@ class MapView(arcade.View):
         for view_dict in C.VIEW_LIST:
             if view_dict["name"] == "Map":
                 view = view_dict
-        for i in range(0, len(Audio.bgm_list)):
+        for i in enumerate(Audio.bgm_list):
             if Audio.bgm_list[i]["view_name"] == view["name"]:
                 self.bgm = Audio.bgm_list[i]["sound"]
                 break
@@ -142,7 +142,7 @@ class MapView(arcade.View):
                 monument.unlocked = True
 
             # Find & set click sfx
-            for i in range(0, len(Audio.sfx_ui_list)):
+            for i in enumerate(Audio.sfx_ui_list):
                 if Audio.sfx_ui_list[i]["ui_name"] == monument.name:
                     monument.sfx_click = Audio.sfx_ui_list[i]["sound"]
                     break
@@ -197,7 +197,7 @@ class MapView(arcade.View):
                     passed = True
                     _unlocked = True
                 # Find & set click sfx
-                for i in range(0, len(Audio.sfx_ui_list)):
+                for i in enumerate(Audio.sfx_ui_list):
                     if Audio.sfx_ui_list[i]["ui_name"] == "EGYPT":
                         step.sfx_click = Audio.sfx_ui_list[i]["sound"]
                         break

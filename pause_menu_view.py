@@ -72,18 +72,18 @@ class PauseMenuView(arcade.View):
         for view_dict in C.VIEW_LIST:
             if view_dict["name"] == "Pause":
                 view = view_dict
-        for i in range(0, len(Audio.bgm_list)):
+        for i in enumerate(Audio.bgm_list):
             if Audio.bgm_list[i]["view_name"] == view["name"]:
                 self.bgm = Audio.bgm_list[i]["sound"]
                 break
         # Find & set click sfx
-        for i in range(0, len(Audio.sfx_list)):
+        for i in enumerate(Audio.sfx_list):
             if Audio.sfx_list[i]["file_name"] == "ui/" + C.AUDIO.SOUND["ui_click"]["name"]:
                 self.sfx_click = Audio.sfx_list[i]["sound"]
                 break
 
         # Find & set meow sfx
-        for i in range(0, len(Audio.sfx_list)):
+        for i in enumerate(Audio.sfx_list):
             if Audio.sfx_list[i]["file_name"] == "ui/" + C.AUDIO.SOUND["ui_meow"]["name"]:
                 self.sfx_meow = Audio.sfx_list[i]["sound"]
                 break

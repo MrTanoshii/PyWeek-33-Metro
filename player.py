@@ -101,7 +101,7 @@ class Player(arcade.Sprite):
 
         # Find & set hit sfx
         self.sfx_hit_list = []
-        for i in range(0, len(Audio.sfx_hit_list)):
+        for i in enumerate(Audio.sfx_hit_list):
             if Audio.sfx_hit_list[i]["name"] == C.PLAYER.NAME:
                 self.sfx_hit_list.append(Audio.sfx_hit_list[i]["sound_list"])
                 break
@@ -198,7 +198,6 @@ class Player(arcade.Sprite):
         self.speed_x = 0
         self.speed_y = 0
 
-
         if player_move_dir == C.MOVE_DIRECTION.LEFT:
             self.speed_x = -self.max_speed
             self.speed_y = 0
@@ -223,10 +222,10 @@ class Player(arcade.Sprite):
         elif player_move_dir == C.MOVE_DIRECTION.TOP_LEFT:
             self.speed_x = -self.max_speed * math.cos(math.radians(45))
             self.speed_y = self.max_speed * math.sin(math.radians(45))
-            
+
         # Automatically move back towards left side
         if self.speed_x <= 0 and self.center_x > 50 * global_scale():
-                self.speed_x -= 1 * global_scale()
+            self.speed_x -= 1 * global_scale()
 
         # Move player
         self.center_x += self.speed_x * global_scale()
