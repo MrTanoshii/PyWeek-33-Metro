@@ -1,5 +1,6 @@
-import arcade
+
 import random
+import arcade
 import const.constants as C
 
 
@@ -521,7 +522,9 @@ class Audio():
             sound_gain = find_gain(
                 requested_sound, check_item[0], cls.master_list)
             if not sound_gain is None:
-                return arcade.play_sound(requested_sound, min(sound_gain + check_item[1], 1) * cls.master_volume, looping=looping)
+                return arcade.play_sound(requested_sound,
+                                         min(sound_gain + check_item[1], 1) * cls.master_volume,
+                                         looping=looping)
 
     @classmethod
     def play_rand_sound(cls, requested_sound_list: list):
