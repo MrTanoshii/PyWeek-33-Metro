@@ -7,7 +7,6 @@
 [![Game Theme - My evil twin](https://img.shields.io/badge/Game%20Theme-My%20evil%20twin-blue)](https://pyweek.org/p/37/)
 [![Game Rating](https://img.shields.io/badge/Game%20Rating-5th%20place-blue)](https://pyweek.org/33/ratings/)
 
-
 </div>
 <div align="center">
 
@@ -43,3 +42,49 @@ Further development:
 - Cat | https://github.com/Catto-YFCN
 - Krzysztof | https://github.com/IrrationalBoolean
 - ATC_Tower | https://github.com/BriscoRP
+
+## Running the game
+
+### Operating System
+
+|      OS | Status               |
+| ------: | :------------------- |
+|   Linux | Fully Supported      |
+|   macOS | Should run, untested |
+| Windows | Fully Supported      |
+
+### Dependencies
+
+| Dependencies | Version | Function                              |
+| -----------: | :-----: | :------------------------------------ |
+|       Python |  V3.9   | https://www.python.org/               |
+|       Arcade | V2.6.13 | https://api.arcade.academy/en/2.6.13/ |
+|       FFmpeg | V2.6.11 | https://www.ffmpeg.org/download.html  |
+
+Note: Python dependencies may be installed using the `pip install -r requirements.txt` command
+
+### Running the game
+
+```shell
+python run_game.py
+```
+
+### Controls
+
+|         Controls | Function     |
+| ---------------: | :----------- |
+|             WASD | Move         |
+|       Arrow Keys | Move         |
+|         Spacebar | Shoot        |
+| Left Mouse Click | Shoot        |
+|                R | Reload       |
+|              1-4 | Swap Weapons |
+|           Escape | Pause        |
+
+## [License](https://github.com/MrTanoshii/PyWeek-33-Metro/blob/main/LICENSE)
+
+## Assets Licenses
+
+Individual assets licenses are available in their respective directory `README.md`s
+
+Assets that do not have their own `README.md`s can be assumed to have been produced internally and are thus licensed under the project license
