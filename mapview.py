@@ -129,11 +129,13 @@ class MapView(arcade.View):
             monument.center_x = mon_dict["center_x"] * global_scale()
             monument.center_y = mon_dict["center_y"] * global_scale()
 
-            if GameData.level_data[str(monument.level)]["passed"] == 0 and GameData.level_data[str(monument.level)][
+            if GameData.level_data[str(monument.level)]["passed"] == 0 \
+                and GameData.level_data[str(monument.level)][
                     "locked"] == 0:
                 monument.color = (255, 255, 64)
                 monument.unlocked = True
-            elif GameData.level_data[str(monument.level)]["passed"] == 0 and GameData.level_data[str(monument.level)][
+            elif GameData.level_data[str(monument.level)]["passed"] == 0 \
+                and GameData.level_data[str(monument.level)][
                     "locked"] == 1:
                 monument.color = (255, 64, 64)
                 monument.unlocked = False
@@ -341,10 +343,12 @@ class MapView(arcade.View):
     @classmethod
     def update_monument_list(cls):
         for i, monument in enumerate(cls.monument_list):
-            if GameData.level_data[str(i + 1)]["passed"] == 0 and GameData.level_data[str(i + 1)]["locked"] == 0:
+            if GameData.level_data[str(i + 1)]["passed"] == 0 \
+                    and GameData.level_data[str(i + 1)]["locked"] == 0:
                 monument.color = (255, 255, 64)
                 monument.unlocked = True
-            elif GameData.level_data[str(i + 1)]["passed"] == 0 and GameData.level_data[str(i + 1)]["locked"] == 1:
+            elif GameData.level_data[str(i + 1)]["passed"] == 0 \
+                    and GameData.level_data[str(i + 1)]["locked"] == 1:
                 monument.color = (255, 64, 64)
                 monument.unlocked = False
             else:

@@ -140,7 +140,10 @@ class Weapon(arcade.Sprite):
                 for _ in range(0, self.bullet_amount):
                     # Calculate angle from player to mouse location
                     calc_angle = calculate_angle(
-                        player.center_x, player.center_y, self.last_mouse_x + C.GUI["Crosshair"]["offset_x"], self.last_mouse_y + C.GUI["Crosshair"]["offset_y"])
+                        player.center_x,
+                        player.center_y,
+                        self.last_mouse_x + C.GUI["Crosshair"]["offset_x"],
+                        self.last_mouse_y + C.GUI["Crosshair"]["offset_y"])
                     if self.last_mouse_x + C.GUI["Crosshair"]["offset_x"] < player.center_x:
                         calc_angle = calc_angle + self.init_angle
                     else:
@@ -159,11 +162,15 @@ class Weapon(arcade.Sprite):
                     random_angle = random.uniform(-(self.bullet_spread/2),
                                                   (self.bullet_spread/2))
                     random_speed = random.uniform(
-                        -self.bullet_speed_spread + self.bullet_speed, self.bullet_speed_spread + self.bullet_speed)
+                        -self.bullet_speed_spread + self.bullet_speed,
+                        self.bullet_speed_spread + self.bullet_speed)
 
                     # Calculate angle from bullet to mouse location
                     calc_angle = calculate_angle(
-                        bullet_center_x, bullet_center_y, self.last_mouse_x + C.GUI["Crosshair"]["offset_x"], self.last_mouse_y + C.GUI["Crosshair"]["offset_y"])
+                        bullet_center_x,
+                        bullet_center_y,
+                        self.last_mouse_x + C.GUI["Crosshair"]["offset_x"],
+                        self.last_mouse_y + C.GUI["Crosshair"]["offset_y"])
                     if self.last_mouse_x + C.GUI["Crosshair"]["offset_x"] < bullet_center_x:
                         calc_angle = calc_angle + self.init_angle
                     else:
@@ -177,8 +184,13 @@ class Weapon(arcade.Sprite):
                                                                    self.init_angle))
 
                     # Instantiate bullet
-                    bullet = Bullet("Detailed", speed_x, speed_y, self.bullet_texture_list,
-                                    self.bullet_angle + self.init_angle, self.bullet_damage, scale=self.bullet_scale)
+                    bullet = Bullet("Detailed",
+                                    speed_x,
+                                    speed_y,
+                                    self.bullet_texture_list,
+                                    self.bullet_angle + self.init_angle,
+                                    self.bullet_damage,
+                                    scale=self.bullet_scale)
 
                     # Set bullet location
                     bullet.center_x = bullet_center_x
@@ -224,14 +236,19 @@ class Weapon(arcade.Sprite):
 
                 # Load weapon texture
                 self.texture = arcade.load_texture(
-                    "resources/images/weapon/" + self.img_name + "/" + self.img_name + ".png", weapon["center_x"], weapon["center_y"], weapon["width"], weapon["height"])
+                    "resources/images/weapon/" + self.img_name + "/" + self.img_name + ".png",
+                    weapon["center_x"],
+                    weapon["center_y"],
+                    weapon["width"],
+                    weapon["height"])
                 self.scale = weapon["scale"] * C.WEAPON_SCALE * global_scale()
 
                 # Load animated bullet textures
                 self.bullet_texture_list = []
                 for i in range(1, weapon["bullet_texture_amount"] + 1):
                     self.bullet_texture_list.append(arcade.load_texture(
-                        "resources/images/weapon/" + self.img_name + "/bullet/" + str(i) + ".png", hit_box_algorithm="Detailed"))
+                        "resources/images/weapon/" + self.img_name + "/bullet/" + str(i) + ".png",
+                        hit_box_algorithm="Detailed"))
 
                 # Set GUI location
                 self.center_x = C.GUI["Weapon"]["center_x"] * global_scale()

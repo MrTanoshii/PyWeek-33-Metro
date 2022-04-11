@@ -86,7 +86,8 @@ class Player(arcade.Sprite):
         self.texture_list = []
         for filename in sorted(os.listdir(f"{dir_name}animation/")):
             self.texture_list.append(
-                arcade.load_texture(f"{dir_name}animation/{filename}", hit_box_algorithm=hit_box_algorithm))
+                arcade.load_texture(f"{dir_name}animation/{filename}",
+                                    hit_box_algorithm=hit_box_algorithm))
 
         self.cur_texture = 0
 
@@ -116,7 +117,8 @@ class Player(arcade.Sprite):
             texture_list = []
             for filename in sorted(os.listdir(f"assets/{self._player_style}{weapon['name']}/")):
                 texture_list.append(
-                    arcade.load_texture(f"assets/{self._player_style}{weapon['name']}/{filename}", hit_box_algorithm=hit_box_algorithm))
+                    arcade.load_texture(f"assets/{self._player_style}{weapon['name']}/{filename}",
+                                        hit_box_algorithm=hit_box_algorithm))
             self.textures_dict[f"{self._player_style}{weapon['name']}"] = texture_list
 
         # Set default skin for ak and level style player

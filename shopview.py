@@ -68,7 +68,11 @@ class ShopView(arcade.View):
         self.gold_sprite.draw()
 
         lib.draw_text(
-            GameData.gold, self.gold_sprite.position[0]*.99, self.gold_sprite.position[1]*1.005, 30, anchor_x="left")
+            GameData.gold,
+            self.gold_sprite.position[0]*.99,
+            self.gold_sprite.position[1]*1.005,
+            30,
+            anchor_x="left")
 
         # Set weapon upgrade sprites
         pos_x = 400
@@ -137,7 +141,8 @@ class ShopView(arcade.View):
                 if sprite.collides_with_sprite(self.cursor_sprite):
                     print(sprite.name, sprite.lvl, sprite.cost,
                           GameData.loadout[sprite.name]["lvl"])
-                    if sprite.lvl == GameData.loadout[sprite.name]["lvl"] and sprite.cost <= GameData.gold:
+                    if sprite.lvl == GameData.loadout[sprite.name]["lvl"] \
+                            and sprite.cost <= GameData.gold:
                         GameData.update_gold(GameData.gold - sprite.cost)
                         GameData.update_loadout(sprite.name, sprite.lvl + 1)
                         break
