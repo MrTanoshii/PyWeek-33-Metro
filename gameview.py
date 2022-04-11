@@ -238,7 +238,7 @@ class GameView(arcade.View):
         self.cursor.draw()
 
         # Restart bgm
-        if self.bgm_stream == None:
+        if self.bgm_stream is None:
             self.bgm_stream = Audio.play_sound(self.bgm, True)
 
     def on_update(self, delta_time):
