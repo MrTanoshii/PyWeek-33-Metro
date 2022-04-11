@@ -1,18 +1,19 @@
 <div align="center">
 
-  <h3>Theme is "Evil Twin"</h3>
-
 [![PyWeek 33](https://img.shields.io/badge/PyWeek-33-blue)](https://pyweek.org/33/)
 [![PyWeek 33 Rules - Revision 2020-02-06](https://img.shields.io/badge/Rules-2020--02--06-blue)](https://pyweek.readthedocs.io/en/latest/rules.html)
 [![Team Metroids](https://img.shields.io/badge/Team-Metroids-brightgreen)](https://pyweek.org/e/meme_py123/)
 [![Game Name - Metro](https://img.shields.io/badge/Game-Metro-brightgreen)](https://pyweek.org/e/meme_py123/)
 [![Game Theme - My evil twin](https://img.shields.io/badge/Game%20Theme-My%20evil%20twin-blue)](https://pyweek.org/p/37/)
+[![Game Rating](https://img.shields.io/badge/Game%20Rating-5th%20place-blue)](https://pyweek.org/33/ratings/)
+
 
 </div>
 <div align="center">
 
 [![Python v3.10](https://img.shields.io/badge/Python-v3.10-blue)](https://docs.python.org/3.10/)
 [![Arcade v2.6.13](https://img.shields.io/badge/Arcade-v2.6.13-blue)](https://api.arcade.academy/en/2.6.13/)
+[![FFmpeg](https://img.shields.io/badge/FFmpeg-required-blue)](https://www.ffmpeg.org/download.html)
 
 </div>
 <div align="center">
