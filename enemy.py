@@ -116,19 +116,19 @@ class Enemy(arcade.Sprite):
 
         # Find & set hit sfx
         self.sfx_hit_list = []
-        for i in range(0, len(Audio.sfx_hit_list)):
+        for i in enumerate(Audio.sfx_hit_list):
             if Audio.sfx_hit_list[i]["name"] == self.name:
                 self.sfx_hit_list.append(Audio.sfx_hit_list[i]["sound_list"])
                 break
 
         # Find & set death sfx
-        for i in range(0, len(Audio.sfx_enemy_death_list)):
+        for i in enumerate(Audio.sfx_enemy_death_list):
             if Audio.sfx_enemy_death_list[i]["enemy_name"] == self.name:
                 self.sfx_death_list = Audio.sfx_enemy_death_list[i]["sound"]
                 break
 
         # Find & set single shot sfx
-        for i in range(0, len(Audio.sfx_enemy_weapon_shoot_list)):
+        for i in enumerate(Audio.sfx_enemy_weapon_shoot_list):
             if Audio.sfx_enemy_weapon_shoot_list[i]["weapon_name"] == self.weapon:
                 self.sfx_single_shot_list = Audio.sfx_enemy_weapon_shoot_list[i]["sound"]
                 break
