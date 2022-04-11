@@ -267,8 +267,15 @@ class Weapon(arcade.Sprite):
                 self.reload_time = weapon["reload_time"]
                 self.reload_timer = 0
                 self.reload_rate = weapon["reload_rate"]
-                if self.cur_ammo <= 0:
+
+                # Do not allow over-reload
+                if self.cur_ammo >= self.max_ammo:
+                    self.cur_ammo = self.max_ammo
+                    self.is_reloading = False
+                # Reload if weapon is out of ammo
+                elif self.cur_ammo <= 0:
                     self.is_reloading = True
+
                 else:
                     self.is_reloading = False
 
