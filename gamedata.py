@@ -171,10 +171,9 @@ class GameData:
         for saved_weapon in cls.loadout:
             if saved_weapon == name:
                 cls.loadout[saved_weapon]["lvl"] = lvl
+                # Write changes
+                cls.write_data()
                 break
-
-            # Write changes
-            cls.write_data()
 
     @classmethod
     def update_steps(cls, story_id: str, status: int):
