@@ -193,7 +193,7 @@ class Enemy(arcade.Sprite):
 
     @ classmethod
     def preload(cls, enemy_list: list):
-        for index in range(0, len(enemy_list)):
+        for index in enumerate(enemy_list):
             enemy = Enemy("Simple", enemy_list[index])
             enemy.remove_from_sprite_lists()
 
