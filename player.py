@@ -125,9 +125,9 @@ class Player(arcade.Sprite):
         self.set_skin(weapon="Revolver")
 
     def set_skin(self, weapon: str, player_style=None):
+        """Takes asset/texture name as input and update current texture/skin"""
         if not player_style:
             player_style = self._player_style
-        """Takes asset/texture name as input and update current texture/skin"""
         self.texture_list = self.textures_dict[f"{player_style}{weapon}"]
 
         self.texture = self.textures_dict[f"{player_style}{weapon}"][int(
