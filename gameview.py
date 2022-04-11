@@ -1,6 +1,8 @@
-import arcade
+
 import random
 import os.path
+
+import arcade
 
 import const.constants as C
 from bg import BackGround
