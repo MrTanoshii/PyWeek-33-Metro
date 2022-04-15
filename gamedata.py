@@ -1,7 +1,7 @@
 import json
 from tracker import Tracker
 from const.map import MAP_MONUMENTS_LIST
-from mapview import MapView
+import mapview
 
 
 class GameData:
@@ -160,8 +160,8 @@ class GameData:
                 cls.story[str(level)] = 1
 
                 # Update map icons
-                MapView.update_monument_list()
-                MapView.update_step_list()
+                mapview.MapView.update_monument_list()
+                mapview.MapView.update_step_list()
 
             # Write changes
             cls.write_data()
