@@ -102,9 +102,9 @@ class Player(arcade.Sprite):
 
         # Find & set hit sfx
         self.sfx_hit_list = []
-        for i in enumerate(Audio.sfx_hit_list):
-            if Audio.sfx_hit_list[i]["name"] == C.PLAYER.NAME:
-                self.sfx_hit_list.append(Audio.sfx_hit_list[i]["sound_list"])
+        for _i, sfx in enumerate(Audio.sfx_hit_list):
+            if sfx["name"] == C.PLAYER.NAME:
+                self.sfx_hit_list.append(sfx["sound_list"])
                 break
 
         Player.player_list.append(self)

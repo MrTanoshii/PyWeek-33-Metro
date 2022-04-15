@@ -119,21 +119,21 @@ class Enemy(arcade.Sprite):
 
         # Find & set hit sfx
         self.sfx_hit_list = []
-        for i in enumerate(Audio.sfx_hit_list):
-            if Audio.sfx_hit_list[i]["name"] == self.name:
-                self.sfx_hit_list.append(Audio.sfx_hit_list[i]["sound_list"])
+        for _i, sfx in enumerate(Audio.sfx_hit_list):
+            if sfx["name"] == self.name:
+                self.sfx_hit_list.append(sfx["sound_list"])
                 break
 
         # Find & set death sfx
-        for i in enumerate(Audio.sfx_enemy_death_list):
-            if Audio.sfx_enemy_death_list[i]["enemy_name"] == self.name:
-                self.sfx_death_list = Audio.sfx_enemy_death_list[i]["sound"]
+        for _i, sfx in enumerate(Audio.sfx_enemy_death_list):
+            if sfx["enemy_name"] == self.name:
+                self.sfx_death_list = sfx["sound"]
                 break
 
         # Find & set single shot sfx
-        for i in enumerate(Audio.sfx_enemy_weapon_shoot_list):
-            if Audio.sfx_enemy_weapon_shoot_list[i]["weapon_name"] == self.weapon:
-                self.sfx_single_shot_list = Audio.sfx_enemy_weapon_shoot_list[i]["sound"]
+        for _i, sfx in enumerate(Audio.sfx_enemy_weapon_shoot_list):
+            if sfx["weapon_name"] == self.weapon:
+                self.sfx_single_shot_list = sfx["sound"]
                 break
 
         # Set the initial texture
@@ -193,8 +193,8 @@ class Enemy(arcade.Sprite):
 
     @ classmethod
     def preload(cls, enemy_list: list):
-        for index in enumerate(enemy_list):
-            enemy = Enemy("Simple", enemy_list[index])
+        for _i, enemy in enumerate(enemy_list):
+            enemy = Enemy("Simple", enemy)
             enemy.remove_from_sprite_lists()
 
     def calculate_bullet_ballistic(self, aim_type) -> dict:

@@ -133,9 +133,9 @@ class GameView(arcade.View):
         for monument_dict in C.MAP_MONUMENTS_LIST:
             if monument_dict["level"] == mapview.MapView.current_level:
                 view = monument_dict
-        for i in enumerate(Audio.bgm_list):
-            if Audio.bgm_list[i]["view_name"] == view["name"]:
-                self.bgm = Audio.bgm_list[i]["sound"]
+        for _i, bgm in enumerate(Audio.bgm_list):
+            if bgm["view_name"] == view["name"]:
+                self.bgm = bgm["sound"]
                 break
 
         # change bullets for ak for night level

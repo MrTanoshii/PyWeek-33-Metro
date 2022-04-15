@@ -276,9 +276,9 @@ class Weapon(arcade.Sprite):
                     self.is_reloading = False
 
                 # Find & set single shot sfx
-                for i in enumerate(Audio.sfx_player_weapon_shoot_list):
-                    if Audio.sfx_player_weapon_shoot_list[i]["weapon_name"] == self.weapon_name:
-                        self.sfx_single_shot_list = Audio.sfx_player_weapon_shoot_list[i]["sound"]
+                for _i, sfx in enumerate(Audio.sfx_player_weapon_shoot_list):
+                    if sfx["weapon_name"] == self.weapon_name:
+                        self.sfx_single_shot_list = sfx["sound"]
                         break
 
                 # Break out of loop if weapon found

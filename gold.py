@@ -53,9 +53,9 @@ class Gold(arcade.Sprite):
         self.name = C.GOLD_LIST[0]["name"]
 
         # Find & set pickup sfx
-        for i in enumerate(Audio.sfx_gold_pickup_list):
-            if Audio.sfx_gold_pickup_list[i]["gold_name"] == self.name:
-                self.sfx_pickup = Audio.sfx_gold_pickup_list[i]["sound"]
+        for _i, sfx in enumerate(Audio.sfx_gold_pickup_list):
+            if sfx["gold_name"] == self.name:
+                self.sfx_pickup = sfx["sound"]
                 break
 
         # Speed
