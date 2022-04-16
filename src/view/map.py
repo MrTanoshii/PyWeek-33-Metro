@@ -86,7 +86,6 @@ class MapView(arcade.View):
             if view_dict["name"] == "Map":
                 view = view_dict
         for _i, bgm in enumerate(Audio.bgm_list):
-            print(bgm)
             if bgm["view_name"] == view["name"]:
                 self.bgm = bgm["sound"]
                 break
