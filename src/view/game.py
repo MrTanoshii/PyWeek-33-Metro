@@ -8,7 +8,7 @@ import src.const as C
 
 from src.audio import Audio
 from src.lib import global_scale
-from src.save_data import GameData
+import src.save_data as save_data
 from src.settings import Settings
 from src.tracker import Tracker
 
@@ -20,7 +20,7 @@ from src.sprite.player import Player
 
 from src.view.pause_menu import PauseMenuView
 from src.view.game_over import GameOverView
-from src.view.map import MapView
+import src.view.map as mapView
 
 
 class GameView(arcade.View):
@@ -79,7 +79,7 @@ class GameView(arcade.View):
         # Player shoot
         self.shoot_pressed = False
 
-        self.level = MapView.current_level
+        self.level = mapView.MapView.current_level
         for monument in C.MAP_MONUMENTS_LIST:
             if monument["level"] == self.level:
                 self.enemy_list = monument["enemy"]
@@ -111,7 +111,7 @@ class GameView(arcade.View):
         # Add to player sprite list
 
         # Create BG sprite
-        self.bg = BackGround(MapView.current_level)
+        self.bg = BackGround(mapView.MapView.current_level)
         self.bg.center_x = -self.bg.width
         self.bg.center_y = (C.SCREEN_HEIGHT/2)
         BackGround.bg_list.append(self.bg)
@@ -133,7 +133,7 @@ class GameView(arcade.View):
         # Find & set map bgm
         view = None
         for monument_dict in C.MAP_MONUMENTS_LIST:
-            if monument_dict["level"] == MapView.current_level:
+            if monument_dict["level"] == mapView.MapView.current_level:
                 view = monument_dict
         for _i, bgm in enumerate(Audio.bgm_list):
             if bgm["view_name"] == view["name"]:
@@ -320,7 +320,7 @@ class GameView(arcade.View):
             # 1 - Revolver
             if symbol == arcade.key.KEY_1:
                 requested_weapon = "Revolver"
-                if GameData.loadout[requested_weapon]["lvl"] >= 1:
+                if save_data.GameData.loadout[requested_weapon]["lvl"] >= 1:
                     self.player.set_skin('Revolver')
                     if self.level == 1:
                         Bullet.friendly_bullet_list.color = (300, 128, 128)
@@ -332,7 +332,7 @@ class GameView(arcade.View):
             # 2 - Rifle
             elif symbol == arcade.key.KEY_2:
                 requested_weapon = "Rifle"
-                if GameData.loadout[requested_weapon]["lvl"] >= 1:
+                if save_data.GameData.loadout[requested_weapon]["lvl"] >= 1:
                     self.player.set_skin('AK')
                     if self.level == 1:
                         Bullet.friendly_bullet_list.color = (300, 128, 128)
@@ -344,7 +344,7 @@ class GameView(arcade.View):
             # 3 - Shotgun
             elif symbol == arcade.key.KEY_3:
                 requested_weapon = "Shotgun"
-                if GameData.loadout[requested_weapon]["lvl"] >= 1:
+                if save_data.GameData.loadout[requested_weapon]["lvl"] >= 1:
                     self.player.set_skin('Shotgun')
                     if self.level == 1:
                         Bullet.friendly_bullet_list.color = (300, 128, 128)
@@ -356,7 +356,7 @@ class GameView(arcade.View):
             # 4 - RPG
             elif symbol == arcade.key.KEY_4:
                 requested_weapon = "RPG"
-                if GameData.loadout[requested_weapon]["lvl"] >= 1:
+                if save_data.GameData.loadout[requested_weapon]["lvl"] >= 1:
                     self.player.set_skin('RPG')
                     if self.level == 1:
                         Bullet.friendly_bullet_list.color = (128, 64, 64)
