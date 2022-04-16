@@ -10,7 +10,7 @@ from src.lib import calculate_angle, global_scale
 
 from src.sprite.bullet import Bullet
 
-
+# TODO: Find out what's happening here
 bullet_texture_lists_list = {}
 
 # Create example bullet texture lists
