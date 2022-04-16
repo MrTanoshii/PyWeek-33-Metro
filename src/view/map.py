@@ -5,13 +5,14 @@ import src.const as C
 
 from src.audio import Audio
 from src.lib import global_scale
-from src.save_data import GameData
+import src.save_data as save_data
 
 from src.sprite.player import Player
 
 from src.view.game import GameView
 from src.view.shop import ShopView
 from src.view.story import StoryView
+from src.view.quit import QuitView
 
 
 class MapView(arcade.View):
@@ -35,6 +36,8 @@ class MapView(arcade.View):
         Draw the map view
     on_mouse_motion(x: float, y: float, dx: float, dy: float)
         Listen to mouse motion event
+    on_key_press(key: int, modifiers: int)
+        Listen to keyboard press event
     on_update(delta_time: float)
         Update the map view
     on_mouse_press(x: float, y: float, button: int, modifiers: int)
@@ -135,13 +138,13 @@ class MapView(arcade.View):
             monument.center_x = mon_dict["center_x"] * global_scale()
             monument.center_y = mon_dict["center_y"] * global_scale()
 
-            if GameData.level_data[str(monument.level)]["passed"] == 0 \
-                and GameData.level_data[str(monument.level)][
+            if save_data.GameData.level_data[str(monument.level)]["passed"] == 0 \
+                and save_data.GameData.level_data[str(monument.level)][
                     "locked"] == 0:
                 monument.color = (255, 255, 64)
                 monument.unlocked = True
-            elif GameData.level_data[str(monument.level)]["passed"] == 0 \
-                and GameData.level_data[str(monument.level)][
+            elif save_data.GameData.level_data[str(monument.level)]["passed"] == 0 \
+                and save_data.GameData.level_data[str(monument.level)][
                     "locked"] == 1:
                 monument.color = (255, 64, 64)
                 monument.unlocked = False
@@ -187,18 +190,18 @@ class MapView(arcade.View):
                 step.center_y = step_dict["center_y"] * global_scale()
 
                 # locked
-                if GameData.story[str(step.level)] == 0:
+                if save_data.GameData.story[str(step.level)] == 0:
                     step.color = (255, 64, 64)
                     step.unlocked = False
                     step.passed = False
                     passed = False
                 # un-locked
-                elif GameData.story[str(step.level)] == 1:
+                elif save_data.GameData.story[str(step.level)] == 1:
                     step.color = (255, 255, 64)
                     step.unlocked = True
                     passed = False
                 # passed
-                elif GameData.story[str(step.level)] == 2:
+                elif save_data.GameData.story[str(step.level)] == 2:
                     step.color = (64, 255, 64)
                     step.unlocked = True
                     step.passed = True
@@ -229,7 +232,7 @@ class MapView(arcade.View):
         self.gold_sprite.draw()
         # GUI - Gold
         arcade.draw_text(
-            GameData.gold,
+            save_data.GameData.gold,
             self.gold_sprite.position[0] * .99,
             self.gold_sprite.position[1] * 1.005,
             arcade.color.BLACK,
@@ -260,6 +263,12 @@ class MapView(arcade.View):
         else:
             self.shop_sprite.color = (255, 255, 255)
             self.shop_sprite.scale = .2 * global_scale()
+
+    def on_key_press(self, symbol, modifiers):
+        """ Listen to keyboard press event """
+
+        if symbol == arcade.key.ESCAPE:
+            self.window.show_view(QuitView(self))
 
     def on_update(self, delta_time):
 
@@ -350,12 +359,12 @@ class MapView(arcade.View):
     @classmethod
     def update_monument_list(cls):
         for i, monument in enumerate(cls.monument_list):
-            if GameData.level_data[str(i + 1)]["passed"] == 0 \
-                    and GameData.level_data[str(i + 1)]["locked"] == 0:
+            if save_data.GameData.level_data[str(i + 1)]["passed"] == 0 \
+                    and save_data.GameData.level_data[str(i + 1)]["locked"] == 0:
                 monument.color = (255, 255, 64)
                 monument.unlocked = True
-            elif GameData.level_data[str(i + 1)]["passed"] == 0 \
-                    and GameData.level_data[str(i + 1)]["locked"] == 1:
+            elif save_data.GameData.level_data[str(i + 1)]["passed"] == 0 \
+                    and save_data.GameData.level_data[str(i + 1)]["locked"] == 1:
                 monument.color = (255, 64, 64)
                 monument.unlocked = False
             else:
