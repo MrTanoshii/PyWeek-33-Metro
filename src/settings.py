@@ -1,4 +1,5 @@
 import src.const as C
+
 from src.sprite.bullet import Bullet
 from src.sprite.enemy import Enemy
 from src.sprite.gold import Gold

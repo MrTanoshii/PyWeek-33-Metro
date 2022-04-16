@@ -2,13 +2,16 @@
 import arcade
 
 import src.const as C
-from src.view.game import GameView
-from src.sprite.player import Player
-import src.view.shop as shop
-from src.save_data import GameData
-from src.lib import global_scale
-from src.view.story import StoryView
+
 from src.audio import Audio
+from src.lib import global_scale
+from src.save_data import GameData
+
+from src.sprite.player import Player
+
+from src.view.game import GameView
+from src.view.shop import ShopView
+from src.view.story import StoryView
 
 
 class MapView(arcade.View):
@@ -336,7 +339,7 @@ class MapView(arcade.View):
 
         # Check if shops hit cursor (Simply because less number of checking)
         elif self.shop_sprite.collides_with_sprite(self.cursor_sprite):
-            self.window.show_view(shop.ShopView(self))
+            self.window.show_view(ShopView(self))
 
     def open_story(self):
         self.window.show_view(StoryView(self, MapView.current_level))

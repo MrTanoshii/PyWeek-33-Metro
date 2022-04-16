@@ -1,6 +1,7 @@
 import arcade
 
 import src.const as C
+
 from src.lib import global_scale
 
 

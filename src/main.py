@@ -2,6 +2,7 @@ import arcade
 import pyglet
 
 import src.const as C
+
 from src.view.main_menu import MainMenu
 
 

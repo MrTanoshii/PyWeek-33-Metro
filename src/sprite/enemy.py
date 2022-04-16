@@ -6,13 +6,15 @@ import math
 import arcade
 
 import src.const as C
-from src.sprite.bullet import Bullet
+
+from src.audio import Audio
+from src.lib import global_scale, calculate_angle
 from src.tracker import Tracker
+
+from src.sprite.bullet import Bullet
 from src.sprite.gold import Gold
 from src.sprite.player import Player
-from src.audio import Audio
 import src.sprite.weapon as weapon
-from src.lib import global_scale, calculate_angle
 
 
 class Enemy(arcade.Sprite):

@@ -3,6 +3,7 @@ import os
 import arcade
 
 import src.const as C
+
 import src.lib as lib
 
 from src.save_data import GameData

@@ -4,9 +4,12 @@ import random
 import arcade
 
 import src.const as C
-from src.sprite.bullet import Bullet
+
 from src.audio import Audio
 from src.lib import calculate_angle, global_scale
+
+from src.sprite.bullet import Bullet
+
 
 bullet_texture_lists_list = {}
 

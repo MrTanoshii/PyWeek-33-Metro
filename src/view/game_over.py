@@ -1,12 +1,14 @@
 import arcade
 
 import src.const as C
+
 from src.audio import Audio
+from src.lib import global_scale
+from src.save_data import GameData
+from src.tracker import Tracker
+
 from src.sprite.bullet import Bullet
 from src.sprite.enemy import Enemy
-from src.save_data import GameData
-from src.lib import global_scale
-from src.tracker import Tracker
 
 
 class GameOverView(arcade.View):
