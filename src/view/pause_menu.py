@@ -57,17 +57,12 @@ class PauseMenuView(arcade.View):
             {"img_name": "btn_back_to_map.png",
              "name": "back_to_map",
              "center_x": C.SCREEN_WIDTH * .75 // 1,
-             "center_y": C.SCREEN_HEIGHT * .5 // 1,
-             },
-            {"img_name": "btn_main_menu.png",
-             "name": "main_menu",
-             "center_x": C.SCREEN_WIDTH * .75 // 1,
-             "center_y": C.SCREEN_HEIGHT * .35 // 1,
+             "center_y": C.SCREEN_HEIGHT * .50 // 1,
              },
             {"img_name": "btn_quit_game.png",
              "name": "quit_game",
              "center_x": C.SCREEN_WIDTH * .75 // 1,
-             "center_y": C.SCREEN_HEIGHT * .20 // 1,
+             "center_y": C.SCREEN_HEIGHT * .35 // 1,
              },
         ]
         # Find & set pause menu bgm
@@ -182,16 +177,12 @@ class PauseMenuView(arcade.View):
                 self.quit_game()
             elif hit_btn[0].name == "back_to_map":
                 self.to_map()
-            elif hit_btn[0].name == "main_menu":
-                # TODO: Add main menu
-                self.to_map()
 
         # If hit the cat
         _scale = global_scale()
         if 20 * _scale < _x < 120 * _scale and 270 * _scale < _y < 370 * _scale:
             Audio.play_sound(self.sfx_meow)
             Tracker.trigger_easter_egg()
-            # TODO: Add something special
 
     def on_key_press(self, symbol, _modifiers):
         """Handle keyboard key press"""
