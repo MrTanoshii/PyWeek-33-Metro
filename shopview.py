@@ -68,13 +68,17 @@ class ShopView(arcade.View):
         self.gold_sprite.draw()
 
         lib.draw_text(
-            GameData.gold, self.gold_sprite.position[0]*.99, self.gold_sprite.position[1]*1.005, 30, anchor_x="left")
+            GameData.gold,
+            self.gold_sprite.position[0]*.99,
+            self.gold_sprite.position[1]*1.005,
+            30,
+            anchor_x="left")
 
         # Set weapon upgrade sprites
         pos_x = 400
         pos_y = 200
         self.weapon_upgrade_sprite_list = []
-        for index, weapon in enumerate(C.WEAPON_LIST, 0):
+        for i, weapon in enumerate(C.WEAPON_LIST, 0):
             self.weapon_upgrade_sprite_list.append([])
             for level in range(0, weapon["lvl_max"]):
                 # Set max level
@@ -85,11 +89,11 @@ class ShopView(arcade.View):
                 else:
                     path = "resources/images/shop/lvl_bought.png"
                 position = (pos_x * lib.global_scale(), pos_y * lib.global_scale())
-                self.weapon_upgrade_sprite_list[index].append(arcade.Sprite(
+                self.weapon_upgrade_sprite_list[i].append(arcade.Sprite(
                     path, lib.global_scale(), center_x=position[0], center_y=position[1]))
-                self.weapon_upgrade_sprite_list[index][-1].name = weapon["name"]
-                self.weapon_upgrade_sprite_list[index][-1].cost = weapon["lvl_cost"][level]
-                self.weapon_upgrade_sprite_list[index][-1].lvl = level
+                self.weapon_upgrade_sprite_list[i][-1].name = weapon["name"]
+                self.weapon_upgrade_sprite_list[i][-1].cost = weapon["lvl_cost"][level]
+                self.weapon_upgrade_sprite_list[i][-1].lvl = level
                 pos_x += 200
             pos_x = 400
             pos_y += 100
@@ -137,7 +141,8 @@ class ShopView(arcade.View):
                 if sprite.collides_with_sprite(self.cursor_sprite):
                     print(sprite.name, sprite.lvl, sprite.cost,
                           GameData.loadout[sprite.name]["lvl"])
-                    if sprite.lvl == GameData.loadout[sprite.name]["lvl"] and sprite.cost <= GameData.gold:
+                    if sprite.lvl == GameData.loadout[sprite.name]["lvl"] \
+                            and sprite.cost <= GameData.gold:
                         GameData.update_gold(GameData.gold - sprite.cost)
                         GameData.update_loadout(sprite.name, sprite.lvl + 1)
                         break

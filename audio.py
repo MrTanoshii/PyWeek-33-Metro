@@ -1,5 +1,6 @@
-import arcade
+
 import random
+import arcade
 import const.constants as C
 
 
@@ -506,7 +507,7 @@ class Audio():
             print("Master sound list: ", cls.master_list)
             print("SFX list: ", cls.sfx_list)
             print("SFX Enemy hit list: ",
-                  cls.sfx_enemy_hit_list)
+                  cls.sfx_hit_list)
             print("Complete: Enemy hit sfx")
 
     @classmethod
@@ -521,7 +522,9 @@ class Audio():
             sound_gain = find_gain(
                 requested_sound, check_item[0], cls.master_list)
             if not sound_gain is None:
-                return arcade.play_sound(requested_sound, min(sound_gain + check_item[1], 1) * cls.master_volume, looping=looping)
+                return arcade.play_sound(requested_sound,
+                                         min(sound_gain + check_item[1], 1) * cls.master_volume,
+                                         looping=looping)
 
     @classmethod
     def play_rand_sound(cls, requested_sound_list: list):
@@ -533,7 +536,7 @@ class Audio():
         rand_index = random.randint(
             0, len(requested_sound_list) - 1)
         if C.DEBUG.ALL or C.DEBUG.AUDIO:
-            print("Selected music: ", cls.requested_sound_list[rand_index])
+            print("Selected music: ", requested_sound_list[rand_index])
         return Audio.play_sound(requested_sound_list[rand_index])
 
     @classmethod

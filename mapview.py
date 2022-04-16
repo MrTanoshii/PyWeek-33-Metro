@@ -77,9 +77,10 @@ class MapView(arcade.View):
         for view_dict in C.VIEW_LIST:
             if view_dict["name"] == "Map":
                 view = view_dict
-        for i in range(0, len(Audio.bgm_list)):
-            if Audio.bgm_list[i]["view_name"] == view["name"]:
-                self.bgm = Audio.bgm_list[i]["sound"]
+        for _i, bgm in enumerate(Audio.bgm_list):
+            print(bgm)
+            if bgm["view_name"] == view["name"]:
+                self.bgm = bgm["sound"]
                 break
 
         # Start bgm
@@ -129,11 +130,13 @@ class MapView(arcade.View):
             monument.center_x = mon_dict["center_x"] * global_scale()
             monument.center_y = mon_dict["center_y"] * global_scale()
 
-            if GameData.level_data[str(monument.level)]["passed"] == 0 and GameData.level_data[str(monument.level)][
+            if GameData.level_data[str(monument.level)]["passed"] == 0 \
+                and GameData.level_data[str(monument.level)][
                     "locked"] == 0:
                 monument.color = (255, 255, 64)
                 monument.unlocked = True
-            elif GameData.level_data[str(monument.level)]["passed"] == 0 and GameData.level_data[str(monument.level)][
+            elif GameData.level_data[str(monument.level)]["passed"] == 0 \
+                and GameData.level_data[str(monument.level)][
                     "locked"] == 1:
                 monument.color = (255, 64, 64)
                 monument.unlocked = False
@@ -142,9 +145,9 @@ class MapView(arcade.View):
                 monument.unlocked = True
 
             # Find & set click sfx
-            for i in range(0, len(Audio.sfx_ui_list)):
-                if Audio.sfx_ui_list[i]["ui_name"] == monument.name:
-                    monument.sfx_click = Audio.sfx_ui_list[i]["sound"]
+            for _i, sfx in enumerate(Audio.sfx_ui_list):
+                if sfx["ui_name"] == monument.name:
+                    monument.sfx_click = sfx["sound"]
                     break
 
             MapView.monument_list.append(monument)
@@ -197,9 +200,10 @@ class MapView(arcade.View):
                     passed = True
                     _unlocked = True
                 # Find & set click sfx
-                for i in range(0, len(Audio.sfx_ui_list)):
-                    if Audio.sfx_ui_list[i]["ui_name"] == "EGYPT":
-                        step.sfx_click = Audio.sfx_ui_list[i]["sound"]
+                # TODO: Set sfx for steps
+                for _i, sfx in enumerate(Audio.sfx_ui_list):
+                    if sfx["ui_name"] == "EGYPT":
+                        step.sfx_click = sfx["sound"]
                         break
 
             MapView.step_list.append(step)
@@ -341,10 +345,12 @@ class MapView(arcade.View):
     @classmethod
     def update_monument_list(cls):
         for i, monument in enumerate(cls.monument_list):
-            if GameData.level_data[str(i + 1)]["passed"] == 0 and GameData.level_data[str(i + 1)]["locked"] == 0:
+            if GameData.level_data[str(i + 1)]["passed"] == 0 \
+                    and GameData.level_data[str(i + 1)]["locked"] == 0:
                 monument.color = (255, 255, 64)
                 monument.unlocked = True
-            elif GameData.level_data[str(i + 1)]["passed"] == 0 and GameData.level_data[str(i + 1)]["locked"] == 1:
+            elif GameData.level_data[str(i + 1)]["passed"] == 0 \
+                    and GameData.level_data[str(i + 1)]["locked"] == 1:
                 monument.color = (255, 64, 64)
                 monument.unlocked = False
             else:

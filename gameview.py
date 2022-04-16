@@ -1,6 +1,8 @@
-import arcade
+
 import random
 import os.path
+
+import arcade
 
 import const.constants as C
 from bg import BackGround
@@ -131,9 +133,9 @@ class GameView(arcade.View):
         for monument_dict in C.MAP_MONUMENTS_LIST:
             if monument_dict["level"] == mapview.MapView.current_level:
                 view = monument_dict
-        for i in range(0, len(Audio.bgm_list)):
-            if Audio.bgm_list[i]["view_name"] == view["name"]:
-                self.bgm = Audio.bgm_list[i]["sound"]
+        for _i, bgm in enumerate(Audio.bgm_list):
+            if bgm["view_name"] == view["name"]:
+                self.bgm = bgm["sound"]
                 break
 
         # change bullets for ak for night level
@@ -236,7 +238,7 @@ class GameView(arcade.View):
         self.cursor.draw()
 
         # Restart bgm
-        if self.bgm_stream == None:
+        if self.bgm_stream is None:
             self.bgm_stream = Audio.play_sound(self.bgm, True)
 
     def on_update(self, delta_time):
@@ -308,7 +310,10 @@ class GameView(arcade.View):
             self.shoot_pressed = True
 
         # Weapon swap | 1-3
-        elif symbol == arcade.key.KEY_1 or symbol == arcade.key.KEY_2 or symbol == arcade.key.KEY_3 or symbol == arcade.key.KEY_4:
+        elif symbol == arcade.key.KEY_1 \
+                or symbol == arcade.key.KEY_2 \
+                or symbol == arcade.key.KEY_3 \
+                or symbol == arcade.key.KEY_4:
             requested_weapon = ""
             # 1 - Revolver
             if symbol == arcade.key.KEY_1:

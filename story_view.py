@@ -66,9 +66,9 @@ class StoryView(arcade.View):
         for view_dict in C.VIEW_LIST:
             if view_dict["name"] == "Pause":
                 view = view_dict
-        for i in range(0, len(Audio.bgm_list)):
-            if Audio.bgm_list[i]["view_name"] == view["name"]:
-                self.bgm = Audio.bgm_list[i]["sound"]
+        for _i, bgm in enumerate(Audio.bgm_list):
+            if bgm["view_name"] == view["name"]:
+                self.bgm = bgm["sound"]
                 break
 
         # Define text
