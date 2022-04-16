@@ -1,0 +1,6 @@
+arcade==2.6.13
+autopep8==1.6.0
+pycodestyle==2.8.0
+pyinstaller==4.10
+pylint==2.13.2
+pypiwin32==223
