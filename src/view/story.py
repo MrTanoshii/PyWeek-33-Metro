@@ -2,7 +2,7 @@ import arcade
 import src.const as C
 from src.audio import Audio
 from src.lib import global_scale
-from src.gamedata import GameData
+from src.save_data import GameData
 
 
 class StoryView(arcade.View):

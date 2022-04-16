@@ -3,7 +3,7 @@ import src.const as C
 from src.audio import Audio
 from src.sprite.bullet import Bullet
 from src.sprite.enemy import Enemy
-from src.gamedata import GameData
+from src.save_data import GameData
 from src.lib import global_scale
 from src.tracker import Tracker
 
