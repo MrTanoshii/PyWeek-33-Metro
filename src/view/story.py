@@ -144,6 +144,8 @@ class StoryView(arcade.View):
         """Handle keyboard key press"""
         if symbol == arcade.key.SPACE:
             self.space_pressed = True
+        elif symbol == arcade.key.ESCAPE:
+            self.to_map()
 
     def to_map(self):
         """ Go back to map view """
