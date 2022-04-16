@@ -1,7 +1,3 @@
-
-import sys
-import os
-
 import arcade
 import pyglet
 
