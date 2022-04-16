@@ -1,12 +1,9 @@
-
-import sys
-import os
-
 import arcade
 import pyglet
 
 import src.const as C
-from src.view.mainmenu import MainMenu
+
+from src.view.main_menu import MainMenu
 
 
 def main():

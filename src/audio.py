@@ -1,6 +1,8 @@
 
 import random
+
 import arcade
+
 import src.const as C
 
 

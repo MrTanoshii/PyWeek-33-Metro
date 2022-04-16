@@ -1,8 +1,10 @@
 import arcade
+
 import src.const as C
-from src.tracker import Tracker
+
 from src.audio import Audio
 from src.lib import global_scale
+from src.tracker import Tracker
 
 
 class Gold(arcade.Sprite):

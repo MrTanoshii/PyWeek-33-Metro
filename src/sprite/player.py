@@ -4,9 +4,10 @@ import math
 import arcade
 
 import src.const as C
-from src.sprite.weapon import Weapon
+
 from src.audio import Audio
 from src.lib import global_scale
+from src.sprite.weapon import Weapon
 
 
 class Player(arcade.Sprite):

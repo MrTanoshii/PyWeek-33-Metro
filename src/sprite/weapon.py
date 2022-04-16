@@ -1,17 +1,16 @@
-
-
-import sys
-import os
 import math
 import random
 
 import arcade
 
 import src.const as C
-from src.sprite.bullet import Bullet
+
 from src.audio import Audio
 from src.lib import calculate_angle, global_scale
 
+from src.sprite.bullet import Bullet
+
+# TODO: Find out what's happening here
 bullet_texture_lists_list = {}
 
 # Create example bullet texture lists

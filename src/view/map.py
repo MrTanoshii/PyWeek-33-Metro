@@ -2,13 +2,16 @@
 import arcade
 
 import src.const as C
-import src.view.gameview as gameview
-from src.sprite.player import Player
-import src.view.shopview as shopview
-from src.gamedata import GameData
-from src.lib import global_scale
-from src.view.story_view import StoryView
+
 from src.audio import Audio
+from src.lib import global_scale
+from src.save_data import GameData
+
+from src.sprite.player import Player
+
+from src.view.game import GameView
+from src.view.shop import ShopView
+from src.view.story import StoryView
 
 
 class MapView(arcade.View):
@@ -57,6 +60,8 @@ class MapView(arcade.View):
         self.background = None
 
         self.level = 0
+
+        self.game_view = None
 
         # Monuments
         self.normal_scale = .2 * global_scale()
@@ -315,9 +320,9 @@ class MapView(arcade.View):
                 Audio.stop_sound(self.bgm_stream)
                 self.bgm_stream = None
 
-                game = gameview.GameView(self)
-                game.setup()
-                self.window.show_view(game)
+                self.game_view = GameView(self)
+                self.game_view.setup()
+                self.window.show_view(self.game_view)
 
         elif hit_step and (hit_step[0].level is not None):
             if hit_step[0].unlocked:
@@ -334,7 +339,7 @@ class MapView(arcade.View):
 
         # Check if shops hit cursor (Simply because less number of checking)
         elif self.shop_sprite.collides_with_sprite(self.cursor_sprite):
-            self.window.show_view(shopview.ShopView(self))
+            self.window.show_view(ShopView(self))
 
     def open_story(self):
         self.window.show_view(StoryView(self, MapView.current_level))

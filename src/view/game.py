@@ -5,20 +5,22 @@ import os.path
 import arcade
 
 import src.const as C
-from src.sprite.bg import BackGround
-from src.gamedata import GameData
+
+from src.audio import Audio
 from src.lib import global_scale
-from src.sprite.player import Player
+from src.save_data import GameData
+from src.settings import Settings
+from src.tracker import Tracker
+
+from src.sprite.back_ground import BackGround
 from src.sprite.bullet import Bullet
 from src.sprite.enemy import Enemy
 from src.sprite.gold import Gold
-from src.tracker import Tracker
-from src.settings import Settings
-from src.audio import Audio
+from src.sprite.player import Player
 
-from src.view.pause_menu_view import PauseMenuView
-from src.view.game_over_view import GameOverView
-import src.view.mapview as mapview
+from src.view.pause_menu import PauseMenuView
+from src.view.game_over import GameOverView
+from src.view.map import MapView
 
 
 class GameView(arcade.View):
@@ -77,7 +79,7 @@ class GameView(arcade.View):
         # Player shoot
         self.shoot_pressed = False
 
-        self.level = mapview.MapView.current_level
+        self.level = MapView.current_level
         for monument in C.MAP_MONUMENTS_LIST:
             if monument["level"] == self.level:
                 self.enemy_list = monument["enemy"]
@@ -109,7 +111,7 @@ class GameView(arcade.View):
         # Add to player sprite list
 
         # Create BG sprite
-        self.bg = BackGround(mapview.MapView.current_level)
+        self.bg = BackGround(MapView.current_level)
         self.bg.center_x = -self.bg.width
         self.bg.center_y = (C.SCREEN_HEIGHT/2)
         BackGround.bg_list.append(self.bg)
@@ -131,7 +133,7 @@ class GameView(arcade.View):
         # Find & set map bgm
         view = None
         for monument_dict in C.MAP_MONUMENTS_LIST:
-            if monument_dict["level"] == mapview.MapView.current_level:
+            if monument_dict["level"] == MapView.current_level:
                 view = monument_dict
         for _i, bgm in enumerate(Audio.bgm_list):
             if bgm["view_name"] == view["name"]:
