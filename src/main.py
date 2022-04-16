@@ -8,9 +8,6 @@ import pyglet
 import src.const as C
 from src.view.mainmenu import MainMenu
 
-if getattr(sys, 'frozen', False) and hasattr(sys, '_MEIPASS'):
-    os.chdir(sys._MEIPASS)
-
 
 def main():
     """Main function"""

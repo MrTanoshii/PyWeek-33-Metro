@@ -14,11 +14,9 @@ from src.lib import calculate_angle, global_scale
 
 bullet_texture_lists_list = {}
 
-if getattr(sys, 'frozen', False) and hasattr(sys, '_MEIPASS'):
-    os.chdir(sys._MEIPASS)
-
-
 # Create example bullet texture lists
+
+
 def init_bullet_texture_lists():
 
     # Load animated bullet textures
@@ -244,7 +242,8 @@ class Weapon(arcade.Sprite):
                 self.bullet_texture_list = []
                 for i in range(1, weapon["bullet_texture_amount"] + 1):
                     self.bullet_texture_list.append(arcade.load_texture(
-                        "src/resources/images/weapon/" + self.img_name + "/bullet/" + str(i) + ".png",
+                        "src/resources/images/weapon/" +
+                        self.img_name + "/bullet/" + str(i) + ".png",
                         hit_box_algorithm="Detailed"))
 
                 # Set GUI location

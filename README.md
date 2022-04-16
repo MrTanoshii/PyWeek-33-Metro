@@ -43,9 +43,7 @@ Further development:
 - Krzysztof | https://github.com/IrrationalBoolean
 - ATC_Tower | https://github.com/BriscoRP
 
-## Running the game
-
-### Operating System
+## Operating System
 
 |      OS | Status               |
 | ------: | :------------------- |
@@ -53,7 +51,7 @@ Further development:
 |   macOS | Should run, untested |
 | Windows | Fully Supported      |
 
-### Dependencies
+## Required Dependencies
 
 | Dependencies | Version | Function                              |
 | -----------: | :-----: | :------------------------------------ |
@@ -63,11 +61,13 @@ Further development:
 
 Note: Python dependencies may be installed using the `pip install -r requirements.txt` command
 
-### Running the game
+## Running the game from source
 
 ```shell
 python run_game.py
 ```
+
+## How to play
 
 ### Controls
 
@@ -80,6 +80,14 @@ python run_game.py
 |                R | Reload       |
 |              1-4 | Swap Weapons |
 |           Escape | Pause        |
+
+## Packaging the game using PyInstaller
+
+### Windows
+
+```shell
+pyinstaller The_Epic_of_Goat.spec
+```
 
 ## [License](https://github.com/MrTanoshii/PyWeek-33-Metro/blob/main/LICENSE)
 
