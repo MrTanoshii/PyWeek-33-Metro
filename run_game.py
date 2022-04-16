@@ -1,5 +1,6 @@
 import sys
-from main import main
+
+from src.main import main
 
 # The major, minor version numbers your require
 MIN_VER = (3, 9)

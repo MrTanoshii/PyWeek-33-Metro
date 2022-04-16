@@ -8,5 +8,5 @@ coverage:
         informational: true
 
 ignore:
-  - "const"
-  - "test"
+  - "src/const"
+  - "src/test"
