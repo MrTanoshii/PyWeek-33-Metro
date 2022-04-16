@@ -86,6 +86,8 @@ python run_game.py
 ### Windows
 
 ```shell
+pip install -r requirements-dev.txt
+pip install pypiwin32
 pyinstaller The_Epic_of_Goat.spec
 ```
 
