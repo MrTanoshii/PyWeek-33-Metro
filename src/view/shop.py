@@ -6,7 +6,7 @@ import src.const as C
 
 import src.lib as lib
 
-from src.save_data import GameData
+import src.save_data as save_data
 
 # Base ShopView
 
@@ -69,7 +69,7 @@ class ShopView(arcade.View):
         self.gold_sprite.draw()
 
         lib.draw_text(
-            GameData.gold,
+            save_data.GameData.gold,
             self.gold_sprite.position[0]*.99,
             self.gold_sprite.position[1]*1.005,
             30,
@@ -85,7 +85,7 @@ class ShopView(arcade.View):
                 # Set max level
                 if self.max_lvl < weapon["lvl_max"]:
                     self.max_lvl = weapon["lvl_max"]
-                if GameData.loadout[weapon["name"]]["lvl"] - 1 < level:
+                if save_data.GameData.loadout[weapon["name"]]["lvl"] - 1 < level:
                     path = "src/resources/images/shop/lvl_blank.png"
                 else:
                     path = "src/resources/images/shop/lvl_bought.png"
@@ -141,11 +141,11 @@ class ShopView(arcade.View):
             for sprite in weapon:
                 if sprite.collides_with_sprite(self.cursor_sprite):
                     print(sprite.name, sprite.lvl, sprite.cost,
-                          GameData.loadout[sprite.name]["lvl"])
-                    if sprite.lvl == GameData.loadout[sprite.name]["lvl"] \
-                            and sprite.cost <= GameData.gold:
-                        GameData.update_gold(GameData.gold - sprite.cost)
-                        GameData.update_loadout(sprite.name, sprite.lvl + 1)
+                          save_data.GameData.loadout[sprite.name]["lvl"])
+                    if sprite.lvl == save_data.GameData.loadout[sprite.name]["lvl"] \
+                            and sprite.cost <= save_data.GameData.gold:
+                        save_data.GameData.update_gold(save_data.GameData.gold - sprite.cost)
+                        save_data.GameData.update_loadout(sprite.name, sprite.lvl + 1)
                         break
 
         # Back to map

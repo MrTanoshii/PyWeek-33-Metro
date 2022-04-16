@@ -4,7 +4,7 @@ import src.const as C
 
 from src.audio import Audio
 from src.lib import global_scale
-from src.save_data import GameData
+import src.save_data as save_data
 from src.tracker import Tracker
 
 from src.sprite.bullet import Bullet
@@ -220,8 +220,8 @@ class PauseMenuView(arcade.View):
         self.exit_level()
 
     def exit_level(self):
-        GameData.update_highscore(self.current_level)
-        GameData.deposit_gold()
+        save_data.GameData.update_highscore(self.current_level)
+        save_data.GameData.deposit_gold()
         Tracker.reset_trackers()
 
         # Reset bullets

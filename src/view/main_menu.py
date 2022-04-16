@@ -4,7 +4,7 @@ import src.const as C
 
 from src.audio import Audio
 from src.lib import global_scale
-from src.save_data import GameData
+import src.save_data as save_data
 
 from src.view.map import MapView
 
@@ -50,5 +50,5 @@ class MainMenu(arcade.View):
 
     def on_mouse_press(self, _x, _y, _button, _modifiers):
         """Use a mouse press to advance to the 'game' view."""
-        GameData.read_data()
+        save_data.GameData.read_data()
         self.window.show_view(MapView())

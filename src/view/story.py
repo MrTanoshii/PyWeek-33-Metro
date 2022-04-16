@@ -4,7 +4,7 @@ import src.const as C
 
 from src.audio import Audio
 from src.lib import global_scale
-from src.save_data import GameData
+import src.save_data as save_data
 
 
 class StoryView(arcade.View):
@@ -165,5 +165,5 @@ class StoryView(arcade.View):
 
         else:
             # save story to passed
-            GameData.update_steps(str(self.current_level), 2)
+            save_data.GameData.update_steps(str(self.current_level), 2)
             self.to_map()
