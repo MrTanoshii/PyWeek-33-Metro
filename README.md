@@ -18,6 +18,7 @@
 <div align="center">
 
 [![Python Check](https://github.com/MrTanoshii/PyWeek-33-Metro/actions/workflows/python_check.yml/badge.svg)](https://github.com/MrTanoshii/PyWeek-33-Metro/actions/workflows/python_check.yml)
+[![Windows Build](https://github.com/MrTanoshii/PyWeek-33-Metro/actions/workflows/windows_build.yml/badge.svg)](https://github.com/MrTanoshii/PyWeek-33-Metro/actions/workflows/windows_build.yml)
 [![codecov](https://codecov.io/gh/MrTanoshii/PyWeek-33-Metro/branch/main/graph/badge.svg?token=V2Q6AALIKQ)](https://codecov.io/gh/MrTanoshii/PyWeek-33-Metro)
 
 </div>
