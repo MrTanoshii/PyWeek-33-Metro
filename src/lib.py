@@ -45,7 +45,7 @@ def draw_text(text: str, start_x: float, start_y: float, font_size: float = 30,
 def find_next_texture(delta_time: float,
                       current_texture: float,
                       texture_list: list[arcade.SpriteList],
-                      animation_speed: float) -> float:
+                      animation_speed: float = 1) -> float:
     """ Return the next texture to be used """
     # Ensure multiple textures available
     if len(texture_list) > 1:
