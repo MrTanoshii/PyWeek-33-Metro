@@ -2,7 +2,7 @@ import arcade
 
 import src.const as C
 
-from src.lib import global_scale
+import src.lib as lib
 
 
 class Bullet(arcade.Sprite):
@@ -25,10 +25,12 @@ class Bullet(arcade.Sprite):
 
     Methods
     -------
-    update_animation(delta_time: float = 1 / 60)
+    update_animation(delta_time: float)
         Update the bullet animation
     despawn()
         Remove the bullet
+    update_animation(delta_time: float)
+        Update the animated texture
     """
 
     # SpriteList class attribute
@@ -54,7 +56,7 @@ class Bullet(arcade.Sprite):
         self.angle = angle
 
         # Set our scale
-        self.scale = scale * global_scale()
+        self.scale = scale * lib.global_scale()
 
         base_path = "src/resources/"
 
@@ -66,7 +68,8 @@ class Bullet(arcade.Sprite):
         else:
             self.texture_list = texture_list
             self.texture = self.texture_list[0]
-        self.cur_texture = 0
+        self.current_texture: float = 0
+        self.animation_speed: float = 1
 
         # Hit box will be set based on the first image used.
         self.hit_box = self.texture.hit_box_points
@@ -77,27 +80,28 @@ class Bullet(arcade.Sprite):
         # Cycle through player bullets
         for bullet in cls.friendly_bullet_list:
             # Delete bullets that are off-screen
-            if abs(bullet.center_x - (bullet.width * global_scale() / 2)) \
-                - (C.SCREEN_WIDTH / 2 * global_scale()) \
-                > C.SCREEN_WIDTH / 2 * global_scale() \
-                    or abs(bullet.center_y - (bullet.height * global_scale() / 2)) \
-                    > C.SCREEN_HEIGHT * global_scale():
+            if abs(bullet.center_x - (bullet.width * lib.global_scale() / 2)) \
+                - (C.SCREEN_WIDTH / 2 * lib.global_scale()) \
+                > C.SCREEN_WIDTH / 2 * lib.global_scale() \
+                    or abs(bullet.center_y - (bullet.height * lib.global_scale() / 2)) \
+                    > C.SCREEN_HEIGHT * lib.global_scale():
                 cls.friendly_bullet_list.remove(bullet)
 
         # Cycle through enemy bullets
         for bullet in cls.enemy_bullet_list:
             # Delete bullets that are off-screen
-            if abs(bullet.center_x - (bullet.width * global_scale() / 2)) \
-                > C.SCREEN_WIDTH * 1.5 * global_scale() or abs(
-                    bullet.center_y - (bullet.height * global_scale() / 2)) \
-                    > C.SCREEN_HEIGHT * global_scale():
+            if abs(bullet.center_x - (bullet.width * lib.global_scale() / 2)) \
+                > C.SCREEN_WIDTH * 1.5 * lib.global_scale() or abs(
+                    bullet.center_y - (bullet.height * lib.global_scale() / 2)) \
+                    > C.SCREEN_HEIGHT * lib.global_scale():
                 cls.enemy_bullet_list.remove(bullet)
 
-    def update_animation(self, delta_time: float = 1 / 60):
-        self.cur_texture += 1
-        if self.cur_texture > len(self.texture_list) - 1:
-            self.cur_texture = 0
-        self.texture = self.texture_list[self.cur_texture]
+    def update_animation(self, delta_time: float):
+        """ Update the animated texture """
+
+        self.current_texture = lib.find_next_texture(
+            delta_time, self.current_texture, self.texture_list)
+        self.texture = self.texture_list[int(self.current_texture)]
 
     def despawn(self):
         if self in Bullet.friendly_bullet_list:

@@ -3,7 +3,7 @@ import arcade
 import src.const as C
 
 from src.audio import Audio
-from src.lib import global_scale
+import src.lib as lib
 from src.tracker import Tracker
 
 
@@ -31,6 +31,8 @@ class Gold(arcade.Sprite):
         Create the gold
     despawn(death: Literal)
         Remove the gold
+    update_animation(delta_time: float)
+        Update the animated texture
     """
 
     # SpriteList class attribute
@@ -43,13 +45,16 @@ class Gold(arcade.Sprite):
         # Inherit parent class
         super().__init__()
 
+        # TODO: Implement animated gold
         # Load texture
         base_path = ":resources:"
         self.texture = arcade.load_texture(
             f"{base_path}images/items/gold_1.png", hit_box_algorithm=hit_box_algorithm)
+        self.current_texture: float = 0
+        self.animation_speed: float = 1
 
         # Scale
-        self.scale = scale * global_scale()
+        self.scale = scale * lib.global_scale()
 
         # TODO: Change hardcoded gold
         self.name = C.GOLD_LIST[0]["name"]
@@ -83,6 +88,14 @@ class Gold(arcade.Sprite):
     @classmethod
     def update(cls, delta_time: float = 1 / 60):
         for gold in cls.gold_list:
-            gold.center_x += gold.speed * global_scale()
+            gold.center_x += gold.speed * lib.global_scale()
             if gold.center_x + gold.width <= 0:
                 cls.despawn(gold, C.DEATH.OOB)
+
+    # TODO: Implement animated gold
+    # def update_animation(self, delta_time: float):
+    # """ Update the animated texture """
+    #
+    #     self.current_texture = lib.find_next_texture(
+    #         delta_time, self.cur_texture, self.texture_list, self.animation_speed)
+    #     self.texture = self.texture_list[int(self.current_texture)]

@@ -269,8 +269,19 @@ class GameView(arcade.View):
 
             Enemy.update(delta_time)
             Bullet.update()
-            self.player.update_animation(delta_time)
             self.update_cursor_animation(delta_time)
+
+            # Update Animations
+            for bullet in Bullet.friendly_bullet_list:
+                bullet.update_animation(delta_time)
+            for bullet in Bullet.enemy_bullet_list:
+                bullet.update_animation(delta_time)
+            # TODO: Implement animated gold
+            # for gold in Gold.gold_list:
+            #     gold.update_animation(delta_time)
+            for enemy in Enemy.enemy_list:
+                enemy.update_animation(delta_time)
+            self.player.update_animation(delta_time)
 
     def on_mouse_motion(self, x, y, dx, dy):
         """Called whenever mouse is moved."""
