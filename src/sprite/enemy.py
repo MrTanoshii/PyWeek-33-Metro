@@ -8,7 +8,7 @@ import arcade
 import src.const as C
 
 from src.audio import Audio
-from src.lib import global_scale, calculate_angle
+import src.lib as lib
 from src.tracker import Tracker
 
 from src.sprite.bullet import Bullet
@@ -45,6 +45,8 @@ class Enemy(arcade.Sprite):
         Remove the enemy
     shoot()
         Handle enemy shooting
+    update_animation(delta_time: float)
+        Update the animated texture
     """
 
     # SpriteList class attribute
@@ -56,7 +58,7 @@ class Enemy(arcade.Sprite):
         super().__init__()
 
         # Set our scale
-        self.scale = scale * global_scale()
+        self.scale = scale * lib.global_scale()
 
         # load enemy configs
         self.config = __type
@@ -71,7 +73,7 @@ class Enemy(arcade.Sprite):
         self.prob_aim_random = self.config["prob_aim_random"]
 
         # Speed
-        self.speed = self.config["speed"] * global_scale()
+        self.speed = self.config["speed"] * lib.global_scale()
         self.current_speed = 0
 
         # Health
@@ -115,9 +117,8 @@ class Enemy(arcade.Sprite):
             self.texture_list.append(
                 arcade.load_texture(f"{base_path}{filename}", hit_box_algorithm=hit_box_algorithm))
 
-        self.cur_texture = random.randint(0, len(self.texture_list) - 1)
-
-        self.animation_speed = self.config["animation_speed"]
+        self.current_texture: float = 0
+        self.animation_speed: float = self.config["animation_speed"]
 
         # Find & set hit sfx
         self.sfx_hit_list = []
@@ -156,7 +157,7 @@ class Enemy(arcade.Sprite):
                 random_enemy_index = random.randrange(0, len(enemy_list))
                 random_enemy_prob = random.random()
         enemy = Enemy("Simple", enemy_list[random_enemy_index])
-        enemy.scale = enemy_list[random_enemy_index]["scale"] * global_scale()
+        enemy.scale = enemy_list[random_enemy_index]["scale"] * lib.global_scale()
 
         # Set enemy location
         enemy.center_x = C.SCREEN_WIDTH + enemy.width
@@ -210,7 +211,7 @@ class Enemy(arcade.Sprite):
         if aim_type == "aim_player":
             # NOTE: Only last player in list will be used
             for player in Player.player_list:
-                calc_angle = calculate_angle(
+                calc_angle = lib.calculate_angle(
                     self.bullet_center_x, self.bullet_center_y, player.center_x, player.center_y)
 
                 angle = self.weapon_init_angle + calc_angle + self.random_angle
@@ -232,7 +233,7 @@ class Enemy(arcade.Sprite):
             random_point_y = random.randint(
                 int((C.SCREEN_HEIGHT * .15)), int(C.SCREEN_HEIGHT * .85))
 
-            calc_angle = calculate_angle(
+            calc_angle = lib.calculate_angle(
                 self.bullet_center_x, self.bullet_center_y, random_point_x, random_point_y)
 
             angle = self.weapon_init_angle + calc_angle + self.random_angle
@@ -382,12 +383,9 @@ class Enemy(arcade.Sprite):
         # Play weapon shoot sfx
         Audio.play_rand_sound(self.sfx_single_shot_list)
 
-    def update_animation(self, delta_time: float = 1 / 60):
-        if len(self.texture_list) > 1:
-            self.cur_texture += self.animation_speed * delta_time
-            while self.cur_texture >= len(self.texture_list) - 1:
-                self.cur_texture -= len(self.texture_list) - 1
-                if self.cur_texture <= 0:
-                    self.cur_texture = 0
-                    break
-        self.texture = self.texture_list[int(self.cur_texture)]
+    def update_animation(self, delta_time: float):
+        """ Update the animated texture """
+
+        self.current_texture = lib.find_next_texture(
+            delta_time, self.current_texture, self.texture_list, self.animation_speed)
+        self.texture = self.texture_list[int(self.current_texture)]

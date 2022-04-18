@@ -6,7 +6,7 @@ import arcade
 import src.const as C
 
 from src.audio import Audio
-from src.lib import global_scale
+import src.lib as lib
 from src.sprite.weapon import Weapon
 
 
@@ -43,6 +43,8 @@ class Player(arcade.Sprite):
         Move the player
     set_skin(name: str):
         change the player texture
+    update_animation(delta_time: float)
+        Update the animated texture
     """
 
     # SpriteList class attribute
@@ -54,8 +56,8 @@ class Player(arcade.Sprite):
         super().__init__()
 
         # Set player location
-        self.center_x = C.SCREEN_WIDTH * .1 * global_scale()
-        self.center_y = C.SCREEN_HEIGHT * .5 * global_scale()
+        self.center_x = C.SCREEN_WIDTH * .1 * lib.global_scale()
+        self.center_y = C.SCREEN_HEIGHT * .5 * lib.global_scale()
         self.angle = C.SPRITE_PLAYER_INIT_ANGLE
 
         # Movement Speed
@@ -76,7 +78,7 @@ class Player(arcade.Sprite):
         self.is_dead = None
 
         # Set our scale
-        self.scale = C.PLAYER.SCALE * global_scale()
+        self.scale = C.PLAYER.SCALE * lib.global_scale()
 
         player_style = C.MAP_MONUMENTS_LIST[0]["player"]
 
@@ -90,10 +92,11 @@ class Player(arcade.Sprite):
                 arcade.load_texture(f"{dir_name}animation/{filename}",
                                     hit_box_algorithm=hit_box_algorithm))
 
-        self.cur_texture = 0
+        self.current_texture: float = 0
+        self.animation_speed: float = C.PLAYER.ANIMATION_SPEED
 
         # Set the initial texture
-        self.texture = self.texture_list[int(self.cur_texture)]
+        self.texture = self.texture_list[int(self.current_texture)]
 
         # Hit box will be set based on the first image used.
         self.hit_box = self.texture.hit_box_points
@@ -132,7 +135,7 @@ class Player(arcade.Sprite):
         self.texture_list = self.textures_dict[f"{player_style}{weapon}"]
 
         self.texture = self.textures_dict[f"{player_style}{weapon}"][int(
-            self.cur_texture)]
+            self.current_texture)]
 
     def shoot(self, delta_time, shoot_pressed):
         """Handles shooting & reloading"""
@@ -227,12 +230,12 @@ class Player(arcade.Sprite):
             self.speed_y = self.max_speed * math.sin(math.radians(45))
 
         # Automatically move back towards left side
-        if self.speed_x <= 0 and self.center_x > 50 * global_scale():
-            self.speed_x -= 1 * global_scale()
+        if self.speed_x <= 0 and self.center_x > 50 * lib.global_scale():
+            self.speed_x -= 1 * lib.global_scale()
 
         # Move player
-        self.center_x += self.speed_x * global_scale()
-        self.center_y += self.speed_y * global_scale()
+        self.center_x += self.speed_x * lib.global_scale()
+        self.center_y += self.speed_y * lib.global_scale()
         if self.center_x > C.SCREEN_WIDTH / 2:
             self.center_x = C.SCREEN_WIDTH / 2
         if self.center_x < 0:
@@ -242,15 +245,9 @@ class Player(arcade.Sprite):
         if self.center_y < C.SCREEN_HEIGHT * .15:
             self.center_y = C.SCREEN_HEIGHT * .15
 
-    def update_animation(self, delta_time: float = 1 / 60):
-        # TODO: Change animation speed from hardcoded to constant
-        animation_speed = 12
+    def update_animation(self, delta_time: float):
+        """ Update the animated texture """
 
-        if len(self.texture_list) > 1:
-            self.cur_texture += animation_speed * delta_time
-            while self.cur_texture >= len(self.texture_list) - 1:
-                self.cur_texture -= len(self.texture_list) - 1
-                if self.cur_texture <= 0:
-                    self.cur_texture = 0
-                    break
-        self.texture = self.texture_list[int(self.cur_texture)]
+        self.current_texture = lib.find_next_texture(
+            delta_time, self.current_texture, self.texture_list, self.animation_speed)
+        self.texture = self.texture_list[int(self.current_texture)]
