@@ -40,3 +40,25 @@ def draw_text(text: str, start_x: float, start_y: float, font_size: float = 30,
         anchor_x=anchor_x,
         anchor_y="center",
     )
+
+
+def find_next_texture(delta_time: float,
+                      current_texture: float,
+                      texture_list: list[arcade.SpriteList],
+                      animation_speed: float) -> float:
+    """ Return the next texture to be used """
+    # Ensure multiple textures available
+    if len(texture_list) > 1:
+        # Consume time steps
+        while delta_time >= C.TARGET_REFRESH_TIME:
+            # Advance the texture
+            current_texture += animation_speed * delta_time
+            texture_list_max_index = len(texture_list) - 1
+
+            # Stay within the texture list
+            while current_texture >= texture_list_max_index:
+                current_texture -= texture_list_max_index
+
+            delta_time -= C.TARGET_REFRESH_TIME
+        return current_texture
+    return 0
