@@ -2,8 +2,8 @@
 
 [![PyWeek 33](https://img.shields.io/badge/PyWeek-33-blue)](https://pyweek.org/33/)
 [![PyWeek 33 Rules - Revision 2020-02-06](https://img.shields.io/badge/Rules-2020--02--06-blue)](https://pyweek.readthedocs.io/en/latest/rules.html)
-[![Team Metroids](https://img.shields.io/badge/Team-Metroids-brightgreen)](https://pyweek.org/e/meme_py123/)
-[![Game Name - Metro](https://img.shields.io/badge/Game-Metro-brightgreen)](https://pyweek.org/e/meme_py123/)
+[![Team Pastafobia](https://img.shields.io/badge/Team-Pastafobia-brightgreen)](https://pyweek.org/e/meme_py123/)
+[![Game Name - The Epic of Goat](https://img.shields.io/badge/Game-The%20Epic%20of%20Goat-brightgreen)](https://pyweek.org/e/meme_py123/)
 [![Game Theme - My evil twin](https://img.shields.io/badge/Game%20Theme-My%20evil%20twin-blue)](https://pyweek.org/p/37/)
 [![Game Rating](https://img.shields.io/badge/Game%20Rating-5th%20place-blue)](https://pyweek.org/33/ratings/)
 
