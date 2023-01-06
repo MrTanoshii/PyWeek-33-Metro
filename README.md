@@ -25,7 +25,7 @@
 
 # PyWeek 33 | Team Pastafobia | The Epic of Goat
 
-## Repo status: Active
+## Repo status: Inactive
 
 PyWeek 33 has ended on the 27th of March 2022 at 0000 UTC
 
@@ -35,9 +35,11 @@ https://github.com/MrTanoshii/PyWeek-33-Metro/releases/tag/v1.1.0
 Further development:
 `main` branch
 
+[Trailer Video](https://youtu.be/hTDfKD6n2pE)
+
 ## Featuring
 
-- Jeb | https://github.com/JesperKauppinen
+- Jeb | https://github.com/Jeb4dev
 - MrTanoshii | https://github.com/MrTanoshii
 - Memehunter | https://github.com/mohith01
 - Cat | https://github.com/Catto-YFCN
